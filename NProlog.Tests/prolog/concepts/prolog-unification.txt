@@ -1,0 +1,15 @@
+Unification of Prolog Terms
+<p>
+Unification is the process of matching Prolog terms.
+The rules for determining if two terms are unifiable are as follows
+<ul>
+<li>Atoms Unify if and only if they are the same atom.</li>
+<li>Numbers Unify if and only if they are the same number.</li>
+<li>Structures Unify if and only if 
+they have the same functor, they have the same arity (number of arguments) and their arguments Unify.</li>
+<li>An <i>uninstantiated</i> variable will Unify with any term. 
+As a result the variable will become <i>instantiated</i> to the other term.</li>
+<li>An <i>instantiated</i> variable <code>V</code> will only Unify with another term <code>T</code>
+if the term <code>V</code> is <i>instantiated</i> to will Unify with <code>T</code>.
+</ul>
+</p>

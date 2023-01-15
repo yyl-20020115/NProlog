@@ -1,0 +1,77 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Org.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="api\doc-files\**" />
+    <Compile Remove="core.events\**" />
+    <Compile Remove="core\kb\doc-files\**" />
+    <Compile Remove="core\math\doc-files\**" />
+    <Compile Remove="core\parser\doc-files\**" />
+    <Compile Remove="core\predicate\builtin\clp\**" />
+    <Compile Remove="core\predicate\udp\doc-files\**" />
+    <Compile Remove="core\terms\doc-files\**" />
+    <Compile Remove="tools\doc-files\**" />
+    <EmbeddedResource Remove="api\doc-files\**" />
+    <EmbeddedResource Remove="core.events\**" />
+    <EmbeddedResource Remove="core\kb\doc-files\**" />
+    <EmbeddedResource Remove="core\math\doc-files\**" />
+    <EmbeddedResource Remove="core\parser\doc-files\**" />
+    <EmbeddedResource Remove="core\predicate\builtin\clp\**" />
+    <EmbeddedResource Remove="core\predicate\udp\doc-files\**" />
+    <EmbeddedResource Remove="core\terms\doc-files\**" />
+    <EmbeddedResource Remove="tools\doc-files\**" />
+    <None Remove="api\doc-files\**" />
+    <None Remove="core.events\**" />
+    <None Remove="core\kb\doc-files\**" />
+    <None Remove="core\math\doc-files\**" />
+    <None Remove="core\parser\doc-files\**" />
+    <None Remove="core\predicate\builtin\clp\**" />
+    <None Remove="core\predicate\udp\doc-files\**" />
+    <None Remove="core\terms\doc-files\**" />
+    <None Remove="tools\doc-files\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="core\PackageInfo.cs" />
+    <Compile Remove="core\ProjogException.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\prolog-bootstrap.pl" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\prolog-bootstrap.pl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+    <None Include="core\PackageInfo.cs" />
+    <None Include="core\exceptions\PrologException.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

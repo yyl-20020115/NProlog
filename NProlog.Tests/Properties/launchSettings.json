@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "NProlog.Tests": {
+      "commandName": "Project",
+      "workingDirectory": "$(ProjectDir)"
+    }
+  }
+}
