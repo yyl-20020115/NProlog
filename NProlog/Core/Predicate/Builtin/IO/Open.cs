@@ -18,8 +18,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.IO;
 
-
-
 /* TEST
 %LINK prolog-io
 */
@@ -34,9 +32,8 @@ namespace Org.NProlog.Core.Predicate.Builtin.IO;
  */
 public class Open : AbstractSingleResultPredicate
 {
-    private static readonly string READ = "read";
-    private static readonly string WRITE = "write";
-
+    private const string READ = "read";
+    private const string WRITE = "write";
 
     protected override bool Evaluate(Term fileNameAtom, Term operationAtom, Term variableToAssignTo)
     {

@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 using Org.NProlog.Core.Terms;
-
 namespace Org.NProlog.Core.Predicate.Builtin.Classify;
-
 
 /* TEST
 %TRUE compound(a(b,c))
@@ -37,7 +35,6 @@ namespace Org.NProlog.Core.Predicate.Builtin.Classify;
  */
 public class IsCompound : AbstractSingleResultPredicate
 {
-
     protected override bool Evaluate(Term arg)
-        => arg.Type.isStructure;
+        => arg.Type.IsStructure;
 }

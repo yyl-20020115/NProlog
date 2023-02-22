@@ -17,7 +17,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Compare;
 
-
 /* TEST
 %TRUE b@>a
 %FAIL b@>b

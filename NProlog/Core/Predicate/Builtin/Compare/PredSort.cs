@@ -19,9 +19,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Compare;
 
-
-
-
 /* TEST
 %?- predsort(compare, [s,d,f,a,a,a,z], X)
 % X=[a,a,a,d,f,s,z]
@@ -71,7 +68,7 @@ public class PredSort : AbstractSingleResultPredicate, PreprocessablePredicateFa
     // TODO Either change this version to behave the same or update documentation to make it clear how the behaviour of this version differs from SWI.
 
     /** The arity of the predicate represented by the first argument. */
-    private static readonly int FIRST_ARG_ARITY = 3;
+    private const int FIRST_ARG_ARITY = 3;
 
 
     protected override bool Evaluate(Term predicateName, Term input, Term sorted)
@@ -148,11 +145,8 @@ public class PredSort : AbstractSingleResultPredicate, PreprocessablePredicateFa
             this.predicateName = predicateName;
         }
 
-
-
         public Predicate GetPredicate(Term[] args) => PredicateUtils.ToPredicate(
             EvaluatePredSort(pf, predicateName, args[1], args[2]));
-
 
         public bool IsRetryable => false;
     }

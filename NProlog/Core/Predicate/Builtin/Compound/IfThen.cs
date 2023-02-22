@@ -83,7 +83,6 @@ if_then_else_test(3).
  */
 public class IfThen : AbstractPredicateFactory, PreprocessablePredicateFactory
 {
-
     protected override Predicate GetPredicate(Term conditionTerm, Term thenTerm)
     {
         var conditionPredicate = Predicates.GetPredicate(conditionTerm);
@@ -117,7 +116,6 @@ public class IfThen : AbstractPredicateFactory, PreprocessablePredicateFactory
             this.condition = condition;
             this.action = action;
         }
-
 
         public virtual Predicate GetPredicate(Term[] args)
         {

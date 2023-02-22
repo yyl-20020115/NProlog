@@ -14,12 +14,9 @@
  * limitations under the License.
  */
 using Org.NProlog.Core.Exceptions;
-using Org.NProlog.Core.IO;
 using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.IO;
-
-
 
 /* TEST
 %LINK prolog-io
@@ -32,7 +29,6 @@ namespace Org.NProlog.Core.Predicate.Builtin.IO;
  */
 public class Tell : AbstractSingleResultPredicate
 {
-
     protected override bool Evaluate(Term source)
     {
         var fileName = TermUtils.GetAtomName(source);

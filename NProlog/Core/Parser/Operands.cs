@@ -63,17 +63,13 @@ public class Operands
             if (operandsMap.ContainsKey(operandName))
             {
                 if (operandsMap.TryGetValue(operandName, out var o))
-                {
                     // if the operand is already registered throw an exception if the precedence is different else do nothing
                     if (o.precedence != precedence || o.associativity != a)
-                    {
                         throw new PrologException("Operand: " + operandName + " with associativity: " + o.associativity + " and precedence: " + o.precedence + " already exists");
-                    }
-                }
             }
             else
             {
-                operandsMap.Add(operandName, new Operand(a, precedence));
+                operandsMap.Add(operandName, new(a, precedence));
             }
         }
     }
@@ -96,26 +92,33 @@ public class Operands
         }
     }
 
-    private Dictionary<string, Operand> GetOperandsMap(Associativity a) => a==null? null :( a.location switch
-    {
-        Location.INFIX => infixOperands,
-        Location.PREFIX => prefixOperands,
-        Location.POSTFIX => postfixOperands,
-        // the Associativity enum currently only has 3 values, all of which are included in the above switch statement - so should never get here
-        _ => throw new PrologException("Do not support associativity: " + a),
-    });
+    private Dictionary<string, Operand> GetOperandsMap(Associativity a) 
+        => a==null? null : a.location switch
+        {
+            Location.INFIX => infixOperands,
+            Location.PREFIX => prefixOperands,
+            Location.POSTFIX => postfixOperands,
+            // the Associativity enum currently only has 3 values, all of which are included in the above switch statement - so should never get here
+            _ => throw new PrologException("Do not support associativity: " + a),
+        };
 
     /** Returns the priority (precedence/level) of the infix operator represented by {@code op}. */
     public int GetInfixPriority(string op) 
-        => infixOperands.TryGetValue(op,out var p)? p.precedence : throw new NullReferenceException();
+        => infixOperands.TryGetValue(op,out var p) 
+        ? p.precedence 
+        : throw new NullReferenceException();
 
     /** Returns the priority (precedence/level) of the prefix operator represented by {@code op}. */
     public int GetPrefixPriority(string op)
-        => prefixOperands.TryGetValue(op, out var p) ? p.precedence : throw new NullReferenceException();
+        => prefixOperands.TryGetValue(op, out var p) 
+        ? p.precedence 
+        : throw new NullReferenceException();
 
     /** Returns the priority (precedence/level) of the postfix operator represented by {@code op}. */
     public int GetPostfixPriority(string op)
-        => postfixOperands.TryGetValue(op, out var p) ? p.precedence : throw new NullReferenceException();
+        => postfixOperands.TryGetValue(op, out var p) 
+        ? p.precedence 
+        : throw new NullReferenceException();
 
     /**
      * Returns {@code true} if {@code op} represents an infix operator, else {@code false}.
@@ -128,21 +131,21 @@ public class Operands
      * {@code false}.
      */
     public bool Yfx(string op)
-        => Infix(op) && infixOperands[(op)].associativity == Associativity.yfx;
+        => Infix(op) && infixOperands[op].associativity == Associativity.yfx;
 
     /**
      * Returns {@code true} if {@code op} represents an infix operator with associativity of {@code xfy}, else
      * {@code false}.
      */
     public bool Xfy(string op)
-        => Infix(op) && infixOperands[(op)].associativity == Associativity.xfy;
+        => Infix(op) && infixOperands[op].associativity == Associativity.xfy;
 
     /**
      * Returns {@code true} if {@code op} represents an infix operator with associativity of {@code xfx}, else
      * {@code false}.
      */
     public bool Xfx(string op) 
-        => Infix(op) && infixOperands[(op)].associativity == Associativity.xfx;
+        => Infix(op) && infixOperands[op].associativity == Associativity.xfx;
 
     /**
      * Returns {@code true} if {@code op} represents a prefix operator, else {@code false}.
@@ -154,36 +157,39 @@ public class Operands
      * Returns {@code true} if {@code op} represents a prefix operator with associativity of {@code fx}, else
      * {@code false}.
      */
-    public bool Fx(string op) => Prefix(op) && prefixOperands[(op)].associativity == Associativity.fx;
+    public bool Fx(string op) 
+        => Prefix(op) && prefixOperands[op].associativity == Associativity.fx;
 
     /**
      * Returns {@code true} if {@code op} represents a prefix operator with associativity of {@code fy}, else
      * {@code false}.
      */
-    public bool Fy(string op) => Prefix(op) && prefixOperands[(op)].associativity == Associativity.fy;
+    public bool Fy(string op) 
+        => Prefix(op) && prefixOperands[op].associativity == Associativity.fy;
 
     /**
      * Returns {@code true} if {@code op} represents a postfix operator, else {@code false}.
      */
-    public bool Postfix(string op) => postfixOperands.ContainsKey(op);
+    public bool Postfix(string op) 
+        => postfixOperands.ContainsKey(op);
 
     /**
      * Returns {@code true} if {@code op} represents a postfix operator with associativity of {@code xf}, else
      * {@code false}.
      */
-    public bool Xf(string op)
-    {
-        return Postfix(op) && postfixOperands[(op)].associativity == Associativity.xf;
-    }
+    public bool Xf(string op) 
+        => Postfix(op) && postfixOperands[op].associativity == Associativity.xf;
 
     /**
      * Returns {@code true} if {@code op} represents a postfix operator with associativity of {@code yf}, else
      * {@code false}.
      */
-    public bool Yf(string op) => Postfix(op) && postfixOperands[(op)].associativity == Associativity.yf;
+    public bool Yf(string op) 
+        => Postfix(op) && postfixOperands[op].associativity == Associativity.yf;
 
     /** Returns {@code true} if {@code commandName} represents any known operator, else {@code false}. */
-    public bool IsDefined(string commandName) => Infix(commandName) || Prefix(commandName) || Postfix(commandName);
+    public bool IsDefined(string commandName) 
+        => Infix(commandName) || Prefix(commandName) || Postfix(commandName);
 
     public class Operand
     {
@@ -207,7 +213,6 @@ public class Operands
      */
     public class Associativity
     {
-
         public static readonly Associativity xfx = new(Location.INFIX, nameof(xfx));
         public static readonly Associativity xfy = new(Location.INFIX, nameof(xfy));
         public static readonly Associativity yfx = new(Location.INFIX, nameof(yfx));

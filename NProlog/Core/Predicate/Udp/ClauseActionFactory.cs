@@ -44,7 +44,7 @@ public class ClauseActionFactory
     public static ClauseAction CreateClauseAction(KnowledgeBase kb, ClauseModel model)
     {
         var antecedent = model.Antecedent;
-        if (antecedent.Type.isVariable)
+        if (antecedent.Type.IsVariable)
         {
             return new VariableAntecedantClauseAction(model, kb);
         }

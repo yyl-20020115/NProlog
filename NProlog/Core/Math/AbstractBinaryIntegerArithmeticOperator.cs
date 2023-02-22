@@ -23,7 +23,6 @@ namespace Org.NProlog.Core.Math;
  */
 public abstract class AbstractBinaryIntegerArithmeticOperator : AbstractArithmeticOperator
 {
-
     public override Numeric Calculate(Numeric n1, Numeric n2) 
         => IntegerNumberCache.ValueOf(CalculateLong(ToLong(n1), ToLong(n2)));
 

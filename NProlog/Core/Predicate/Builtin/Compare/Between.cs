@@ -19,8 +19,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Compare;
 
-
-
 /* TEST
 %TRUE between(1, 5, 1)
 %TRUE between(1, 5, 2)
@@ -75,16 +73,15 @@ namespace Org.NProlog.Core.Predicate.Builtin.Compare;
  */
 public class Between : AbstractPredicateFactory
 {
-
     protected override Predicate GetPredicate(Term low, Term high, Term middle)
     {
         var operators = ArithmeticOperators;
-        if (middle.Type.isVariable)
+        if (middle.Type.IsVariable)
             return new Retryable(middle, TermUtils.ToLong(operators, low), TermUtils.ToLong(operators, high));
         else
         {
-            var result = NumericTermComparator.NUMERIC_TERM_COMPARATOR.Compare(low, middle, operators) < 1
-                && NumericTermComparator.NUMERIC_TERM_COMPARATOR.Compare(middle, high, operators) < 1;
+            var result = NumericTermComparator.Compare(low, middle, operators) < 1
+                && NumericTermComparator.Compare(middle, high, operators) < 1;
             return PredicateUtils.ToPredicate(result);
         }
     }
@@ -102,7 +99,6 @@ public class Between : AbstractPredicateFactory
             this.max = max;
         }
 
-
         public bool Evaluate()
         {
             while (CouldReevaluationSucceed)
@@ -113,7 +109,6 @@ public class Between : AbstractPredicateFactory
             }
             return false;
         }
-
 
         public bool CouldReevaluationSucceed => ctr <= max;
     }

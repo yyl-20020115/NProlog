@@ -18,8 +18,6 @@ using System.Collections;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Db;
 
-
-
 /**
  * Provides a mechanism to associate a term with a key.
  * <p>
@@ -46,7 +44,8 @@ public class RecordedDatabase
         return link.reference;
     }
 
-    public ICheckedEnumerator<Record> GetAll() => new DatabaseIterator(this);
+    public ICheckedEnumerator<Record> GetAll() 
+        => new DatabaseIterator(this);
 
     public ICheckedEnumerator<Record> GetChain(PredicateKey key)
         => !chains.TryGetValue(key, out var chain) 
@@ -57,14 +56,13 @@ public class RecordedDatabase
      * @return {@code true} if a term was removed else {@code false} (i.e. if there was no term associated with the
      * specified {@code reference})
      */
-    public bool Erase(long reference) => RemoveReference(reference);
+    public bool Erase(long reference)
+        => RemoveReference(reference);
 
     private Chain GetOrCreateChain(PredicateKey key)
     {
         if (!chains.TryGetValue(key,out var chain))
-        {
             chain = CreateChain(key);
-        }
         return chain;
     }
 
@@ -74,8 +72,7 @@ public class RecordedDatabase
         {
             if (!chains.TryGetValue(key, out var chain))
             {
-                chain = new Chain(key);
-                chains.Add(key, chain);
+                chains.Add(key, chain = new Chain(key));
                 keys.Add(key);
             }
             return chain;
@@ -149,7 +146,6 @@ public class RecordedDatabase
                 link.deleted = true;
 
                 return true;
-
             }
             else
             {
@@ -176,10 +172,8 @@ public class RecordedDatabase
         {
             while (chainIterator == null || !chainIterator.CanMoveNext)
             {
-                if (HasIteratedOverAllChains())
-                {
+                if (HasIteratedOverAllChains)
                     return false;
-                }
                 else 
                 {
                     UpdateChainIterator(increase);
@@ -187,7 +181,6 @@ public class RecordedDatabase
                 }
             }
             return true;
-
         }
 
         public DatabaseIterator(RecordedDatabase recordedDatabase)
@@ -197,10 +190,7 @@ public class RecordedDatabase
         }
 
 
-        private bool HasIteratedOverAllChains()
-        {
-            return keyIdx >= recordedDatabase.keys.Count;
-        }
+        private bool HasIteratedOverAllChains => keyIdx >= recordedDatabase.keys.Count;
 
         private void UpdateChainIterator(int increase = 0)
         {
@@ -217,19 +207,14 @@ public class RecordedDatabase
         {
             var can = this.TryCanMoveNext(0) && chainIterator.MoveNext();
             if (!can)
-            {
-                can = this.TryCanMoveNext(1) &&
-                    this.chainIterator.MoveNext();
-            }
+                can = this.TryCanMoveNext(1) && this.chainIterator.MoveNext();
             return can;
         } 
 
         public void Reset()
         {
             if (!this.disposed)
-            {
                 this.chainIterator.Reset();
-            }
         }
 
         public void Dispose()
@@ -241,10 +226,7 @@ public class RecordedDatabase
             }
         }
 
-        public Record Remove()
-        {
-            return this.chainIterator.Remove();
-        }
+        public Record Remove() => this.chainIterator.Remove();
     }
 
     public class ChainIterator : ICheckedEnumerator<Record>
@@ -254,11 +236,10 @@ public class RecordedDatabase
         private bool started = false;
         private bool disposed = false;
         public ChainIterator(Chain chain)
-        {
-            this.current = this.first = chain?.first;
-        }
+            => this.current = this.first = chain?.first;
 
         object IEnumerator.Current => this.Current;
+
         public Record Current => this.current==null
             ? throw new NoSuchElementException("Enumeration has not started, call MoveNext() first")
             : CreateRecord(current)
@@ -275,14 +256,9 @@ public class RecordedDatabase
         public bool MoveNext()
         {
             if (!this.CanMoveNext) return false;
-            if (!this.started)
-            {
-                return this.started = true;
-            }
-            else
-            {
-                return (this.current = this.current.next)!=null;
-            }
+            return !this.started 
+                ? (this.started = true) 
+                : (this.current = this.current.next)!=null;
         }
 
 
@@ -299,9 +275,7 @@ public class RecordedDatabase
         public void Reset()
         {
             if (!this.disposed)
-            {
                 this.current = this.first;
-            }
         }
 
         private static Record CreateRecord(Link link)
@@ -310,15 +284,11 @@ public class RecordedDatabase
         private void SkipDeleted()
         {
             while (current != null && current.deleted)
-            {
                 current = current.next;
-            }
         }
 
-        public Record Remove()
-        {
-            throw new InvalidOperationException("Unable to remove");
-        }
+        public Record Remove() 
+            => throw new InvalidOperationException("Unable to remove");
     }
 
     public class Chain

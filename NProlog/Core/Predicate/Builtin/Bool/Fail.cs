@@ -47,6 +47,5 @@ test :- a(X), a(Y), write(Y), write(' '), write(X), nl, fail.
  */
 public class Fail : AbstractSingleResultPredicate
 {
-
     protected override bool Evaluate() => false;
 }

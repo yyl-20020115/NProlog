@@ -34,7 +34,6 @@ namespace Org.NProlog.Core.Predicate.Builtin.Classify;
  */
 public class IsAtomic : AbstractSingleResultPredicate
 {
-
     protected override bool Evaluate(Term arg) 
-        => arg.Type == TermType.ATOM || arg.Type.isNumeric;
+        => arg.Type == TermType.ATOM || arg.Type.IsNumeric;
 }

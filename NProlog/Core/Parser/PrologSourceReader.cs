@@ -50,7 +50,7 @@ public class PrologSourceReader
             var prologSourceReader = new PrologSourceReader(kb);
             prologSourceReader.Parse(reader);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             throw new PrologException("Could not read prolog source from file: " + prologSourceFile + " due to: " + ex, ex);
         }
@@ -74,7 +74,8 @@ public class PrologSourceReader
             using var reader = GetReader(kb, prologSourceResourceName);
             var prologSourceReader = new PrologSourceReader(kb);
             prologSourceReader.Parse(reader);
-        }catch(Exception ex)
+        }
+        catch (Exception ex)
         {
             throw new PrologException("Could not read prolog source from resource: " + prologSourceResourceName, ex);
         }
@@ -131,28 +132,18 @@ public class PrologSourceReader
         else
         {
             NotifyReadingFromResource(kb, resourceName);
-            var stream = Properties.Resources.ResourceManager.GetStream(path
-                );
-            if(stream == null)
-                throw new PrologException("Cannot find resource: " + resourceName);
-            return new StreamReader(stream);
+            var stream = Properties.Resources.ResourceManager.GetStream(path);
+            return stream == null ? throw new PrologException("Cannot find resource: " + resourceName) : (TextReader)new StreamReader(stream);
         }
     }
 
-    private static void NotifyReadingFromFileSystem(KnowledgeBase kb, string file)
-    {
-        kb.PrologListeners.NotifyInfo("Reading prolog source in: " + file + " from file system");
-    }
+    private static void NotifyReadingFromFileSystem(KnowledgeBase kb, string file) 
+        => kb.PrologListeners.NotifyInfo("Reading prolog source in: " + file + " from file system");
 
     private static void NotifyReadingFromResource(KnowledgeBase kb, string resourceName)
-    {
-        kb.PrologListeners.NotifyInfo("Reading prolog source in: " + resourceName + " from classpath");
-    }
+        => kb.PrologListeners.NotifyInfo("Reading prolog source in: " + resourceName + " from classpath");
 
-    private PrologSourceReader(KnowledgeBase kb)
-    {
-        this.kb = kb;
-    }
+    private PrologSourceReader(KnowledgeBase kb) => this.kb = kb;
 
     private void Parse(TextReader reader)
     {
@@ -216,10 +207,9 @@ public class PrologSourceReader
     private UserDefinedPredicateFactory CreateOrReturnUserDefinedPredicate(Term t)
     {
         var key = PredicateKey.CreateForTerm(t);
-        if (!userDefinedPredicates.TryGetValue(key,out var userDefinedPredicate))
-        {   userDefinedPredicates.Add(key,
+        if (!userDefinedPredicates.TryGetValue(key, out var userDefinedPredicate))
+            userDefinedPredicates.Add(key,
                 userDefinedPredicate = new StaticUserDefinedPredicateFactory(kb, key));
-        }
         return userDefinedPredicate;
     }
 

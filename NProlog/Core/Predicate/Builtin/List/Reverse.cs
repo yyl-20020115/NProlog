@@ -291,7 +291,7 @@ public class Reverse : AbstractPredicateFactory
                     x = arg1.GetArgument(0);
                     xs = arg1.GetArgument(1);
                 }
-                else if (arg1.Type.isVariable)
+                else if (arg1.Type.IsVariable)
                 {
                     x = new Variable("X");
                     xs = new Variable("Xs");
@@ -306,7 +306,7 @@ public class Reverse : AbstractPredicateFactory
                 {
                     arg4 = arg4.GetArgument(1);
                 }
-                else if (arg4.Type.isVariable)
+                else if (arg4.Type.IsVariable)
                 {
                     Variable v = new Variable("Bound");
                     arg4.Unify(new Terms.List(new Variable(), v));

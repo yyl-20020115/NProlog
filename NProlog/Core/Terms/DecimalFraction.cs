@@ -85,7 +85,7 @@ public class DecimalFraction : Numeric
         {
             return value == ((DecimalFraction)t.Term).value;
         }
-        else if (tType.isVariable)
+        else if (tType.IsVariable)
         {
             return t.Unify(this);
         }

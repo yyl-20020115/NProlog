@@ -48,12 +48,14 @@ public static class KnowledgeBaseUtils
     /**
      * Constructs a new {@code KnowledgeBase} object using {@link ProjogDefaultProperties}
      */
-    public static KnowledgeBase CreateKnowledgeBase() => CreateKnowledgeBase(new PrologDefaultProperties());
+    public static KnowledgeBase CreateKnowledgeBase() 
+        => CreateKnowledgeBase(new PrologDefaultProperties());
 
     /**
      * Constructs a new {@code KnowledgeBase} object using the specified {@link ProjogProperties}
      */
-    public static KnowledgeBase CreateKnowledgeBase(PrologProperties prologProperties) => new(prologProperties);
+    public static KnowledgeBase CreateKnowledgeBase(PrologProperties prologProperties)
+        => new(prologProperties);
 
     /**
      * Consults the {@link ProjogProperties#getBootstrapScript()} for the {@code KnowledgeBase}.
@@ -88,12 +90,14 @@ public static class KnowledgeBaseUtils
      * {@link #QUESTION_PREDICATE_NAME} or {@link #IMPLICATION_PREDICATE_NAME}.
      */
     public static bool IsQuestionOrDirectiveFunctionCall(Term t)
-        => t.Type == TermType.STRUCTURE && t.NumberOfArguments == 1 && (QUESTION_PREDICATE_NAME.Equals(t.Name) || IMPLICATION_PREDICATE_NAME.Equals(t.Name));
+        => t.Type == TermType.STRUCTURE && t.NumberOfArguments == 1
+        && (QUESTION_PREDICATE_NAME.Equals(t.Name) || IMPLICATION_PREDICATE_NAME.Equals(t.Name));
 
     /**
      * Returns {@code true} if the predicate represented by the specified {@link Term} never succeeds on re-evaluation.
      */
-    public static bool IsSingleAnswer(KnowledgeBase kb, Term term) => !term.Type.isVariable && !kb.Predicates.GetPreprocessedPredicateFactory(term).IsRetryable;
+    public static bool IsSingleAnswer(KnowledgeBase kb, Term term)
+        => !term.Type.IsVariable && !kb.Predicates.GetPreprocessedPredicateFactory(term).IsRetryable;
 
     /**
      * Returns an array of all {@link Term}s that make up the conjunction represented by the specified {@link Term}.
@@ -120,7 +124,8 @@ public static class KnowledgeBaseUtils
      * {@link #CONJUNCTION_PREDICATE_NAME} and exactly two arguments.
      */
     public static bool IsConjunction(Term t)
-        => t.Type == TermType.STRUCTURE && CONJUNCTION_PREDICATE_NAME.Equals(t.Name) && t.Args.Length == 2;
+        => t.Type == TermType.STRUCTURE && CONJUNCTION_PREDICATE_NAME.Equals(t.Name)
+        && t.Args.Length == 2;
 
     /**
      * Returns a new object created using reflection.
@@ -136,7 +141,7 @@ public static class KnowledgeBaseUtils
      */
     public static T Instantiate<T>(KnowledgeBase knowledgeBase, string input)
     {
-        T result = Instantiate<T>(input);
+        var result = Instantiate<T>(input);
 
         if (result is KnowledgeBaseConsumer consumer)
             consumer.KnowledgeBase = knowledgeBase;
@@ -209,6 +214,6 @@ public static class KnowledgeBaseUtils
             }
         }
 
-        return default(T);
+        return default;
     }
 }

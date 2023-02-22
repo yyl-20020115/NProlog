@@ -110,15 +110,15 @@ public class NumericTermComparatorTest : TestUtils
         Structure subtraction = Structure("-", IntegerNumber(5), IntegerNumber(2));
 
         // test Compare(Term, Term) evaluates structures representing arithmetic expressions
-        Assert.AreEqual(1, NumericTermComparator.NUMERIC_TERM_COMPARATOR.Compare(addition, subtraction, operators));
-        Assert.AreEqual(-1, NumericTermComparator.NUMERIC_TERM_COMPARATOR.Compare(subtraction, addition, operators));
-        Assert.AreEqual(0, NumericTermComparator.NUMERIC_TERM_COMPARATOR.Compare(addition, addition, operators));
+        Assert.AreEqual(1, NumericTermComparator.Compare(addition, subtraction, operators));
+        Assert.AreEqual(-1, NumericTermComparator.Compare(subtraction, addition, operators));
+        Assert.AreEqual(0, NumericTermComparator.Compare(addition, addition, operators));
 
         // test Compare(Term, Term, KnowledgeBase) throws a PrologException if
         // a structure cannot be evaluated as an arithmetic expression
         try
         {
-            NumericTermComparator.NUMERIC_TERM_COMPARATOR.Compare(addition, Structure("-", IntegerNumber(5), Atom()), operators);
+            NumericTermComparator.Compare(addition, Structure("-", IntegerNumber(5), Atom()), operators);
             Assert.Fail();
         }
         catch (PrologException e)
@@ -127,7 +127,7 @@ public class NumericTermComparatorTest : TestUtils
         }
         try
         {
-            NumericTermComparator.NUMERIC_TERM_COMPARATOR.Compare(Structure("~", IntegerNumber(5), IntegerNumber(2)), subtraction, operators);
+            NumericTermComparator.Compare(Structure("~", IntegerNumber(5), IntegerNumber(2)), subtraction, operators);
             Assert.Fail();
         }
         catch (PrologException e)
@@ -176,7 +176,7 @@ public class NumericTermComparatorTest : TestUtils
     {
         Term t1 = TestUtils.ParseSentence(s1 + ".");
         Term t2 = TestUtils.ParseSentence(s2 + ".");
-        Assert.AreEqual(expected, NumericTermComparator.NUMERIC_TERM_COMPARATOR.Compare(t1, t2, operators));
-        Assert.AreEqual(0 - expected, NumericTermComparator.NUMERIC_TERM_COMPARATOR.Compare(t2, t1, operators));
+        Assert.AreEqual(expected, NumericTermComparator.Compare(t1, t2, operators));
+        Assert.AreEqual(0 - expected, NumericTermComparator.Compare(t2, t1, operators));
     }
 }

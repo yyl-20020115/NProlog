@@ -19,8 +19,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.IO;
 
-
-
 /* TEST
 %LINK prolog-io
 */
@@ -41,7 +39,7 @@ public class Told : AbstractSingleResultPredicate
         return true;
     }
 
-    private void Close(FileHandles fileHandles, Term handle)
+    private static void Close(FileHandles fileHandles, Term handle)
     {
         try
         {

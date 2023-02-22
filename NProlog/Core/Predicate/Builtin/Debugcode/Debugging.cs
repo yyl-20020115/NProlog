@@ -17,8 +17,6 @@ using Org.NProlog.Core.Event;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Debug;
 
-
-
 /* TEST
 %LINK prolog-debugging
 */

@@ -19,9 +19,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.List;
 
-
-
-
 /* TEST
 multiple_result_predicate(X,Y,Z) :-  Z is X+Y.
 multiple_result_predicate(X,Y,Z) :-  Z is X*Y.
@@ -162,29 +159,24 @@ public class Fold : AbstractPredicateFactory, PreprocessablePredicateFactory
                 Predicates, action, FIRST_ARG_ARITY);
             return new OptimisedFold(pf, action);
         }
-        else
-        {
-            return this;
-        }
+        return this;
     }
 
     private class OptimisedFold : PredicateFactory
     {
-        readonly PredicateFactory pf;
+        readonly PredicateFactory factory;
         readonly Term action;
 
-        public OptimisedFold(PredicateFactory pf, Term action)
+        public OptimisedFold(PredicateFactory factory, Term action)
         {
-            this.pf = pf;
+            this.factory = factory;
             this.action = action;
         }
 
-
         public virtual Predicate GetPredicate(Term[] args)
-            => GetFoldPredicate(pf, action, args[1], args[2], args[3]);
+            => GetFoldPredicate(factory, action, args[1], args[2], args[3]);
 
-
-        public bool IsRetryable => pf.IsRetryable;
+        public bool IsRetryable => factory.IsRetryable;
     }
 
 
@@ -208,8 +200,7 @@ public class Fold : AbstractPredicateFactory, PreprocessablePredicateFactory
         }
         else
         {
-            bool success = EvaluateFold(pf, action, list, start, result);
-            return PredicateUtils.ToPredicate(success);
+            return PredicateUtils.ToPredicate(EvaluateFold(pf, action, list, start, result));
         }
     }
 
@@ -231,10 +222,7 @@ public class Fold : AbstractPredicateFactory, PreprocessablePredicateFactory
             var previous = output;
             output = new Variable("FoldAccumulator");
             var p = PartialApplicationUtils.GetPredicate(pf, action, next, previous, output);
-            if (!p.Evaluate())
-            {
-                return false;
-            }
+            if (!p.Evaluate()) return false;
         }
 
         return result.Unify(output);
@@ -327,10 +315,8 @@ public class Fold : AbstractPredicateFactory, PreprocessablePredicateFactory
         {
             get
             {
-                if (predicates.Count == 0)
-                { // if empty then has not been evaluated yet
-                    return true;
-                }
+                // if empty then has not been evaluated yet
+                if (predicates.Count == 0) return true;
 
                 foreach (var p in predicates)
                     if (p.CouldReevaluationSucceed) return true;

@@ -13,11 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-using Org.NProlog.Core.Event;
-
 namespace Org.NProlog.Core.Predicate.Builtin.Debug;
-
-
 
 /* TEST
 %LINK prolog-debugging

@@ -123,7 +123,7 @@ public class Conjunction : AbstractPredicateFactory, PreprocessablePredicateFact
     {
         var firstArg = term.GetArgument(0);
         var secondArg = term.GetArgument(1);
-        if (firstArg.Type.isVariable || secondArg.Type.isVariable)
+        if (firstArg.Type.IsVariable || secondArg.Type.IsVariable)
         {
             return this;
         }
@@ -155,7 +155,9 @@ public class Conjunction : AbstractPredicateFactory, PreprocessablePredicateFact
 
 
         public bool IsAlwaysCutOnBacktrack
-            => secondPredicateFactory.IsAlwaysCutOnBacktrack || firstPredicateFactory.IsAlwaysCutOnBacktrack && !secondPredicateFactory.IsRetryable;
+            => secondPredicateFactory.IsAlwaysCutOnBacktrack 
+            || firstPredicateFactory.IsAlwaysCutOnBacktrack 
+            && !secondPredicateFactory.IsRetryable;
     }
 
     public class OptimisedSingletonConjuction : AbstractSingleResultPredicate
@@ -189,7 +191,6 @@ public class Conjunction : AbstractPredicateFactory, PreprocessablePredicateFact
             this.originalSecondArgument = secondArgument;
         }
 
-
         public virtual bool Evaluate()
         {
             do
@@ -198,10 +199,7 @@ public class Conjunction : AbstractPredicateFactory, PreprocessablePredicateFact
                 {
                     copySecondArgument = originalSecondArgument.Term;
                     secondPredicate = secondPredicateFactory.GetPredicate(copySecondArgument.Args);
-                    if (secondPredicate.Evaluate())
-                    {
-                        return true;
-                    }
+                    if (secondPredicate.Evaluate()) return true;
                 }
                 else if (secondPredicate.CouldReevaluationSucceed && secondPredicate.Evaluate())
                 {
@@ -215,9 +213,9 @@ public class Conjunction : AbstractPredicateFactory, PreprocessablePredicateFact
             return false;
         }
 
-
         public virtual bool CouldReevaluationSucceed => firstPredicate.CouldReevaluationSucceed
                   || (secondPredicate != null && secondPredicate.CouldReevaluationSucceed)
-                  || (copySecondArgument == null && secondPredicateFactory.IsRetryable);
+                  || (copySecondArgument == null && secondPredicateFactory.IsRetryable)
+            ;
     }
 }

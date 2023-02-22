@@ -17,7 +17,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Classify;
 
-
 /* TEST
 %TRUE float(1.0)
 %TRUE float(-1.0)
@@ -42,7 +41,6 @@ namespace Org.NProlog.Core.Predicate.Builtin.Classify;
  */
 public class IsFloat : AbstractSingleResultPredicate
 {
-
     protected override bool Evaluate(Term arg) 
         => arg.Type == TermType.FRACTION;
 }

@@ -17,8 +17,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.IO;
 
-
-
 /* TEST
 %?- write( 1+1 )
 %OUTPUT 1 + 1

@@ -17,8 +17,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Construct;
 
-
-
 /* TEST
 %?- copy_term(X, Y), X \== Y
 % X=UNINSTANTIATED VARIABLE
@@ -74,7 +72,6 @@ namespace Org.NProlog.Core.Predicate.Builtin.Construct;
  */
 public class CopyTerm : AbstractSingleResultPredicate
 {
-
     protected override bool Evaluate(Term arg1, Term arg2) 
-        => arg2.Unify(arg1.Copy(new Dictionary<Variable, Variable>()));
+        => arg2.Unify(arg1.Copy(new ()));
 }

@@ -18,8 +18,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Construct;
 
-
-
 /* TEST
 %?- arg(2, a(b,c(d)), X)
 % X=c(d)
@@ -50,9 +48,7 @@ public class Arg : AbstractSingleResultPredicate
     {
         var argIdx = TermUtils.ToInt(arg1);
         if (arg2.NumberOfArguments < argIdx)
-        {
             throw new PrologException("Cannot get argument at position: " + argIdx + " from: " + arg2);
-        }
         var t = arg2.GetArgument(argIdx - 1);
         return arg3.Unify(t);
     }

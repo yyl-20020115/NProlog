@@ -45,9 +45,7 @@ public class QueryPlan
             this.predicateFactory = kb.Predicates.GetPreprocessedPredicateFactory(parsedInput);
 
             if (parser.ParseSentence() != null)
-            {
                 throw new PrologException("More input found after . in " + prologQuery);
-            }
         }
         catch (ParserException pe)
         {
@@ -73,7 +71,8 @@ public class QueryPlan
      * @see #executeQuery()
      * @see #executeOnce()
      */
-    public QueryStatement CreateStatement() => new(predicateFactory, parsedInput);
+    public QueryStatement CreateStatement() 
+        => new(predicateFactory, parsedInput);
 
     /**
      * Return a newly created {@link QueryResult} for the query represented by this plan.
@@ -84,7 +83,8 @@ public class QueryPlan
      * @see #createStatement()
      * @see #executeOnce()
      */
-    public QueryResult ExecuteQuery() => CreateStatement().ExecuteQuery();
+    public QueryResult ExecuteQuery() 
+        => CreateStatement().ExecuteQuery();
 
     /**
      * Evaluate once the query represented by this statement.
@@ -95,29 +95,42 @@ public class QueryPlan
      * @see #createStatement()
      * @see #executeQuery()
      */
-    public void ExecuteOnce() => CreateStatement().ExecuteOnce();
+    public void ExecuteOnce() 
+        => CreateStatement().ExecuteOnce();
 
-    public string FindFirstAsAtomName() => CreateStatement().FindFirstAsAtomName();
+    public string FindFirstAsAtomName() 
+        => CreateStatement().FindFirstAsAtomName();
 
-    public double FindFirstAsDouble() => CreateStatement().FindFirstAsDouble();
+    public double FindFirstAsDouble() 
+        => CreateStatement().FindFirstAsDouble();
 
-    public long FindFirstAsLong() => CreateStatement().FindFirstAsLong();
+    public long FindFirstAsLong() 
+        => CreateStatement().FindFirstAsLong();
 
-    public Term FindFirstAsTerm() => CreateStatement().FindFirstAsTerm();
+    public Term FindFirstAsTerm() 
+        => CreateStatement().FindFirstAsTerm();
 
-    public Optional<string> FindFirstAsOptionalAtomName() => CreateStatement().FindFirstAsOptionalAtomName();
+    public Optional<string> FindFirstAsOptionalAtomName() 
+        => CreateStatement().FindFirstAsOptionalAtomName();
 
-    public Optional<double> FindFirstAsOptionalDouble() => CreateStatement().FindFirstAsOptionalDouble();
+    public Optional<double> FindFirstAsOptionalDouble()
+        => CreateStatement().FindFirstAsOptionalDouble();
 
-    public Optional<long> FindFirstAsOptionalLong() => CreateStatement().FindFirstAsOptionalLong();
+    public Optional<long> FindFirstAsOptionalLong() 
+        => CreateStatement().FindFirstAsOptionalLong();
 
-    public Optional<Term> FindFirstAsOptionalTerm() => CreateStatement().FindFirstAsOptionalTerm();
+    public Optional<Term> FindFirstAsOptionalTerm() 
+        => CreateStatement().FindFirstAsOptionalTerm();
 
-    public List<string> FindAllAsAtomName() => CreateStatement().FindAllAsAtomName();
+    public List<string> FindAllAsAtomName() 
+        => CreateStatement().FindAllAsAtomName();
 
-    public List<double> FindAllAsDouble() => CreateStatement().FindAllAsDouble();
+    public List<double> FindAllAsDouble() 
+        => CreateStatement().FindAllAsDouble();
 
-    public List<long> FindAllAsLong() => CreateStatement().FindAllAsLong();
+    public List<long> FindAllAsLong() 
+        => CreateStatement().FindAllAsLong();
 
-    public List<Term> FindAllAsTerm() => CreateStatement().FindAllAsTerm();
+    public List<Term> FindAllAsTerm() 
+        => CreateStatement().FindAllAsTerm();
 }

@@ -25,10 +25,10 @@ namespace Org.NProlog.Core.Math.Builtin;
 public class Add : AbstractBinaryArithmeticOperator
 {
     /** Returns the sum of the two arguments */
-
-    protected override double CalculateDouble(double n1, double n2) => n1 + n2;
+    protected override double CalculateDouble(double n1, double n2)
+        => n1 + n2;
 
     /** Returns the sum of the two arguments */
-
-    protected override long CalculateLong(long n1, long n2) => n1 + n2;
+    protected override long CalculateLong(long n1, long n2) 
+        => n1 + n2;
 }

@@ -315,7 +315,7 @@ public class StaticUserDefinedPredicateFactoryTest : TestUtils
     private static Term[] CreateArgs(int numArgs)
     {
         Term[] args = new Term[numArgs];
-        Arrays.Fill(args, Atom());
+        ArraysHelpers.Fill(args, Atom());
         return args;
     }
 

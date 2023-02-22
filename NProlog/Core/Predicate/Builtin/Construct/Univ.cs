@@ -19,7 +19,6 @@ using Org.NProlog.Core.Terms;
 namespace Org.NProlog.Core.Predicate.Builtin.Construct;
 
 
-
 /* TEST
 %?- p(a,b,c) =.. X
 % X=[p,a,b,c]
@@ -76,15 +75,14 @@ namespace Org.NProlog.Core.Predicate.Builtin.Construct;
  */
 public class Univ : AbstractSingleResultPredicate
 {
-
     protected override bool Evaluate(Term arg1, Term arg2)
     {
         var argType1 = arg1.Type;
         var argType2 = arg2.Type;
-        bool isFirstArgumentVariable = argType1.isVariable;
-        bool isFirstArgumentPredicate = argType1.isStructure;
+        bool isFirstArgumentVariable = argType1.IsVariable;
+        bool isFirstArgumentPredicate = argType1.IsStructure;
         bool isFirstArgumentAtom = argType1 == TermType.ATOM;
-        bool isSecondArgumentVariable = argType2.isVariable;
+        bool isSecondArgumentVariable = argType2.IsVariable;
         bool isSecondArgumentList = IsList(argType2);
 
         if (!isFirstArgumentPredicate && !isFirstArgumentVariable && !isFirstArgumentAtom)
@@ -93,16 +91,8 @@ public class Univ : AbstractSingleResultPredicate
             throw new PrologException("Expected second argument to be a variable or a list but got a " + argType2 + " with value: " + arg2);
         else if (isFirstArgumentVariable && isSecondArgumentVariable)
             throw new PrologException("Both arguments are variables: " + arg1 + " and: " + arg2);
-        else if (isFirstArgumentPredicate || isFirstArgumentAtom)
-        {
-            var predicateAsList = ToList(arg1);
-            return predicateAsList.Unify(arg2);
-        }
         else
-        {
-            var listAsPredicate = ToPredicate(arg2);
-            return arg1.Unify(listAsPredicate);
-        }
+            return isFirstArgumentPredicate || isFirstArgumentAtom ? ToList(arg1).Unify(arg2) : arg1.Unify(ToPredicate(arg2));
     }
 
     private static bool IsList(TermType tt) => tt == TermType.LIST || tt == TermType.EMPTY_LIST;
@@ -110,9 +100,7 @@ public class Univ : AbstractSingleResultPredicate
     private static Term ToPredicate(Term t)
     {
         if (t.GetArgument(0).Type != TermType.ATOM)
-        {
             throw new PrologException("First argument is not an atom in list: " + t);
-        }
 
         var predicateName = t.GetArgument(0).Name;
 
@@ -124,18 +112,9 @@ public class Univ : AbstractSingleResultPredicate
             arg = arg.GetArgument(1);
         }
         if (arg.Type != TermType.EMPTY_LIST)
-        {
             predicateArgs.Add(arg);
-        }
 
-        if (predicateArgs.Count == 0)
-        {
-            return new Atom(predicateName);
-        }
-        else
-        {
-            return Structure.CreateStructure(predicateName, predicateArgs.ToArray());
-        }
+        return predicateArgs.Count == 0 ? new Atom(predicateName) : Structure.CreateStructure(predicateName, predicateArgs.ToArray());
     }
 
     private static Term ToList(Term t)

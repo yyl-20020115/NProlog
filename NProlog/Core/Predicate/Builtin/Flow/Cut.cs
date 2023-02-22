@@ -46,9 +46,8 @@ a(X, Y) :- Y = 2.
  */
 public class Cut : AbstractPredicateFactory
 {
-
-    protected override Predicate GetPredicate() => new CutPredicate();
-
+    protected override Predicate GetPredicate() 
+        => new CutPredicate();
 
     public virtual bool IsAlwaysCutOnBacktrack => true;
 
@@ -63,7 +62,6 @@ public class Cut : AbstractPredicateFactory
             retried = true;
             return true;
         }
-
 
         public bool CouldReevaluationSucceed => true;
     }

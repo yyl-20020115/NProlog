@@ -25,7 +25,7 @@ namespace Org.NProlog.Core.Predicate.Builtin.Bool;
  * The goal <code>true</code> always succeeds.
  * </p>
  */
-public class True : AbstractSingleResultPredicate {
-
+public class True : AbstractSingleResultPredicate
+{
     protected override bool Evaluate() => true;
 }

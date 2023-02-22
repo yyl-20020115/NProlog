@@ -395,7 +395,7 @@ public class MapList : PredicateFactory, PreprocessablePredicateFactory, Knowled
         for (int i = 0; i < lists.Length; i++)
         {
             var t = input[i + 1];
-            if (!t.Type.isVariable)
+            if (!t.Type.IsVariable)
             {
                 var list = ListUtils.ToList(t);
                 if (list == null)

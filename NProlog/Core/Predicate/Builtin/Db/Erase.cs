@@ -18,8 +18,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Db;
 
-
-
 /* TEST
 % Add three records to the recorded database.
 %TRUE recordz(k,a,_), recordz(k,b,_), recordz(k,c,_)
@@ -50,12 +48,9 @@ public class Erase : AbstractSingleResultPredicate
 {
     private RecordedDatabase? database;
 
-
     protected override void Init()
-    {
-       this.database = KnowledgeBaseServiceLocator.GetServiceLocator(KnowledgeBase).GetInstance
+        => this.database = KnowledgeBaseServiceLocator.GetServiceLocator(KnowledgeBase).GetInstance
               <RecordedDatabase>(typeof(RecordedDatabase));
-    }
 
 
     protected override bool Evaluate(Term arg)

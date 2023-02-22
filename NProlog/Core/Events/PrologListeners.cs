@@ -70,7 +70,7 @@ public class PrologListeners
     /** Notify all listeners when an attempt to evaluate a goal fails. */
     public void NotifyFail(SpyPointEvent _event)
     {
-        foreach (PrologListener listener in listeners)
+        foreach (var listener in listeners)
             listener.OnFail(_event);
     }
 

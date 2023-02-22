@@ -15,7 +15,6 @@
  */
 namespace Org.NProlog.Core.Terms;
 
-
 /**
  * Defines the type of terms supported by Projog.
  *
@@ -23,7 +22,6 @@ namespace Org.NProlog.Core.Terms;
  */
 public class TermType
 {
-
     /** @see Variable */
     public static readonly TermType VARIABLE = new(false, false, true, 1,nameof(VARIABLE));
     /** Constraint Logic Programming variable */
@@ -41,19 +39,19 @@ public class TermType
     /** @see List */
     public static readonly TermType LIST = new(true, false, false, 8, nameof(LIST));
 
-    public readonly string name;
-    public readonly bool isStructure;
-    public readonly bool isNumeric;
-    public readonly bool isVariable;
-    public readonly int precedence;
+    public readonly string Name;
+    public readonly bool IsStructure;
+    public readonly bool IsNumeric;
+    public readonly bool IsVariable;
+    public readonly int Precedence;
 
     private TermType(bool isStructure, bool isNumeric, bool isVariable, int precedence, string name)
     {
-        this.isStructure = isStructure;
-        this.isNumeric = isNumeric;
-        this.isVariable = isVariable;
-        this.precedence = precedence;
-        this.name = name;
+        this.IsStructure = isStructure;
+        this.IsNumeric = isNumeric;
+        this.IsVariable = isVariable;
+        this.Precedence = precedence;
+        this.Name = name;
     }
 
     /**
@@ -63,5 +61,5 @@ public class TermType
      * @see TermComparator#compare(Term, Term)
      */
     //public int Precedence => precedence;
-    public override string ToString() => this.name;
+    public override string ToString() => this.Name;
 }

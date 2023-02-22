@@ -90,7 +90,7 @@ public class EmptyList : Term
     public bool Unify(Term t)
     {
         var tType = t.Type;
-        return tType == TermType.EMPTY_LIST || (tType.isVariable && t.Unify(this));
+        return tType == TermType.EMPTY_LIST || (tType.IsVariable && t.Unify(this));
     }
 
     /**

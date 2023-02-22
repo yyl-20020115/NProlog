@@ -20,13 +20,22 @@ namespace Org.NProlog.Core.Event;
 public class LoggingPrologListener : PrologListener
 {
     private readonly TextWriter writer;
-    public LoggingPrologListener(TextWriter writer) => this.writer = writer;
-    public void OnCall(SpyPointEvent @event) => Log("CALL", @event);
-    public void OnRedo(SpyPointEvent @event) => Log("REDO", @event);
-    public void OnExit(SpyPointExitEvent @event) => Log("EXIT", @event);
-    public void OnFail(SpyPointEvent @event) => Log("FAIL", @event);
-    public void OnWarn(string message) => Log("WARN " + message);
-    public void OnInfo(string message) => Log("INFO " + message);
-    private void Log(string level, SpyPointEvent @event) => Log("[" + @event.GetSourceId() + "] " + level + " " + @event.GetFormattedTerm());
-    private void Log(string message) => writer.WriteLine(message);
+    public LoggingPrologListener(TextWriter writer) 
+        => this.writer = writer;
+    public void OnCall(SpyPointEvent @event) 
+        => Log("CALL", @event);
+    public void OnRedo(SpyPointEvent @event) 
+        => Log("REDO", @event);
+    public void OnExit(SpyPointExitEvent @event) 
+        => Log("EXIT", @event);
+    public void OnFail(SpyPointEvent @event) 
+        => Log("FAIL", @event);
+    public void OnWarn(string message) 
+        => Log("WARN " + message);
+    public void OnInfo(string message) 
+        => Log("INFO " + message);
+    private void Log(string level, SpyPointEvent @event) 
+        => Log("[" + @event.GetSourceId() + "] " + level + " " + @event.GetFormattedTerm());
+    private void Log(string message) 
+        => writer.WriteLine(message);
 }

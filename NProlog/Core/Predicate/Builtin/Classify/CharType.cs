@@ -18,8 +18,6 @@ using Org.NProlog.Core.Terms;
 namespace Org.NProlog.Core.Predicate.Builtin.Classify;
 
 
-
-
 /* TEST
 %FAIL char_type(a, digit)
 %TRUE char_type(a, lower)
@@ -251,7 +249,6 @@ public class CharType : AbstractPredicateFactory
     /** @see GetChar#toString(int) */
     private static string CharToString(int c) => c == '\t' ? "\\t" : c.ToString();
 
-
     private static void AddType(string id, params HashSet<string>[] charIdxs)
     {
         HashSet<string> superSet = new();
@@ -268,7 +265,8 @@ public class CharType : AbstractPredicateFactory
         CHARACTER_TYPES_MAP.Add(key, type);
     }
 
-    private static HashSet<string> CreateSetFromRange(int from, int to) => IntsToStrings(CreateRange(from, to));
+    private static HashSet<string> CreateSetFromRange(int from, int to)
+        => IntsToStrings(CreateRange(from, to));
 
     private static int[] CreateRange(int from, int to)
     {
@@ -288,12 +286,11 @@ public class CharType : AbstractPredicateFactory
         return strings;
     }
 
-
     protected override Predicate GetPredicate(Term character, Term type)
     {
-        var characters = character.Type.isVariable ? ALL_CHARACTERS : (new Term[] { character });
+        var characters = character.Type.IsVariable ? ALL_CHARACTERS : new Term[] { character };
         var characterTypes = Array.Empty<Type>();
-        if (type.Type.isVariable)
+        if (type.Type.IsVariable)
             characterTypes = CHARACTER_TYPES_ARRAY;
         else
         {
@@ -322,7 +319,6 @@ public class CharType : AbstractPredicateFactory
             this.state = state;
         }
 
-
         public bool Evaluate()
         {
             while (state.HasNext)
@@ -335,7 +331,6 @@ public class CharType : AbstractPredicateFactory
             }
             return false;
         }
-
 
         public bool CouldReevaluationSucceed => state.HasNext;
     }

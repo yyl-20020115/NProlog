@@ -96,7 +96,7 @@ public class ListFactoryTest : TestUtils
     {
         Term t = ListFactory.CreateListOfLength(1);
         Assert.AreSame(typeof(List), t.GetType());
-        Assert.IsTrue(t.GetArgument(0).Type.isVariable);
+        Assert.IsTrue(t.GetArgument(0).Type.IsVariable);
         Assert.AreSame(EmptyList.EMPTY_LIST, t.GetArgument(1));
         Assert.AreEqual(".(E0, [])", t.ToString());
     }
@@ -106,7 +106,7 @@ public class ListFactoryTest : TestUtils
     {
         Term t = ListFactory.CreateListOfLength(3);
         Assert.AreSame(typeof(List), t.GetType());
-        Assert.IsTrue(t.GetArgument(0).Type.isVariable);
+        Assert.IsTrue(t.GetArgument(0).Type.IsVariable);
         Assert.AreSame(typeof(List), t.GetArgument(1).GetType());
         Assert.AreEqual(".(E0, .(E1, .(E2, [])))", t.ToString());
     }

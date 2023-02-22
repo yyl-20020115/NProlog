@@ -117,7 +117,7 @@ public static class ListUtils
             list = list.GetArgument(1);
         }
         return list.Type != TermType.EMPTY_LIST
-            && (list.Type.isVariable
+            && (list.Type.IsVariable
                 ? list.Unify(ListFactory.CreateList(element, new Variable()))
                 : throw new PrologException("Expected empty list or variable but got: " + list.Type + " with value: " + list));
     }

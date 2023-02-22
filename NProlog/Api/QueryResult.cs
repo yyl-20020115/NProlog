@@ -71,9 +71,7 @@ public class QueryResult
     public bool Next()
     {
         if (hasFailed)
-        {
             throw new PrologException("Query has already been exhausted. Last call to QueryResult.next() returned false.");
-        }
 
         bool result;
 
@@ -84,7 +82,7 @@ public class QueryResult
         }
         else
         {
-            result = predicate.CouldReevaluationSucceed ? Evaluate() : false;
+            result = predicate.CouldReevaluationSucceed && Evaluate();
         }
 
         hasFailed = !result;

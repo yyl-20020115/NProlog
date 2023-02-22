@@ -38,17 +38,16 @@ public class KnowledgeBaseServiceLocator
      * </p>
      */
     public static KnowledgeBaseServiceLocator GetServiceLocator(KnowledgeBase kb)
-        => (!CACHE.TryGetValue(kb, out var serviceLocator)) ? CreateServiceLocator(kb) : serviceLocator;
+        => (!CACHE.TryGetValue(kb, out var serviceLocator)) 
+        ? CreateServiceLocator(kb) 
+        : serviceLocator;
 
     private static KnowledgeBaseServiceLocator CreateServiceLocator(KnowledgeBase kb)
     {
         lock (CACHE)
         {
             if (!CACHE.TryGetValue(kb, out var l))
-            {
-                l = new KnowledgeBaseServiceLocator(kb);
-                CACHE.Add(kb, l);
-            }
+                CACHE.Add(kb, l = new(kb));
             return l;
         }
     }
@@ -57,10 +56,8 @@ public class KnowledgeBaseServiceLocator
     private readonly Dictionary<Type, object> services = new();
 
     /** @see #getServiceLocator */
-    private KnowledgeBaseServiceLocator(KnowledgeBase kb)
-    {
-        this.kb = Objects.RequireNonNull(kb);
-    }
+    private KnowledgeBaseServiceLocator(KnowledgeBase kb) 
+        => this.kb = Objects.RequireNonNull(kb);
 
     /**
      * Adds the specified {@code instance} with the specified {@code referenceType} as its key.
@@ -158,10 +155,7 @@ public class KnowledgeBaseServiceLocator
         try
         {
             var constructor = GetKnowledgeBaseArgumentConstructor(c);
-            if (constructor != null)
-                return constructor.Invoke(new object[] { kb });
-            else
-                return Assembly.GetAssembly(c).CreateInstance(c.FullName);
+            return constructor != null ? constructor.Invoke(new object[] { kb }) : Assembly.GetAssembly(c).CreateInstance(c.FullName);
         }
         catch (Exception e)
         {

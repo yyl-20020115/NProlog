@@ -50,10 +50,7 @@ public class KnowledgeBase
     private readonly SpyPoints spyPoints;
     private readonly FileHandles fileHandles;
     public KnowledgeBase()
-        :this(new PrologDefaultProperties())
-    {
-
-    }
+        : this(new PrologDefaultProperties()) { }
     /**
      * @see KnowledgeBaseUtils#createKnowledgeBase()
      * @see KnowledgeBaseUtils#createKnowledgeBase(ProjogProperties)
@@ -61,13 +58,13 @@ public class KnowledgeBase
     public KnowledgeBase(PrologProperties prologProperties)
     {
         this.prologProperties = prologProperties;
-        this.predicates = new Predicates(this);
+        this.predicates = new (this);
         this.predicates.AddPredicateFactory(ADD_PREDICATE_KEY, new AddPredicateFactory(this));
-        this.arithmeticOperators = new ArithmeticOperators(this);
+        this.arithmeticOperators = new(this);
         this.prologListeners = new PrologListeners();
         this.operands = new Operands();
-        this.termFormatter = new TermFormatter(operands);
-        this.spyPoints = new SpyPoints(this);
+        this.termFormatter = new(operands);
+        this.spyPoints = new(this);
         this.fileHandles = new FileHandles();
     }
 

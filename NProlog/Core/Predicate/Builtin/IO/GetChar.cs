@@ -97,7 +97,9 @@ public class GetChar : AbstractSingleResultPredicate
         }
     }
 
-    private static Atom ToAtom(int c) => new (ToString(c));
+    private static Atom ToAtom(int c) 
+        => new (ToString(c));
 
-    private static string ToString(int c) => c == -1 ? "end_of_file" : ((char)c).ToString();
+    private static string ToString(int c) 
+        => c == -1 ? "end_of_file" : ((char)c).ToString();
 }

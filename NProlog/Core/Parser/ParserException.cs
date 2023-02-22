@@ -26,9 +26,7 @@ public class ParserException : PrologException
     private readonly int lineNumber;
     private readonly int columnNumber;
 
-    public ParserException(string message, CharacterParser parser) : this(message, parser, null) { }
-
-    public ParserException(string message, CharacterParser parser, Exception t)
+    public ParserException(string message, CharacterParser parser, Exception t = null)
         : base(message + " Line: " + parser.Line, t)
     {
         this.message = message;
@@ -64,9 +62,7 @@ public class ParserException : PrologException
         writer.WriteLine(message);
         writer.WriteLine(Line);
         for (var c = 0; c < ColumnNumber - 1; c++)
-        {
             writer.Write(' ');
-        }
-        writer.WriteLine("^");
+        writer.WriteLine('^');
     }
 }

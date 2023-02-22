@@ -19,8 +19,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Compound;
 
-
-
 /* TEST
 %FAIL \+ true
 %TRUE \+ fail
@@ -61,8 +59,8 @@ test2(X) :- \+ \+ X=1, X=2.
  */
 public class Not : AbstractSingleResultPredicate, PreprocessablePredicateFactory
 {
-
-    protected override bool Evaluate(Term t) => EvaluateNot(t, Predicates.GetPredicateFactory(t));
+    protected override bool Evaluate(Term t) 
+        => EvaluateNot(t, Predicates.GetPredicateFactory(t));
 
     private static bool EvaluateNot(Term t, PredicateFactory pf)
     {
@@ -72,10 +70,7 @@ public class Not : AbstractSingleResultPredicate, PreprocessablePredicateFactory
             t.Backtrack();
             return true;
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
 
@@ -87,14 +82,10 @@ public class Not : AbstractSingleResultPredicate, PreprocessablePredicateFactory
 
     public class OptimisedNot : AbstractSingleResultPredicate
     {
-        private readonly PredicateFactory pf;
+        private readonly PredicateFactory factory;
 
-        public OptimisedNot(PredicateFactory pf)
-        {
-            this.pf = Objects.RequireNonNull(pf);
-        }
+        public OptimisedNot(PredicateFactory factory) => this.factory = Objects.RequireNonNull(factory);
 
-
-        protected override bool Evaluate(Term arg) => EvaluateNot(arg, pf);
+        protected override bool Evaluate(Term arg) => EvaluateNot(arg, factory);
     }
 }

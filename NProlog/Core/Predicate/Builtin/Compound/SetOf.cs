@@ -18,9 +18,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Compound;
 
-
-
-
 /* TEST
 z(r).
 z(t).
@@ -95,7 +92,6 @@ p(d,2).
  */
 public class SetOf : AbstractPredicateFactory, PreprocessablePredicateFactory
 {
-
     protected override Predicate GetPredicate(Term template, Term goal, Term bag) 
         => new SetOfPredicate(Predicates.GetPredicateFactory(goal), template, goal, bag);
 
@@ -129,7 +125,6 @@ public class SetOf : AbstractPredicateFactory, PreprocessablePredicateFactory
         }
     }
 
-
     public virtual PredicateFactory Preprocess(Term term)
     {
         var goal = term.GetArgument(1);
@@ -140,16 +135,13 @@ public class SetOf : AbstractPredicateFactory, PreprocessablePredicateFactory
 
     public class PreprocessedSetOf : PredicateFactory
     {
-        private readonly PredicateFactory pf;
+        private readonly PredicateFactory factory;
 
-        public PreprocessedSetOf(PredicateFactory pf)
-        {
-            this.pf = pf;
-        }
+        public PreprocessedSetOf(PredicateFactory factory) 
+            => this.factory = factory;
 
-
-        public virtual Predicate GetPredicate(Term[] args) => new SetOfPredicate(pf, args[0], args[1], args[2]);
-
+        public virtual Predicate GetPredicate(Term[] args)
+            => new SetOfPredicate(factory, args[0], args[1], args[2]);
 
         public virtual bool IsRetryable => true;
     }

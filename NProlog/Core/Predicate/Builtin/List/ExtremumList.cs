@@ -84,10 +84,7 @@ public class ExtremumList : AbstractSingleResultPredicate
 
     public static ExtremumList MaxList() => new (false);
 
-    private ExtremumList(bool findMinimum)
-    {
-        this.findMinimum = findMinimum;
-    }
+    private ExtremumList(bool findMinimum) => this.findMinimum = findMinimum;
 
 
     protected override bool Evaluate(Term input, Term output)

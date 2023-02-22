@@ -197,7 +197,7 @@ public class Structure : Term
         }
         else
         {
-            return tType.isVariable && t.Unify(this);
+            return tType.IsVariable && t.Unify(this);
         }
     }
 

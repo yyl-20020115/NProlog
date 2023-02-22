@@ -33,7 +33,6 @@ namespace Org.NProlog.Core.Predicate.Builtin.Classify;
  */
 public class IsAtom : AbstractSingleResultPredicate
 {
-
     protected override bool Evaluate(Term arg)
         => arg.Type == TermType.ATOM;
 }

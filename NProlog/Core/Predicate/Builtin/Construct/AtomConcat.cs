@@ -115,11 +115,11 @@ namespace Org.NProlog.Core.Predicate.Builtin.Construct;
 public class AtomConcat : AbstractPredicateFactory
 {
 
-    protected override Predicate GetPredicate(Term prefix, Term suffix, Term combined) => prefix.Type.isVariable && suffix.Type.isVariable
+    protected override Predicate GetPredicate(Term prefix, Term suffix, Term combined) => prefix.Type.IsVariable && suffix.Type.IsVariable
             ? new Retryable(prefix, suffix, TermUtils.GetAtomName(combined))
             : PredicateUtils.ToPredicate(Evaluate(prefix, suffix, combined));
 
-    private bool Evaluate(Term arg1, Term arg2, Term arg3)
+    private static bool Evaluate(Term arg1, Term arg2, Term arg3)
     { // TODO rename arguments
         AssertAtomOrVariable(arg1);
         AssertAtomOrVariable(arg2);
@@ -155,13 +155,12 @@ public class AtomConcat : AbstractPredicateFactory
     private static void AssertAtomOrVariable(Term t)
     {
         var type = t.Type;
-        if (type != TermType.ATOM && !type.isVariable)
-        {
+        if (type != TermType.ATOM && !type.IsVariable)
             throw new PrologException("Expected an atom or variable but got: " + type + " with value: " + t);
-        }
     }
 
-    private static bool IsAtom(Term t) => t.Type == TermType.ATOM;
+    private static bool IsAtom(Term t) 
+        => t.Type == TermType.ATOM;
 
     public class Retryable : Predicate
     {
@@ -185,8 +184,8 @@ public class AtomConcat : AbstractPredicateFactory
                 arg1.Backtrack();
                 arg2.Backtrack();
 
-                Atom prefix = new Atom(combined.Substring(0, ctr));
-                Atom suffix = new Atom(combined.Substring(ctr));
+                var prefix = new Atom(combined.Substring(0, ctr));
+                var suffix = new Atom(combined.Substring(ctr));
                 ctr++;
 
                 return arg1.Unify(prefix) && arg2.Unify(suffix);
@@ -195,6 +194,7 @@ public class AtomConcat : AbstractPredicateFactory
         }
 
 
-        public virtual bool CouldReevaluationSucceed => ctr <= combined.Length;
+        public virtual bool CouldReevaluationSucceed 
+            => ctr <= combined.Length;
     }
 }

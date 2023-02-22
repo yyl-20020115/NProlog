@@ -78,7 +78,7 @@ public class Select : AbstractPredicateFactory
         {
             return new SelectPredicate(inputList.GetArgument(1), inputList.GetArgument(0), element, outputList);
         }
-        else if (inputList.Type.isVariable)
+        else if (inputList.Type.IsVariable)
         {
             var head = new Variable("Head");
             var tail = new Variable("Tail");
@@ -135,7 +135,7 @@ public class Select : AbstractPredicateFactory
                     head2 = firstArg.GetArgument(0);
                     tail = firstArg.GetArgument(1);
                 }
-                else if (firstArg.Type.isVariable)
+                else if (firstArg.Type.IsVariable)
                 {
                     head2 = new Variable("Head2");
                     tail = new Variable("Tail");
@@ -155,7 +155,7 @@ public class Select : AbstractPredicateFactory
                     }
                     rest = fourthArg.GetArgument(1);
                 }
-                else if (fourthArg.Type.isVariable)
+                else if (fourthArg.Type.IsVariable)
                 {
                     rest = new Variable("Rest");
                     fourthArg.Unify(new Terms.List(secondArg, rest));

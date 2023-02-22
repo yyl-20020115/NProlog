@@ -63,7 +63,6 @@ public class RepeatInfinitely : AbstractPredicateFactory
 {
     private static readonly RepeatInfinitelyPredicate SINGLETON = new ();
 
-
     protected override Predicate GetPredicate() => SINGLETON;
 
     public class RepeatInfinitelyPredicate : Predicate

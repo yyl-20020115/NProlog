@@ -17,7 +17,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Compare;
 
-
 /* TEST
 %TRUE 2>=1
 %TRUE 2>=2
@@ -62,5 +61,6 @@ namespace Org.NProlog.Core.Predicate.Builtin.Compare;
 public class NumericGreaterThanOrEqual : AbstractNumericComparisonPredicate
 {
 
-    protected override bool Evaluate(Term arg1, Term arg2) => Compare(arg1, arg2) > -1;
+    protected override bool Evaluate(Term arg1, Term arg2)
+        => Compare(arg1, arg2) > -1;
 }

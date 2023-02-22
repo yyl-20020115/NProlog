@@ -26,7 +26,6 @@ namespace Org.NProlog.Core.Math.Builtin;
  */
 public class Divide : AbstractArithmeticOperator
 {
-
     public override Numeric Calculate(Numeric n1, Numeric n2)
     {
         if (ContainsFraction(n1, n2))

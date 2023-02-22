@@ -30,7 +30,7 @@ public class NoSolutionQueryTest : AbstractQueryTest
 
 
     public override void TestFindFirstAsOptionalTerm()
-        => FindFirstAsOptionalTerm().AreEqual(Optional<Term>.Empty());
+        => FindFirstAsOptionalTerm().AreEqual(Optional<Term>.Empty);
 
 
     public override void TestFindAllAsTerm()
@@ -42,7 +42,7 @@ public class NoSolutionQueryTest : AbstractQueryTest
 
 
     public override void TestFindFirstAsOptionalAtomName()
-        => FindFirstAsOptionalAtomName().AreEqual(Optional<string>.Empty());
+        => FindFirstAsOptionalAtomName().AreEqual(Optional<string>.Empty);
 
 
     public override void TestFindAllAsAtomName()
@@ -54,7 +54,7 @@ public class NoSolutionQueryTest : AbstractQueryTest
 
 
     public override void TestFindFirstAsOptionalDouble()
-    => FindFirstAsOptionalDouble().AreEqual(Optional<double>.Empty());
+    => FindFirstAsOptionalDouble().AreEqual(Optional<double>.Empty);
 
 
     public override void TestFindAllAsDouble()
@@ -66,7 +66,7 @@ public class NoSolutionQueryTest : AbstractQueryTest
 
 
     public override void TestFindFirstAsOptionalLong()
-    => FindFirstAsOptionalLong().AreEqual(Optional<long>.Empty());
+    => FindFirstAsOptionalLong().AreEqual(Optional<long>.Empty);
 
 
     public override void TestFindAllAsLong()

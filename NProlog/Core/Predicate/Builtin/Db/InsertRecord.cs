@@ -18,8 +18,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Db;
 
-
-
 /* TEST
 % Example of recorda/3.
 
@@ -78,20 +76,17 @@ public class InsertRecord : AbstractSingleResultPredicate
 
     private InsertRecord(bool insertLast) => this.insertLast = insertLast;
 
-
-    protected override void Init()
-    {
-        this.database = KnowledgeBaseServiceLocator.GetServiceLocator(KnowledgeBase)
+    protected override void Init() 
+        => this.database = KnowledgeBaseServiceLocator.GetServiceLocator(KnowledgeBase)
               .GetInstance<RecordedDatabase>(typeof(RecordedDatabase));
-    }
 
 
-    protected override bool Evaluate(Term key, Term value) => Evaluate(key, value, new Variable());
-
+    protected override bool Evaluate(Term key, Term value) 
+        => Evaluate(key, value, new Variable());
 
     protected override bool Evaluate(Term key, Term value, Term reference)
     {
-        if (!reference.Type.isVariable) return false;
+        if (!reference.Type.IsVariable) return false;
         var k = PredicateKey.CreateForTerm(key);
         var result = database?.Add(k, value, insertLast);
         return reference.Unify(result);

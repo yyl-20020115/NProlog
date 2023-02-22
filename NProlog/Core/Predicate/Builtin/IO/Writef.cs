@@ -18,9 +18,6 @@ using System.Text;
 
 namespace Org.NProlog.Core.Predicate.Builtin.IO;
 
-
-
-
 /* TEST
 %?- writef('%s%n %t%r', [[h,e,l,l,o], 44, world, !, 3])
 %OUTPUT hello, world!!!
@@ -172,18 +169,15 @@ namespace Org.NProlog.Core.Predicate.Builtin.IO;
  */
 public class Writef : AbstractSingleResultPredicate
 {
-
-    protected override bool Evaluate(Term atom) => Evaluate(atom, EmptyList.EMPTY_LIST);
-
+    protected override bool Evaluate(Term atom) 
+        => Evaluate(atom, EmptyList.EMPTY_LIST);
 
     protected override bool Evaluate(Term atom, Term list)
     {
         var text = TermUtils.GetAtomName(atom);
         var args = ListUtils.ToList(list);
         if (args == null) return false;
-
         Write(Format(text, args));
-
         return true;
     }
 
@@ -219,7 +213,7 @@ public class Writef : AbstractSingleResultPredicate
         }
 
         var arg = f.NextArg();
-        var output = string.Empty;
+        string? output;
         switch (next)
         {
             case 't':
@@ -330,19 +324,13 @@ public class Writef : AbstractSingleResultPredicate
         return int.TryParse(builder.ToString(),System.Globalization.NumberStyles.HexNumber,null,out var v)?v:0;
     }
 
-    private static bool IsNumber(int c)
-    {
-        return c >= '0' && c <= '9';
-    }
+    private static bool IsNumber(int c) => c >= '0' && c <= '9';
 
-    private void Write(StringBuilder sb)
-    {
-        FileHandles.CurrentWriter.Write(sb);
-    }
+    private void Write(StringBuilder sb) => FileHandles.CurrentWriter.Write(sb);
 
     public class Formatter
     {
-        public readonly StringBuilder output = new StringBuilder();
+        public readonly StringBuilder output = new ();
         readonly char[] chars;
         readonly List<Term> args;
         readonly TermFormatter termFormatter;
@@ -375,14 +363,8 @@ public class Writef : AbstractSingleResultPredicate
 
         public bool HasMore() => charIdx < chars.Length;
 
-        public void WriteChar(int c)
-        {
-            output.Append((char)c);
-        }
+        public void WriteChar(int c) => output.Append((char)c);
 
-        public void WriteString(string s)
-        {
-            output.Append(s);
-        }
+        public void WriteString(string s) => output.Append(s);
     }
 }

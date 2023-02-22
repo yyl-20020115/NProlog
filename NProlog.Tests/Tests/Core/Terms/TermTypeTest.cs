@@ -21,55 +21,55 @@ public class TermTypeTest
     [TestMethod]
     public void TestIsNumeric()
     {
-        Assert.IsTrue(TermType.FRACTION.isNumeric);
-        Assert.IsTrue(TermType.INTEGER.isNumeric);
+        Assert.IsTrue(TermType.FRACTION.IsNumeric);
+        Assert.IsTrue(TermType.INTEGER.IsNumeric);
 
-        Assert.IsFalse(TermType.ATOM.isNumeric);
-        Assert.IsFalse(TermType.EMPTY_LIST.isNumeric);
-        Assert.IsFalse(TermType.LIST.isNumeric);
-        Assert.IsFalse(TermType.STRUCTURE.isNumeric);
-        Assert.IsFalse(TermType.VARIABLE.isNumeric);
-        Assert.IsFalse(TermType.CLP_VARIABLE.isNumeric);
+        Assert.IsFalse(TermType.ATOM.IsNumeric);
+        Assert.IsFalse(TermType.EMPTY_LIST.IsNumeric);
+        Assert.IsFalse(TermType.LIST.IsNumeric);
+        Assert.IsFalse(TermType.STRUCTURE.IsNumeric);
+        Assert.IsFalse(TermType.VARIABLE.IsNumeric);
+        Assert.IsFalse(TermType.CLP_VARIABLE.IsNumeric);
     }
 
     [TestMethod]
     public void TestIsStructure()
     {
-        Assert.IsTrue(TermType.LIST.isStructure);
-        Assert.IsTrue(TermType.STRUCTURE.isStructure);
+        Assert.IsTrue(TermType.LIST.IsStructure);
+        Assert.IsTrue(TermType.STRUCTURE.IsStructure);
 
-        Assert.IsFalse(TermType.EMPTY_LIST.isStructure);
-        Assert.IsFalse(TermType.FRACTION.isStructure);
-        Assert.IsFalse(TermType.INTEGER.isStructure);
-        Assert.IsFalse(TermType.ATOM.isStructure);
-        Assert.IsFalse(TermType.VARIABLE.isStructure);
-        Assert.IsFalse(TermType.CLP_VARIABLE.isStructure);
+        Assert.IsFalse(TermType.EMPTY_LIST.IsStructure);
+        Assert.IsFalse(TermType.FRACTION.IsStructure);
+        Assert.IsFalse(TermType.INTEGER.IsStructure);
+        Assert.IsFalse(TermType.ATOM.IsStructure);
+        Assert.IsFalse(TermType.VARIABLE.IsStructure);
+        Assert.IsFalse(TermType.CLP_VARIABLE.IsStructure);
     }
 
     [TestMethod]
     public void TestIsVariable()
     {
-        Assert.IsTrue(TermType.VARIABLE.isVariable);
+        Assert.IsTrue(TermType.VARIABLE.IsVariable);
 
-        Assert.IsFalse(TermType.CLP_VARIABLE.isVariable);
-        Assert.IsFalse(TermType.INTEGER.isVariable);
-        Assert.IsFalse(TermType.ATOM.isVariable);
-        Assert.IsFalse(TermType.EMPTY_LIST.isVariable);
-        Assert.IsFalse(TermType.LIST.isVariable);
-        Assert.IsFalse(TermType.STRUCTURE.isVariable);
+        Assert.IsFalse(TermType.CLP_VARIABLE.IsVariable);
+        Assert.IsFalse(TermType.INTEGER.IsVariable);
+        Assert.IsFalse(TermType.ATOM.IsVariable);
+        Assert.IsFalse(TermType.EMPTY_LIST.IsVariable);
+        Assert.IsFalse(TermType.LIST.IsVariable);
+        Assert.IsFalse(TermType.STRUCTURE.IsVariable);
     }
 
     [TestMethod]
     public void TestGetPrecedence()
     {
-        Assert.AreEqual(1, TermType.VARIABLE.precedence);
-        Assert.AreEqual(2, TermType.CLP_VARIABLE.precedence);
-        Assert.AreEqual(3, TermType.FRACTION.precedence);
-        Assert.AreEqual(4, TermType.INTEGER.precedence);
-        Assert.AreEqual(5, TermType.EMPTY_LIST.precedence);
-        Assert.AreEqual(6, TermType.ATOM.precedence);
+        Assert.AreEqual(1, TermType.VARIABLE.Precedence);
+        Assert.AreEqual(2, TermType.CLP_VARIABLE.Precedence);
+        Assert.AreEqual(3, TermType.FRACTION.Precedence);
+        Assert.AreEqual(4, TermType.INTEGER.Precedence);
+        Assert.AreEqual(5, TermType.EMPTY_LIST.Precedence);
+        Assert.AreEqual(6, TermType.ATOM.Precedence);
         // all compound structures share the same precedence
-        Assert.AreEqual(7, TermType.STRUCTURE.precedence);
-        Assert.AreEqual(8, TermType.LIST.precedence);
+        Assert.AreEqual(7, TermType.STRUCTURE.Precedence);
+        Assert.AreEqual(8, TermType.LIST.Precedence);
     }
 }

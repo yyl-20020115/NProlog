@@ -17,7 +17,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Compare;
 
-
 /* TEST
 %TRUE 1=:=1
 %TRUE 1.5=:=3.0/2.0

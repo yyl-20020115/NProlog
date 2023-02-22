@@ -23,7 +23,9 @@ namespace Org.NProlog.Core.Math.Builtin;
  */
 public class Minus : AbstractUnaryArithmeticOperator
 {
-    protected override double CalculateDouble(double n) => -n;
+    protected override double CalculateDouble(double n)
+        => -n;
 
-    protected override long CalculateLong(long n) => -n;
+    protected override long CalculateLong(long n)
+        => -n;
 }

@@ -42,5 +42,6 @@ namespace Org.NProlog.Core.Math.Builtin;
 public class ShiftLeft : AbstractBinaryIntegerArithmeticOperator
 {
     // DONE for both this class and ShiftRight, review what happens when the second argument is negative
-    protected override long CalculateLong(long n1, long n2) => n2 >= 0 ? (n1 << (int)n2) : (n1 >> -(int)n2);
+    protected override long CalculateLong(long n1, long n2) 
+        => n2 >= 0 ? (n1 << (int)n2) : (n1 >> -(int)n2);
 }

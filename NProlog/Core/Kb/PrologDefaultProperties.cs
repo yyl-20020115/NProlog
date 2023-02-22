@@ -27,7 +27,6 @@ namespace Org.NProlog.Core.Kb;
  */
 public class PrologDefaultProperties : PrologProperties
 {
-
     /**
      * The file to consult when a new {@link Projog} instance is created.
      * <p>
@@ -40,5 +39,7 @@ public class PrologDefaultProperties : PrologProperties
     /** Returns {@link #DEFAULT_BOOTSTRAP_SCRIPT} */
     public string DEFAULT_BOOTSTRAP_SCRIPT_FOLDER = "Resources";
 
-    public string BootstrapScript => Path.Combine(DEFAULT_BOOTSTRAP_SCRIPT_FOLDER, DEFAULT_BOOTSTRAP_SCRIPT);
+    public string BootstrapScript => Path.Combine(
+        DEFAULT_BOOTSTRAP_SCRIPT_FOLDER, 
+        DEFAULT_BOOTSTRAP_SCRIPT);
 }

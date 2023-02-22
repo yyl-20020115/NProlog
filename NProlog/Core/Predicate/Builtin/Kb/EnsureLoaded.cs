@@ -32,9 +32,7 @@ namespace Org.NProlog.Core.Predicate.Builtin.Kb;
 public class EnsureLoaded : AbstractSingleResultPredicate
 {
     private readonly object syncRoot = new ();
-
     private readonly HashSet<string> loadedResources = new();
-
 
     protected override bool Evaluate(Term arg)
     {

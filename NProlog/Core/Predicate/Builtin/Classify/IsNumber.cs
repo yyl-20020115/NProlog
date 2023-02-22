@@ -17,7 +17,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Classify;
 
-
 /* TEST
 %TRUE number(1)
 %TRUE number(-1)
@@ -44,7 +43,6 @@ namespace Org.NProlog.Core.Predicate.Builtin.Classify;
  */
 public class IsNumber : AbstractSingleResultPredicate
 {
-
     protected override bool Evaluate(Term arg) 
-        => arg.Type.isNumeric;
+        => arg.Type.IsNumeric;
 }

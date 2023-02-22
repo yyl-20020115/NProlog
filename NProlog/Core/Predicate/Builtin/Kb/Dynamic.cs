@@ -85,9 +85,7 @@ public class Dynamic : AbstractSingleResultPredicate
         var key = PredicateKey.CreateFromNameAndArity(arg);
         var pf = Predicates.CreateOrReturnUserDefinedPredicate(key);
         if (!pf.IsDynamic)
-        {
             throw new PrologException("Predicate has already been defined and is not dynamic: " + key);
-        }
         return true;
     }
 }

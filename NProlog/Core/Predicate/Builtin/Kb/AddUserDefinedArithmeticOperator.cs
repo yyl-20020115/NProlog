@@ -20,8 +20,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Kb;
 
-
-
 /* TEST
 squared(X,Y) :- Y is X * X.
 
@@ -80,9 +78,7 @@ public class AddUserDefinedArithmeticOperator : AbstractSingleResultPredicate
         {
             var argsPlusResult = new Term[numArgs + 1];
             for (int i = 0; i < numArgs; i++)
-            {
                 argsPlusResult[i] = args[i].Term;
-            }
             argsPlusResult[numArgs] = result;
             return argsPlusResult;
         }

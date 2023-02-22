@@ -17,7 +17,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Compare;
 
-
 /* TEST
 %FAIL b@<a
 %FAIL b@<b
@@ -33,7 +32,6 @@ namespace Org.NProlog.Core.Predicate.Builtin.Compare;
  */
 public class TermLessThan : AbstractSingleResultPredicate
 {
-
     protected override bool Evaluate(Term arg1, Term arg2)
         => TermComparator.TERM_COMPARATOR.Compare(arg1, arg2) < 0;
 }

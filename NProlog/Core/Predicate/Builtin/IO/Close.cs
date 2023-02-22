@@ -29,14 +29,18 @@ namespace Org.NProlog.Core.Predicate.Builtin.IO;
  * used.
  * </p>
  */
-public class Close : AbstractSingleResultPredicate {
-   
-   protected override bool Evaluate(Term argument) {
-      try {
-         FileHandles.Close(argument);
-         return true;
-      } catch (Exception e) {
-         throw new PrologException("Unable to close stream for: " + argument, e);
-      }
-   }
+public class Close : AbstractSingleResultPredicate
+{
+    protected override bool Evaluate(Term argument)
+    {
+        try
+        {
+            FileHandles.Close(argument);
+            return true;
+        }
+        catch (Exception e)
+        {
+            throw new PrologException("Unable to close stream for: " + argument, e);
+        }
+    }
 }

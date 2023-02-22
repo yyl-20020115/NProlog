@@ -18,8 +18,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.IO;
 
-
-
 /* TEST
 %LINK prolog-io
 */
@@ -37,7 +35,7 @@ public class Read : AbstractSingleResultPredicate
 
     protected override bool Evaluate(Term argument)
     {
-        var reader = (FileHandles.CurrentReader);
+        var reader = FileHandles.CurrentReader;
         var parser = SentenceParser.GetInstance(reader, Operands);
         var term = parser.ParseTerm();
         return argument.Unify(term);

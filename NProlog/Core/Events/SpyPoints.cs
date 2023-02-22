@@ -41,6 +41,8 @@ public class SpyPoints
     private readonly PrologListeners prologListeners;
     private readonly TermFormatter termFormatter;
 
+    public bool TraceEnabled = false;
+
     public SpyPoints(KnowledgeBase kb)
     {
         this.kb = kb;
@@ -55,7 +57,6 @@ public class SpyPoints
         this.termFormatter = termFormatter;
     }
 
-    public bool TraceEnabled { get; set; }
 
     public void SetSpyPoint(PredicateKey key, bool set)
     {
@@ -100,7 +101,7 @@ public class SpyPoints
 
         public PredicateKey PredicateKey => key;
 
-        public bool Set { get; set; }
+        public bool Set = false;
 
         public bool IsEnabled => this.Set || this.spypoints.TraceEnabled;
 

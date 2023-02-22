@@ -17,8 +17,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Compare;
 
-
-
 /* TEST
 %FAIL unify_with_occurs_check(A, f(A))
 
@@ -119,7 +117,6 @@ namespace Org.NProlog.Core.Predicate.Builtin.Compare;
  */
 public class UnifyWithOccursCheck : AbstractSingleResultPredicate
 {
-
     protected override bool Evaluate(Term arg1, Term arg2)
         => arg1.Unify(arg2) && !IsCyclic(arg1) && !IsCyclic(arg2);
 
@@ -131,7 +128,7 @@ public class UnifyWithOccursCheck : AbstractSingleResultPredicate
         if (!s.Add(t))
             return true;
 
-        if (t.Type.isStructure)
+        if (t.Type.IsStructure)
             for (int i = 0; i < t.NumberOfArguments; i++)
                 if (IsCyclic(t.GetArgument(i), s))
                     return true;

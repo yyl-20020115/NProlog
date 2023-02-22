@@ -74,7 +74,7 @@ public class MemberCheck : AbstractSingleResultPredicate, PreprocessablePredicat
 
     protected override bool Evaluate(Term element, Term list)
     {
-        if (list.Type.isVariable)
+        if (list.Type.IsVariable)
         {
             return list.Unify(new Terms.List(element, new Variable()));
         }

@@ -158,7 +158,7 @@ public class List : Term
                 t1 = t1.GetArgument(1);
                 t2 = t2.GetArgument(1);
             }
-            else if (tType.isVariable)
+            else if (tType.IsVariable)
             {
                 return t1.Unify(t2);
             }

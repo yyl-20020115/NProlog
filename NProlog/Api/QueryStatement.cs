@@ -119,7 +119,7 @@ public class QueryStatement
     {
         if (!variables.TryGetValue(variableId, out var v))
             throw new PrologException("Do not know about variable named: " + variableId + " in query: " + parsedInput);
-        if (!v.Type.isVariable)
+        if (!v.Type.IsVariable)
             throw new PrologException("Cannot set: " + variableId + " to: " + term + " as has already been set to: " + v);
         var unified = v.Unify(term);
         // should never get here, just checking result of unify(Term) as a sanity check
@@ -137,7 +137,7 @@ public class QueryStatement
      * @see #setTerm(string, Term)
      */
     public void SetAtomName(string variableId, string atomName) 
-        => SetTerm(variableId, (Term)new Atom(atomName));
+        => SetTerm(variableId, new Atom(atomName));
 
     /**
      * Attempts to unify the specified {@code double} as a {@link DecimalFraction} to the variable with the specified id.
@@ -396,7 +396,9 @@ public class QueryStatement
     {
         var variableId = GetSingleVariableId();
         var result = ExecuteQuery();
-        return result.Next() ? Optional<string>.Of(result.GetAtomName(variableId)) : Optional<string>.Empty();
+        return result.Next() 
+            ? Optional<string>.Of(result.GetAtomName(variableId)) 
+            : Optional<string>.Empty;
     }
 
     /**
@@ -412,7 +414,7 @@ public class QueryStatement
     {
         var variableId = GetSingleVariableId();
         var result = ExecuteQuery();
-        return result.Next() ? Optional<double>.Of(result.GetDouble(variableId)) : Optional<double>.Empty();
+        return result.Next() ? Optional<double>.Of(result.GetDouble(variableId)) : Optional<double>.Empty;
     }
 
     /**
@@ -428,7 +430,7 @@ public class QueryStatement
     {
         var variableId = GetSingleVariableId();
         var result = ExecuteQuery();
-        return result.Next() ? Optional<long>.Of(result.GetLong(variableId)) : Optional<long>.Empty();
+        return result.Next() ? Optional<long>.Of(result.GetLong(variableId)) : Optional<long>.Empty;
     }
 
     /**
@@ -444,7 +446,7 @@ public class QueryStatement
     {
         var variableId = GetSingleVariableId();
         var result = ExecuteQuery();
-        return result.Next() ? Optional<Term>.Of(result.GetTerm(variableId)) : Optional<Term>.Empty();
+        return result.Next() ? Optional<Term>.Of(result.GetTerm(variableId)) : Optional<Term>.Empty;
     }
 
     /**
@@ -534,7 +536,7 @@ public class QueryStatement
         string id = null;
 
         foreach (var e in variables)
-            if (e.Value.Type.isVariable)
+            if (e.Value.Type.IsVariable)
                 {
                     if (id != null)
                         throw new PrologException("Expected exactly one uninstantiated variable but found " + id + " and " + e.Key);

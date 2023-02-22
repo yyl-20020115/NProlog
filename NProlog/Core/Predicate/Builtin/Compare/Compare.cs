@@ -13,12 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-using Org.NProlog.Core.Math;
 using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Compare;
-
-
 
 /* TEST
 %?- compare(X, a, z)
@@ -60,7 +57,6 @@ namespace Org.NProlog.Core.Predicate.Builtin.Compare;
  */
 public class Compare : AbstractSingleResultPredicate
 {
-
     protected override bool Evaluate(Term result, Term t1, Term t2)
     {
         var i = TermComparator.TERM_COMPARATOR.Compare(t1, t2);

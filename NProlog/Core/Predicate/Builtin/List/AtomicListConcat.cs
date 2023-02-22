@@ -18,8 +18,6 @@ using System.Text;
 
 namespace Org.NProlog.Core.Predicate.Builtin.List;
 
-
-
 /* TEST
 %TRUE atomic_list_concat([a,b,c], abc)
 %FAIL atomic_list_concat([a,b,c], xyz)
@@ -100,10 +98,10 @@ public class AtomicListConcat : AbstractSingleResultPredicate
     protected override bool Evaluate(Term atomList, Term concatenatedResultAtom)
     {
         var list = ListUtils.ToList(atomList);
-        var sb = new StringBuilder();
-        foreach (Term atom in list)
-            sb.Append(TermUtils.GetAtomName(atom));
-        return concatenatedResultAtom.Unify(new Atom(sb.ToString()));
+        var builder = new StringBuilder();
+        foreach (var atom in list)
+            builder.Append(TermUtils.GetAtomName(atom));
+        return concatenatedResultAtom.Unify(new Atom(builder.ToString()));
     }
 
 

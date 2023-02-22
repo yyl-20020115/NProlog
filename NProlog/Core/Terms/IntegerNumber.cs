@@ -79,7 +79,7 @@ public class IntegerNumber : Numeric
         var tType = t.Type;
         return tType == TermType.INTEGER
             ? value == ((Numeric)t.Term).Long
-            : (tType.isVariable || tType == TermType.CLP_VARIABLE) && t.Unify(this);
+            : (tType.IsVariable || tType == TermType.CLP_VARIABLE) && t.Unify(this);
     }
 
 

@@ -19,8 +19,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.IO;
 
-
-
 /* TEST
 %LINK prolog-io
 */

@@ -27,7 +27,7 @@ namespace Org.NProlog.Core.Parser;
  */
 public class SentenceParser
 {
-    private static readonly string MINUS_SIGN = "-";
+    private const string MINUS_SIGN = "-";
     private readonly TokenParser parser;
     private readonly Operands operands;
     /**
@@ -99,7 +99,7 @@ public class SentenceParser
      *
      * @return a {@link Term} created from Prolog syntax read from this object's {@link CharacterParser} or {@code null}
      * if the end of the underlying stream being parsed has been reached
-     * @throws ParserException if an error parsing the Prolog syntax occurs
+     * @th rows ParserException if an error parsing the Prolog syntax occurs
      */
     public Term ParseSentence()
     {
@@ -108,10 +108,9 @@ public class SentenceParser
             return null;
         
         var trailingToken = PopValue();
-        if (!Delimiters.IsSentenceTerminator(trailingToken))
-            throw NewParserException("Expected . after: " + t + " but got: " + trailingToken);
-
-        return t;
+        return Delimiters.IsSentenceTerminator(trailingToken)
+            ? t
+            : throw NewParserException("Expected . after: " + t + " but got: " + trailingToken);
     }
 
     /**
@@ -242,7 +241,7 @@ public class SentenceParser
         }
     }
 
-    private Token CreateStructure(string name, Token[] tokens) 
+    private static Token CreateStructure(string name, Token[] tokens) 
         => new (name, TokenType.STRUCTURE, tokens);
 
     /**
@@ -297,7 +296,7 @@ public class SentenceParser
     /**
      * Returns a new {@code Token} representing the specified prefix operand and argument.
      */
-    private Token CreatePrefixToken(string prefixOperandName, Token argument) => CreateStructure(prefixOperandName, new Token[] { argument });
+    private static Token CreatePrefixToken(string prefixOperandName, Token argument) => CreateStructure(prefixOperandName, new Token[] { argument });
 
     /**
      * Add a token, representing a post-fix operand, in the appropriate point of a composite token.
@@ -380,11 +379,9 @@ public class SentenceParser
             case TokenType.VARIABLE:
                 return GetVariable(token.Name);
             case TokenType.STRUCTURE:
-                Term[] args = new Term[token.NumberOfArguments];
+                var args = new Term[token.NumberOfArguments];
                 for (int i = 0; i < args.Length; i++)
-                {
                     args[i] = ToTerm(token.GetArgument(i));
-                }
                 return Structure.CreateStructure(token.Name, args);
             case TokenType.EMPTY_LIST:
                 return EmptyList.EMPTY_LIST;

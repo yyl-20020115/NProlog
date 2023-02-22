@@ -46,6 +46,6 @@ namespace Org.NProlog.Core.Math.Builtin;
  */
 public class BitwiseXor : AbstractBinaryIntegerArithmeticOperator
 {
-
-    protected override long CalculateLong(long n1, long n2) => n1 ^ n2;
+    protected override long CalculateLong(long n1, long n2)
+        => n1 ^ n2;
 }

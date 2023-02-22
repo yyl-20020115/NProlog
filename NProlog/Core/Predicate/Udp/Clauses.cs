@@ -88,7 +88,7 @@ public class Clauses
     }
 
     private static bool IsAnonymousVariable(Term arg)
-        => arg.Type.isVariable && ((Variable)arg.Term).IsAnonymous;
+        => arg.Type.IsVariable && ((Variable)arg.Term).IsAnonymous;
 
     private static int Count(bool[] a)
     {

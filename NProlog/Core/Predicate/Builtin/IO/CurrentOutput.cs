@@ -17,7 +17,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.IO;
 
-
 /* TEST
 %LINK prolog-io
 */
@@ -31,5 +30,6 @@ namespace Org.NProlog.Core.Predicate.Builtin.IO;
 public class CurrentOutput : AbstractSingleResultPredicate
 {
 
-    protected override bool Evaluate(Term argument) => argument.Unify(FileHandles.CurrentOutputHandle);
+    protected override bool Evaluate(Term argument) 
+        => argument.Unify(FileHandles.CurrentOutputHandle);
 }

@@ -17,8 +17,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Flow;
 
-
-
 /* TEST
 %?- repeat(3), write('hello, world'), nl
 %OUTPUT
@@ -58,7 +56,8 @@ namespace Org.NProlog.Core.Predicate.Builtin.Flow;
 public class RepeatSetAmount : AbstractPredicateFactory
 {
 
-    protected override Predicate GetPredicate(Term arg) => new RepeatSetAmountPredicate(TermUtils.CastToNumeric(arg).Long);
+    protected override Predicate GetPredicate(Term arg) 
+        => new RepeatSetAmountPredicate(TermUtils.CastToNumeric(arg).Long);
 
     public class RepeatSetAmountPredicate : Predicate
     {
@@ -79,7 +78,7 @@ public class RepeatSetAmount : AbstractPredicateFactory
                 return false;
         }
 
-
-        public virtual bool CouldReevaluationSucceed => ctr < limit;
+        public virtual bool CouldReevaluationSucceed 
+            => ctr < limit;
     }
 }

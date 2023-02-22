@@ -127,11 +127,11 @@ public class Length : AbstractPredicateFactory
         {
             return PredicateUtils.ToPredicate(expectedLength.Unify(IntegerNumberCache.ValueOf(actualLength)));
         }
-        else if (!tail.Type.isVariable)
+        else if (!tail.Type.IsVariable)
         {
             throw new PrologException("Expected list but got: " + list.Type + " with value: " + list);
         }
-        else if (expectedLength.Type.isVariable)
+        else if (expectedLength.Type.IsVariable)
         {
             return new Retryable(actualLength, tail, expectedLength);
         }

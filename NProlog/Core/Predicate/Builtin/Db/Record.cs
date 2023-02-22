@@ -45,7 +45,7 @@ public class Record
             else
             {
                 var args = new Term[numArgs];
-                Arrays.Fill(args, new Variable());
+                ArraysHelpers.Fill(args, new Variable());
                 return Structure.CreateStructure(name, args);
             }
         }

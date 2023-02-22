@@ -19,8 +19,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Compound;
 
-
-
 /* TEST
 z(r).
 z(t).
@@ -98,8 +96,8 @@ public class FindAll : AbstractSingleResultPredicate, PreprocessablePredicateFac
         return output;
     }
 
-    private static bool HasFoundAnotherSolution(Predicate predicate) => predicate.CouldReevaluationSucceed && predicate.Evaluate();
-
+    private static bool HasFoundAnotherSolution(Predicate predicate) 
+        => predicate.CouldReevaluationSucceed && predicate.Evaluate();
 
     public virtual PredicateFactory Preprocess(Term term)
     {
@@ -113,15 +111,10 @@ public class FindAll : AbstractSingleResultPredicate, PreprocessablePredicateFac
     {
         private readonly PredicateFactory pf;
 
-        public PreprocessedFindAll(PredicateFactory pf)
-        {
-            this.pf = pf;
-        }
-
+        public PreprocessedFindAll(PredicateFactory pf) => this.pf = pf;
 
         public virtual Predicate GetPredicate(Term[] args)
             => PredicateUtils.ToPredicate(EvaluateFindAll(pf, args[0], args[1], args[2]));
-
 
         public bool IsRetryable => false;
     }

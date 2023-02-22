@@ -48,7 +48,7 @@ public class Recorded : AbstractPredicateFactory
     }
 
     private static IEnumerator<Record> GetIterator(Term key, RecordedDatabase database) 
-        => key.Type.isVariable ? database.GetAll() : database.GetChain(PredicateKey.CreateForTerm(key));
+        => key.Type.IsVariable ? database.GetAll() : database.GetChain(PredicateKey.CreateForTerm(key));
 
     public class RecordedPredicate : Predicate
     {

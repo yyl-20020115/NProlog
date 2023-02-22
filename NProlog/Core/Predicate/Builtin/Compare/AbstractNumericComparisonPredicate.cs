@@ -19,9 +19,8 @@ using Org.NProlog.Core.Terms;
 namespace Org.NProlog.Core.Predicate.Builtin.Compare;
 
 
-
 public abstract class AbstractNumericComparisonPredicate : AbstractSingleResultPredicate
 {
     protected int Compare(Term arg1, Term arg2)
-        => NumericTermComparator.NUMERIC_TERM_COMPARATOR.Compare(arg1, arg2, ArithmeticOperators);
+        => NumericTermComparator.Compare(arg1, arg2, ArithmeticOperators);
 }

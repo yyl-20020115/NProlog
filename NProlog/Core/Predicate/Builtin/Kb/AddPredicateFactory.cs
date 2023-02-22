@@ -18,8 +18,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Kb;
 
-
-
 /* TEST
 %TRUE pl_add_predicate(xyz/1, 'org.projog.core.predicate.builtin.compound.Call')
 
@@ -43,11 +41,7 @@ namespace Org.NProlog.Core.Predicate.Builtin.Kb;
  */
 public class AddPredicateFactory : AbstractSingleResultPredicate
 {
-    public AddPredicateFactory(KnowledgeBase kb)
-    {
-        KnowledgeBase = kb;
-    }
-
+    public AddPredicateFactory(KnowledgeBase kb) => KnowledgeBase = kb;
 
     protected override bool Evaluate(Term arg1, Term arg2)
     {

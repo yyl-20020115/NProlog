@@ -59,8 +59,8 @@ public class FileHandles
         var userOutputHandle = USER_OUTPUT_HANDLE;
         this.currentInputHandle = userInputHandle;
         this.currentOutputHandle = userOutputHandle;
-        inputHandles.Add(userInputHandle.Name,this.reader = Console.In);
-        outputHandles.Add(userOutputHandle.Name,this.writer = Console.Out);
+        inputHandles.Add(userInputHandle.Name, this.reader = Console.In);
+        outputHandles.Add(userOutputHandle.Name, this.writer = Console.Out);
         SetInput(userInputHandle);
         SetOutput(userOutputHandle);
     }
@@ -102,7 +102,7 @@ public class FileHandles
     {
         lock (this.syncRoot)
         {
-            inputHandles[USER_INPUT_HANDLE.Name]= reader;
+            inputHandles[USER_INPUT_HANDLE.Name] = reader;
             if (USER_INPUT_HANDLE.Equals(currentInputHandle))
                 SetInput(USER_INPUT_HANDLE);
         }
@@ -208,7 +208,7 @@ public class FileHandles
                 outputHandles.Add(handleName, (os));
             }
         }
-        return new Atom(handleName);
+        return new (handleName);
     }
 
     /**
@@ -222,13 +222,13 @@ public class FileHandles
         var handleName = TermUtils.GetAtomName(handle);
         lock (this.syncRoot)
         {
-            if (outputHandles.TryGetValue(handleName,out var writer))
+            if (outputHandles.TryGetValue(handleName, out var writer))
             {
                 outputHandles.Remove(handleName);
                 writer.Close();
                 return;
             }
-            if (inputHandles.TryGetValue(handleName,out var reader))
+            if (inputHandles.TryGetValue(handleName, out var reader))
             {
                 inputHandles.Remove(handleName);
                 reader.Close();

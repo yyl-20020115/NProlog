@@ -20,8 +20,6 @@ using Org.NProlog.Core.Terms;
 namespace Org.NProlog.Core.Predicate.Builtin.Compound;
 
 
-
-
 /* TEST
 %?- limit(3, repeat)
 %YES
@@ -146,7 +144,6 @@ public class Limit : AbstractPredicateFactory, PreprocessablePredicateFactory
         return new LimitPredicate(p, n);
     }
 
-
     public virtual PredicateFactory Preprocess(Term term)
     {
         var goal = term.GetArgument(1);
@@ -155,16 +152,11 @@ public class Limit : AbstractPredicateFactory, PreprocessablePredicateFactory
 
     public class OptimisedLimit : PredicateFactory
     {
-        private readonly PredicateFactory pf;
+        private readonly PredicateFactory factory;
 
-        public OptimisedLimit(PredicateFactory pf)
-        {
-            this.pf = Objects.RequireNonNull(pf);
-        }
+        public OptimisedLimit(PredicateFactory pf) => this.factory = Objects.RequireNonNull(pf);
 
-
-        public virtual Predicate GetPredicate(Term[] args) => GetLimitPredicate(pf, args[0], args[1]);
-
+        public virtual Predicate GetPredicate(Term[] args) => GetLimitPredicate(factory, args[0], args[1]);
 
         public bool IsRetryable => true;
     }
@@ -181,7 +173,6 @@ public class Limit : AbstractPredicateFactory, PreprocessablePredicateFactory
             this.limit = limit;
         }
 
-
         public virtual bool Evaluate()
         {
             if (CouldReevaluationSucceed)
@@ -189,13 +180,11 @@ public class Limit : AbstractPredicateFactory, PreprocessablePredicateFactory
                 ctr++;
                 return predicate.Evaluate();
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
 
-        public virtual bool CouldReevaluationSucceed => ctr < limit && (ctr == 0 || predicate.CouldReevaluationSucceed);
+        public virtual bool CouldReevaluationSucceed 
+            => ctr < limit && (ctr == 0 || predicate.CouldReevaluationSucceed);
     }
 }

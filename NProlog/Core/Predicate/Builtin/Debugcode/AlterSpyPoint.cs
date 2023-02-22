@@ -20,8 +20,6 @@ using Org.NProlog.Core.Terms;
 namespace Org.NProlog.Core.Predicate.Builtin.Debug;
 
 
-
-
 /* TEST
 %LINK prolog-debugging
 */
@@ -50,10 +48,7 @@ public class AlterSpyPoint : AbstractSingleResultPredicate
      *
      * @param valueToSetSpyPointTo {@code true} to enable spy points, {@code false} to disable spy points
      */
-    private AlterSpyPoint(bool valueToSetSpyPointTo)
-    {
-        this.valueToSetSpyPointTo = valueToSetSpyPointTo;
-    }
+    private AlterSpyPoint(bool valueToSetSpyPointTo) => this.valueToSetSpyPointTo = valueToSetSpyPointTo;
 
 
     protected override bool Evaluate(Term t) => t.Type switch
@@ -67,10 +62,8 @@ public class AlterSpyPoint : AbstractSingleResultPredicate
 
     private bool SetSpyPoints(List<PredicateKey> keys)
     {
-        foreach (PredicateKey key in keys)
-        {
+        foreach (var key in keys)
             SetSpyPoint(key);
-        }
         return true;
     }
 

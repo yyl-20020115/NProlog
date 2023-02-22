@@ -27,9 +27,4 @@ public static class Arrays
             hash = 31 * hash + (o!=null? o.GetHashCode():0);
         return hash;
     }
-
-    public static void Fill(object[] args, object v)
-    {
-        for (int i = 0; i < args.Length; i++) args[i] = v;
-    }
 }

@@ -100,7 +100,8 @@ public class BagOf : AbstractPredicateFactory, PreprocessablePredicateFactory
 
     public class BagOfPredicate : AbstractCollectionOf
     {
-        public BagOfPredicate(PredicateFactory pf, Term template, Term goal, Term bag) : base(pf, template, goal, bag) { }
+        public BagOfPredicate(PredicateFactory pf, Term template, Term goal, Term bag) 
+            : base(pf, template, goal, bag) { }
         /** "bagof" returns all elements (including duplicates) in the order they were found. */
 
         protected override void Add(List<Term> l, Term t) => l.Add(t);
@@ -117,13 +118,11 @@ public class BagOf : AbstractPredicateFactory, PreprocessablePredicateFactory
 
     public class PreprocessedBagOf : PredicateFactory
     {
-        private readonly PredicateFactory pf;
+        private readonly PredicateFactory factory;
 
-        public PreprocessedBagOf(PredicateFactory pf) => this.pf = pf;
+        public PreprocessedBagOf(PredicateFactory factory) => this.factory = factory;
 
-
-        public virtual Predicate GetPredicate(Term[] args) => new BagOfPredicate(pf, args[0], args[1], args[2]);
-
+        public virtual Predicate GetPredicate(Term[] args) => new BagOfPredicate(factory, args[0], args[1], args[2]);
 
         public virtual bool IsRetryable => true;
     }

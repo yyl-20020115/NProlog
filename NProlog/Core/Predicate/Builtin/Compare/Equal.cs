@@ -17,7 +17,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Compare;
 
-
 /* TEST
 %TRUE a=a
 %FAIL a=b
@@ -54,7 +53,6 @@ namespace Org.NProlog.Core.Predicate.Builtin.Compare;
  */
 public class Equal : AbstractSingleResultPredicate
 {
-
     protected override bool Evaluate(Term arg1, Term arg2) 
         => arg1.Unify(arg2);
 }

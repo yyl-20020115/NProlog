@@ -64,8 +64,10 @@ namespace Org.NProlog.Core.Math.Builtin;
 public class Power : AbstractBinaryArithmeticOperator
 {
 
-    protected override double CalculateDouble(double n1, double n2) => System.Math.Pow(n1, n2);
+    protected override double CalculateDouble(double n1, double n2)
+        => System.Math.Pow(n1, n2);
 
 
-    protected override long CalculateLong(long n1, long n2) => (long)System.Math.Pow(n1, n2);
+    protected override long CalculateLong(long n1, long n2)
+        => (long)System.Math.Pow(n1, n2);
 }

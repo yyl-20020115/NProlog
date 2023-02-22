@@ -133,10 +133,7 @@ public class Inspect : AbstractPredicateFactory
 
     public static Inspect Retract() => new (true);
 
-    private Inspect(bool doRemoveMatches)
-    {
-        this.doRemoveMatches = doRemoveMatches;
-    }
+    private Inspect(bool doRemoveMatches) => this.doRemoveMatches = doRemoveMatches;
 
 
     protected override Predicate GetPredicate(Term clauseHead) => GetPredicate(clauseHead, null);
@@ -188,9 +185,7 @@ public class Inspect : AbstractPredicateFactory
                 if (Unifiable(clauseHead, clauseBody, it.Current))
                 {
                     if (inspect.doRemoveMatches)
-                    {
                         Remove();
-                    }
                     return true;
                 }
             }

@@ -50,7 +50,6 @@ namespace Org.NProlog.Core.Predicate.Builtin.Compare;
  */
 public class NotStrictEquality : AbstractSingleResultPredicate
 {
-
     protected override bool Evaluate(Term arg1, Term arg2)
         => !TermUtils.TermsEqual(arg1, arg2);
 }

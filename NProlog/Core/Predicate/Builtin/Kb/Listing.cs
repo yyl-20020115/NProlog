@@ -19,9 +19,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Kb;
 
-
-
-
 /* TEST
 test(X) :- X < 3.
 test(X) :- X > 9.

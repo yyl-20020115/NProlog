@@ -26,6 +26,6 @@ namespace Org.NProlog.Core.Math.Builtin;
  */
 public class Remainder : AbstractBinaryIntegerArithmeticOperator
 {
-
-    protected override long CalculateLong(long numerator, long divider) => numerator % divider;
+    protected override long CalculateLong(long numerator, long divider) 
+        => numerator % divider;
 }

@@ -17,8 +17,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Construct;
 
-
-
 /* TEST
 %?- numbervars(a,0,Y)
 % Y=0
@@ -118,7 +116,7 @@ public class NumberVars : AbstractSingleResultPredicate
         while (stack.Count > 0)
         {
             var next = stack.Pop();
-            if (next.Type.isVariable)
+            if (next.Type.IsVariable)
             {
                 next.Unify(Structure.CreateStructure("$VAR", new Term[] { IntegerNumberCache.ValueOf(ctr++) }));
             }

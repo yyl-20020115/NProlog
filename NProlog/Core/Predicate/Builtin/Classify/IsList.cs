@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-using Org.NProlog.Core.Predicate.Builtin.Construct;
 using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Classify;
@@ -34,8 +33,8 @@ namespace Org.NProlog.Core.Predicate.Builtin.Classify;
  * <code>is_list(X)</code> succeeds if <code>X</code> currently stands for a list.
  * </p>
  */
-public class IsList : AbstractSingleResultPredicate {
-
+public class IsList : AbstractSingleResultPredicate
+{
     protected override bool Evaluate(Term arg) => arg.Type switch
     {
         var tt when tt == TermType.EMPTY_LIST => true,

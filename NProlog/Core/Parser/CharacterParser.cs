@@ -26,7 +26,7 @@ namespace Org.NProlog.Core.Parser;
  */
 public class CharacterParser
 {
-    private static readonly int END_OF_STREAM = -1;
+    private const int END_OF_STREAM = -1;
 
     private readonly TextReader reader;
     private string? currentLine = null;

@@ -153,11 +153,7 @@ public class Assert : AbstractSingleResultPredicate
 
     private readonly bool addLast;
 
-    private Assert(bool addLast)
-    {
-        this.addLast = addLast;
-    }
-
+    private Assert(bool addLast) => this.addLast = addLast;
 
     protected override bool Evaluate(Term clause)
     {

@@ -26,7 +26,6 @@ namespace Org.NProlog.Core.Math.Builtin;
  */
 public class Modulo : AbstractBinaryIntegerArithmeticOperator
 {
-
     protected override long CalculateLong(long numerator, long divider)
     {
         long modulo = numerator % divider;

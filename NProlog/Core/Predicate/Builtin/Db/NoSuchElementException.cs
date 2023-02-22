@@ -13,21 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-using System.Runtime.Serialization;
-
 namespace Org.NProlog.Core.Predicate.Builtin.Db;
 
 public class NoSuchElementException : Exception
 {
-    public NoSuchElementException()
-    {
-    }
+    public NoSuchElementException() { }
 
-    public NoSuchElementException(string? message) : base(message)
-    {
-    }
+    public NoSuchElementException(string? message) : base(message) { }
 
-    public NoSuchElementException(string? message, Exception? innerException) : base(message, innerException)
-    {
-    }
+    public NoSuchElementException(string? message, Exception? innerException) : base(message, innerException) { }
+
 }

@@ -174,7 +174,7 @@ public class Member : AbstractPredicateFactory
                         return true;
                     }
                 }
-                else if (currentList.Type.isVariable)
+                else if (currentList.Type.IsVariable)
                 {
                     isTailVariable = true;
                     element.Backtrack();
@@ -191,6 +191,6 @@ public class Member : AbstractPredicateFactory
 
 
         public virtual bool CouldReevaluationSucceed 
-            => currentList.Type == TermType.LIST || currentList.Type.isVariable;
+            => currentList.Type == TermType.LIST || currentList.Type.IsVariable;
     }
 }

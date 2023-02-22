@@ -170,7 +170,6 @@ p1(X, Y, Z) :- p2(X); p3(Y); p4(X,Y,Z).
  */
 public class Disjunction : AbstractPredicateFactory, PreprocessablePredicateFactory
 {
-
     public virtual PredicateFactory Preprocess(Term term)
     {
         var arg1 = term.GetArgument(0);
@@ -193,10 +192,7 @@ public class Disjunction : AbstractPredicateFactory, PreprocessablePredicateFact
                 return new OptimisedDisjunction(pf1, pf2,this);
             }
         }
-        else
-        {
-            return this;
-        }
+        return this;
     }
 
     public class OptimisedDisjunction : PredicateFactory
@@ -215,7 +211,6 @@ public class Disjunction : AbstractPredicateFactory, PreprocessablePredicateFact
         public virtual Predicate GetPredicate(Term[] args) 
             => new DisjunctionPredicate(pf1, pf2, args[0], args[1],this.disjunction);
 
-
         public bool IsRetryable => true;
     }
 
@@ -231,7 +226,6 @@ public class Disjunction : AbstractPredicateFactory, PreprocessablePredicateFact
             this.thenPf = thenPf;
             this.elsePf = elsePf;
         }
-
 
         public virtual Predicate GetPredicate(Term[] args)
         {
@@ -249,15 +243,16 @@ public class Disjunction : AbstractPredicateFactory, PreprocessablePredicateFact
             }
         }
 
+        public bool IsRetryable 
+            => thenPf.IsRetryable || elsePf.IsRetryable;
 
-        public bool IsRetryable => thenPf.IsRetryable || elsePf.IsRetryable;
-
-
-        public bool IsAlwaysCutOnBacktrack => thenPf.IsAlwaysCutOnBacktrack && elsePf.IsAlwaysCutOnBacktrack;
+        public bool IsAlwaysCutOnBacktrack
+            => thenPf.IsAlwaysCutOnBacktrack && elsePf.IsAlwaysCutOnBacktrack;
     }
 
 
-    protected override Predicate GetPredicate(Term firstArg, Term secondArg) => Predicates.GetPredicateFactory(firstArg) is IfThen
+    protected override Predicate GetPredicate(Term firstArg, Term secondArg) 
+        => Predicates.GetPredicateFactory(firstArg) is IfThen
           ? CreateIfThenElse(firstArg, secondArg)
           : CreateDisjunction(firstArg, secondArg);
 
@@ -292,7 +287,6 @@ public class Disjunction : AbstractPredicateFactory, PreprocessablePredicateFact
         private Predicate firstPredicate;
         private Predicate secondPredicate;
 
-
         public DisjunctionPredicate(PredicateFactory pf1, PredicateFactory pf2, Term inputArg1, Term inputArg2, Disjunction disjunction)
         {
             this.pf1 = pf1;
@@ -301,7 +295,6 @@ public class Disjunction : AbstractPredicateFactory, PreprocessablePredicateFact
             this.inputArg2 = inputArg2;
             this.disjunction = disjunction;
         }
-
 
         public virtual bool Evaluate()
         {
@@ -331,7 +324,7 @@ public class Disjunction : AbstractPredicateFactory, PreprocessablePredicateFact
         private Predicate GetPredicate(PredicateFactory pf, Term t) 
             => pf == null ? this.disjunction.Predicates.GetPredicate(t.Term) : pf.GetPredicate(t.Term.Args);
 
-
-        public virtual bool CouldReevaluationSucceed => secondPredicate == null || secondPredicate.CouldReevaluationSucceed;
+        public virtual bool CouldReevaluationSucceed 
+            => secondPredicate == null || secondPredicate.CouldReevaluationSucceed;
     }
 }

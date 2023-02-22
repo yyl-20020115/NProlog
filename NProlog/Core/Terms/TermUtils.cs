@@ -132,7 +132,7 @@ public class TermUtils
      * @throws ProjogException if the specified {@link Term} does not represent a {@link Numeric}
      */
     public static Numeric CastToNumeric(Term t) 
-        => t.Type.isNumeric ? (Numeric)t.Term : throw new PrologException("Expected Numeric but got: " + t.Type + " with value: " + t);
+        => t.Type.IsNumeric ? (Numeric)t.Term : throw new PrologException("Expected Numeric but got: " + t.Type + " with value: " + t);
 
     /**
      * Returns the integer value of the {@link Numeric} represented by the specified {@link Term}.

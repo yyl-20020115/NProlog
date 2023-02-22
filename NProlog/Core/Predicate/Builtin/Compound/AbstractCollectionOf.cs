@@ -13,12 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-using Org.NProlog.Core.Predicate.Builtin.Db;
 using Org.NProlog.Core.Terms;
-using System.Collections;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Compound;
-
 
 
 public abstract class AbstractCollectionOf : Predicate
@@ -37,7 +34,6 @@ public abstract class AbstractCollectionOf : Predicate
         this.goal = goal;
         this.bag = bag;
     }
-
 
     public virtual bool Evaluate()
     {
@@ -79,10 +75,7 @@ public abstract class AbstractCollectionOf : Predicate
             {
                 var key = new Key(variablesNotInTemplate);
                 if (!m.TryGetValue(key,out var l))
-                {
-                    l = new();
-                    m.Add(key, l);
-                }
+                    m.Add(key, l = new());
                 Add(l, template.Term);
             } while (HasFoundAnotherSolution(predicate));
         }
@@ -102,10 +95,8 @@ public abstract class AbstractCollectionOf : Predicate
         return new(variablesInGoal);
     }
 
-    private static bool HasFoundAnotherSolution(Predicate predicate)
-    {
-        return predicate.CouldReevaluationSucceed && predicate.Evaluate();
-    }
+    private static bool HasFoundAnotherSolution(Predicate predicate) 
+        => predicate.CouldReevaluationSucceed && predicate.Evaluate();
 
 
     public bool CouldReevaluationSucceed => enumerator == null;// || enumerator.Current!=null;
@@ -136,10 +127,7 @@ public abstract class AbstractCollectionOf : Predicate
         }
 
 
-        public override int GetHashCode()
-        {
-            // TODO is it possible to improve on returning the same hashCode for all instances?
-            return 0;
-        }
+        public override int GetHashCode() => 0;
+        // TODO is it possible to improve on returning the same hashCode for all instances?
     }
 }

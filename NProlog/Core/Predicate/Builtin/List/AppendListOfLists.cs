@@ -18,9 +18,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.List;
 
-
-
-
 /* TEST
 %TRUE Append([], [])
 %TRUE Append([[]], [])

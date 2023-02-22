@@ -17,8 +17,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Kb;
 
-
-
 /* TEST
 %?- X is sum(1, 1)
 %ERROR Cannot find arithmetic operator: sum/2

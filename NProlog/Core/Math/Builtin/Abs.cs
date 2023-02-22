@@ -48,9 +48,9 @@ namespace Org.NProlog.Core.Math.Builtin;
  */
 public class Abs : AbstractUnaryArithmeticOperator
 {
+    protected override double CalculateDouble(double n)
+        => System.Math.Abs(n);
 
-    protected override double CalculateDouble(double n) => System.Math.Abs(n);
-
-
-    protected override long CalculateLong(long n) => System.Math.Abs(n);
+    protected override long CalculateLong(long n)
+        => System.Math.Abs(n);
 }

@@ -14,12 +14,9 @@
  * limitations under the License.
  */
 using Org.NProlog.Core.Kb;
-using Org.NProlog.Core.Parser;
 using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Compound;
-
-
 
 /* TEST
 %TRUE call(true)

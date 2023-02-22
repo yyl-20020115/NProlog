@@ -13,12 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-using Org.NProlog.Core.Predicate.Builtin.Db;
 using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Kb;
-
-
 
 /* TEST
 %TRUE_NO current_predicate(!/0)
@@ -53,10 +50,7 @@ public class CurrentPredicate : AbstractPredicateFactory
 {
 
     protected override Predicate GetPredicate(Term arg)
-    {
-        var keys = Predicates.GetAllDefinedPredicateKeys();
-        return new Retryable(arg, keys);
-    }
+        => new Retryable(arg, Predicates.GetAllDefinedPredicateKeys());
 
     public class Retryable : Predicate
     {
@@ -80,7 +74,6 @@ public class CurrentPredicate : AbstractPredicateFactory
             }
             return false;
         }
-
 
         public virtual bool CouldReevaluationSucceed => iterator.CanMoveNext;
     }

@@ -42,7 +42,6 @@ namespace Org.NProlog.Core.Predicate.Builtin.Classify;
  */
 public class IsInteger : AbstractSingleResultPredicate
 {
-
     protected override bool Evaluate(Term arg) 
         => arg.Type == TermType.INTEGER;
 }

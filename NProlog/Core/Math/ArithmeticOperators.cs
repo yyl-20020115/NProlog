@@ -92,13 +92,13 @@ public class ArithmeticOperators
     {
         lock (this.syncRoot)
         {
-            if (operatorClassNames.ContainsKey(key))
+            if (!operatorClassNames.ContainsKey(key))
             {
-                throw new PrologException("Already defined operator: " + key);
+                operatorClassNames.Add(key, operatorClassName);
             }
             else
             {
-                operatorClassNames.Add(key, operatorClassName);
+                throw new PrologException("Already defined operator: " + key);
             }
         }
     }
@@ -125,7 +125,7 @@ public class ArithmeticOperators
     /**
      * @return null if not found
      */
-    public ArithmeticOperator GetPreprocessedArithmeticOperator(Term argument) => argument.Type.isNumeric
+    public ArithmeticOperator GetPreprocessedArithmeticOperator(Term argument) => argument.Type.IsNumeric
             ? (Numeric)argument.Term
             : argument.Type == TermType.ATOM || argument.Type == TermType.STRUCTURE
                 ? GetPreprocessedArithmeticOperator(PredicateKey.CreateForTerm(argument), argument)

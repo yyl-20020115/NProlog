@@ -105,7 +105,7 @@ public class TailRecursivePredicateMetaDataTest
         Assert.IsNotNull(metaData);
         for (int i = 0; i < args.Length; i++)
         {
-            if (metaData.isSingleResultIfArgumentImmutable[i] && args[i].Type.isVariable == false)
+            if (metaData.isSingleResultIfArgumentImmutable[i] && args[i].Type.IsVariable == false)
             {
                 return true;
             }

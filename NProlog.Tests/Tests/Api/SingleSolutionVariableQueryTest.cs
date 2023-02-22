@@ -29,7 +29,7 @@ public class SingleSolutionVariableQueryTest : AbstractQueryTest
     public override void TestFindFirstAsTerm()
     {
         Term result = FindFirstAsTerm().InvokeStatement();
-        Assert.IsTrue(result.Type.isVariable);
+        Assert.IsTrue(result.Type.IsVariable);
         Assert.AreEqual("X", ((Variable)result).Id);
     }
 
@@ -37,7 +37,7 @@ public class SingleSolutionVariableQueryTest : AbstractQueryTest
     public override void TestFindFirstAsOptionalTerm()
     {
         Optional<Term> result = FindFirstAsOptionalTerm().InvokeStatement();
-        Assert.IsTrue(result.Value.Type.isVariable);
+        Assert.IsTrue(result.Value.Type.IsVariable);
         Assert.AreEqual("X", ((Variable)result.Value).Id);
     }
 
@@ -47,7 +47,7 @@ public class SingleSolutionVariableQueryTest : AbstractQueryTest
         List<Term> results = FindAllAsTerm().InvokeStatement();
         Assert.AreEqual(1, results.Count);
         Term result = results[(0)];
-        Assert.IsTrue(result.Type.isVariable);
+        Assert.IsTrue(result.Type.IsVariable);
         Assert.AreEqual("X", ((Variable)result).Id);
     }
 

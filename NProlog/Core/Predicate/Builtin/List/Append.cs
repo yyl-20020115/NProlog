@@ -559,7 +559,6 @@ namespace Org.NProlog.Core.Predicate.Builtin.List;
  */
 public class Append : AbstractPredicateFactory
 {
-
     protected override Predicate GetPredicate(Term prefix, Term suffix, Term concatenated)
         => new AppendPredicate(prefix, suffix, concatenated);
 
@@ -576,7 +575,6 @@ public class Append : AbstractPredicateFactory
             this.suffix = suffix;
             this.concatenated = concatenated;
         }
-
 
         public bool Evaluate()
         {
@@ -612,14 +610,14 @@ public class Append : AbstractPredicateFactory
                     l3 = concatenated.GetArgument(1);
                 }
                 x ??= new Variable("X");
-                if (prefix.Type.isVariable)
+                if (prefix.Type.IsVariable)
                 {
                     l1 = new Variable("L1");
                     prefix.Unify(new Terms.List(x, l1));
                 }
                 if (l1 == null)
                     return false;
-                if (concatenated.Type.isVariable)
+                if (concatenated.Type.IsVariable)
                 {
                     l3 = new Variable("L3");
                     concatenated.Unify(new Terms.List(x, l3));

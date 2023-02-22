@@ -17,7 +17,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Compare;
 
-
 /* TEST
 %FAIL 1=\=1
 %FAIL 1.5=\=3.0/2.0
@@ -66,6 +65,6 @@ namespace Org.NProlog.Core.Predicate.Builtin.Compare;
  */
 public class NumericInequality : AbstractNumericComparisonPredicate
 {
-
-    protected override bool Evaluate(Term arg1, Term arg2) => Compare(arg1, arg2) != 0;
+    protected override bool Evaluate(Term arg1, Term arg2) 
+        => Compare(arg1, arg2) != 0;
 }

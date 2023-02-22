@@ -61,9 +61,7 @@ public class Tab : AbstractSingleResultPredicate
         var numberOfSpaces = ArithmeticOperators.GetNumeric(arg).Long;
         var writer = FileHandles.CurrentWriter;
         for (int i = 0; i < numberOfSpaces; i++)
-        {
             writer.Write(' ');
-        }
         return true;
     }
 }

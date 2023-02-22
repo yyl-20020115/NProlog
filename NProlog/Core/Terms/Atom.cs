@@ -71,7 +71,7 @@ public class Atom : Term
     public bool Unify(Term t)
     {
         var tType = t.Type;
-        return tType == TermType.ATOM ? value.Equals(t.Name) : tType.isVariable ? t.Unify(this) : false;
+        return tType == TermType.ATOM ? value.Equals(t.Name) : tType.IsVariable ? t.Unify(this) : false;
     }
 
 

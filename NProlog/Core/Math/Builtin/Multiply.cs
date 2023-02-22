@@ -26,9 +26,11 @@ public class Multiply : AbstractBinaryArithmeticOperator
 {
     /** Returns the product of the two arguments */
 
-    protected override double CalculateDouble(double n1, double n2) => n1 * n2;
+    protected override double CalculateDouble(double n1, double n2)
+        => n1 * n2;
 
     /** Returns the product of the two arguments */
 
-    protected override long CalculateLong(long n1, long n2) => n1 * n2;
+    protected override long CalculateLong(long n1, long n2)
+        => n1 * n2;
 }

@@ -18,8 +18,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Kb;
 
-
-
 /* TEST
 write_to_file(Filename, Contents) :-
    open(Filename, write, Z),
@@ -79,7 +77,5 @@ public class ConsultList : AbstractSingleResultPredicate
     }
 
     private void Consult(Term filename)
-    {
-        PrologSourceReader.ParseResource(KnowledgeBase, TermUtils.GetAtomName(filename));
-    }
+        => PrologSourceReader.ParseResource(KnowledgeBase, TermUtils.GetAtomName(filename));
 }

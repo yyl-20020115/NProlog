@@ -76,10 +76,10 @@ public class TermComparator : IComparer<Term>
         var type1 = v1.Type;
         var type2 = v2.Type;
 
-        return type1.isStructure && type2.isStructure
+        return type1.IsStructure && type2.IsStructure
             ? CompareStructures(v1, v2)
             : type1 != type2
-                ? type1.precedence > type2.precedence ? 1 : -1
+                ? type1.Precedence > type2.Precedence ? 1 : -1
                 : type1 switch
                 {
                     var tt when (tt == TermType.FRACTION || tt == TermType.INTEGER)

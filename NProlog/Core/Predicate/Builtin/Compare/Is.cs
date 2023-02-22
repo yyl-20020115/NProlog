@@ -63,37 +63,39 @@ namespace Org.NProlog.Core.Predicate.Builtin.Compare;
  */
 public class Is : AbstractSingleResultPredicate, PreprocessablePredicateFactory
 {
-
     protected override bool Evaluate(Term arg1, Term arg2)
-    {
-        var n = ArithmeticOperators.GetNumeric(arg2);
-        return arg1.Unify(n);
-    }
+        => arg1.Unify(ArithmeticOperators.GetNumeric(arg2));
 
 
     public PredicateFactory Preprocess(Term arg)
     {
         var o = ArithmeticOperators.GetPreprocessedArithmeticOperator(arg.GetArgument(1));
-        return o == null ? this : (global::Org.NProlog.Core.Predicate.PredicateFactory)(o is Numeric numeric ? new Unify(numeric) : new PreprocessedIs(o));
+        return o == null ? this : 
+            o is Numeric numeric 
+            ? new Unify(numeric) 
+            : new PreprocessedIs(o)
+            ;
     }
 
     public class Unify : AbstractSingleResultPredicate
     {
         readonly Numeric n;
 
-        public Unify(Numeric n) => this.n = n;
+        public Unify(Numeric n)
+            => this.n = n;
 
-
-        protected override bool Evaluate(Term arg1, Term arg2) => arg1.Unify(n);
+        protected override bool Evaluate(Term arg1, Term arg2) 
+            => arg1.Unify(n);
     }
 
     public class PreprocessedIs : AbstractSingleResultPredicate
     {
         readonly ArithmeticOperator o;
 
-        public PreprocessedIs(ArithmeticOperator o) => this.o = o;
+        public PreprocessedIs(ArithmeticOperator o) 
+            => this.o = o;
 
-
-        protected override bool Evaluate(Term arg1, Term arg2) => arg1.Unify(o.Calculate(arg2.Args));
+        protected override bool Evaluate(Term arg1, Term arg2) 
+            => arg1.Unify(o.Calculate(arg2.Args));
     }
 }

@@ -199,7 +199,11 @@ public class TermSplit : AbstractSingleResultPredicate
     }
 
 
-    protected override bool Evaluate(Term arg1, Term arg2) => arg1.Type.isVariable ? EvaluateWithVariableFirstArgument(arg1, arg2) : EvaluateWithConcreteFirstArgument(arg1, arg2);
+    protected override bool Evaluate(Term arg1, Term arg2)
+        => arg1.Type.IsVariable 
+        ? EvaluateWithVariableFirstArgument(arg1, arg2) 
+        : EvaluateWithConcreteFirstArgument(arg1, arg2)
+        ;
 
     /**
      * Converts {@code arg2} from a list to an atom and attempts to unify it with {@code arg1}.
@@ -252,7 +256,7 @@ public class TermSplit : AbstractSingleResultPredicate
     private void IsValidConcreteFirstArgument(Term arg)
     {
         var t = arg.Type;
-        if (t.isNumeric) return;
+        if (t.IsNumeric) return;
 
         if (t == TermType.ATOM && !firstArgNumeric) return;
 
@@ -278,7 +282,7 @@ public class TermSplit : AbstractSingleResultPredicate
             var name = t.Name;
             sb.Append(StringToChar(name));
         }
-        else if (type.isNumeric)
+        else if (type.IsNumeric)
         {
             var n = ArithmeticOperators.GetNumeric(t).Long;
             sb.Append(NumericToChar(n));

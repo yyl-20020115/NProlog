@@ -227,7 +227,7 @@ public class Nth : AbstractPredicateFactory
 
     protected override Predicate GetPredicate(Term index, Term list, Term element)
     {
-        return index.Type.isVariable
+        return index.Type.IsVariable
             ? new Retryable(index, list, element,startingIdx)
             : PredicateUtils.ToPredicate(Evaluate(TermUtils.ToInt(index), list, element));
     }
@@ -251,7 +251,7 @@ public class Nth : AbstractPredicateFactory
         {
             return false;
         }
-        else if (current.Type.isVariable)
+        else if (current.Type.IsVariable)
         {
             int requiredLength = requiredIdx - currentIdx;
             if (requiredLength > 0)
@@ -297,7 +297,7 @@ public class Nth : AbstractPredicateFactory
             {
                 var oldList = list.Term;
                 Backtrack(index, list, element);
-                if (list.Type.isVariable)
+                if (list.Type.IsVariable)
                 {
                     var newList = new Terms.List(new Variable("_" + ctr), oldList);
                     list.Unify(newList);
@@ -319,7 +319,7 @@ public class Nth : AbstractPredicateFactory
                 }
             }
 
-            if (list.Type.isVariable)
+            if (list.Type.IsVariable)
             {
                 Backtrack(index, list, element);
 
@@ -342,6 +342,6 @@ public class Nth : AbstractPredicateFactory
         }
 
 
-        public virtual bool CouldReevaluationSucceed => list.Type == TermType.LIST || list.Type.isVariable;
+        public virtual bool CouldReevaluationSucceed => list.Type == TermType.LIST || list.Type.IsVariable;
     }
 }

@@ -46,22 +46,25 @@ namespace Org.NProlog.Core.Predicate.Builtin.Compound;
  */
 public class Once : AbstractSingleResultPredicate, PreprocessablePredicateFactory
 {
-
-    protected override bool Evaluate(Term t) => Predicates.GetPredicate(t).Evaluate();
-
+    protected override bool Evaluate(Term t) 
+        => Predicates.GetPredicate(t).Evaluate();
 
     public virtual PredicateFactory Preprocess(Term term)
     {
         var arg = term.GetArgument(0);
-        return PartialApplicationUtils.IsAtomOrStructure(arg) ? new OptimisedOnce(Predicates.GetPreprocessedPredicateFactory(arg)) : this;
+        return PartialApplicationUtils.IsAtomOrStructure(arg) 
+            ? new OptimisedOnce(Predicates.GetPreprocessedPredicateFactory(arg)) 
+            : this;
     }
 
     public class OptimisedOnce : AbstractSingleResultPredicate
     {
-        private readonly PredicateFactory pf;
+        private readonly PredicateFactory factory;
 
-        public OptimisedOnce(PredicateFactory pf) => this.pf = Objects.RequireNonNull(pf);
+        public OptimisedOnce(PredicateFactory factory) 
+            => this.factory = Objects.RequireNonNull(factory);
 
-        protected override bool Evaluate(Term arg) => pf.GetPredicate(arg.Args).Evaluate();
+        protected override bool Evaluate(Term arg) 
+            => factory.GetPredicate(arg.Args).Evaluate();
     }
 }

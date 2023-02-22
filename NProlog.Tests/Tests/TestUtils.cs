@@ -98,7 +98,7 @@ public class TestUtils : TermFactory
     public static Term[] CreateArgs(int numberOfArguments, Term term)
     {
         var args = new Term[numberOfArguments];
-        Arrays.Fill(args, term);
+        ArraysHelpers.Fill(args, term);
         return args;
     }
 

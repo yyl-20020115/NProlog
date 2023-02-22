@@ -18,8 +18,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Construct;
 
-
-
 /* TEST
 %?- functor(f(a,b,c(Z)),F,N)
 % Z=UNINSTANTIATED VARIABLE
@@ -100,9 +98,7 @@ public class Functor : AbstractSingleResultPredicate
     private static Term CreateTerm(Term functor, Term arity)
     {
         if (functor.Type != TermType.ATOM)
-        {
             throw new PrologException("Expected atom but got: " + functor.Type + " " + functor);
-        }
 
         int numArgs = TermUtils.ToInt(arity);
         if (numArgs == 0)
@@ -113,9 +109,7 @@ public class Functor : AbstractSingleResultPredicate
         {
             var args = new Term[numArgs];
             for (int i = 0; i < numArgs; i++)
-            {
                 args[i] = new Variable();
-            }
             return Structure.CreateStructure(functor.Name, args);
         }
     }

@@ -31,5 +31,6 @@ namespace Org.NProlog.Core.Predicate.Builtin.IO;
 public class CurrentInput : AbstractSingleResultPredicate
 {
 
-    protected override bool Evaluate(Term argument) => argument.Unify(FileHandles.CurrentInputHandle);
+    protected override bool Evaluate(Term argument) 
+        => argument.Unify(FileHandles.CurrentInputHandle);
 }

@@ -18,8 +18,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Kb;
 
-
-
 /* TEST
 %?- flag(p(a), X, 2)
 % X=0
@@ -54,13 +52,12 @@ public class Flag : AbstractSingleResultPredicate
 {
     private readonly Dictionary<PredicateKey, Numeric> flags = new();
 
-
     protected override bool Evaluate(Term key, Term oldValue, Term newValue)
     {
         var pk = PredicateKey.CreateForTerm(key);
         lock (flags)
         {
-            Numeric n = GetOrCreate(pk);
+            var n = GetOrCreate(pk);
 
             if (oldValue.Unify(n))
             {
