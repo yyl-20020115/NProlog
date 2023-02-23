@@ -32,7 +32,6 @@ validate_get_time :- get_time(X), X>1000000000000, get_time(Y), Y>=X.
  */
 public class GetTime : AbstractSingleResultPredicate
 {
-
-    protected override bool Evaluate(Term t)
-        => t.Unify(new IntegerNumber(DateTime.Now.Millisecond));
+    protected override bool Evaluate(Term term)
+        => term.Unify(new IntegerNumber(DateTime.Now.Millisecond));
 }

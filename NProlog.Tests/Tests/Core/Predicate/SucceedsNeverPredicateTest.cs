@@ -19,14 +19,8 @@ namespace Org.NProlog.Core.Predicate;
 public class SucceedsNeverPredicateTest
 {
     [TestMethod]
-    public void TestEvaluates()
-    {
-        Assert.IsFalse(SucceedsNeverPredicate.SINGLETON.Evaluate());
-    }
+    public void TestEvaluates() => Assert.IsFalse(SucceedsNeverPredicate.SINGLETON.Evaluate());
 
     [TestMethod]
-    public void TestCouldReevaluationSucceed()
-    {
-        Assert.IsFalse(SucceedsNeverPredicate.SINGLETON.CouldReevaluationSucceed);
-    }
+    public void TestCouldReevaluationSucceed() => Assert.IsFalse(SucceedsNeverPredicate.SINGLETON.CouldReevaluationSucceed);
 }

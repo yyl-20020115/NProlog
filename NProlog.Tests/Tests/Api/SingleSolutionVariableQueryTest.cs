@@ -20,15 +20,15 @@ namespace Org.NProlog.Api;
 [TestClass]
 public class SingleSolutionVariableQueryTest : AbstractQueryTest
 {
-    private static readonly string EXPECTED_NUMERIC_EXCEPTION_MESSAGE = "Expected Numeric but got: VARIABLE with value: X";
-    private static readonly string EXPECTED_ATOM_EXCEPTION_MESSAGE = "Expected an atom but got: VARIABLE with value: X";
+    private const string EXPECTED_NUMERIC_EXCEPTION_MESSAGE = "Expected Numeric but got: VARIABLE with value: X";
+    private const string EXPECTED_ATOM_EXCEPTION_MESSAGE = "Expected an atom but got: VARIABLE with value: X";
 
     public SingleSolutionVariableQueryTest() : base("var(X).") { }
 
 
     public override void TestFindFirstAsTerm()
     {
-        Term result = FindFirstAsTerm().InvokeStatement();
+        var result = FindFirstAsTerm().InvokeStatement();
         Assert.IsTrue(result.Type.IsVariable);
         Assert.AreEqual("X", ((Variable)result).Id);
     }
@@ -36,7 +36,7 @@ public class SingleSolutionVariableQueryTest : AbstractQueryTest
 
     public override void TestFindFirstAsOptionalTerm()
     {
-        Optional<Term> result = FindFirstAsOptionalTerm().InvokeStatement();
+        var result = FindFirstAsOptionalTerm().InvokeStatement();
         Assert.IsTrue(result.Value.Type.IsVariable);
         Assert.AreEqual("X", ((Variable)result.Value).Id);
     }
@@ -44,43 +44,43 @@ public class SingleSolutionVariableQueryTest : AbstractQueryTest
 
     public override void TestFindAllAsTerm()
     {
-        List<Term> results = FindAllAsTerm().InvokeStatement();
+        var results = FindAllAsTerm().InvokeStatement();
         Assert.AreEqual(1, results.Count);
-        Term result = results[(0)];
+        var result = results[0];
         Assert.IsTrue(result.Type.IsVariable);
         Assert.AreEqual("X", ((Variable)result).Id);
     }
 
 
-    public override void TestFindFirstAsAtomName() => FindFirstAsAtomName().assertException(EXPECTED_ATOM_EXCEPTION_MESSAGE);
+    public override void TestFindFirstAsAtomName() => FindFirstAsAtomName().AssertException(EXPECTED_ATOM_EXCEPTION_MESSAGE);
 
 
-    public override void TestFindFirstAsOptionalAtomName() => FindFirstAsOptionalAtomName().assertException(EXPECTED_ATOM_EXCEPTION_MESSAGE);
+    public override void TestFindFirstAsOptionalAtomName() => FindFirstAsOptionalAtomName().AssertException(EXPECTED_ATOM_EXCEPTION_MESSAGE);
 
 
     public override void TestFindAllAsAtomName()
-    => FindAllAsAtomName().assertException(EXPECTED_ATOM_EXCEPTION_MESSAGE);
+    => FindAllAsAtomName().AssertException(EXPECTED_ATOM_EXCEPTION_MESSAGE);
 
 
-    public override void TestFindFirstAsDouble() => FindFirstAsDouble().assertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
+    public override void TestFindFirstAsDouble() => FindFirstAsDouble().AssertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
 
 
     public override void TestFindFirstAsOptionalDouble()
-    => FindFirstAsOptionalDouble().assertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
+    => FindFirstAsOptionalDouble().AssertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
 
 
     public override void TestFindAllAsDouble()
-    => FindAllAsDouble().assertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
+    => FindAllAsDouble().AssertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
 
 
     public override void TestFindFirstAsLong()
-    => FindFirstAsLong().assertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
+    => FindFirstAsLong().AssertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
 
 
     public override void TestFindFirstAsOptionalLong()
-    => FindFirstAsOptionalLong().assertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
+    => FindFirstAsOptionalLong().AssertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
 
 
     public override void TestFindAllAsLong()
-    => FindAllAsLong().assertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
+    => FindAllAsLong().AssertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
 }

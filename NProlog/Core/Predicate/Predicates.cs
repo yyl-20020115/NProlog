@@ -52,26 +52,9 @@ public class Predicates
 
     private readonly KnowledgeBase kb;
 
-    public Predicates(KnowledgeBase kb)
-    {
-        this.kb = kb;
-    }
+    public Predicates(KnowledgeBase kb) => this.kb = kb;
 
-    public Predicate GetPredicate(Term t)
-    {
-        var factory = GetPredicateFactory(t);
-        if (factory == null)
-        {
-            return null;
-            //throw new NullReferenceException(nameof(factory)+":"+t);
-        }
-        else
-        {
-            var predicate = factory.GetPredicate(t.Args);
-
-            return predicate;
-        }
-    }
+    public Predicate GetPredicate(Term term) => GetPredicateFactory(term)?.GetPredicate(term.Args);
 
     /**
      * Returns details of all predicates, both user-defined and built-in predicates.
@@ -81,7 +64,7 @@ public class Predicates
         HashSet<PredicateKey> result = new();
         result.UnionWith(platformPredicateClassNames.Keys);
         result.UnionWith(userDefinedPredicates.Keys);
-        return new (result);
+        return result;
     }
 
     /**
@@ -169,11 +152,7 @@ public class Predicates
         }
     }
 
-    public PredicateFactory GetPreprocessedPredicateFactory(Term term)
-    {
-        var pf = GetPredicateFactory(term);
-        return pf is PreprocessablePredicateFactory factory ? factory.Preprocess(term) : pf;
-    }
+    public PredicateFactory GetPreprocessedPredicateFactory(Term term) => GetPredicateFactory(term) is PreprocessablePredicateFactory factory ? factory.Preprocess(term) : pf;
 
     /**
      * Returns the {@code PredicateFactory} associated with the specified {@code Term}.
@@ -181,11 +160,7 @@ public class Predicates
      * If this object has no {@code PredicateFactory} associated with the {@code PredicateKey} of the specified
      * {@code Term} then a new instance of {@link UnknownPredicate} is returned.
      */
-    public PredicateFactory GetPredicateFactory(Term term)
-    {
-        var key = PredicateKey.CreateForTerm(term);
-        return GetPredicateFactory(key);
-    }
+    public PredicateFactory GetPredicateFactory(Term term) => GetPredicateFactory(PredicateKey.CreateForTerm(term));
 
     /**
      * Returns the {@code PredicateFactory} associated with the specified {@code PredicateKey}.
@@ -196,45 +171,24 @@ public class Predicates
     public PredicateFactory GetPredicateFactory(PredicateKey key)
     {
         var predicateFactory = GetExistingPredicateFactory(key);
-        if (predicateFactory != null)
-        {
-            return predicateFactory;
-        }
-        else if (platformPredicateClassNames.ContainsKey(key))
-        {
-            return InstantiatePredicateFactory(key);
-        }
-        else
-        {
-            return UnknownPredicate(key);
-        }
+        return predicateFactory ?? (platformPredicateClassNames.ContainsKey(key) ? InstantiatePredicateFactory(key) : UnknownPredicate(key));
     }
 
-    private PredicateFactory GetExistingPredicateFactory(PredicateKey key)
-    {
-        var predicateFactory = platformPredicateInstances.TryGetValue(key, out var p) ? p : null;
-        return predicateFactory ?? (userDefinedPredicates.TryGetValue(key, out var v) ? v : null);
-    }
+    private PredicateFactory GetExistingPredicateFactory(PredicateKey key) 
+        => (platformPredicateInstances.TryGetValue(key, out var p) ? p : null)
+            ?? (userDefinedPredicates.TryGetValue(key, out var v) ? v : null);
 
     private PredicateFactory InstantiatePredicateFactory(PredicateKey key)
     {
         lock (predicatesLock)
         {
             var predicateFactory = GetExistingPredicateFactory(key);
-            if (predicateFactory != null)
-            {
-                return predicateFactory;
-            }
-            else
-            {
-                if(platformPredicateClassNames.TryGetValue(key, out var p))
-                {
-                    predicateFactory = InstantiatePredicateFactory(p);
-                    platformPredicateInstances[key]=predicateFactory;
-                    return predicateFactory;
-                }
-                return null;
-            }
+            return predicateFactory != null
+                ? predicateFactory
+                : platformPredicateClassNames.TryGetValue(key, out var p)
+                    ? (platformPredicateInstances[key]= predicateFactory 
+                    = InstantiatePredicateFactory(p))
+                    : null;
         }
     }
 

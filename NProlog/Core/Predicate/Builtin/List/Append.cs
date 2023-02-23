@@ -613,14 +613,14 @@ public class Append : AbstractPredicateFactory
                 if (prefix.Type.IsVariable)
                 {
                     l1 = new Variable("L1");
-                    prefix.Unify(new Terms.List(x, l1));
+                    prefix.Unify(new Terms.LinkedTermList(x, l1));
                 }
                 if (l1 == null)
                     return false;
                 if (concatenated.Type.IsVariable)
                 {
                     l3 = new Variable("L3");
-                    concatenated.Unify(new Terms.List(x, l3));
+                    concatenated.Unify(new Terms.LinkedTermList(x, l3));
                 }
                 if (l3 == null)
                     if (concatenated.Type == TermType.LIST)

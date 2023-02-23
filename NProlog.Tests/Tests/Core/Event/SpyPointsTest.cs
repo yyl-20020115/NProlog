@@ -28,19 +28,17 @@ public class SpyPointsTest : TestUtils
     [TestMethod]
     public void TestGetSameSpyPointForSamePredicateKey()
     {
-        SpyPoints testObject = new SpyPoints(kb);
-        PredicateKey key = CreateKey("test", 2);
+        var testObject = new SpyPoints(kb);
+        var key = CreateKey("test", 2);
         Assert.AreSame(testObject.GetSpyPoint(key), testObject.GetSpyPoint(key));
-
-
     }
 
     [TestMethod]
     public void TestGetSameSpyPointWhenPredicateKeysEqual()
     {
-        SpyPoints testObject = new SpyPoints(kb);
-        PredicateKey key1 = CreateKey("test", 2);
-        PredicateKey key2 = CreateKey("test", 2);
+        var testObject = new SpyPoints(kb);
+        var key1 = CreateKey("test", 2);
+        var key2 = CreateKey("test", 2);
         Assert.AreNotSame(key1, key2);
         Assert.AreSame(testObject.GetSpyPoint(key1), testObject.GetSpyPoint(key2));
     }
@@ -48,11 +46,11 @@ public class SpyPointsTest : TestUtils
     [TestMethod]
     public void TestGetDifferentSpyPointWhenPredicateKeysNotEqual()
     {
-        SpyPoints testObject = new SpyPoints(kb);
-        PredicateKey key1 = CreateKey("test1", 0);
-        PredicateKey key2 = CreateKey("test1", 1);
-        PredicateKey key3 = CreateKey("test1", 2);
-        PredicateKey key4 = CreateKey("test2", 2);
+        var testObject = new SpyPoints(kb);
+        var key1 = CreateKey("test1", 0);
+        var key2 = CreateKey("test1", 1);
+        var key3 = CreateKey("test1", 2);
+        var key4 = CreateKey("test2", 2);
         Assert.AreNotSame(testObject.GetSpyPoint(key1), testObject.GetSpyPoint(key2));
         Assert.AreNotSame(testObject.GetSpyPoint(key2), testObject.GetSpyPoint(key3));
         Assert.AreNotSame(testObject.GetSpyPoint(key3), testObject.GetSpyPoint(key4));
@@ -63,11 +61,11 @@ public class SpyPointsTest : TestUtils
     [TestMethod]
     public void TestGetPredicateKey()
     {
-        SpyPoints testObject = new SpyPoints(kb);
-        PredicateKey key1 = CreateKey("test1", 2);
-        PredicateKey key2 = CreateKey("test1", 2);
-        PredicateKey key3 = CreateKey("test1", 1);
-        PredicateKey key4 = CreateKey("test2", 1);
+        var testObject = new SpyPoints(kb);
+        var key1 = CreateKey("test1", 2);
+        var key2 = CreateKey("test1", 2);
+        var key3 = CreateKey("test1", 1);
+        var key4 = CreateKey("test2", 1);
         Assert.AreNotSame(key1, key2);
 
         Assert.AreSame(key1, testObject.GetSpyPoint(key1).PredicateKey);
@@ -79,9 +77,9 @@ public class SpyPointsTest : TestUtils
     [TestMethod]
     public void TestGetSpyPoints()
     {
-        SpyPoints testObject = new SpyPoints(kb);
+        var testObject = new SpyPoints(kb);
         PredicateKey[] keys = { CreateKey("test1", 0), CreateKey("test1", 2), CreateKey("test2", 2) };
-        SpyPoints.SpyPoint[] spyPoints = new SpyPoints.SpyPoint[keys.Length];
+        var spyPoints = new SpyPoints.SpyPoint[keys.Length];
 
         Assert.IsTrue(testObject.GetSpyPoints().Count == 0);
         for (int i = 0; i < keys.Length; i++)
@@ -99,11 +97,11 @@ public class SpyPointsTest : TestUtils
     [TestMethod]
     public void TestSetSpyPointOnlyAltersSingleSpyPoint()
     {
-        SpyPoints testObject = new SpyPoints(kb);
-        PredicateKey key1 = CreateKey("test1", 2);
-        PredicateKey key2 = CreateKey("test2", 2);
-        SpyPoints.SpyPoint sp1 = testObject.GetSpyPoint(key1);
-        SpyPoints.SpyPoint sp2 = testObject.GetSpyPoint(key2);
+        var testObject = new SpyPoints(kb);
+        var key1 = CreateKey("test1", 2);
+        var key2 = CreateKey("test2", 2);
+        var sp1 = testObject.GetSpyPoint(key1);
+        var sp2 = testObject.GetSpyPoint(key2);
 
         Assert.IsFalse(sp1.Set);
         Assert.IsFalse(sp2.Set);
@@ -124,8 +122,8 @@ public class SpyPointsTest : TestUtils
     [TestMethod]
     public void TestSetSpyPointWorksEvenBeforeGetSpyPointCalled()
     {
-        SpyPoints testObject = new SpyPoints(kb);
-        PredicateKey key = CreateKey("test", 2);
+        var testObject = new SpyPoints(kb);
+        var key = CreateKey("test", 2);
         testObject.SetSpyPoint(key, true);
         Assert.IsTrue(testObject.GetSpyPoint(key).Set);
     }
@@ -133,8 +131,8 @@ public class SpyPointsTest : TestUtils
     [TestMethod]
     public void TestSpyPointAffectedBySetTraceEnabledCallAfterItWasCreated()
     {
-        SpyPoints testObject = new SpyPoints(kb);
-        SpyPoints.SpyPoint sp = testObject.GetSpyPoint(CreateKey("test", 1));
+        var testObject = new SpyPoints(kb);
+        var sp = testObject.GetSpyPoint(CreateKey("test", 1));
         Assert.IsFalse(sp.IsEnabled);
         testObject.TraceEnabled = true;
         Assert.IsTrue(sp.IsEnabled);
@@ -145,9 +143,9 @@ public class SpyPointsTest : TestUtils
     [TestMethod]
     public void TestSpyPointAffectedBySetTraceEnabledCallBeforeItWasCreated()
     {
-        SpyPoints testObject = new SpyPoints(kb);
+        var testObject = new SpyPoints(kb);
         testObject.TraceEnabled = true;
-        SpyPoints.SpyPoint sp = testObject.GetSpyPoint(CreateKey("test", 1));
+        var sp = testObject.GetSpyPoint(CreateKey("test", 1));
         Assert.IsTrue(sp.IsEnabled);
         testObject.TraceEnabled = false;
         Assert.IsFalse(sp.IsEnabled);
@@ -156,10 +154,10 @@ public class SpyPointsTest : TestUtils
     [TestMethod]
     public void TestSetTraceEnabledIndependantOfSetSpyPoint()
     {
-        SpyPoints testObject = new SpyPoints(kb);
-        PredicateKey key = CreateKey("test", 2);
+        var testObject = new SpyPoints(kb);
+        var key = CreateKey("test", 2);
 
-        SpyPoints.SpyPoint sp = testObject.GetSpyPoint(key);
+        var sp = testObject.GetSpyPoint(key);
         Assert.IsTrue(sp.Set == false && sp.IsEnabled == false);
 
         testObject.TraceEnabled = true;
@@ -189,16 +187,16 @@ public class SpyPointsTest : TestUtils
     {
         // Add a listener to the KnowledgeBase's PrologListeners
         // so we can keep track of ProjogEvent objects created by the SpyPoint
-        SimplePrologListener listener = new SimplePrologListener();
+        var listener = new SimplePrologListener();
         kb.PrologListeners.AddListener(listener);
 
-        PredicateKey key = CreateKey("test", 1);
-        DynamicUserDefinedPredicateFactory pf = new DynamicUserDefinedPredicateFactory(kb, key);
+        var key = CreateKey("test", 1);
+        var pf = new DynamicUserDefinedPredicateFactory(kb, key);
         pf.AddFirst(ClauseModel.CreateClauseModel(Structure("test", new Variable())));
         kb.Predicates.AddUserDefinedPredicate(pf);
 
-        SpyPoints testObject = new SpyPoints(kb);
-        SpyPoints.SpyPoint sp = testObject.GetSpyPoint(key);
+        var testObject = new SpyPoints(kb);
+        var sp = testObject.GetSpyPoint(key);
 
         // make a number of log calls to the spy point -
         // the observer should not be updated with any of them as the spy point is not set
@@ -223,13 +221,7 @@ public class SpyPointsTest : TestUtils
         AssertPrologEvent(listener.Get(3), "REDO", "test(_)");
     }
 
-    private void AssertPrologEvent(string @event, string expectedType, string expectedMessage)
-    {
-        Assert.AreEqual(expectedType + expectedMessage, @event);
-    }
+    private static void AssertPrologEvent(string @event, string expectedType, string expectedMessage) => Assert.AreEqual(expectedType + expectedMessage, @event);
 
-    private PredicateKey CreateKey(string name, int numArgs)
-    {
-        return new PredicateKey(name, numArgs);
-    }
+    private static PredicateKey CreateKey(string name, int numArgs) => new(name, numArgs);
 }

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-using Org.NProlog.Core.Kb;
 using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Udp;
@@ -28,16 +27,13 @@ public class KeyFactoriesTest : TestUtils
     private static readonly Atom E = Atom("e");
 
     [TestMethod]
-    public void TestLimit()
-    {
-        Assert.AreEqual(3, KeyFactories.MAX_ARGUMENTS_PER_INDEX);
-    }
+    public void TestLimit() => Assert.AreEqual(3, KeyFactories.MAX_ARGUMENTS_PER_INDEX);
 
     [TestMethod]
     public void TestOne()
     {
-        Term[] args = new Term[] { A, B, C };
-        KeyFactory kf = KeyFactories.GetKeyFactory(1);
+        var args = new Term[] { A, B, C };
+        var kf = KeyFactories.GetKeyFactory(1);
 
         Assert.AreSame(A, kf.CreateKey(new int[] { 0 }, args));
         Assert.AreSame(B, kf.CreateKey(new int[] { 1 }, args));
@@ -47,10 +43,10 @@ public class KeyFactoriesTest : TestUtils
     [TestMethod]
     public void TestTwo()
     {
-        Term[] args = new Term[] { A, B, C };
-        KeyFactory kf = KeyFactories.GetKeyFactory(2);
+        var args = new Term[] { A, B, C };
+        var kf = KeyFactories.GetKeyFactory(2);
 
-        Object k = kf.CreateKey(new int[] { 0, 1 }, args);
+        var k = kf.CreateKey(new int[] { 0, 1 }, args);
 
         AssertNotEqualsHashCode(k, kf.CreateKey(new int[] { 0, 2 }, args));
         AssertNotEqualsHashCode(k, kf.CreateKey(new int[] { 1, 2 }, args));
@@ -63,10 +59,10 @@ public class KeyFactoriesTest : TestUtils
     [TestMethod]
     public void TestThree()
     {
-        Term[] args = new Term[] { A, B, C, D };
-        KeyFactory kf = KeyFactories.GetKeyFactory(3);
+        var args = new Term[] { A, B, C, D };
+        var kf = KeyFactories.GetKeyFactory(3);
 
-        Object k = kf.CreateKey(new int[] { 0, 1, 2 }, args);
+        var k = kf.CreateKey(new int[] { 0, 1, 2 }, args);
 
         AssertNotEqualsHashCode(k, kf.CreateKey(new int[] { 0, 2, 3 }, args));
         AssertNotEqualsHashCode(k, kf.CreateKey(new int[] { 1, 2, 3 }, args));
@@ -76,7 +72,7 @@ public class KeyFactoriesTest : TestUtils
         AssertEqualsHashCode(k, kf.CreateKey(new int[] { 0, 1, 2 }, new Term[] { A, B, C, E }));
     }
 
-    private static void AssertEqualsHashCode(Object o1, Object o2)
+    private static void AssertEqualsHashCode(object o1, object o2)
     { // TODO move to TestUtils
         Assert.IsTrue(o1.Equals(o2));
         Assert.IsTrue(o2.Equals(o1));

@@ -23,7 +23,7 @@ public class ClausesTest : TestUtils
     [TestMethod]
     public void TestEmpty()
     {
-        Clauses c = Clauses.CreateFromModels(TestUtils.CreateKnowledgeBase(), new());
+        var c = Clauses.CreateFromModels(TestUtils.CreateKnowledgeBase(), new());
         Assert.AreEqual(0, c.ClauseActions.Length); // TODO use assertEmpty
         Assert.AreEqual(0, c.ImmutableColumns.Length); // TODO use assertEmpty
     }
@@ -31,42 +31,42 @@ public class ClausesTest : TestUtils
     [TestMethod]
     public void TestSingleNoArgClause()
     {
-        Clauses c = CreateClauses("p.");
+        var c = CreateClauses("p.");
         AssertEmpty(c.ImmutableColumns);
     }
 
     [TestMethod]
     public void TestSingleOneArgImmutableClause()
     {
-        Clauses c = CreateClauses("p(x).");
+        var c = CreateClauses("p(x).");
         AssertArrayEquals(new int[] { 0 }, c.ImmutableColumns);
     }
 
     [TestMethod]
     public void TestSingleTwoArgImmutableClause()
     {
-        Clauses c = CreateClauses("p(x,y).");
+        var c = CreateClauses("p(x,y).");
         AssertArrayEquals(new int[] { 0, 1 }, c.ImmutableColumns);
     }
 
     [TestMethod]
     public void TestSingleNineArgImmutableClause()
     {
-        Clauses c = CreateClauses("p(a,b,c,d,e,f,g,h,i).");
+        var c = CreateClauses("p(a,b,c,d,e,f,g,h,i).");
         AssertArrayEquals(new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 }, c.ImmutableColumns);
     }
 
     [TestMethod]
     public void TestSingleOneArgMutableClause()
     {
-        Clauses c = CreateClauses("p(X).");
+        var c = CreateClauses("p(X).");
         AssertEmpty(c.ImmutableColumns);
     }
 
     [TestMethod]
     public void TestSingleTwoArgMutableClause()
     {
-        Clauses c = CreateClauses("p(X,y).");
+        var c = CreateClauses("p(X,y).");
         AssertArrayEquals(new int[] { 1 }, c.ImmutableColumns);
     }
 
@@ -74,64 +74,64 @@ public class ClausesTest : TestUtils
     [TestMethod]
     public void TestSingleManyArgsMutableClause()
     {
-        Clauses c = CreateClauses("p(a,b,X,Y,e,f,g,h,i,Z,k,l).");
+        var c = CreateClauses("p(a,b,X,Y,e,f,g,h,i,Z,k,l).");
         AssertArrayEquals(new int[] { 0, 1, 4, 5, 6, 7, 8, 10, 11 }, c.ImmutableColumns);
     }
 
     [TestMethod]
     public void TestManyImmutableClauses()
     {
-        Clauses c = CreateClauses("p(a,b,c).", "p(d,e,f).", "p(g,h,i).");
+        var c = CreateClauses("p(a,b,c).", "p(d,e,f).", "p(g,h,i).");
         AssertArrayEquals(new int[] { 0, 1, 2 }, c.ImmutableColumns);
     }
 
     [TestMethod]
     public void TestManyImmutableClausesWithAntecedant()
     {
-        Clauses c = CreateClauses("p(a,b,c).", "p(d,e,f) :- x(z).", "p(g,h,i).");
+        var c = CreateClauses("p(a,b,c).", "p(d,e,f) :- x(z).", "p(g,h,i).");
         AssertArrayEquals(new int[] { 0, 1, 2 }, c.ImmutableColumns);
     }
 
     [TestMethod]
     public void TestManyMutableClausesWithoutIndexableArgs()
     {
-        Clauses c = CreateClauses("p(a,X,c).", "p(Y,e,f).", "p(g,h,Z).");
+        var c = CreateClauses("p(a,X,c).", "p(Y,e,f).", "p(g,h,Z).");
         AssertEmpty(c.ImmutableColumns);
     }
 
     [TestMethod]
     public void TestManyMutableClausesWithIndexableArgs()
     {
-        Clauses c = CreateClauses("p(a,X,c,d,e,f).", "p(Y,o,e,f,Q,r).", "p(g,h,e,u,p,Z).");
+        var c = CreateClauses("p(a,X,c,d,e,f).", "p(Y,o,e,f,Q,r).", "p(g,h,e,u,p,Z).");
         AssertArrayEquals(new int[] { 2, 3 }, c.ImmutableColumns);
     }
 
     [TestMethod]
     public void TestManyMutableClausesWithoutAntecedantsWithIndexableArgs()
     {
-        Clauses c = CreateClauses("p(a,X,c,d,e,f).", "p(Y,o,e,f,Q,r).", "p(g,h,e,u,p,Z).");
+        var c = CreateClauses("p(a,X,c,d,e,f).", "p(Y,o,e,f,Q,r).", "p(g,h,e,u,p,Z).");
         AssertArrayEquals(new int[] { 2, 3 }, c.ImmutableColumns);
     }
 
     [TestMethod]
     public void TestSingleImmutableRule()
     {
-        Clauses c = CreateClauses("p(x) :- z(a,b,c).");
+        var c = CreateClauses("p(x) :- z(a,b,c).");
         AssertArrayEquals(new int[] { 0 }, c.ImmutableColumns);
     }
 
     [TestMethod]
     public void TestSingleAlwaysMatchedRule()
     {
-        Clauses c = CreateClauses("p(X) :- z(a,b,c).");
+        var c = CreateClauses("p(X) :- z(a,b,c).");
         AssertEmpty(c.ImmutableColumns);
     }
 
     [TestMethod]
     public void TestClauseActions()
     {
-        Clauses c = CreateClauses("p(x,y).", "p(X,Y) :- a(X), b(Y).");
-        ClauseAction[] actions = c.ClauseActions;
+        var c = CreateClauses("p(x,y).", "p(X,Y) :- a(X), b(Y).");
+        var actions = c.ClauseActions;
         Assert.AreEqual(2, actions.Length);
         Assert.AreEqual("p(x, y)", actions[0].Model.Original.ToString());
         Assert.AreEqual(":-(p(X, Y), ,(a(X), b(Y)))", actions[1].Model.Original.ToString());
@@ -139,17 +139,14 @@ public class ClausesTest : TestUtils
 
     private static Clauses CreateClauses(params string[] clauses)
     { // TODO move to TestUtils
-        KnowledgeBase kb = TestUtils.CreateKnowledgeBase();
+        var kb = CreateKnowledgeBase();
         List<ClauseModel> models = new();
-        foreach (string clause in clauses)
+        foreach (var clause in clauses)
         {
             models.Add(CreateClauseModel(clause));
         }
         return Clauses.CreateFromModels(kb, models);
     }
 
-    private static void AssertEmpty(int[] array)
-    { // TODO more to TestUtils
-        Assert.AreEqual(0, array.Length);
-    }
+    private static void AssertEmpty(int[] array) => Assert.AreEqual(0, array.Length);
 }

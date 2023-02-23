@@ -18,8 +18,8 @@ namespace Org.NProlog.Core.Terms;
 [TestClass]
 public class IntegerNumberCacheTest
 {
-    private static readonly int MIN_CACHED_VALUE = -128;
-    private static readonly int MAX_CACHED_VALUE = 127;
+    private const int MIN_CACHED_VALUE = -128;
+    private const int MAX_CACHED_VALUE = 127;
 
     [TestMethod]
     public void TestZero()
@@ -49,7 +49,7 @@ public class IntegerNumberCacheTest
     [TestMethod]
     public void TestOutsideCacheTooHigh()
     {
-        long value = MAX_CACHED_VALUE + 1;
+        const long value = MAX_CACHED_VALUE + 1;
         Assert.AreNotSame(IntegerNumberCache.ValueOf(value), IntegerNumberCache.ValueOf(value));
         Assert.AreEqual(new IntegerNumber(value), IntegerNumberCache.ValueOf(value));
     }

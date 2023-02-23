@@ -18,7 +18,6 @@ using Org.NProlog.Core.Terms;
 namespace Org.NProlog.Core.Predicate.Builtin.Time;
 
 
-
 /* TEST
 %?- convert_time(0, X)
 % X=1970-01-01T00:00:00.000+0000
@@ -44,15 +43,14 @@ public class ConvertTime : AbstractSingleResultPredicate
         return text.Unify(a);
     }
 
-    private DateTime CreateDate(Term timestamp) => new DateTime(ArithmeticOperators.GetNumeric(timestamp).Long);
+    private DateTime CreateDate(Term timestamp) 
+        => new (ArithmeticOperators.GetNumeric(timestamp).Long);
 
-    private static Atom CreateAtom(DateTime d)
-    {
+    private static Atom CreateAtom(DateTime d) =>
         // TODO have overloaded versions of convert_time that allow the date format and timezone to be specified?
         //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
         //sdf.setTimeZone(TimeZone.getTimeZone("GMT-0"));
 
         //return new Atom(sdf.format(d));
-        return new Atom(d.ToLongDateString());
-    }
+        new(d.ToLongDateString());
 }

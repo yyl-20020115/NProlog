@@ -120,7 +120,9 @@ public class Last : AbstractPredicateFactory
         // first arg is a list whose tail is not an empty list or variable
         return list != tail && tail.Type == TermType.EMPTY_LIST
             ? PredicateUtils.ToPredicate(termToUnifyLastElementWith.Unify(last.GetArgument(0)))
-            : tail.Type.IsVariable ? new LastPredicate(last, tail, termToUnifyLastElementWith) : PredicateUtils.FALSE;
+            : tail.Type.IsVariable 
+                ? new LastPredicate(last, tail, termToUnifyLastElementWith) 
+                : PredicateUtils.FALSE;
     }
 
 
@@ -149,7 +151,7 @@ public class Last : AbstractPredicateFactory
             {
                 if (last.Type.IsVariable)
                 {
-                    last.Unify(new Terms.List(termToUnifyLastElementWith, EmptyList.EMPTY_LIST));
+                    last.Unify(new Terms.LinkedTermList(termToUnifyLastElementWith, EmptyList.EMPTY_LIST));
                     newHead = new Variable();
                     retry = true;
                     return true;
@@ -160,7 +162,7 @@ public class Last : AbstractPredicateFactory
                     return true;
             }
 
-            var newLast = new Terms.List(newHead, tail.Term);
+            var newLast = new Terms.LinkedTermList(newHead, tail.Term);
             newHead = new Variable();
 
             termToUnifyLastElementWith.Backtrack();

@@ -26,7 +26,8 @@ namespace Org.NProlog.Core.Predicate.Udp;
  */
 public class DefiniteClauseGrammerConvertor
 {
-    public static bool IsDCG(Term dcgTerm) => dcgTerm.Type == TermType.STRUCTURE && dcgTerm.NumberOfArguments == 2 && dcgTerm.Name.Equals("-->");
+    public static bool IsDCG(Term dcgTerm) 
+        => dcgTerm.Type == TermType.STRUCTURE && dcgTerm.NumberOfArguments == 2 && dcgTerm.Name.Equals("-->");
 
     /**
      * @param dcgTerm predicate with name "-=>" and two arguments
@@ -84,9 +85,7 @@ public class DefiniteClauseGrammerConvertor
             else if (term.Type == TermType.LIST)
             {
                 if (previousList != null)
-                {
                     term = AppendToEndOfList(term, previousList);
-                }
                 previousList = term;
             }
             else
@@ -109,9 +108,7 @@ public class DefiniteClauseGrammerConvertor
 
         Term newAntecedent;
         if (newSequence.Count == 0)
-        {
             newAntecedent = null;
-        }
         else
         {
             newAntecedent = newSequence[(0)];
@@ -122,9 +119,7 @@ public class DefiniteClauseGrammerConvertor
         }
 
         if (previousList != null)
-        {
             previous = AppendToEndOfList(previousList, previous);
-        }
         var newConsequent = CreateNewPredicate(consequent, previous, lastArg);
 
         return newAntecedent == null
@@ -162,5 +157,6 @@ public class DefiniteClauseGrammerConvertor
     private static bool HasSingleListWithSingleAtomElement(Term[] terms) => terms.Length == 1
                && terms[0].Type == TermType.LIST
                && terms[0].GetArgument(0).Type == TermType.ATOM
-               && terms[0].GetArgument(1).Type == TermType.EMPTY_LIST;
+               && terms[0].GetArgument(1).Type == TermType.EMPTY_LIST
+        ;
 }

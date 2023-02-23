@@ -65,7 +65,7 @@ public class CoreUtilsTest
     [TestMethod]
     public void TestKnowledgeBaseConsumerStaticMethod()
     {
-        KnowledgeBase knowledgeBase = KnowledgeBaseUtils.CreateKnowledgeBase();
+        var knowledgeBase = KnowledgeBaseUtils.CreateKnowledgeBase();
         var o = KnowledgeBaseUtils.Instantiate<KnowledgeBaseConsumerStaticMethodExample>(knowledgeBase,
                     "Org.NProlog.Core.Kb.KnowledgeBaseConsumerStaticMethodExample/Create");
         Assert.IsNotNull(o);
@@ -80,10 +80,7 @@ public class KnowledgeBaseConsumerNoArgConstructorExample : KnowledgeBaseConsume
 
     public KnowledgeBase kb;
 
-    public KnowledgeBaseConsumerNoArgConstructorExample()
-    {
-        INSTANCE_CTR++;
-    }
+    public KnowledgeBaseConsumerNoArgConstructorExample() => INSTANCE_CTR++;
 
     public KnowledgeBase KnowledgeBase { get => kb; set => kb = value; }
 

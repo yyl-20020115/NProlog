@@ -128,9 +128,7 @@ public class Variable : Term
         if (value == null)
         {
             if (!sharedVariables.TryGetValue(this, out var result))
-            {
                 sharedVariables.Add(this, result = new Variable(id));
-            }
             return result.Term;
         }
         else

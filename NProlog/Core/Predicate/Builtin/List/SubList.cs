@@ -18,9 +18,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.List;
 
-
-
-
 /* TEST
 %TRUE include(atom, [], [])
 %TRUE include(atom, [a], [a])
@@ -122,17 +119,7 @@ public class SubList : AbstractSingleResultPredicate, PreprocessablePredicateFac
 {
 
     protected override bool Evaluate(Term partiallyAppliedFunction, Term args, Term filteredOutput)
-    {
-        if (IsValidArguments(partiallyAppliedFunction, args))
-        {
-            var pf = PartialApplicationUtils.GetCurriedPredicateFactory(Predicates, partiallyAppliedFunction);
-            return EvaluateSubList(pf, partiallyAppliedFunction, args, filteredOutput);
-        }
-        else
-        {
-            return false;
-        }
-    }
+        => IsValidArguments(partiallyAppliedFunction, args) && EvaluateSubList(PartialApplicationUtils.GetCurriedPredicateFactory(Predicates, partiallyAppliedFunction), partiallyAppliedFunction, args, filteredOutput);
 
     private static bool EvaluateSubList(PredicateFactory pf, Term partiallyAppliedFunction, Term args, Term filteredOutput)
     {
@@ -142,19 +129,15 @@ public class SubList : AbstractSingleResultPredicate, PreprocessablePredicateFac
         {
             var arg = next.GetArgument(0);
             if (PartialApplicationUtils.Apply(pf, PartialApplicationUtils.CreateArguments(partiallyAppliedFunction, arg)))
-            {
                 matches.Add(arg);
-            }
             next = next.GetArgument(1);
         }
         return next.Type == TermType.EMPTY_LIST && filteredOutput.Unify(ListFactory.CreateList(matches));
     }
 
-    private static bool IsValidArguments(Term partiallyAppliedFunction, Term arg)
-    {
-        return PartialApplicationUtils.IsAtomOrStructure(partiallyAppliedFunction)
+    private static bool IsValidArguments(Term partiallyAppliedFunction, Term arg) 
+        => PartialApplicationUtils.IsAtomOrStructure(partiallyAppliedFunction)
               && PartialApplicationUtils.IsList(arg);
-    }
 
 
     public PredicateFactory Preprocess(Term term)
@@ -169,11 +152,8 @@ public class SubList : AbstractSingleResultPredicate, PreprocessablePredicateFac
     {
         private readonly PredicateFactory predicateFactory;
 
-        public PreprocessedSubList(PredicateFactory predicateFactory)
-        {
-            this.predicateFactory = predicateFactory;
-        }
-
+        public PreprocessedSubList(PredicateFactory predicateFactory) 
+            => this.predicateFactory = predicateFactory;
 
         public Predicate GetPredicate(Term[] args)
         {
@@ -182,7 +162,6 @@ public class SubList : AbstractSingleResultPredicate, PreprocessablePredicateFac
                 ? PredicateUtils.ToPredicate(EvaluateSubList(predicateFactory, args[0], list, args[2]))
                 : PredicateUtils.FALSE;
         }
-
 
         public bool IsRetryable => false;
     }

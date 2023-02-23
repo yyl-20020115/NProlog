@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-using Org.NProlog.Core.Kb;
 using Org.NProlog.Core.Predicate.Udp;
 using Org.NProlog.Core.Terms;
 
@@ -25,10 +24,10 @@ public class OnceTest : TestUtils
     [TestMethod]
     public void TestPreprocessCannotOptimiseVariable()
     {
-        Once o = new Once();
+        var o = new Once();
 
-        Term t = Terms.Structure.CreateStructure("once", new Term[] { new Variable("X") });
-        PredicateFactory optimised = o.Preprocess(t);
+        var t = Terms.Structure.CreateStructure("once", new Term[] { new Variable("X") });
+        var optimised = o.Preprocess(t);
 
         Assert.AreSame(o, optimised);
     }

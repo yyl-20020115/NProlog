@@ -39,15 +39,15 @@ public class TermComparatorTest : TestUtils
     {
         for (int i = 0; i < TERMS_ORDERED_IN_LOWEST_PRECEDENCE.Length; i++)
         {
-            Term t1 = TERMS_ORDERED_IN_LOWEST_PRECEDENCE[i];
+            var t1 = TERMS_ORDERED_IN_LOWEST_PRECEDENCE[i];
             TestEqual(t1, t1);
             for (int z = i + 1; z < TERMS_ORDERED_IN_LOWEST_PRECEDENCE.Length; z++)
             {
-                Term t2 = TERMS_ORDERED_IN_LOWEST_PRECEDENCE[z];
+                var t2 = TERMS_ORDERED_IN_LOWEST_PRECEDENCE[z];
                 TestIsGreater(t2, t1);
 
-                Term v1 = Variable("X");
-                Term v2 = Variable("Y");
+                var v1 = Variable("X");
+                var v2 = Variable("Y");
                 v1.Unify(t1);
                 v2.Unify(t2);
                 TestIsGreater(v2, t1);
@@ -60,10 +60,10 @@ public class TermComparatorTest : TestUtils
     [TestMethod]
     public void TestVariablesAssignedToEachOther()
     {
-        Atom a = Atom("a");
-        Variable x = new Variable("X");
-        Variable y = new Variable("Y");
-        Variable z = new Variable("Z");
+        var a = Atom("a");
+        var x = new Variable("X");
+        var y = new Variable("Y");
+        var z = new Variable("Z");
 
         TestNotEqual(z, y);
         TestNotEqual(z, x);

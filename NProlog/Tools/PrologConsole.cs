@@ -34,9 +34,9 @@ public class PrologConsole
 {
     /** Command user can enter to exit the console application. */
     private static readonly PredicateKey QUIT_COMMAND = new ("quit", 0);
-    private static readonly string CONTINUE_EVALUATING = ";";
-    private static readonly string STOP_EVALUATING = "q";
-    private static readonly string STOP_EVALUATING_COMMAND = "quit.";
+    private const string CONTINUE_EVALUATING = ";";
+    private const string STOP_EVALUATING = "q";
+    private const string STOP_EVALUATING_COMMAND = "quit.";
 
     private readonly TextReader reader;
     private readonly TextWriter writer;
@@ -47,15 +47,8 @@ public class PrologConsole
     public class ConsoleResultPredicate : AbstractSingleResultPredicate
     {
         private readonly PrologConsole console;
-        public ConsoleResultPredicate(PrologConsole console)
-        {
-            this.console = console;
-        }
-        protected override bool Evaluate()
-        {
-            this.console.quit = true;
-            return true;
-        }
+        public ConsoleResultPredicate(PrologConsole console) => this.console = console;
+        protected override bool Evaluate() => console.quit = true;
     }
 
     public PrologConsole(TextReader reader, TextWriter writer)
@@ -79,9 +72,7 @@ public class PrologConsole
 
             var inputSyntax = reader.ReadLine();
             if (inputSyntax == null)
-            {
-                quit= true;
-            }
+                quit = true;
             else if (IsNotEmpty(inputSyntax))
             {
                 ParseAndExecute(inputSyntax);
@@ -149,25 +140,19 @@ public class PrologConsole
         while (true)
         {
             var input = reader.ReadLine();
-            if (input == null)
+            switch (input)
             {
-                return false;
-            }
-            else if (CONTINUE_EVALUATING.Equals(input))
-            {
-                return true;
-            }
-            else if (STOP_EVALUATING.Equals(input))
-            {
-                return false;
-            }
-            else if (STOP_EVALUATING_COMMAND.Equals(input))
-            {
-                return false;
-            }
-            else
-            {
-                writer.Write("Invalid. Enter ; to continue or q to quit. ");
+                case null:
+                    return false;
+                case CONTINUE_EVALUATING:
+                    return true;
+                case STOP_EVALUATING:
+                    return false;
+                case STOP_EVALUATING_COMMAND:
+                    return false;
+                default:
+                    writer.Write("Invalid. Enter ; to continue or q to quit. ");
+                    break;
             }
         }
     }
@@ -190,9 +175,9 @@ public class PrologConsole
         }
         else
         {
-            var sb = new StringBuilder();
-            sb.Append("Caught: ");
-            sb.Append(e.GetType().Name);
+            var builder = new StringBuilder();
+            builder.Append("Caught: ");
+            builder.Append(e.GetType().Name);
             //StackTraceElement ste = e.StackTrace;
             //sb.Append(" from class: ");
             //sb.Append(ste.getClassName());
@@ -200,7 +185,7 @@ public class PrologConsole
             //sb.Append(ste.getMethodName());
             //sb.Append(" line: ");
             //sb.Append(ste.getLineNumber());
-            writer.WriteLine(sb);
+            writer.WriteLine(builder);
             var message = e.Message;
             if (message != null)
             {
@@ -222,16 +207,15 @@ public class PrologConsole
         return success && !r.IsExhausted;
     }
 
-    private void WriteVariableAssignments(QueryResult r, HashSet<string> variableIds)
+    private void WriteVariableAssignments(QueryResult result, HashSet<string> variableIds)
     {
         if (variableIds.Count > 0)
         {
             writer.WriteLine();
             foreach (var variableId in variableIds)
             {
-                var answer = r.GetTerm(variableId);
-                var s = prolog.FormatTerm(answer);
-                writer.WriteLine(variableId + " = " + s);
+                writer.WriteLine(variableId + " = " 
+                    + prolog.FormatTerm(result.GetTerm(variableId)));
             }
         }
     }

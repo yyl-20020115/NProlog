@@ -24,28 +24,16 @@ namespace Org.NProlog.Core.Predicate.Udp;
 public class ClauseModelTest
 {
     [TestMethod]
-    public void TestSingleTerm()
-    {
-        AssertClauseModel("a.", "a", "true");
-    }
+    public void TestSingleTerm() => AssertClauseModel("a.", "a", "true");
 
     [TestMethod]
-    public void TestSimpleImplication()
-    {
-        AssertClauseModel("a :- true.", "a", "true");
-    }
+    public void TestSimpleImplication() => AssertClauseModel("a :- true.", "a", "true");
 
     [TestMethod]
-    public void TestConjunctionImplication()
-    {
-        AssertClauseModel("a :- b, c, d.", "a", ",(,(b, c), d)");
-    }
+    public void TestConjunctionImplication() => AssertClauseModel("a :- b, c, d.", "a", ",(,(b, c), d)");
 
     [TestMethod]
-    public void TestDefinteClauseGrammer()
-    {
-        AssertClauseModel("a --> b, c.", "a(A2, A0)", ",(b(A2, A1), c(A1, A0))");
-    }
+    public void TestDefinteClauseGrammer() => AssertClauseModel("a --> b, c.", "a(A2, A0)", ",(b(A2, A1), c(A1, A0))");
 
     [TestMethod]
     public void TestNumeric()
@@ -75,16 +63,14 @@ public class ClauseModelTest
         }
     }
 
-    private void AssertClauseModel(string inputSyntax, string consequentSyntax, string antecedentSyntax)
+    private static void AssertClauseModel(string inputSyntax, string consequentSyntax, string antecedentSyntax)
     {
-        Term t = TestUtils.ParseSentence(inputSyntax);
-        ClauseModel cm = ClauseModel.CreateClauseModel(t);
+        var t = TestUtils.ParseSentence(inputSyntax);
+        var cm = ClauseModel.CreateClauseModel(t);
         AssertToString(consequentSyntax, cm.Consequent);
         AssertToString(antecedentSyntax, cm.Antecedent);
     }
 
-    private static void AssertToString(string syntax, Term t)
-    {
-        Assert.AreEqual(syntax, t.ToString());
-    }
+    private static void AssertToString(string syntax, Term t) 
+        => Assert.AreEqual(syntax, t.ToString());
 }

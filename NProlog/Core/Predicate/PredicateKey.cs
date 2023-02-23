@@ -34,7 +34,7 @@ namespace Org.NProlog.Core.Predicate;
  */
 public class PredicateKey : IComparable<PredicateKey>
 {
-    private static readonly string PREDICATE_KEY_FUNCTOR = "/";
+    private const string PREDICATE_KEY_FUNCTOR = "/";
 
     private readonly string name;
     private readonly int numArgs;
@@ -50,11 +50,9 @@ public class PredicateKey : IComparable<PredicateKey>
     public static PredicateKey CreateForTerm(Term t)
     {
         var type = t.Type;
-        if (type != TermType.STRUCTURE && type != TermType.ATOM && type != TermType.LIST)
-        {
-            throw new PrologException(GetInvalidTypeExceptionMessage(t));
-        }
-        return new PredicateKey(t.Name, t.NumberOfArguments);
+        return type != TermType.STRUCTURE && type != TermType.ATOM && type != TermType.LIST
+            ? throw new PrologException(GetInvalidTypeExceptionMessage(t))
+            : new PredicateKey(t.Name, t.NumberOfArguments);
     }
 
     /**
@@ -84,9 +82,7 @@ public class PredicateKey : IComparable<PredicateKey>
     public PredicateKey(string name, int numArgs)
     {
         if (numArgs < 0)
-        {
             throw new ArgumentException("Number of arguments: " + numArgs + " is less than 0");
-        }
         this.name = name;
         this.numArgs = numArgs;
     }

@@ -26,9 +26,9 @@ public class PrologListenersTest
     {
         var testObject = new PrologListeners();
 
-        DummyListener o1 = new DummyListener();
-        DummyListener o2 = new DummyListener();
-        DummyListener o3 = new DummyListener();
+        var o1 = new DummyListener();
+        var o2 = new DummyListener();
+        var o3 = new DummyListener();
 
         testObject.NotifyInfo("info1");
 
@@ -43,13 +43,12 @@ public class PrologListenersTest
 
         testObject.NotifyInfo("info2");
 
-        Assert.AreEqual(2, o1.
-        Count);
+        Assert.AreEqual(2, o1.Count);
         Assert.AreEqual(1, o2.Count);
         Assert.AreEqual(2, o3.Count);
-        Assert.AreEqual("warninfo2", o1.result());
-        Assert.AreEqual("warn", o2.result());
-        Assert.AreEqual("warninfo2", o3.result());
+        Assert.AreEqual("warninfo2", o1.Result);
+        Assert.AreEqual("warn", o2.Result);
+        Assert.AreEqual("warninfo2", o3.Result);
     }
 
     public class DummyListener : PrologListener
@@ -57,56 +56,36 @@ public class PrologListenersTest
         private readonly List<string> events = new();
 
 
-        public void OnInfo(string message)
-        {
-            Add(message);
-        }
+        public void OnInfo(string message) => Add(message);
 
 
-        public void OnWarn(string message)
-        {
-            Add(message);
-        }
+        public void OnWarn(string message) => Add(message);
 
 
-        public void OnRedo(SpyPointEvent @event)
-        {
-            throw new InvalidOperationException();
-        }
+        public void OnRedo(SpyPointEvent @event) => throw new InvalidOperationException();
 
 
-        public void OnFail(SpyPointEvent @event)
-        {
-            throw new InvalidOperationException();
-        }
+        public void OnFail(SpyPointEvent @event) => throw new InvalidOperationException();
 
 
-        public void OnExit(SpyPointExitEvent @event)
-        {
-            throw new InvalidOperationException();
-        }
+        public void OnExit(SpyPointExitEvent @event) => throw new InvalidOperationException();
 
 
-        public void OnCall(SpyPointEvent @event)
-        {
-            throw new InvalidOperationException();
-        }
+        public void OnCall(SpyPointEvent @event) => throw new InvalidOperationException();
 
-        private void Add(string message)
-        {
-            events.Add(message);
-        }
+        private void Add(string message) => events.Add(message);
 
         public int Count => events.Count;
 
-        public string result()
+        public string Result
         {
-            var result = new StringBuilder();
-            foreach (string @event in events)
+            get
             {
-                result.Append(@event);
+                var result = new StringBuilder();
+                foreach (var e in events)
+                    result.Append(e);
+                return result.ToString();
             }
-            return result.ToString();
         }
     }
 }

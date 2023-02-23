@@ -24,7 +24,7 @@ public class QueryResultTest
     [TestMethod]
     public void TestNoSolutions()
     {
-        QueryResult r = new Prolog().ExecuteQuery("fail.");
+        var r = new Prolog().ExecuteQuery("fail.");
         Assert.IsFalse(r.IsExhausted);
         Assert.IsFalse(r.Next());
         Assert.IsTrue(r.IsExhausted);
@@ -33,7 +33,7 @@ public class QueryResultTest
     [TestMethod]
     public void TestOneSolution()
     {
-        QueryResult r = new Prolog().ExecuteQuery("true.");
+        var r = new Prolog().ExecuteQuery("true.");
         Assert.IsFalse(r.IsExhausted);
         Assert.IsTrue(r.Next());
         Assert.IsTrue(r.IsExhausted);
@@ -43,7 +43,7 @@ public class QueryResultTest
     [TestMethod]
     public void TestMultipleSolutions()
     {
-        QueryResult r = new Prolog().ExecuteQuery("repeat(3).");
+        var r = new Prolog().ExecuteQuery("repeat(3).");
         Assert.IsFalse(r.IsExhausted);
         Assert.IsTrue(r.Next());
         Assert.IsFalse(r.IsExhausted);

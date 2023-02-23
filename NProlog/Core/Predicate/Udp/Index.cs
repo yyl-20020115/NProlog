@@ -18,7 +18,6 @@ using Org.NProlog.Core.Terms;
 namespace Org.NProlog.Core.Predicate.Udp;
 
 
-
 public class Index
 {
     private static readonly ClauseAction[] NO_MATCHES = Array.Empty<ClauseAction>();
@@ -34,11 +33,7 @@ public class Index
         this.result = result;
     }
 
-    public virtual ClauseAction[] GetMatches(Term[] args)
-    {
-        var key = keyFactory.CreateKey(positions, args);
-        return result.TryGetValue(key, out var r)?r:NO_MATCHES;
-    }
+    public virtual ClauseAction[] GetMatches(Term[] args) => result.TryGetValue(keyFactory.CreateKey(positions, args), out var r) ? r : NO_MATCHES;
 
     public int KeyCount => result.Count;
 }

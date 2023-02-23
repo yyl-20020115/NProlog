@@ -24,7 +24,7 @@ public class AppendTest
                 "append_([],L,L)." +
                 "append_([X|L1],L2,[X|L3]) :- append_(L1,L2,L3).";
 
-    private static readonly ListPredicateAssert PREDICATE_ASSERT = new ListPredicateAssert("append", 3, APPEND_PROLOG);
+    private static readonly ListPredicateAssert PREDICATE_ASSERT = new ("append", 3, APPEND_PROLOG);
     private static readonly string[] strings = new string[] {
                "[a,b,c] [d,e,f] X",
                "[a,b,c] [d,e,f] [a,b,c,d,e,f]",
@@ -80,7 +80,6 @@ public class AppendTest
         {
             var args = s.Split(' ');
             PREDICATE_ASSERT.AssertArgs(args[0], args[1], args[2]);
-
         }
     }
 

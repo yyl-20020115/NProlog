@@ -28,7 +28,7 @@ namespace Org.NProlog.Core.Terms;
  * @see ListFactory
  * @see ListUtils
  */
-public class List : Term
+public class LinkedTermList : Term
 {
     private readonly Term head;
     private readonly Term tail;
@@ -43,7 +43,7 @@ public class List : Term
      * @param head the head of the new list
      * @param tail the tail of the new list
      */
-    public List(Term head, Term tail)
+    public LinkedTermList(Term head, Term tail)
     {
         this.head = head;
         this.tail = tail;
@@ -85,11 +85,11 @@ public class List : Term
     public bool IsImmutable => immutable;
 
 
-    public List Term 
+    public LinkedTermList Term 
         => Traverse(t=>t.Term);// Traverse(Term.Term);
 
 
-    public List Copy(Dictionary<Variable, Variable> sharedVariables) =>
+    public LinkedTermList Copy(Dictionary<Variable, Variable> sharedVariables) =>
         Traverse(t => t.Copy(sharedVariables));
 
     /**
@@ -98,20 +98,20 @@ public class List : Term
      * @param f the operation to apply to each mutable element of the list
      * @return the resulting list produced as a result of applying {@link f} to each of the mutable elements
      */
-    private List Traverse(Func<Term,Term> f)
+    private LinkedTermList Traverse(Func<Term,Term> f)
     {
         if (immutable)
         {
             return this;
         }
 
-        List list = this;
+        LinkedTermList list = this;
 
-        List<List> elements = new();
+        List<LinkedTermList> elements = new();
         while (!list.immutable && list.tail.Type == TermType.LIST)
         {
             elements.Add(list);
-            list = (List)list.tail.Bound;
+            list = (LinkedTermList)list.tail.Bound;
         }
 
         if (!list.immutable)
@@ -120,7 +120,7 @@ public class List : Term
             var newTail = f(list.tail);
             if (newHead != list.head || newTail != list.tail)
             {
-                list = new List(newHead, newTail);
+                list = new LinkedTermList(newHead, newTail);
             }
         }
 
@@ -130,7 +130,7 @@ public class List : Term
             var newHead = f(next.head);
             if (newHead != next.head || list != next.tail)
             {
-                list = new List(newHead, list);
+                list = new LinkedTermList(newHead, list);
             }
             else
             {
@@ -174,11 +174,11 @@ public class List : Term
     public void Backtrack()
     {
         // used to be implemented using recursion but caused stack overflow problems with long lists
-        List list = this;
+        LinkedTermList list = this;
         while (!list.immutable)
         {
             list.head.Backtrack();
-            if (list.tail is List list1)
+            if (list.tail is LinkedTermList list1)
             {
                 list = list1;
             }
@@ -198,7 +198,7 @@ public class List : Term
             return true;
         }
 
-        if (o is List list && hashCode == o.GetHashCode())
+        if (o is LinkedTermList list && hashCode == o.GetHashCode())
         {
             // used to be implemented using recursion but caused stack overflow problems with long lists
             Term a = this;
@@ -213,7 +213,7 @@ public class List : Term
 
                 a = a.GetArgument(1);
                 b = b.GetArgument(1);
-            } while (a is List && b is List);
+            } while (a is LinkedTermList && b is LinkedTermList);
 
             return a.Equals(b);
         }

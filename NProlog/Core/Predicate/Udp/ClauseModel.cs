@@ -41,17 +41,13 @@ public class ClauseModel
     {
         var type = original.Type;
         if (type != TermType.STRUCTURE && type != TermType.ATOM)
-        {
             throw new PrologException("Expected an atom or a predicate but got a " + type + " with value: " + original);
-        }
 
         Term consequent;
         Term antecedent;
 
         if (DefiniteClauseGrammerConvertor.IsDCG(original))
-        {
             original = DefiniteClauseGrammerConvertor.Convert(original);
-        }
 
         if (original.Name.Equals(KnowledgeBaseUtils.IMPLICATION_PREDICATE_NAME))
         {

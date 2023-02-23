@@ -19,9 +19,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.List;
 
-
-
-
 /* TEST
 %TRUE maplist(atom, [])
 %TRUE maplist(atom, [a])
@@ -327,69 +324,51 @@ public class MapList : PredicateFactory, PreprocessablePredicateFactory, Knowled
 {
     private Predicates predicates;
     private KnowledgeBase knowledgeBase;
-    public MapList()
-    {
-        this.predicates = (this.knowledgeBase = new()).Predicates;
-    }
+    public MapList() => this.predicates = (this.knowledgeBase = new()).Predicates;
     public KnowledgeBase KnowledgeBase
     {
         get => knowledgeBase;
-        set
-        {
-            this.predicates = (this.knowledgeBase = value).Predicates;
-        }
+        set => this.predicates = (this.knowledgeBase = value).Predicates;
     }
-
 
     public PredicateFactory Preprocess(Term input)
     {
         var action = input.GetArgument(0);
-        if (PartialApplicationUtils.IsAtomOrStructure(action))
-        {
-            var pf = PartialApplicationUtils.GetPreprocessedPartiallyAppliedPredicateFactory(predicates, action, input.NumberOfArguments - 1);
-            return new PreprocessedMapList(pf);
-        }
-        else
-        {
-            return this;
-        }
+        return PartialApplicationUtils.IsAtomOrStructure(action)
+            ? new PreprocessedMapList(
+                PartialApplicationUtils.GetPreprocessedPartiallyAppliedPredicateFactory(predicates, action, input.NumberOfArguments - 1))
+            : this;
     }
 
     public class PreprocessedMapList : PredicateFactory
     {
-        private readonly PredicateFactory pf;
+        private readonly PredicateFactory factory;
 
-        public PreprocessedMapList(PredicateFactory pf)
-        {
-            this.pf = pf;
-        }
+        public PreprocessedMapList(PredicateFactory factory)
+            => this.factory = factory;
 
+        public Predicate GetPredicate(Term[] args) 
+            => GetMapListPredicate(factory, args);
 
-        public Predicate GetPredicate(Term[] args) => GetMapListPredicate(pf, args);
-
-
-        public bool IsRetryable => pf.IsRetryable;
+        public bool IsRetryable 
+            => factory.IsRetryable;
     }
-
 
     public bool IsRetryable => true;
 
     public Predicate GetPredicate(Term[] input)
     {
         var partiallyAppliedFunction = input[0];
-        if (!PartialApplicationUtils.IsAtomOrStructure(partiallyAppliedFunction))
-        {
-            return PredicateUtils.FALSE;
-        }
-
-        var pf = PartialApplicationUtils.GetPartiallyAppliedPredicateFactory(predicates, partiallyAppliedFunction, input.Length - 1);
-        return GetMapListPredicate(pf, input);
+        return !PartialApplicationUtils.IsAtomOrStructure(partiallyAppliedFunction)
+            ? PredicateUtils.FALSE
+            : GetMapListPredicate(
+            PartialApplicationUtils.GetPartiallyAppliedPredicateFactory(predicates, partiallyAppliedFunction, input.Length - 1)
+            , input);
     }
 
     private static Predicate GetMapListPredicate(PredicateFactory pf, Term[] input)
     {
         var partiallyAppliedFunction = input[0];
-
         var lists = new List<Term>[input.Length - 1];
         int Length = -1;
         for (int i = 0; i < lists.Length; i++)
@@ -399,72 +378,54 @@ public class MapList : PredicateFactory, PreprocessablePredicateFactory, Knowled
             {
                 var list = ListUtils.ToList(t);
                 if (list == null)
-                {
                     return PredicateUtils.FALSE;
-                }
                 else if (Length == -1)
-                {
                     Length = list.Count;
-                }
                 else if (Length != list.Count)
-                {
                     return PredicateUtils.FALSE;
-                }
                 lists[i] = list;
             }
         }
         if (Length == -1)
-        {
             return PredicateUtils.FALSE;
-        }
         for (int i = 0; i < lists.Length; i++)
         {
             lists[i] = new(Length);
             for (int t = 0; t < Length; t++)
-            {
                 lists[i].Add(new Variable());
-            }
             input[i + 1].Unify(ListFactory.CreateList(lists[i]));
         }
         if (Length == 0)
-        {
             return PredicateUtils.TRUE;
-        }
         if (pf.IsRetryable)
-        {
             return new Retryable(pf, partiallyAppliedFunction, lists);
-        }
         for (int i = 0; i < lists[0].Count; i++)
         {
             var args = new Term[lists.Length];
             for (int a = 0; a < args.Length; a++)
-            {
                 args[a] = lists[a][(i)];
-            }
             if (!PartialApplicationUtils.Apply(pf, PartialApplicationUtils.CreateArguments(partiallyAppliedFunction, args)))
-            {
                 return PredicateUtils.FALSE;
-            }
         }
         return PredicateUtils.TRUE;
     }
 
     public class Retryable : Predicate
     {
-        private readonly PredicateFactory pf;
+        private readonly PredicateFactory factory;
         private readonly Term action;
         private readonly List<Term>[] lists;
         private readonly List<Predicate> predicates;
-        private readonly List<Term[]> Backtrack;
+        private readonly List<Term[]> backtrack;
         private int idx;
 
-        public Retryable(PredicateFactory pf, Term action, List<Term>[] lists)
+        public Retryable(PredicateFactory factory, Term action, List<Term>[] lists)
         {
-            this.pf = pf;
+            this.factory = factory;
             this.action = action;
             this.lists = lists;
             this.predicates = new(lists.Length);
-            this.Backtrack = new(lists.Length);
+            this.backtrack = new(lists.Length);
         }
 
 
@@ -477,14 +438,12 @@ public class MapList : PredicateFactory, PreprocessablePredicateFactory, Knowled
                 {
                     var args = new Term[lists.Length];
                     for (int a = 0; a < args.Length; a++)
-                    {
                         args[a] = lists[a][(idx)].Term;
-                    }
-                    var p = PartialApplicationUtils.GetPredicate(pf, action, args);
+                    var p = PartialApplicationUtils.GetPredicate(factory, action, args);
                     success = p.Evaluate();
 
                     predicates.Add(p);
-                    Backtrack.Add(args);
+                    backtrack.Add(args);
                 }
                 else
                 {
@@ -493,21 +452,15 @@ public class MapList : PredicateFactory, PreprocessablePredicateFactory, Knowled
                 }
 
                 if (success)
-                {
                     if (idx < lists[0].Count - 1)
-                    {
                         idx++;
-                    }
                     else
-                    {
                         return true;
-                    }
-                }
                 else
                 {
                     predicates.RemoveAt(idx);
-                    var bt = Backtrack[idx];
-                    Backtrack.RemoveAt(idx);
+                    var bt = backtrack[idx];
+                    backtrack.RemoveAt(idx);
                     TermUtils.Backtrack(bt);
                     idx--;
                 }
@@ -520,18 +473,11 @@ public class MapList : PredicateFactory, PreprocessablePredicateFactory, Knowled
         {
             get
             {
-                if (predicates.Count == 0)
-                { // if empty then has not been evaluated yet
-                    return true;
-                }
-
+                if (predicates.Count == 0) return true;
+                // if empty then has not been evaluated yet
+                
                 foreach (var p in predicates)
-                {
-                    if (p.CouldReevaluationSucceed)
-                    {
-                        return true;
-                    }
-                }
+                    if (p.CouldReevaluationSucceed) return true;
                 return false;
             }
         }

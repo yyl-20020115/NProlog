@@ -28,17 +28,15 @@ namespace Org.NProlog.Core.Kb;
 [TestClass]
 public class BootstrapTest : TestUtils
 {
-    private readonly KnowledgeBase kb = TestUtils.CreateKnowledgeBase();
+    private readonly KnowledgeBase kb = CreateKnowledgeBase();
 
     [TestMethod]
     public void TestBuiltInPredicates()
     {
-        List<Term> terms = GetQueriesByKey(ADD_PREDICATE_KEY);
+        var terms = GetQueriesByKey(ADD_PREDICATE_KEY);
         Assert.IsFalse(terms.Count == 0);
-        foreach (Term t in terms)
-        {
+        foreach (var t in terms)
             AssertBuiltInPredicate(t.GetArgument(0));
-        }
     }
 
     [TestMethod]
@@ -47,23 +45,21 @@ public class BootstrapTest : TestUtils
         var terms = GetQueriesByKey(ADD_ARITHMETIC_OPERATOR_KEY);
         Assert.IsFalse(terms.Count == 0);
         foreach (var t in terms)
-        {
             AssertArithmeticOperator(t.GetArgument(1));
-        }
     }
 
-    private List<Term> GetQueriesByKey(PredicateKey key)
+    private static List<Term> GetQueriesByKey(PredicateKey key)
     {
         List<Term> result = new();
-        Term[] terms = ParseTermsFromFile(BOOTSTRAP_FILE);
-        foreach (Term next in terms)
+        var terms = ParseTermsFromFile(BOOTSTRAP_FILE);
+        foreach (var next in terms)
         {
             if (KnowledgeBaseUtils.QUESTION_PREDICATE_NAME.Equals(next.Name))
             {
-                Term t = next.GetArgument(0);
-                if (key.Equals(PredicateKey.CreateForTerm(t)))
+                var term = next.GetArgument(0);
+                if (key.Equals(PredicateKey.CreateForTerm(term)))
                 {
-                    result.Add(t);
+                    result.Add(term);
                 }
             }
         }
@@ -73,42 +69,42 @@ public class BootstrapTest : TestUtils
 
     private void AssertBuiltInPredicate(Term nameAndArity)
     {
-        PredicateKey key = PredicateKey.CreateFromNameAndArity(nameAndArity);
-        PredicateFactory ef = kb.Predicates.GetPredicateFactory(key);
+        var key = PredicateKey.CreateFromNameAndArity(nameAndArity);
+        var ef = kb.Predicates.GetPredicateFactory(key);
         //NOTICE: this is not needed
         //AssertSealed(ef);
         var methodParameters = GetMethodParameters(key);
-        if (ef is Org.NProlog.Core.Predicate.Predicate)
+        if (ef is Predicate.Predicate)
         {
             AssertClassImplementsOptimisedEvaluateMethod(ef, methodParameters);
         }
     }
 
-    private void AssertArithmeticOperator(Term className)
+    private static void AssertArithmeticOperator(Term className)
     {
-        Assembly assembly = typeof(KnowledgeBase).Assembly;
+        var assembly = typeof(KnowledgeBase).Assembly;
         var type = assembly.GetType(className.Name) ?? Type.GetType(className.Name);
         if(type==null)
         {
             Assert.Fail("Type " + className.Name + " not found");
         }
 
-        Object o = type.Assembly.CreateInstance(type.FullName);
+        var o = type.Assembly.CreateInstance(type.FullName);
         Assert.IsTrue(o is ArithmeticOperator);
         //AssertSealed(o);
     }
 
-    private void AssertSealed(Object o)
+    private void AssertSealed(object o)
     {
-        Type c = o.GetType();
+        var c = o.GetType();
         Assert.IsTrue(c.IsSealed, "Not readonly: " + c);
     }
 
-    private Type[] GetMethodParameters(PredicateKey key)
+    private static Type[] GetMethodParameters(PredicateKey key)
     {
-        int numberOfArguments = key.NumArgs;
-        Type[] args = new Type[numberOfArguments];
-        for (int i = 0; i < numberOfArguments; i++)
+        var numberOfArguments = key.NumArgs;
+        var args = new Type[numberOfArguments];
+        for (var i = 0; i < numberOfArguments; i++)
         {
             args[i] = typeof(Term);
         }
@@ -116,9 +112,9 @@ public class BootstrapTest : TestUtils
     }
 
 
-    private void AssertClassImplementsOptimisedEvaluateMethod(PredicateFactory ef, Type[] methodParameters)
+    private static void AssertClassImplementsOptimisedEvaluateMethod(PredicateFactory ef, Type[] methodParameters)
     {
-        Type c = ef.GetType();
+        var c = ef.GetType();
         bool success = false;
         while (success == false && c != null)
         {

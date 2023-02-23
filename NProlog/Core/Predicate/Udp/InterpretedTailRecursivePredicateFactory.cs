@@ -20,8 +20,6 @@ using static Org.NProlog.Core.Event.SpyPoints;
 
 namespace Org.NProlog.Core.Predicate.Udp;
 
-
-
 /**
  * Creates "tail recursion optimised" versions of user defined predicates.
  * <p>
@@ -47,10 +45,10 @@ public class InterpretedTailRecursivePredicateFactory : PredicateFactory
 
     public InterpretedTailRecursivePredicateFactory(KnowledgeBase kb, TailRecursivePredicateMetaData metaData)
     {
-        this.spyPoint = getSpyPoint(kb, metaData);
+        this.spyPoint = GetSpyPoint(kb, metaData);
         this.metaData = metaData;
-        ClauseModel firstClause = metaData.FirstClause;
-        ClauseModel secondClause = metaData.SecondClause;
+        var firstClause = metaData.FirstClause;
+        var secondClause = metaData.SecondClause;
 
         this.firstClauseConsequentArgs = firstClause.Consequent.Args;
         this.secondClauseConsequentArgs = secondClause.Consequent.Args;
@@ -72,25 +70,20 @@ public class InterpretedTailRecursivePredicateFactory : PredicateFactory
     }
 
 
-    public InterpretedTailRecursivePredicate GetPredicate(Term[] args)
-    {
-        return new InterpretedTailRecursivePredicate(spyPoint, args, firstClausePredicateFactories, firstClauseConsequentArgs, firstClauseOriginalTerms,
+    public InterpretedTailRecursivePredicate GetPredicate(Term[] args) => new InterpretedTailRecursivePredicate(spyPoint, args, firstClausePredicateFactories, firstClauseConsequentArgs, firstClauseOriginalTerms,
                     secondClausePredicateFactories, secondClauseConsequentArgs, secondClauseOriginalTerms, IsRetryableWith(args));
-    }
 
     private bool IsRetryableWith(Term[] args)
     {
         for (int i = 0; i < args.Length; i++)
         {
             if (args[i].IsImmutable && metaData.isSingleResultIfArgumentImmutable[(i)])
-            {
                 return false;
-            }
         }
         return true;
     }
 
-    private static SpyPoints.SpyPoint getSpyPoint(KnowledgeBase kb, TailRecursivePredicateMetaData metaData)
+    private static SpyPoints.SpyPoint GetSpyPoint(KnowledgeBase kb, TailRecursivePredicateMetaData metaData)
     {
         var key = PredicateKey.CreateForTerm(metaData.FirstClause.Consequent);
         return kb.SpyPoints.GetSpyPoint(key);

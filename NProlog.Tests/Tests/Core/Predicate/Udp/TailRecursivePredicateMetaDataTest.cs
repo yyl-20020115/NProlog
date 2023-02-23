@@ -23,13 +23,13 @@ namespace Org.NProlog.Core.Predicate.Udp;
 public class TailRecursivePredicateMetaDataTest
 {
     private readonly KnowledgeBase kb = TestUtils.CreateKnowledgeBase();
-    private List<ClauseModel> clauses;
+    private List<ClauseModel> clauses = new ();
 
 
     [TestInitialize]
     public void SetUp()
     {
-        clauses = null;
+        clauses = new();
     }
 
     [TestMethod]
@@ -95,20 +95,18 @@ public class TailRecursivePredicateMetaDataTest
 
     private void AssertMultipleResultsTailRecursive(string input)
     {
-        Term parsedSentence = TestUtils.ParseSentence(input);
+        var parsedSentence = TestUtils.ParseSentence(input);
         Assert.IsFalse(IsSingleResultTailRecursive(CopyClauses(), parsedSentence.Args));
     }
 
     private bool IsSingleResultTailRecursive(List<ClauseModel> facts, Term[] args)
     {
-        TailRecursivePredicateMetaData metaData = TailRecursivePredicateMetaData.Create(kb, facts);
+        var metaData = TailRecursivePredicateMetaData.Create(kb, facts);
         Assert.IsNotNull(metaData);
         for (int i = 0; i < args.Length; i++)
         {
             if (metaData.isSingleResultIfArgumentImmutable[i] && args[i].Type.IsVariable == false)
-            {
                 return true;
-            }
         }
         return false;
     }
@@ -117,9 +115,9 @@ public class TailRecursivePredicateMetaDataTest
     {
         clauses = new();
 
-        foreach (string sentence in sentences)
+        foreach (var sentence in sentences)
         {
-            ClauseModel clause = TestUtils.CreateClauseModel(sentence);
+            var clause = TestUtils.CreateClauseModel(sentence);
             clauses.Add(clause);
         }
 
@@ -129,7 +127,7 @@ public class TailRecursivePredicateMetaDataTest
     private List<ClauseModel> CopyClauses()
     {
         List<ClauseModel> Copy = new(clauses.Count);
-        foreach (ClauseModel clause in clauses)
+        foreach (var clause in clauses)
         {
             Copy.Add(clause.Copy());
         }
@@ -139,7 +137,7 @@ public class TailRecursivePredicateMetaDataTest
     private void AssertNotTailRecursive(params string[] prologClauses)
     {
         SetClauses(prologClauses);
-        TailRecursivePredicateMetaData metaData = TailRecursivePredicateMetaData.Create(kb, clauses);
+        var metaData = TailRecursivePredicateMetaData.Create(kb, clauses);
         Assert.IsNull(metaData);
     }
 }

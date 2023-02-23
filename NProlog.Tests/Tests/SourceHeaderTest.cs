@@ -17,24 +17,22 @@ namespace Org.NProlog;
 
 
 /** Tests that the contents of every Java source file starts with the license header. */
-//[TestClass]
+[TestClass]
 public class SourceHeaderTest
 {
-    //[TestMethod]
+    [TestMethod]
     public void TestSourceHeaders()
     {
         var csfiles = GetCSharpSourceFiles();
-        foreach (string f in csfiles)
-        {
+        foreach (var f in csfiles)
             AssertSourceHeader(f);
-        }
     }
 
     /** @return all Java source files for the project */
-    private List<string> GetCSharpSourceFiles()
+    private static List<string> GetCSharpSourceFiles()
     {
         var d = new DirectoryInfo(Path.Combine(Environment.CurrentDirectory, "."));
-        FileInfo[] files = d.GetFiles("*.cs");
+        var files = d.GetFiles("*.cs");
         return files.Select(f => f.FullName).ToList();
     }
 
@@ -42,7 +40,7 @@ public class SourceHeaderTest
     private static void AssertSourceHeader(string p)
     {
         var lines = File.ReadAllLines(p);
-        string failureMessage = "No source header found for " + p;
+        var failureMessage = "No source header found for " + p;
         Assert.IsTrue(lines.Length > 15, failureMessage);
         Assert.AreEqual("/*", lines[(0)], failureMessage);
         Assert.AreEqual(" * Licensed under the Apache License, Version 2.0 (the \"License\");", lines[(3)], failureMessage);
@@ -50,5 +48,4 @@ public class SourceHeaderTest
         Assert.AreEqual(" * You may obtain a Copy of the License at", lines[(5)], failureMessage);
         Assert.AreEqual(" *     http://www.apache.org/licenses/LICENSE-2.0", lines[(7)], failureMessage);
     }
-
 }

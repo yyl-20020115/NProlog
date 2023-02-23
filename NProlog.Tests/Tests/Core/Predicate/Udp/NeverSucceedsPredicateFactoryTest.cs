@@ -32,10 +32,10 @@ public class NeverSucceedsPredicateFactoryTest : TestUtils
     public void Before()
     {
         this.listener = new SimplePrologListener();
-        PrologListeners observable = new PrologListeners();
+        var observable = new PrologListeners();
         observable.AddListener(listener);
         this.spyPoints = new SpyPoints(observable, TestUtils.CreateTermFormatter());
-        SpyPoint spyPoint = spyPoints.GetSpyPoint(new PredicateKey("test", 3));
+        var spyPoint = spyPoints.GetSpyPoint(new PredicateKey("test", 3));
 
         this.testObject = new NeverSucceedsPredicateFactory(spyPoint);
     }
@@ -43,7 +43,7 @@ public class NeverSucceedsPredicateFactoryTest : TestUtils
     [TestMethod]
     public void TestGetPredicateSpyPointDisabled()
     {
-        Predicate predicate = testObject.GetPredicate(queryArgs);
+        var predicate = testObject.GetPredicate(queryArgs);
 
         Assert.AreSame(PredicateUtils.FALSE, predicate);
         Assert.AreEqual("", listener.GetResult());
@@ -54,7 +54,7 @@ public class NeverSucceedsPredicateFactoryTest : TestUtils
     {
         spyPoints.TraceEnabled = (true);
 
-        Predicate predicate = testObject.GetPredicate(queryArgs);
+        var predicate = testObject.GetPredicate(queryArgs);
 
         Assert.AreSame(PredicateUtils.FALSE, predicate);
         Assert.AreEqual("CALLtest(a, b, c)FAILtest(a, b, c)", listener.GetResult());

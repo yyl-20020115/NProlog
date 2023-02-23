@@ -28,10 +28,10 @@ public class ConjunctionTest : TestUtils
     [TestMethod]
     public void TestPreprocessCannotOptimiseWhenBothArgumentsAreVariables()
     {
-        KnowledgeBase kb = CreateKnowledgeBase();
-        Term term = ParseTerm("X, Y.");
-        Conjunction c = (Conjunction)kb.Predicates.GetPredicateFactory(term);
-        PredicateFactory optimised = c.Preprocess(term);
+        var kb = CreateKnowledgeBase();
+        var term = ParseTerm("X, Y.");
+        var c = (Conjunction)kb.Predicates.GetPredicateFactory(term);
+        var optimised = c.Preprocess(term);
 
         Assert.AreSame(c, optimised);
     }
@@ -39,10 +39,10 @@ public class ConjunctionTest : TestUtils
     [TestMethod]
     public void TestPreprocessCannotOptimiseWhenFirstArgumentIsVariable()
     {
-        KnowledgeBase kb = CreateKnowledgeBase();
-        Term term = ParseTerm("X, true.");
-        Conjunction c = (Conjunction)kb.Predicates.GetPredicateFactory(term);
-        PredicateFactory optimised = c.Preprocess(term);
+        var kb = CreateKnowledgeBase();
+        var term = ParseTerm("X, true.");
+        var c = (Conjunction)kb.Predicates.GetPredicateFactory(term);
+        var optimised = c.Preprocess(term);
 
         Assert.AreSame(c, optimised);
     }
@@ -50,10 +50,10 @@ public class ConjunctionTest : TestUtils
     [TestMethod]
     public void TestPreprocessCannotOptimiseWhenSecondArgumentIsVariable()
     {
-        KnowledgeBase kb = CreateKnowledgeBase();
-        Term term = ParseTerm("true, Y.");
-        Conjunction c = (Conjunction)kb.Predicates.GetPredicateFactory(term);
-        PredicateFactory optimised = c.Preprocess(term);
+        var kb = CreateKnowledgeBase();
+        var term = ParseTerm("true, Y.");
+        var c = (Conjunction)kb.Predicates.GetPredicateFactory(term);
+        var optimised = c.Preprocess(term);
 
         Assert.AreSame(c, optimised);
     }
@@ -61,10 +61,10 @@ public class ConjunctionTest : TestUtils
     [TestMethod]
     public void TestPreprocessOptimisedSingletonConjuction()
     {
-        KnowledgeBase kb = CreateKnowledgeBase();
-        Term term = ParseTerm("true, true.");
-        Conjunction c = (Conjunction)kb.Predicates.GetPredicateFactory(term);
-        PredicateFactory optimised = c.Preprocess(term);
+        var kb = CreateKnowledgeBase();
+        var term = ParseTerm("true, true.");
+        var c = (Conjunction)kb.Predicates.GetPredicateFactory(term);
+        var optimised = c.Preprocess(term);
 
         Assert.AreEqual("OptimisedSingletonConjuction", optimised.GetType().Name);
         Assert.IsFalse(optimised.IsRetryable);
@@ -74,18 +74,18 @@ public class ConjunctionTest : TestUtils
     [TestMethod]
     public void TestPreprocessOptimisedSingletonConjuctionWithVariables()
     {
-        KnowledgeBase kb = CreateKnowledgeBase();
-        Term term = ParseTerm("X=6, \\+ atom(X).");
-        Conjunction c = (Conjunction)kb.Predicates.GetPredicateFactory(term);
-        PredicateFactory optimised = c.Preprocess(term);
+        var kb = CreateKnowledgeBase();
+        var term = ParseTerm("X=6, \\+ atom(X).");
+        var c = (Conjunction)kb.Predicates.GetPredicateFactory(term);
+        var optimised = c.Preprocess(term);
 
         Assert.AreEqual("OptimisedSingletonConjuction", optimised.GetType().Name);
         Assert.IsFalse(optimised.IsRetryable);
         Assert.IsFalse(optimised.IsAlwaysCutOnBacktrack);
         Dictionary<Variable, Variable> sharedVariables = new();
-        Term Copy = term.Copy(sharedVariables);
+        var Copy = term.Copy(sharedVariables);
         Assert.AreSame(PredicateUtils.TRUE, optimised.GetPredicate(Copy.Args));
-        Variable variable = sharedVariables.Values.First();
+        var variable = sharedVariables.Values.First();
         // confirm the Backtrack implemented by Not did not unassign X
         Assert.AreEqual("X", variable.Id);
         Assert.AreEqual(new IntegerNumber(6), variable.Term);
@@ -94,11 +94,11 @@ public class ConjunctionTest : TestUtils
     [TestMethod]
     public void TestPreprocessFirstArgumentRetryable()
     {
-        KnowledgeBase kb = CreateKnowledgeBase();
-        Term term = ParseTerm("repeat(2), true.");
-        Conjunction c = (Conjunction)kb.Predicates.GetPredicateFactory(term);
-        PredicateFactory optimised = c.Preprocess(term);
-        Predicate predicate = optimised.GetPredicate(term.Args);
+        var kb = CreateKnowledgeBase();
+        var term = ParseTerm("repeat(2), true.");
+        var c = (Conjunction)kb.Predicates.GetPredicateFactory(term);
+        var optimised = c.Preprocess(term);
+        var predicate = optimised.GetPredicate(term.Args);
 
         Assert.AreEqual("OptimisedRetryableConjuction", optimised.GetType().Name);
         Assert.IsTrue(optimised.IsRetryable);
@@ -115,12 +115,12 @@ public class ConjunctionTest : TestUtils
     [TestMethod]
     public void TestPreprocessFirstArgumentRetryableWithVariable()
     {
-        KnowledgeBase kb = CreateKnowledgeBase();
-        TermFormatter tf = kb.TermFormatter;
-        Term term = ParseTerm("member(X, [a,b]), Y=X.");
-        Conjunction c = (Conjunction)kb.Predicates.GetPredicateFactory(term);
-        PredicateFactory optimised = c.Preprocess(term);
-        Predicate predicate = optimised.GetPredicate(term.Args);
+        var kb = CreateKnowledgeBase();
+        var tf = kb.TermFormatter;
+        var term = ParseTerm("member(X, [a,b]), Y=X.");
+        var c = (Conjunction)kb.Predicates.GetPredicateFactory(term);
+        var optimised = c.Preprocess(term);
+        var predicate = optimised.GetPredicate(term.Args);
 
         Assert.AreEqual("OptimisedRetryableConjuction", optimised.GetType().Name);
         Assert.IsTrue(optimised.IsRetryable);
@@ -138,11 +138,11 @@ public class ConjunctionTest : TestUtils
     [TestMethod]
     public void TestPreprocessSecondArgumentRetryable()
     {
-        KnowledgeBase kb = CreateKnowledgeBase();
-        Term term = ParseTerm("true, repeat(2).");
-        Conjunction c = (Conjunction)kb.Predicates.GetPredicateFactory(term);
-        PredicateFactory optimised = c.Preprocess(term);
-        Predicate predicate = optimised.GetPredicate(term.Args);
+        var kb = CreateKnowledgeBase();
+        var term = ParseTerm("true, repeat(2).");
+        var c = (Conjunction)kb.Predicates.GetPredicateFactory(term);
+        var optimised = c.Preprocess(term);
+        var predicate = optimised.GetPredicate(term.Args);
 
         Assert.AreEqual("OptimisedRetryableConjuction", optimised.GetType().Name);
         Assert.IsTrue(optimised.IsRetryable);
@@ -158,11 +158,11 @@ public class ConjunctionTest : TestUtils
     [TestMethod]
     public void TestPreprocessBothArgumentsRetryable()
     {
-        KnowledgeBase kb = CreateKnowledgeBase();
-        Term term = ParseTerm("member(X, [2,3]), repeat(X).");
-        Conjunction c = (Conjunction)kb.Predicates.GetPredicateFactory(term);
-        PredicateFactory optimised = c.Preprocess(term);
-        Predicate predicate = optimised.GetPredicate(term.Args);
+        var kb = CreateKnowledgeBase();
+        var term = ParseTerm("member(X, [2,3]), repeat(X).");
+        var c = (Conjunction)kb.Predicates.GetPredicateFactory(term);
+        var optimised = c.Preprocess(term);
+        var predicate = optimised.GetPredicate(term.Args);
 
         Assert.AreEqual("OptimisedRetryableConjuction", optimised.GetType().Name);
         Assert.IsTrue(optimised.IsRetryable);
@@ -181,7 +181,7 @@ public class ConjunctionTest : TestUtils
         Assert.IsFalse(predicate.Evaluate());
     }
 
-    string[] vs1 = {
+    readonly string[] vs1 = {
                "!,true.",
                "true,!.",
                "!,true,!.",
@@ -201,7 +201,7 @@ public class ConjunctionTest : TestUtils
         }
     }
 
-    string[] vs2 = {
+    readonly string[] vs2 = {
                "true,true.",
                "repeat,repeat.",
                "true,repeat.",

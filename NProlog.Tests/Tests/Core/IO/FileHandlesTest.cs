@@ -22,93 +22,87 @@ namespace Org.NProlog.Core.IO;
 public class FileHandlesTest : TestUtils
 {
     [TestMethod]
-    public void TestUserInputHandle()
-    {
-        Assert.AreEqual("user_input", FileHandles.USER_INPUT_HANDLE.Name);
-    }
+    public void TestUserInputHandle() => Assert.AreEqual("user_input", FileHandles.USER_INPUT_HANDLE.Name);
 
     [TestMethod]
-    public void TestUserOutputHandle()
-    {
-        Assert.AreEqual("user_output", FileHandles.USER_OUTPUT_HANDLE.Name);
-    }
+    public void TestUserOutputHandle() => Assert.AreEqual("user_output", FileHandles.USER_OUTPUT_HANDLE.Name);
 
     [TestMethod]
     public void TestDefaultInputStream()
     {
-        FileHandles fh = new FileHandles();
+        FileHandles fh = new();
         Assert.AreSame(Console.In, fh.CurrentReader);
     }
 
     [TestMethod]
     public void TestDefaultOutputStream()
     {
-        FileHandles fh = new FileHandles();
+        FileHandles fh = new();
         Assert.AreSame(Console.Out, fh.CurrentWriter);
     }
 
     [TestMethod]
     public void TestDefaultInputHandle()
     {
-        FileHandles fh = new FileHandles();
-        Term expected = new Atom("user_input");
-        Term actual = fh.CurrentInputHandle;
+        FileHandles fh = new();
+        var expected = new Atom("user_input");
+        var actual = fh.CurrentInputHandle;
         Assert.AreEqual(expected, actual);
     }
 
     [TestMethod]
     public void TestDefaultOutputHandle()
     {
-        FileHandles fh = new FileHandles();
-        Term expected = new Atom("user_output");
-        Term actual = fh.CurrentOutputHandle;
+        FileHandles fh = new();
+        var expected = new Atom("user_output");
+        var actual = fh.CurrentOutputHandle;
         Assert.AreEqual(expected, actual);
     }
 
     [TestMethod]
     public void TestSetUserInputWhenCurrent()
     {
-        FileHandles fh = new FileHandles();
+        FileHandles fh = new();
 
         // given the standard stream is also the current stream
         Assert.AreSame(FileHandles.USER_INPUT_HANDLE, fh.CurrentInputHandle);
 
         // when we reassign the standard stream
-        var sr = new StringReader("");
-        fh.SetUserInput(sr);
+        var reader = new StringReader("");
+        fh.SetUserInput(reader);
 
         // then the current stream should be updated
-        Assert.AreSame(sr, fh.CurrentReader);
+        Assert.AreSame(reader, fh.CurrentReader);
     }
 
     [TestMethod]
     public void TestSetUserInputWhenNotCurrent()
     {
-        FileHandles fh = new FileHandles();
+        FileHandles fh = new();
 
         // set input to something other than the standard stream
-        string filename = CreateFileName("testSetUserInputWhenNotCurrentInput");
+        var filename = CreateFileName("testSetUserInputWhenNotCurrentInput");
         
-        Term handle = fh.OpenInput(filename);
+        var handle = fh.OpenInput(filename);
         fh.SetInput(handle);
 
         // reassign the standard stream
-        var _is = new StringReader("");
-        fh.SetUserInput(_is);
+        var reader = new StringReader("");
+        fh.SetUserInput(reader);
 
         // confirm that reassigning the standard stream has not altered the current input
         Assert.AreSame(handle, fh.CurrentInputHandle);
-        Assert.AreNotSame(_is, fh.CurrentReader);
+        Assert.AreNotSame(reader, fh.CurrentReader);
 
         // switch back to the standard stream and confirm it has been reassigned
         fh.SetInput(FileHandles.USER_INPUT_HANDLE);
-        Assert.AreSame(_is, fh.CurrentReader);
+        Assert.AreSame(reader, fh.CurrentReader);
     }
 
     [TestMethod]
     public void TestSetUserOutputWhenCurrent()
     {
-        FileHandles fh = new FileHandles();
+        FileHandles fh = new();
 
         // given the standard stream is also the current stream
         Assert.AreSame(FileHandles.USER_OUTPUT_HANDLE, fh.CurrentOutputHandle);
@@ -124,30 +118,30 @@ public class FileHandlesTest : TestUtils
     [TestMethod]
     public void TestSetUserOutputWhenNotCurrent()
     {
-        FileHandles fh = new FileHandles();
+        FileHandles fh = new();
 
         // set output to something other than the standard stream
-        Term handle = fh.OpenOutput(CreateFileName("testSetUserOutputWhenNotCurrentOutput"));
+        var handle = fh.OpenOutput(CreateFileName("testSetUserOutputWhenNotCurrentOutput"));
         fh.SetOutput(handle);
 
         // reassign the standard stream
-        var ps = new StringWriter();
-        fh.SetUserOutput(ps);
+        var writer = new StringWriter();
+        fh.SetUserOutput(writer);
 
         // confirm that reassigning the standard stream has not altered the current output
         Assert.AreSame(handle, fh.CurrentOutputHandle);
-        Assert.AreNotSame(ps, fh.CurrentWriter);
+        Assert.AreNotSame(writer, fh.CurrentWriter);
 
         // switch back to the standard stream and confirm it has been reassigned
         fh.SetOutput(FileHandles.USER_OUTPUT_HANDLE);
-        Assert.AreSame(ps, fh.CurrentWriter);
+        Assert.AreSame(writer, fh.CurrentWriter);
     }
 
     [TestMethod]
     public void TestSetInputFailure()
     {
-        FileHandles fh = new FileHandles();
-        Term t = Atom("test");
+        FileHandles fh = new();
+        var t = Atom("test");
         try
         {
             fh.SetInput(t);
@@ -162,8 +156,8 @@ public class FileHandlesTest : TestUtils
     [TestMethod]
     public void TestSetOutputFailure()
     {
-        FileHandles fh = new FileHandles();
-        Term t = Atom("test");
+        FileHandles fh = new();
+        var t = Atom("test");
         try
         {
             fh.SetInput(t);
@@ -179,19 +173,19 @@ public class FileHandlesTest : TestUtils
     public void TestWriteAndRead()
     {
         var fh = new FileHandles();
-        string filename = CreateFileName("testWriteAndRead");
-        string contentsToWrite = "test";
+        var filename = CreateFileName("testWriteAndRead");
+        var contentsToWrite = "test";
         Write(fh, filename, contentsToWrite);
-        string contentsRead = Read(fh, filename);
+        var contentsRead = Read(fh, filename);
         Assert.AreEqual(contentsToWrite, contentsRead);
     }
 
     [TestMethod]
     public void TestIsHandle()
     {
-        FileHandles fh = new FileHandles();
-        string filename = CreateFileName("testIsHandle");
-        Term handle = OpenOutput(fh, filename);
+        FileHandles fh = new();
+        var filename = CreateFileName("testIsHandle");
+        var handle = OpenOutput(fh, filename);
         Assert.IsTrue(fh.IsHandle(handle.Name));
         fh.Close(handle);
         Assert.IsFalse(fh.IsHandle(handle.Name));
@@ -199,7 +193,7 @@ public class FileHandlesTest : TestUtils
 
     private string CreateFileName(string name)
     {
-        string fn = GetType().Name + "_" + name + "_" + DateTime.Now.Millisecond + ".tmp";
+        var fn = GetType().Name + "_" + name + "_" + DateTime.Now.Millisecond + ".tmp";
         File.Create(fn).Close();
 
         return fn;
@@ -207,11 +201,11 @@ public class FileHandlesTest : TestUtils
 
     private void Write(FileHandles fh, string filename, string contents)
     {
-        Term handle = OpenOutput(fh, filename);
+        var handle = OpenOutput(fh, filename);
         fh.SetOutput(handle);
         Assert.AreSame(handle, fh.CurrentOutputHandle);
-        var ps = fh.CurrentWriter;
-        ps.Write(contents);
+        var writer = fh.CurrentWriter;
+        writer.Write(contents);
         fh.Close(handle);
         //Assert.IsFalse(ps.checkError());
         //ps.Append("extra stuff after close was called");
@@ -220,20 +214,20 @@ public class FileHandlesTest : TestUtils
 
     private string Read(FileHandles fh, string filename)
     {
-        Term handle = OpenInput(fh, filename);
+        var handle = OpenInput(fh, filename);
         fh.SetInput(handle);
         Assert.AreSame(handle, fh.CurrentInputHandle);
-        var _is = fh.CurrentReader;
-        string contents = "";
+        var reader = fh.CurrentReader;
+        var contents = "";
         int next;
-        while ((next = _is.Read()) != -1)
+        while ((next = reader.Read()) != -1)
         {
             contents += (char)next;
         }
         fh.Close(handle);
         try
         {
-            _is.Read();
+            reader.Read();
             Assert.Fail("could read from closed input stream");
         }
         catch (Exception e)
@@ -244,9 +238,9 @@ public class FileHandlesTest : TestUtils
         return contents;
     }
 
-    private Term OpenOutput(FileHandles fh, string filename)
+    private static Term OpenOutput(FileHandles fh, string filename)
     {
-        Term handle = fh.OpenOutput(filename);
+        var handle = fh.OpenOutput(filename);
         try
         {
             fh.OpenOutput(filename);
@@ -259,9 +253,9 @@ public class FileHandlesTest : TestUtils
         return handle;
     }
 
-    private Term OpenInput(FileHandles fh, string filename)
+    private static Term OpenInput(FileHandles fh, string filename)
     {
-        Term handle = fh.OpenInput(filename);
+        var handle = fh.OpenInput(filename);
         try
         {
             fh.OpenInput(filename);

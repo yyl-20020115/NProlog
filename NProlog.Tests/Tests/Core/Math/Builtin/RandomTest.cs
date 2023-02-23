@@ -26,10 +26,10 @@ public class RandomTest
     [TestMethod]
     public void TestNotPreprocessed()
     {
-        KnowledgeBase kb = TestUtils.CreateKnowledgeBase();
-        Term expression = TestUtils.ParseSentence("random(" + long.MinValue + ").");
-        ArithmeticOperators operators = kb.ArithmeticOperators;
-        Random r = (Random)operators.GetArithmeticOperator(PredicateKey.CreateForTerm(expression));
+        var kb = TestUtils.CreateKnowledgeBase();
+        var expression = TestUtils.ParseSentence("random(" + long.MinValue + ").");
+        var operators = kb.ArithmeticOperators;
+        var r = (Random)operators.GetArithmeticOperator(PredicateKey.CreateForTerm(expression));
 
         Assert.IsFalse(r.IsPure);
         Assert.AreSame(r, r.Preprocess(expression));

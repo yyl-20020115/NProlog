@@ -43,7 +43,7 @@ public class SingleNonRetryableRulePredicateFactory : PreprocessablePredicateFac
             {
                 spyPoint.LogCall(typeof(SingleNonRetryableRulePredicateFactory), args);
 
-                bool result = clause.GetPredicate(args).Evaluate();
+                var result = clause.GetPredicate(args).Evaluate();
 
                 if (result)
                 {

@@ -9,10 +9,7 @@ public class MockPredicate : Predicate
 }
 public class MockPredicateFactory : AbstractSingleResultPredicate, PredicateFactory
 {
-    public MockPredicateFactory()
-    {
-
-    }
+    public MockPredicateFactory() { }
     protected override bool Evaluate() => true;
     protected override bool Evaluate(Term arg) => true;
     protected override bool Evaluate(Term arg1, Term arg2) => true;
@@ -22,9 +19,6 @@ public class MockPredicateFactory : AbstractSingleResultPredicate, PredicateFact
 }
 public class MockPreprocessablePredicateFactory : MockPredicateFactory, PreprocessablePredicateFactory
 {
-    public PredicateFactory Preprocess(Term arg)
-    {
-        return this;
-    }
+    public PredicateFactory Preprocess(Term arg) => this;
 }
 

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-using Org.NProlog.Core.Predicate.Builtin.Construct;
 using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate;
@@ -24,7 +23,7 @@ public class AbstractPredicateFactoryTest : TestUtils
     [TestMethod]
     public void TestIllegalArgumentException()
     {
-        AbstractPredicateFactory pf = new APF1();
+        var pf = new APF1();
         for (int i = 0; i < 100; i++)
         {
             AssertIllegalArgumentException(pf, i);
@@ -58,10 +57,7 @@ public class AbstractPredicateFactoryTest : TestUtils
             this.fourArgsPredicate = fourArgsPredicate;
         }
 
-        protected override Predicate GetPredicate()
-        {
-            return noArgPredicate;
-        }
+        protected override Predicate GetPredicate() => noArgPredicate;
 
 
         protected override Predicate GetPredicate(Term t)
@@ -101,21 +97,21 @@ public class AbstractPredicateFactoryTest : TestUtils
     [TestMethod]
     public void TestOverridenMethods()
     {
-        Atom arg1 = Atom("a");
-        Atom arg2 = Atom("b");
-        Atom arg3 = Atom("c");
-        Atom arg4 = Atom("d");
+        var arg1 = Atom("a");
+        var arg2 = Atom("b");
+        var arg3 = Atom("c");
+        var arg4 = Atom("d");
 
-        Predicate noArgPredicate = CreatePredicate();
-        Predicate oneArgPredicate = CreatePredicate();
-        Predicate twoArgsPredicate = CreatePredicate();
-        Predicate threeArgsPredicate = CreatePredicate();
-        Predicate fourArgsPredicate = CreatePredicate();
+        var noArgPredicate = CreatePredicate();
+        var oneArgPredicate = CreatePredicate();
+        var twoArgsPredicate = CreatePredicate();
+        var threeArgsPredicate = CreatePredicate();
+        var fourArgsPredicate = CreatePredicate();
 
-        AbstractPredicateFactory pf = new APF0(
+        var pf = new APF0(
             arg1, arg2, arg3, noArgPredicate, oneArgPredicate, twoArgsPredicate, threeArgsPredicate, fourArgsPredicate);
 
-        Assert.AreSame(noArgPredicate, pf.GetPredicate(new Term[0]));
+        Assert.AreSame(noArgPredicate, pf.GetPredicate(System.Array.Empty<Term>()));
         Assert.AreSame(oneArgPredicate, pf.GetPredicate(new Term[] { arg1 }));
         Assert.AreSame(twoArgsPredicate, pf.GetPredicate(new Term[] { arg1, arg2 }));
         Assert.AreSame(threeArgsPredicate, pf.GetPredicate(new Term[] { arg1, arg2, arg3 }));
@@ -126,18 +122,11 @@ public class AbstractPredicateFactoryTest : TestUtils
 
     public class Prd0 : Predicate
     {
-        public bool Evaluate()
-        {
-            return false;
-        }
-
+        public bool Evaluate() => false;
 
         public bool CouldReevaluationSucceed => false;
     }
-    private static Predicate CreatePredicate()
-    {
-        return new Prd0();
-    }
+    private static Predicate CreatePredicate() => new Prd0();
 
     private static void AssertIllegalArgumentException(AbstractPredicateFactory pf, int numberOfArguments)
     {

@@ -27,7 +27,7 @@ public static class ListFactory
     /**
      * A "{@code .}" is the functor name for all lists in Prolog.
      */
-    public static readonly string LIST_PREDICATE_NAME = ".";
+    public const string LIST_PREDICATE_NAME = ".";
 
     /**
      * Returns a new {@link List} with specified head and tail.
@@ -36,7 +36,7 @@ public static class ListFactory
      * @param tail the second argument in the list
      * @return a new {@link List} with specified head and tail
      */
-    public static List CreateList(Term head, Term tail) => new (head, tail);
+    public static LinkedTermList CreateList(Term head, Term tail) => new (head, tail);
 
     /**
      * Returns a new {@link List} with the specified terms and a empty list as the readonly tail element.
@@ -77,7 +77,7 @@ public static class ListFactory
         for (int i = numberOfElements - 1; i > -1; i--)
         {
             var element = terms[i];
-            list = new List(element, list);
+            list = new LinkedTermList(element, list);
         }
         return list;
     }
@@ -98,7 +98,7 @@ public static class ListFactory
             Term t = EmptyList.EMPTY_LIST;
             for (int i = Length - 1; i > -1; i--)
             {
-                t = new List(new Variable("E" + i), t);
+                t = new LinkedTermList(new Variable("E" + i), t);
             }
             return t;
         }

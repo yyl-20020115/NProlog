@@ -17,8 +17,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.List;
 
-
-
 /* TEST
 %TRUE memberchk(a, [a,b,c])
 %TRUE memberchk(b, [a,b,c])
@@ -72,26 +70,17 @@ namespace Org.NProlog.Core.Predicate.Builtin.List;
 public class MemberCheck : AbstractSingleResultPredicate, PreprocessablePredicateFactory
 {
 
-    protected override bool Evaluate(Term element, Term list)
-    {
-        if (list.Type.IsVariable)
-        {
-            return list.Unify(new Terms.List(element, new Variable()));
-        }
-        else
-        {
-            return ListUtils.IsMember(element, list);
-        }
-    }
+    protected override bool Evaluate(Term element, Term list) 
+        => list.Type.IsVariable ? list.Unify(new LinkedTermList(element, new Variable())) : ListUtils.IsMember(element, list);
 
 
     public PredicateFactory Preprocess(Term term)
     {
         // TODO if EMPTY_LIST then return a PredicateFactory that always uses PredicateUtils.FALSE.
-        Term prologList = term.GetArgument(1);
+        var prologList = term.GetArgument(1);
         if (prologList.Type == TermType.LIST && prologList.IsImmutable)
         {
-            List<Term> javaList = ListUtils.ToList(prologList);
+            var javaList = ListUtils.ToList(prologList);
             if (javaList != null)
             { // i.e. if not a partial list
               // TODO if no duplicates then could replace List with LinkedHashSet
@@ -106,11 +95,8 @@ public class MemberCheck : AbstractSingleResultPredicate, PreprocessablePredicat
     {
         private readonly List<Term> list;
 
-        public PreprocessedMemberCheck(List<Term> list)
-        {
-            this.list = list;
-        }
-
+        public PreprocessedMemberCheck(List<Term> list) 
+            => this.list = list;
 
         protected override bool Evaluate(Term element, Term notUsed)
         {
@@ -122,10 +108,7 @@ public class MemberCheck : AbstractSingleResultPredicate, PreprocessablePredicat
             {
                 foreach (var next in list)
                 {
-                    if (element.Unify(next))
-                    {
-                        return true;
-                    }
+                    if (element.Unify(next)) return true;
                     element.Backtrack();
                 }
                 return false;

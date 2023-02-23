@@ -13,9 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-using Org.NProlog.Core.Predicate.Builtin.Db;
-using static Org.NProlog.Core.Predicate.Udp.DynamicUserDefinedPredicateFactory;
-
 namespace Org.NProlog.Core.Predicate.Udp;
 
 /**

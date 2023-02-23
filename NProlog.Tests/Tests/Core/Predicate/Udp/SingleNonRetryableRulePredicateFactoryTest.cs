@@ -16,8 +16,6 @@
 using Org.NProlog.Core.Event;
 using Org.NProlog.Core.Exceptions;
 using Org.NProlog.Core.Terms;
-using static Org.NProlog.Core.Event.SpyPoints;
-
 namespace Org.NProlog.Core.Predicate.Udp;
 
 [TestClass]
@@ -110,7 +108,7 @@ public class SingleNonRetryableRulePredicateFactoryTest : TestUtils
         }
 
         Assert.AreEqual("", listener.GetResult());
-        var a3 = Verify(mockAction).Model;
+        _ = Verify(mockAction).Model;
     }
 
     [TestMethod]
@@ -119,11 +117,11 @@ public class SingleNonRetryableRulePredicateFactoryTest : TestUtils
         spyPoints.TraceEnabled = (true);
         When(mockPredicate?.Evaluate()).ThenReturn(true);
 
-        Predicate result = testObject.GetPredicate(queryArgs);
+        var result = testObject.GetPredicate(queryArgs);
 
         Assert.AreSame(PredicateUtils.TRUE, result);
         Assert.AreEqual("CALLtest(a, b, c)EXITtest(a, b, c)", listener.GetResult());
-        var a2 = Verify(mockAction).Model;
+        _ = Verify(mockAction).Model;
     }
 
     [TestMethod]
@@ -132,7 +130,7 @@ public class SingleNonRetryableRulePredicateFactoryTest : TestUtils
         spyPoints.TraceEnabled = (true);
         When(mockPredicate?.Evaluate()).ThenReturn(false);
 
-        Predicate result = testObject.GetPredicate(queryArgs);
+        var result = testObject.GetPredicate(queryArgs);
 
         Assert.AreEqual(PredicateUtils.TRUE, result);
         Assert.AreEqual("CALLtest(a, b, c)EXITtest(a, b, c)", listener.GetResult());
@@ -144,7 +142,7 @@ public class SingleNonRetryableRulePredicateFactoryTest : TestUtils
         spyPoints.TraceEnabled = (true);
         When(mockPredicate?.Evaluate()).ThenThrow(CutException.CUT_EXCEPTION);
 
-        Predicate result = testObject.GetPredicate(queryArgs);
+        var result = testObject.GetPredicate(queryArgs);
 
         Assert.AreEqual(PredicateUtils.TRUE, result);
         Assert.AreEqual("CALLtest(a, b, c)EXITtest(a, b, c)", listener.GetResult());
@@ -169,6 +167,6 @@ public class SingleNonRetryableRulePredicateFactoryTest : TestUtils
         }
 
         //Assert.AreEqual("CALLtest(a, b, c)", listener.GetResult());
-        var a1 = Verify(mockAction).Model;
+        _ = Verify(mockAction).Model;
     }
 }

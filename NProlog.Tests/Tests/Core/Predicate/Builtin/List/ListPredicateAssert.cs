@@ -37,16 +37,16 @@ public class ListPredicateAssert : TestUtils
         this.arity = arity;
         prolog = new Prolog();
         prolog.ConsultReader(new StringReader(prologSource));
-        Predicates predicates = prolog.KnowledgeBase.Predicates;
-        PredicateFactory builtInPredicateFactory = predicates.GetPredicateFactory(new PredicateKey(builtInPredicateName, arity));
+        var predicates = prolog.KnowledgeBase.Predicates;
+        var builtInPredicateFactory = predicates.GetPredicateFactory(new PredicateKey(builtInPredicateName, arity));
         Assert.AreNotSame(typeof(UnknownPredicate), builtInPredicateFactory.GetType(), builtInPredicateName);
-        PredicateFactory userDefinedPredicateFactory = predicates.GetPredicateFactory(new PredicateKey(userDefinedPredicateName, arity));
+        var userDefinedPredicateFactory = predicates.GetPredicateFactory(new PredicateKey(userDefinedPredicateName, arity));
         Assert.AreSame(typeof(StaticUserDefinedPredicateFactory), userDefinedPredicateFactory.GetType(), userDefinedPredicateName);
     }
 
     public void AssertQuery(string query)
     {
-        string query2 = query.Replace(builtInPredicateName, userDefinedPredicateName);
+        var query2 = query.Replace(builtInPredicateName, userDefinedPredicateName);
         Assert.AreNotEqual(query, query2);
         AssertQueries(query, query2);
     }
@@ -57,10 +57,7 @@ public class ListPredicateAssert : TestUtils
         AssertQueries(ConstructQuery(builtInPredicateName, arguments), ConstructQuery(userDefinedPredicateName, arguments));
     }
 
-    private static string ConstructQuery(string predicateName, params string[] arguments)
-    {
-        return predicateName + "(" + string.Join(",", arguments) + ").";
-    }
+    private static string ConstructQuery(string predicateName, params string[] arguments) => predicateName + "(" + string.Join(",", arguments) + ").";
 
     private void AssertQueries(string query1, string query2)
     {
@@ -132,7 +129,7 @@ public class ListPredicateAssert : TestUtils
                         return;
                     }
                 }
-                Term t2 = r2.GetTerm(variableId);
+                var t2 = r2.GetTerm(variableId);
                 Assert.AreEqual(NumberVariables(t1).ToString(), NumberVariables(t2).ToString(), query1);
             }
 

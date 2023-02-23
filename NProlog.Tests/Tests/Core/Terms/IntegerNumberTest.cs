@@ -22,8 +22,7 @@ namespace Org.NProlog.Core.Terms;
 [TestClass]
 public class IntegerNumberTest : TestUtils
 {
-    private static readonly double DELTA = 0;
-
+    private const double DELTA = 0;
     [TestMethod]
     public void TestGetName()
     {
@@ -43,24 +42,24 @@ public class IntegerNumberTest : TestUtils
     [TestMethod]
     public void TestGetTerm()
     {
-        IntegerNumber i1 = new IntegerNumber(0);
-        IntegerNumber i2 = i1.Term;
+        var i1 = new IntegerNumber(0);
+        var i2 = i1.Term;
         Assert.AreSame(i1, i2);
     }
 
     [TestMethod]
     public void TestGetBound()
     {
-        IntegerNumber i1 = new IntegerNumber(0);
-        Term i2 = i1.Bound;
+        var i1 = new IntegerNumber(0);
+        var i2 = i1.Bound;
         Assert.AreSame(i1, i2);
     }
 
     [TestMethod]
     public void TestCalculate()
     {
-        IntegerNumber i1 = new IntegerNumber(0);
-        IntegerNumber i2 = i1.Calculate(TermUtils.EMPTY_ARRAY);
+        var i1 = new IntegerNumber(0);
+        var i2 = i1.Calculate(EMPTY_ARRAY);
         Assert.AreSame(i1, i2);
     }
 
@@ -83,14 +82,14 @@ public class IntegerNumberTest : TestUtils
     [TestMethod]
     public void TestGetType()
     {
-        IntegerNumber i = IntegerNumber();
+        var i = IntegerNumber();
         Assert.AreSame(TermType.INTEGER, i.Type);
     }
 
     [TestMethod]
     public void TestGetNumberOfArguments()
     {
-        IntegerNumber i = IntegerNumber();
+        var i = IntegerNumber();
         Assert.AreEqual(0, i.NumberOfArguments);
     }
 
@@ -100,7 +99,7 @@ public class IntegerNumberTest : TestUtils
         for (int index = -1; index <= 1; index++)
             try
             {
-                IntegerNumber i = IntegerNumber();
+                var i = IntegerNumber();
                 i.GetArgument(index);
                 Assert.Fail();
             }
@@ -113,14 +112,14 @@ public class IntegerNumberTest : TestUtils
     [TestMethod]
     public void TestGetArgs()
     {
-        IntegerNumber i = IntegerNumber();
-        Assert.AreSame(TermUtils.EMPTY_ARRAY, i.Args);
+        var i = IntegerNumber();
+        Assert.AreSame(EMPTY_ARRAY, i.Args);
     }
 
     [TestMethod]
     public void TestHashCode()
     {
-        IntegerNumber n = new IntegerNumber(7);
+        var n = new IntegerNumber(7);
 
         Assert.AreEqual(n.GetHashCode(), new IntegerNumber(7).GetHashCode());
         Assert.AreNotEqual(n.GetHashCode(), new IntegerNumber(8).GetHashCode());
@@ -130,7 +129,7 @@ public class IntegerNumberTest : TestUtils
     [TestMethod]
     public void TestEquals()
     {
-        IntegerNumber n = new IntegerNumber(7);
+        var n = new IntegerNumber(7);
 
         Assert.IsTrue(n.Equals(n));
         Assert.IsTrue(n.Equals(new IntegerNumber(7)));

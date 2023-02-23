@@ -79,9 +79,9 @@ public class TermTest : TestUtils
     [TestMethod]
     public void TestUnifyAndStrictEquality()
     {
-        foreach (Term t1 in IMMUTABLE_TERMS)
+        foreach (var t1 in IMMUTABLE_TERMS)
         {
-            foreach (Term t2 in IMMUTABLE_TERMS)
+            foreach (var t2 in IMMUTABLE_TERMS)
             {
                 AssertUnify(t1, t2, t1 == t2);
                 AssertStrictEquality(t1, t2, t1 == t2);
@@ -93,10 +93,10 @@ public class TermTest : TestUtils
     [TestMethod]
     public void TestCopy()
     {
-        foreach (Term t1 in IMMUTABLE_TERMS)
+        foreach (var t1 in IMMUTABLE_TERMS)
         {
             Dictionary<Variable, Variable> sharedVariables = new();
-            Term t2 = t1.Copy(sharedVariables);
+            var t2 = t1.Copy(sharedVariables);
             Assert.AreSame(t1, t2);
             Assert.IsTrue(sharedVariables.Count == 0);
         }
@@ -106,9 +106,9 @@ public class TermTest : TestUtils
     [TestMethod]
     public void TestGetValue()
     {
-        foreach (Term t1 in IMMUTABLE_TERMS)
+        foreach (var t1 in IMMUTABLE_TERMS)
         {
-            Term t2 = t1.Term;
+            var t2 = t1.Term;
             Assert.AreSame(t1, t2);
         }
     }
@@ -116,7 +116,7 @@ public class TermTest : TestUtils
     [TestMethod]
     public void TestIsImmutable()
     {
-        foreach (Term element in IMMUTABLE_TERMS)
+        foreach (var element in IMMUTABLE_TERMS)
         {
             Assert.IsTrue(element.IsImmutable);
         }
@@ -126,10 +126,10 @@ public class TermTest : TestUtils
     [TestMethod]
     public void TestBacktrack()
     {
-        foreach (Term t in IMMUTABLE_TERMS)
+        foreach (var t in IMMUTABLE_TERMS)
         {
             // keep track of the Term's current properties
-            TermType originalType = t.Type;
+            var originalType = t.Type;
             int originalNumberOfArguments = t.NumberOfArguments;
             string originalToString = t.ToString();
 
@@ -146,9 +146,9 @@ public class TermTest : TestUtils
     [TestMethod]
     public void TestUnifyAndStrictEqualityWithVariable()
     {
-        foreach (Term t in IMMUTABLE_TERMS)
+        foreach (var t in IMMUTABLE_TERMS)
         {
-            Variable v = Variable("X");
+            var v = Variable("X");
 
             // check equal
             AssertStrictEquality(t, v, false);
@@ -191,7 +191,7 @@ public class TermTest : TestUtils
     [TestMethod]
     public void TestUnifyAndStrictEqualityWithAnonymousVariable()
     {
-        foreach (Term t in IMMUTABLE_TERMS)
+        foreach (var t in IMMUTABLE_TERMS)
         {
             AssertUnify(t, new Variable(), true);
             AssertStrictEquality(t, new Variable(), false);

@@ -52,9 +52,9 @@ public class KeyFactories
 
     public class KeyFactory2 : KeyFactory
     {
-        public Key2 CreateKey(int[] positions, Term[] args) => new Key2(args[positions[0]], args[positions[1]]);
+        public static Key2 CreateKey(int[] positions, Term[] args) => new (args[positions[0]], args[positions[1]]);
 
-        object KeyFactory.CreateKey(int[] positions, Term[] args) => this.CreateKey(positions, args);
+        object KeyFactory.CreateKey(int[] positions, Term[] args) => CreateKey(positions, args);
     }
 
     public class Key2
@@ -77,9 +77,9 @@ public class KeyFactories
 
     public class KeyFactory3 : KeyFactory
     {
-        public Key3 CreateKey(int[] positions, Term[] args) => new Key3(args[positions[0]], args[positions[1]], args[positions[2]]);
+        public static Key3 CreateKey(int[] positions, Term[] args) => new (args[positions[0]], args[positions[1]], args[positions[2]]);
 
-        object KeyFactory.CreateKey(int[] positions, Term[] args) => this.CreateKey(positions, args);
+        object KeyFactory.CreateKey(int[] positions, Term[] args) => CreateKey(positions, args);
     }
 
     public class Key3
@@ -97,10 +97,9 @@ public class KeyFactories
             this.hashCode = t1.GetHashCode() + (7 * t2.GetHashCode()) + (11 * t3.GetHashCode());
         }
 
-
         public override int GetHashCode() => hashCode;
 
-
-        public override bool Equals(object? o) => o is Key3 k && t1.Equals(k.t1) && t2.Equals(k.t2) && t3.Equals(k.t3);
+        public override bool Equals(object? o) 
+            => o is Key3 k && t1.Equals(k.t1) && t2.Equals(k.t2) && t3.Equals(k.t3);
     }
 }

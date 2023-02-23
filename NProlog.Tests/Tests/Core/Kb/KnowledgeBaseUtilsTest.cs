@@ -25,7 +25,7 @@ namespace Org.NProlog.Core.Kb;
 [TestClass]
 public class KnowledgeBaseUtilsTest : TestUtils
 {
-    private readonly KnowledgeBase kb = TestUtils.CreateKnowledgeBase();
+    private readonly KnowledgeBase kb = CreateKnowledgeBase();
 
     [TestMethod]
     public void TestConjunctionPredicateName()
@@ -48,24 +48,24 @@ public class KnowledgeBaseUtilsTest : TestUtils
     [TestMethod]
     public void TestGetPredicateKeysByName()
     {
-        string predicateName = "testGetPredicateKeysByName";
+        var predicateName = "testGetPredicateKeysByName";
 
         Assert.IsTrue(KnowledgeBaseUtils.GetPredicateKeysByName(kb, predicateName).Count == 0);
 
         PredicateKey[] input = { new PredicateKey(predicateName, 0), new PredicateKey(predicateName, 1), new PredicateKey(predicateName, 2), new PredicateKey(predicateName, 3) };
 
-        foreach (PredicateKey key in input)
+        foreach (var key in input)
         {
             kb.Predicates.CreateOrReturnUserDefinedPredicate(key);
             // Add entries with a different name to the name we are calling getPredicateKeysByName with
             // to check that the method isn't just returning ALL keys
-            PredicateKey keyWithDifferentName = new PredicateKey(predicateName + "X", key.NumArgs);
+            var keyWithDifferentName = new PredicateKey(predicateName + "X", key.NumArgs);
             kb.Predicates.CreateOrReturnUserDefinedPredicate(keyWithDifferentName);
         }
 
-        List<PredicateKey> output = KnowledgeBaseUtils.GetPredicateKeysByName(kb, predicateName);
+        var output = KnowledgeBaseUtils.GetPredicateKeysByName(kb, predicateName);
         Assert.AreEqual(input.Length, output.Count);
-        foreach (PredicateKey key in input)
+        foreach (var key in input)
         {
             Assert.IsTrue(output.Contains(key));
         }
@@ -113,7 +113,7 @@ public class KnowledgeBaseUtilsTest : TestUtils
     public void TestIsSingleAnswerNonRetryableConjuction()
     {
         // test conjunction of terms that are all not repeatable
-        Term conjuctionOfNonRepeatableTerms = TestUtils.ParseSentence("write(X), nl, true, X<1.");
+        var conjuctionOfNonRepeatableTerms = TestUtils.ParseSentence("write(X), nl, true, X<1.");
         Assert.IsTrue(KnowledgeBaseUtils.IsSingleAnswer(kb, conjuctionOfNonRepeatableTerms));
     }
 
@@ -121,7 +121,7 @@ public class KnowledgeBaseUtilsTest : TestUtils
     public void TestIsSingleAnswerRetryableConjuction()
     {
         // test conjunction of terms where one is repeatable
-        Term conjuctionIncludingRepeatableTerm = TestUtils.ParseSentence("write(X), nl, repeat, true, X<1.");
+        var conjuctionIncludingRepeatableTerm = TestUtils.ParseSentence("write(X), nl, repeat, true, X<1.");
         Assert.IsFalse(KnowledgeBaseUtils.IsSingleAnswer(kb, conjuctionIncludingRepeatableTerm));
     }
 
@@ -131,7 +131,7 @@ public class KnowledgeBaseUtilsTest : TestUtils
         // test disjunction
         // (Note that the disjunction used in the test *would* only give a single answer
         // but KnowledgeBaseUtils.isSingleAnswer is not currently smart enough to spot this)
-        Term disjunctionOfTerms = TestUtils.ParseSentence("true ; fail.");
+        var disjunctionOfTerms = TestUtils.ParseSentence("true ; fail.");
         Assert.IsFalse(KnowledgeBaseUtils.IsSingleAnswer(kb, disjunctionOfTerms));
     }
 
@@ -144,8 +144,8 @@ public class KnowledgeBaseUtilsTest : TestUtils
     [TestMethod]
     public void TestToArrayOfConjunctions()
     {
-        Term t = TestUtils.ParseSentence("a, b(1,2,3), c.");
-        Term[] conjunctions = KnowledgeBaseUtils.ToArrayOfConjunctions(t);
+        var t = ParseSentence("a, b(1,2,3), c.");
+        var conjunctions = KnowledgeBaseUtils.ToArrayOfConjunctions(t);
         Assert.AreEqual(3, conjunctions.Length);
         Assert.AreSame(t.GetArgument(0).GetArgument(0), conjunctions[0]);
         Assert.AreSame(t.GetArgument(0).GetArgument(1), conjunctions[1]);
@@ -155,8 +155,8 @@ public class KnowledgeBaseUtilsTest : TestUtils
     [TestMethod]
     public void TestToArrayOfConjunctionsNoneConjunctionArgument()
     {
-        Term t = TestUtils.ParseSentence("a(b(1,2,3), c).");
-        Term[] conjunctions = KnowledgeBaseUtils.ToArrayOfConjunctions(t);
+        var t = ParseSentence("a(b(1,2,3), c).");
+        var conjunctions = KnowledgeBaseUtils.ToArrayOfConjunctions(t);
         Assert.AreEqual(1, conjunctions.Length);
         Assert.AreSame(t, conjunctions[0]);
     }
@@ -164,10 +164,10 @@ public class KnowledgeBaseUtilsTest : TestUtils
     [TestMethod]
     public void TestGetPrologListeners()
     {
-        KnowledgeBase kb1 = TestUtils.CreateKnowledgeBase();
-        KnowledgeBase kb2 = TestUtils.CreateKnowledgeBase();
-        PrologListeners o1 = kb1.PrologListeners;
-        PrologListeners o2 = kb2.PrologListeners;
+        var kb1 = CreateKnowledgeBase();
+        var kb2 = CreateKnowledgeBase();
+        var o1 = kb1.PrologListeners;
+        var o2 = kb2.PrologListeners;
         Assert.IsNotNull(o1);
         Assert.IsNotNull(o2);
         Assert.AreNotSame(o1, o2);
@@ -178,10 +178,10 @@ public class KnowledgeBaseUtilsTest : TestUtils
     [TestMethod]
     public void TestGetPrologProperties()
     {
-        KnowledgeBase kb1 = TestUtils.CreateKnowledgeBase();
-        KnowledgeBase kb2 = TestUtils.CreateKnowledgeBase();
-        PrologProperties o1 = kb1.PrologProperties;
-        PrologProperties o2 = kb2.PrologProperties;
+        var kb1 = CreateKnowledgeBase();
+        var kb2 = CreateKnowledgeBase();
+        var o1 = kb1.PrologProperties;
+        var o2 = kb2.PrologProperties;
         Assert.IsNotNull(o1);
         Assert.IsNotNull(o2);
         Assert.AreNotSame(o1, o2);
@@ -192,10 +192,10 @@ public class KnowledgeBaseUtilsTest : TestUtils
     [TestMethod]
     public void TestGetOperands()
     {
-        KnowledgeBase kb1 = TestUtils.CreateKnowledgeBase();
-        KnowledgeBase kb2 = TestUtils.CreateKnowledgeBase();
-        Operands o1 = kb1.Operands;
-        Operands o2 = kb2.Operands;
+        var kb1 = CreateKnowledgeBase();
+        var kb2 = CreateKnowledgeBase();
+        var o1 = kb1.Operands;
+        var o2 = kb2.Operands;
         Assert.IsNotNull(o1);
         Assert.IsNotNull(o2);
         Assert.AreNotSame(o1, o2);
@@ -206,10 +206,10 @@ public class KnowledgeBaseUtilsTest : TestUtils
     [TestMethod]
     public void TestGetTermFormatter()
     {
-        KnowledgeBase kb1 = TestUtils.CreateKnowledgeBase();
-        KnowledgeBase kb2 = TestUtils.CreateKnowledgeBase();
-        TermFormatter o1 = kb1.TermFormatter;
-        TermFormatter o2 = kb2.TermFormatter;
+        var kb1 = CreateKnowledgeBase();
+        var kb2 = CreateKnowledgeBase();
+        var o1 = kb1.TermFormatter;
+        var o2 = kb2.TermFormatter;
         Assert.IsNotNull(o1);
         Assert.IsNotNull(o2);
         Assert.AreNotSame(o1, o2);
@@ -220,10 +220,10 @@ public class KnowledgeBaseUtilsTest : TestUtils
     [TestMethod]
     public void TestGetSpyPoints()
     {
-        KnowledgeBase kb1 = TestUtils.CreateKnowledgeBase();
-        KnowledgeBase kb2 = TestUtils.CreateKnowledgeBase();
-        SpyPoints o1 = kb1.SpyPoints;
-        SpyPoints o2 = kb2.SpyPoints;
+        var kb1 = CreateKnowledgeBase();
+        var kb2 = CreateKnowledgeBase();
+        var o1 = kb1.SpyPoints;
+        var o2 = kb2.SpyPoints;
         Assert.IsNotNull(o1);
         Assert.IsNotNull(o2);
         Assert.AreNotSame(o1, o2);
@@ -234,10 +234,10 @@ public class KnowledgeBaseUtilsTest : TestUtils
     [TestMethod]
     public void TestGetFileHandles()
     {
-        KnowledgeBase kb1 = TestUtils.CreateKnowledgeBase();
-        KnowledgeBase kb2 = TestUtils.CreateKnowledgeBase();
-        FileHandles o1 = kb1.FileHandles;
-        FileHandles o2 = kb2.FileHandles;
+        var kb1 = CreateKnowledgeBase();
+        var kb2 = CreateKnowledgeBase();
+        var o1 = kb1.FileHandles;
+        var o2 = kb2.FileHandles;
         Assert.IsNotNull(o1);
         Assert.IsNotNull(o2);
         Assert.AreNotSame(o1, o2);
@@ -248,10 +248,10 @@ public class KnowledgeBaseUtilsTest : TestUtils
     [TestMethod]
     public void TestArithmeticOperators()
     {
-        KnowledgeBase kb1 = TestUtils.CreateKnowledgeBase();
-        KnowledgeBase kb2 = TestUtils.CreateKnowledgeBase();
-        ArithmeticOperators o1 = kb1.ArithmeticOperators;
-        ArithmeticOperators o2 = kb2.ArithmeticOperators;
+        var kb1 = CreateKnowledgeBase();
+        var kb2 = CreateKnowledgeBase();
+        var o1 = kb1.ArithmeticOperators;
+        var o2 = kb2.ArithmeticOperators;
         Assert.IsNotNull(o1);
         Assert.IsNotNull(o2);
         Assert.AreNotSame(o1, o2);

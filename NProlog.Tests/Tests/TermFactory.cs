@@ -25,54 +25,22 @@ public class TermFactory : TermUtils
      * Private constructor as all methods are static.
      */
 
-    public static Atom Atom() => Atom("test");
+    public static Atom Atom(string name = "test") => new (name);
 
-    public static Atom Atom(string name) => new Atom(name);
+    public static Structure Structure() => Structure("test", new Term[] { Atom() });
 
-    public static Structure Structure()
-    {
-        return Structure("test", new Term[] { Atom() });
-    }
+    public static Structure Structure(string name, params Term[] args) 
+        => (Structure)Core.Terms.Structure.CreateStructure(name, args);
 
-    public static Structure Structure(string name, params Term[] args)
-    {
-        return (Structure)Core.Terms.Structure.CreateStructure(name, args);
-    }
+    public static LinkedTermList List(params Term[] args) 
+        => (LinkedTermList)ListFactory.CreateList(args);
 
-    public static List List(params Term[] args)
-    {
-        return (List)ListFactory.CreateList(args);
-    }
+    public static IntegerNumber IntegerNumber(long i = 1) 
+        => new (i);
 
-    public static IntegerNumber IntegerNumber()
-    {
-        return IntegerNumber(1);
-    }
+    public static DecimalFraction DecimalFraction(double d = 1.0)
+        => new (d);
 
-    public static IntegerNumber IntegerNumber(long i)
-    {
-        return new IntegerNumber(i);
-    }
-
-    public static DecimalFraction DecimalFraction()
-    {
-        return DecimalFraction(1.0);
-    }
-
-    public static DecimalFraction DecimalFraction(double d)
-    {
-        return new DecimalFraction(d);
-    }
-
-    public static Variable Variable()
-    {
-        return Variable("X");
-    }
-
-    public static Variable Variable(string name)
-    {
-        return new Variable(name);
-    }
-
-
+    public static Variable Variable(string name = "X") 
+        => new (name);
 }

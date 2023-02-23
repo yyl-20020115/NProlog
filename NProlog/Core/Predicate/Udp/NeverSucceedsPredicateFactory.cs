@@ -23,10 +23,7 @@ public class NeverSucceedsPredicateFactory : PredicateFactory
 {
     private readonly SpyPoint spyPoint;
 
-    public NeverSucceedsPredicateFactory(SpyPoint spyPoint)
-    {
-        this.spyPoint = spyPoint;
-    }
+    public NeverSucceedsPredicateFactory(SpyPoint spyPoint) => this.spyPoint = spyPoint;
 
 
     public Predicate GetPredicate(Term[] args)

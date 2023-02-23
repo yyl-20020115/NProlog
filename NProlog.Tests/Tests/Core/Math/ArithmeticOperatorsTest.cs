@@ -24,9 +24,9 @@ namespace Org.NProlog.Core.Math;
 [TestClass]
 public class ArithmeticOperatorsTest : TestUtils
 {
-    private readonly KnowledgeBase kb = TestUtils.CreateKnowledgeBase();
+    private readonly KnowledgeBase kb = CreateKnowledgeBase();
     private const string dummyOperatorName = "dummy_arithmetic_operator";
-    private readonly PredicateKey dummyOperatorKey = new PredicateKey(dummyOperatorName, 1);
+    private readonly PredicateKey dummyOperatorKey = new (dummyOperatorName, 1);
     private const int dummyTermArgument = 7;
     private readonly Structure dummyTerm = Structure(dummyOperatorName, IntegerNumber(dummyTermArgument));
 
@@ -122,7 +122,7 @@ public class ArithmeticOperatorsTest : TestUtils
     {
         var c = CreateOperators();
 
-        Structure expression = Structure(dummyOperatorName, IntegerNumber(7));
+        var expression = Structure(dummyOperatorName, IntegerNumber(7));
         Assert.IsNull(c.GetPreprocessedArithmeticOperator(expression));
     }
 
@@ -258,10 +258,7 @@ public class ArithmeticOperatorsTest : TestUtils
 
     }
 
-    private ArithmeticOperators CreateOperators()
-    {
-        return new ArithmeticOperators(kb);
-    }
+    private ArithmeticOperators CreateOperators() => new ArithmeticOperators(kb);
 
 }
 /** ArithmeticOperator used to test that new arithmetic operators can be added to the factory. */
@@ -291,10 +288,7 @@ public class DummyArithmeticOperatorDefaultConstructor : ArithmeticOperator, Kno
     }
 
 
-    public void SetKnowledgeBase(KnowledgeBase kb)
-    {
-        this.kb = kb;
-    }
+    public void SetKnowledgeBase(KnowledgeBase kb) => this.kb = kb;
 }
 
 /** ArithmeticOperator used to test that new arithmetic operators can be created using a static method. */
@@ -304,10 +298,7 @@ public class DummyArithmeticOperatorPublicConstructor : ArithmeticOperator, Know
 
     public KnowledgeBase KnowledgeBase { get => this.kb; set => this.kb = value; }
 
-    public static DummyArithmeticOperatorPublicConstructor GetInstance()
-    {
-        return new DummyArithmeticOperatorPublicConstructor();
-    }
+    public static DummyArithmeticOperatorPublicConstructor GetInstance() => new ();
 
     private DummyArithmeticOperatorPublicConstructor()
     {
@@ -325,14 +316,11 @@ public class DummyArithmeticOperatorPublicConstructor : ArithmeticOperator, Know
             // KnowledgeBase= should be called by ArithmeticOperators when it creates an instance of this class
             throw new SystemException("KnowledgeBase not set on " + this);
         }
-        long input = TermUtils.CastToNumeric(args[0]).Long;
-        long output = input * 3;
+        var input = TermUtils.CastToNumeric(args[0]).Long;
+        var output = input * 3;
         return new IntegerNumber(output);
     }
 
 
-    public void SetKnowledgeBase(KnowledgeBase kb)
-    {
-        this.kb = kb;
-    }
+    public void SetKnowledgeBase(KnowledgeBase kb) => this.kb = kb;
 }

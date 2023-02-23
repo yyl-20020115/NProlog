@@ -21,35 +21,32 @@ namespace Org.NProlog.Core.Predicate;
 [TestClass]
 public class PredicateKeyTest : TestUtils
 {
-    private static readonly string PREDICATE_KEY_FUNCTOR = "/";
+    private const string PREDICATE_KEY_FUNCTOR = "/";
 
     [TestMethod]
     public void TestCanCreateForAtom()
     {
-        string name = "abc";
+        var name = "abc";
         TestCanCreate(Atom(name), name, 0);
     }
 
     [TestMethod]
     public void TestCanCreateForStructure()
     {
-        string name = "abc";
+        var name = "abc";
         TestCanCreate(Structure(name, Atom()), name, 1);
         TestCanCreate(Structure(name, Atom(), IntegerNumber(), DecimalFraction()), name, 3);
     }
 
     [TestMethod]
-    public void TestCanCreateForList()
-    {
-        TestCanCreate(List(Atom(), Atom()), ".", 2);
-    }
+    public void TestCanCreateForList() => TestCanCreate(List(Atom(), Atom()), ".", 2);
 
-    private void TestCanCreate(Term t, string name, int numArgs)
+    private static void TestCanCreate(Term t, string name, int numArgs)
     {
         // test both static factory methods
-        PredicateKey k1 = PredicateKey.CreateForTerm(t);
-        Term arity = CreateArity(name, numArgs);
-        PredicateKey k2 = PredicateKey.CreateFromNameAndArity(arity);
+        var k1 = PredicateKey.CreateForTerm(t);
+        var arity = CreateArity(name, numArgs);
+        var k2 = PredicateKey.CreateFromNameAndArity(arity);
 
         TestCreatedKey(k1, name, numArgs);
         TestCreatedKey(k2, name, numArgs);
@@ -82,8 +79,8 @@ public class PredicateKeyTest : TestUtils
 
     private static void TestNotEquals(Term t1, Term t2)
     {
-        PredicateKey k1 = PredicateKey.CreateForTerm(t1);
-        PredicateKey k2 = PredicateKey.CreateForTerm(t2);
+        var k1 = PredicateKey.CreateForTerm(t1);
+        var k2 = PredicateKey.CreateForTerm(t2);
         Assert.IsFalse(k1.Equals(k2));
     }
 
@@ -91,10 +88,10 @@ public class PredicateKeyTest : TestUtils
     public void TestEquals()
     {
         // structures with same name and number of arguments
-        Term t1 = Structure("abc", Atom("a"), Atom("b"), Atom("c"));
-        Term t2 = Structure("abc", IntegerNumber(), DecimalFraction(), Variable());
-        PredicateKey k1 = PredicateKey.CreateForTerm(t1);
-        PredicateKey k2 = PredicateKey.CreateForTerm(t2);
+        var t1 = Structure("abc", Atom("a"), Atom("b"), Atom("c"));
+        var t2 = Structure("abc", IntegerNumber(), DecimalFraction(), Variable());
+        var k1 = PredicateKey.CreateForTerm(t1);
+        var k2 = PredicateKey.CreateForTerm(t2);
         TestEquals(k1, k2);
     }
 
@@ -110,8 +107,8 @@ public class PredicateKeyTest : TestUtils
     [TestMethod]
     public void TestNotEqualsNonPredicateKey()
     {
-        PredicateKey k1 = PredicateKey.CreateForTerm(Structure());
-        string s = "Not an is PredicateKey";
+        var k1 = PredicateKey.CreateForTerm(Structure());
+        var s = "Not an is PredicateKey";
         Assert.IsFalse(k1.Equals(s));
     }
 
@@ -128,7 +125,7 @@ public class PredicateKeyTest : TestUtils
     {
         try
         {
-            PredicateKey k = PredicateKey.CreateForTerm(t);
+            var k = PredicateKey.CreateForTerm(t);
             Assert.Fail("Managed to create: " + k + " for: " + t);
         }
         catch (PrologException e)
@@ -151,7 +148,7 @@ public class PredicateKeyTest : TestUtils
     {
         try
         {
-            PredicateKey k = PredicateKey.CreateFromNameAndArity(t);
+            var k = PredicateKey.CreateFromNameAndArity(t);
             Assert.Fail("Managed to create: " + k + " for: " + t);
         }
         catch (PrologException e)
@@ -163,7 +160,7 @@ public class PredicateKeyTest : TestUtils
     [TestMethod]
     public void TestCompareTo()
     {
-        PredicateKey k = CreateKey("bcde", 2);
+        var k = CreateKey("bcde", 2);
 
         // equal to self
         Assert.IsTrue(k.CompareTo(k) == 0);
@@ -212,12 +209,12 @@ public class PredicateKeyTest : TestUtils
     public void TestToTerm()
     {
         // create predicate key
-        string name = "test";
-        int numArgs = 7;
-        PredicateKey key = CreateKey(name, numArgs);
+        var name = "test";
+        var numArgs = 7;
+        var key = CreateKey(name, numArgs);
 
         // create term from key
-        Term term = key.ToTerm();
+        var term = key.ToTerm();
 
         // assert term matches details of key it was created from
         Assert.AreEqual(key, PredicateKey.CreateFromNameAndArity(term));
@@ -228,13 +225,7 @@ public class PredicateKeyTest : TestUtils
         Assert.AreEqual(numArgs, ((IntegerNumber)term.GetArgument(1)).Long);
     }
 
-    private static PredicateKey CreateKey(string name, int numArgs)
-    {
-        return PredicateKey.CreateFromNameAndArity(CreateArity(name, numArgs));
-    }
+    private static PredicateKey CreateKey(string name, int numArgs) => PredicateKey.CreateFromNameAndArity(CreateArity(name, numArgs));
 
-    private static Term CreateArity(string name, int numArgs)
-    {
-        return Structure(PREDICATE_KEY_FUNCTOR, Atom(name), IntegerNumber(numArgs));
-    }
+    private static Term CreateArity(string name, int numArgs) => Structure(PREDICATE_KEY_FUNCTOR, Atom(name), IntegerNumber(numArgs));
 }

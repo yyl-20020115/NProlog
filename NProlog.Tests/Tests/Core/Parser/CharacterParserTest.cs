@@ -31,7 +31,7 @@ public class CharacterParserTest
     [TestMethod]
     public void TestSingleCharacter()
     {
-        CharacterParser p = CreateParser("a");
+        var p = CreateParser("a");
         Assert.AreEqual('a', p.Peek());
         Assert.AreEqual('a', p.Peek());
         Assert.AreEqual('a', p.GetNext());
@@ -49,9 +49,9 @@ public class CharacterParserTest
     [TestMethod]
     public void TestSingleLine()
     {
-        string s = "qwerty";
-        CharacterParser p = CreateParser(s);
-        foreach (char c in s.ToCharArray())
+        var s = "qwerty";
+        var p = CreateParser(s);
+        foreach (var c in s.ToCharArray())
         {
             Assert.AreEqual(c, p.GetNext());
         }
@@ -62,8 +62,8 @@ public class CharacterParserTest
     [TestMethod]
     public void TestGetColumnNumber()
     {
-        string s = "abc";
-        CharacterParser p = CreateParser(s);
+        var s = "abc";
+        var p = CreateParser(s);
         Assert.AreEqual('a', p.GetNext());
         Assert.AreEqual(1, p.ColumnNumber);
         Assert.AreEqual('b', p.GetNext());
@@ -77,8 +77,8 @@ public class CharacterParserTest
     [TestMethod]
     public void TestMultipleLine()
     {
-        string s = "qwerty\nasdf";
-        CharacterParser p = CreateParser(s);
+        var s = "qwerty\nasdf";
+        var p = CreateParser(s);
 
         Assert.AreEqual('q', p.GetNext());
         Assert.AreEqual("qwerty", p.Line);
@@ -94,8 +94,8 @@ public class CharacterParserTest
     [TestMethod]
     public void TestRewind()
     {
-        string s = "qwerty";
-        CharacterParser p = CreateParser(s);
+        var s = "qwerty";
+        var p = CreateParser(s);
         Assert.AreEqual('q', p.GetNext());
         Assert.AreEqual(1, p.ColumnNumber);
         p.Rewind();
@@ -121,8 +121,8 @@ public class CharacterParserTest
     [TestMethod]
     public void TestEndOfStreamTrailingNoLine()
     {
-        string s = "a\n";
-        CharacterParser p = CreateParser(s);
+        var s = "a\n";
+        var p = CreateParser(s);
         Assert.AreEqual('a', p.GetNext());
         Assert.AreEqual('\n', p.GetNext());
         Assert.AreEqual(-1, p.Peek());
@@ -137,8 +137,8 @@ public class CharacterParserTest
     [TestMethod]
     public void TestEndOfStreamNoTrailingNoLine()
     {
-        string s = "a";
-        CharacterParser p = CreateParser(s);
+        var s = "a";
+        var p = CreateParser(s);
         Assert.AreEqual('a', p.GetNext());
         Assert.AreEqual('\n', p.GetNext());
         Assert.AreEqual(-1, p.Peek());
@@ -153,8 +153,8 @@ public class CharacterParserTest
     [TestMethod]
     public void TestBlankLines()
     {
-        string s = "\n\n";
-        CharacterParser p = CreateParser(s);
+        var s = "\n\n";
+        var p = CreateParser(s);
         Assert.AreEqual('\n', p.Peek());
         p.SkipLine();
         Assert.AreEqual('\n', p.GetNext());
@@ -165,8 +165,8 @@ public class CharacterParserTest
     [TestMethod]
     public void TestRewindException()
     {
-        string s = "a\nbcdef";
-        CharacterParser p = CreateParser(s);
+        var s = "a\nbcdef";
+        var p = CreateParser(s);
         Assert.AreEqual('a', p.GetNext());
         Assert.AreEqual('\n', p.GetNext());
         Assert.AreEqual('b', p.GetNext());

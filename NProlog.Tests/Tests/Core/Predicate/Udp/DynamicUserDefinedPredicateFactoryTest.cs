@@ -21,7 +21,7 @@ namespace Org.NProlog.Core.Predicate.Udp;
 [TestClass]
 public class DynamicUserDefinedPredicateFactoryTest : TestUtils
 {
-    private static readonly string TEST_PREDICATE_NAME = "test";
+    private const string TEST_PREDICATE_NAME = "test";
 
     [TestMethod]
     public void TestSimpleAdditionAndIteration1()
@@ -228,7 +228,7 @@ public class DynamicUserDefinedPredicateFactoryTest : TestUtils
 
     private static DynamicUserDefinedPredicateFactory CreateDynamicPredicate()
     {
-        var kb = TestUtils.CreateKnowledgeBase();
+        var kb = CreateKnowledgeBase();
         var key = new PredicateKey(TEST_PREDICATE_NAME, 1);
         var dp = new DynamicUserDefinedPredicateFactory(kb, key);
         Assert.AreEqual(key, dp.PredicateKey);
@@ -251,7 +251,7 @@ public class DynamicUserDefinedPredicateFactoryTest : TestUtils
     private static ClauseModel CreateClauseModel2(string argumentSyntax)
     {
         var inputSyntax = CreateStructureSyntax(argumentSyntax);
-        return TestUtils.CreateClauseModel(inputSyntax + ".");
+        return CreateClauseModel(inputSyntax + ".");
     }
 
     private static void AssertIterator(DynamicUserDefinedPredicateFactory dp, params string[] expectedOrder)
@@ -262,19 +262,17 @@ public class DynamicUserDefinedPredicateFactoryTest : TestUtils
 
     private static void AssertIterator(IEnumerator<ClauseModel> itr, params string[] expectedOrder)
     {
-        foreach (string expected in expectedOrder)
+        foreach (var expected in expectedOrder)
         {
             Assert.IsTrue(itr.MoveNext());
 
             var ci = itr.Current;
-            string predicateSyntax = CreateStructureSyntax(expected);
+            var predicateSyntax = CreateStructureSyntax(expected);
             Assert.AreEqual(predicateSyntax, ci.Original.ToString());
         }
         Assert.IsFalse(itr.MoveNext());
     }
 
     private static string CreateStructureSyntax(string argumentSyntax)
-    {
-        return TEST_PREDICATE_NAME + "(" + argumentSyntax + ")";
-    }
+        => TEST_PREDICATE_NAME + "(" + argumentSyntax + ")";
 }

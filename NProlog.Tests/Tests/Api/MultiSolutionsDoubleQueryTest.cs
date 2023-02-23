@@ -20,10 +20,10 @@ namespace Org.NProlog.Api;
 [TestClass]
 public class MultiSolutionsDoubleQueryTest : AbstractQueryTest
 {
-    private static readonly string EXPECTED_ATOM_EXCEPTION_MESSAGE = "Expected an atom but got: FRACTION with value: 42.5";
-    private static readonly double FIRST_DOUBLE_VALUE = 42.5;
-    private static readonly double SECOND_DOUBLE_VALUE = 180.2;
-    private static readonly double THIRD_DOUBLE_VALUE = -7;
+    private const string EXPECTED_ATOM_EXCEPTION_MESSAGE = "Expected an atom but got: FRACTION with value: 42.5";
+    private const double FIRST_DOUBLE_VALUE = 42.5;
+    private const double SECOND_DOUBLE_VALUE = 180.2;
+    private const double THIRD_DOUBLE_VALUE = -7;
 
     public MultiSolutionsDoubleQueryTest() : base("test(X).", "test(42.5).test(180.2).test(-7.0).") { }
 
@@ -40,15 +40,15 @@ public class MultiSolutionsDoubleQueryTest : AbstractQueryTest
 
 
     public override void TestFindFirstAsAtomName()
-    => FindFirstAsAtomName().assertException(EXPECTED_ATOM_EXCEPTION_MESSAGE);
+    => FindFirstAsAtomName().AssertException(EXPECTED_ATOM_EXCEPTION_MESSAGE);
 
 
     public override void TestFindFirstAsOptionalAtomName()
-    => FindFirstAsOptionalAtomName().assertException(EXPECTED_ATOM_EXCEPTION_MESSAGE);
+    => FindFirstAsOptionalAtomName().AssertException(EXPECTED_ATOM_EXCEPTION_MESSAGE);
 
 
     public override void TestFindAllAsAtomName()
-    => FindAllAsAtomName().assertException(EXPECTED_ATOM_EXCEPTION_MESSAGE);
+    => FindAllAsAtomName().AssertException(EXPECTED_ATOM_EXCEPTION_MESSAGE);
 
 
     public override void TestFindFirstAsDouble()

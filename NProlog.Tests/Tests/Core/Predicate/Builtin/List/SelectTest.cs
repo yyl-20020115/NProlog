@@ -26,7 +26,7 @@ public class SelectTest
                 "select3_(Tail, Head, Head, Tail)." +
                 "select3_([Head2|Tail], Head, X, [Head|Rest]) :- select3_(Tail, Head2, X, Rest).";
 
-    private static readonly ListPredicateAssert PREDICATE_ASSERT = new ListPredicateAssert("select", 3, SELECT_PROLOG);
+    private static readonly ListPredicateAssert PREDICATE_ASSERT = new ("select", 3, SELECT_PROLOG);
     readonly string[] vs1 = {
                "a [a,b,c] X",
                "b [a,b,c] X",

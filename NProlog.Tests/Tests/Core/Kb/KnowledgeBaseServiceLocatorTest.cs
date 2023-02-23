@@ -25,13 +25,13 @@ public class KnowledgeBaseServiceLocatorTest : TestUtils
     [TestMethod]
     public void TestCreation()
     {
-        KnowledgeBase kb1 = CreateKnowledgeBase();
-        KnowledgeBaseServiceLocator sl1 = KnowledgeBaseServiceLocator.GetServiceLocator(kb1);
+        var kb1 = CreateKnowledgeBase();
+        var sl1 = KnowledgeBaseServiceLocator.GetServiceLocator(kb1);
         Assert.IsNotNull(sl1);
         Assert.AreSame(sl1, KnowledgeBaseServiceLocator.GetServiceLocator(kb1));
 
-        KnowledgeBase kb2 = CreateKnowledgeBase();
-        KnowledgeBaseServiceLocator sl2 = KnowledgeBaseServiceLocator.GetServiceLocator(kb2);
+        var kb2 = CreateKnowledgeBase();
+        var sl2 = KnowledgeBaseServiceLocator.GetServiceLocator(kb2);
         Assert.IsNotNull(sl2);
         Assert.AreNotSame(sl1, sl2);
     }
@@ -127,8 +127,8 @@ public class KnowledgeBaseServiceLocatorTest : TestUtils
     [TestMethod]
     public void TestAddInstance()
     {
-        KnowledgeBaseServiceLocator l = CreateKnowledgeBaseServiceLocator();
-        string s = "hello";
+        var l = CreateKnowledgeBaseServiceLocator();
+        var s = "hello";
         l.AddInstance(typeof(string), s);
         Assert.AreSame(s, l.GetInstance<string>(typeof(string)));
     }
@@ -136,7 +136,7 @@ public class KnowledgeBaseServiceLocatorTest : TestUtils
     [TestMethod]
     public void TestAddInstanceIllegalStateException()
     {
-        KnowledgeBaseServiceLocator l = CreateKnowledgeBaseServiceLocator();
+        var l = CreateKnowledgeBaseServiceLocator();
         l.AddInstance(typeof(string), "hello");
         try
         {
@@ -167,26 +167,20 @@ public class KnowledgeBaseServiceLocatorTest : TestUtils
     [TestMethod]
     public void TestClassWithSingleKnowledgeBaseArgumentConstrutor()
     {
-        KnowledgeBase kb = CreateKnowledgeBase();
-        KnowledgeBaseServiceLocator l = KnowledgeBaseServiceLocator.GetServiceLocator(kb);
-        DummyService s = l.GetInstance<DummyService>(typeof(DummyService));
+        var kb = CreateKnowledgeBase();
+        var l = KnowledgeBaseServiceLocator.GetServiceLocator(kb);
+        var s = l.GetInstance<DummyService>(typeof(DummyService));
         Assert.AreSame(s, l.GetInstance<DummyService>(typeof(DummyService)));
         Assert.AreSame(kb, s.kb);
     }
 
     private KnowledgeBaseServiceLocator CreateKnowledgeBaseServiceLocator()
-    {
-        KnowledgeBase kb = CreateKnowledgeBase();
-        return KnowledgeBaseServiceLocator.GetServiceLocator(kb);
-    }
+        => KnowledgeBaseServiceLocator.GetServiceLocator(CreateKnowledgeBase());
 
     public class DummyService
     {
         public readonly KnowledgeBase kb;
 
-        public DummyService(KnowledgeBase kb)
-        {
-            this.kb = kb;
-        }
+        public DummyService(KnowledgeBase kb) => this.kb = kb;
     }
 }

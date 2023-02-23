@@ -63,10 +63,7 @@ public abstract class AbstractQueryTest : TestUtils
         findAllAsLong = new(s.FindAllAsLong, q.FindAllAsLong);
     }
 
-    public AbstractQueryTest(string query, string clauses) : this(query)
-    {
-        prolog.ConsultReader(new StringReader(clauses));
-    }
+    public AbstractQueryTest(string query, string clauses) : this(query) => prolog.ConsultReader(new StringReader(clauses));
 
     [TestInitialize]
     public static void BeforeClass() => METHOD_INVOCATIONS_CTR = 0;
@@ -169,18 +166,18 @@ public abstract class AbstractQueryTest : TestUtils
 
         public void AreEqual(T expected)
         {
-            QueryStatement s = CreateStatement();
+            var s = CreateStatement();
             Assert.AreEqual(expected, statementMethod.Invoke());
 
             // run twice to confirm QueryPlan is reusable
-            QueryPlan p = prolog.CreatePlan(query);
+            var p = prolog.CreatePlan(query);
             Assert.AreEqual(expected, planMethod.Invoke());
             Assert.AreEqual(expected, planMethod.Invoke());
         }
 
-        public void assertException(string expectedMessage)
+        public void AssertException(string expectedMessage)
         {
-            QueryStatement s = CreateStatement();
+            var s = CreateStatement();
             try
             {
                 statementMethod.Invoke();
@@ -191,7 +188,7 @@ public abstract class AbstractQueryTest : TestUtils
                 Assert.AreEqual(expectedMessage, e.Message);
             }
 
-            QueryPlan p = prolog.CreatePlan(query);
+            var p = prolog.CreatePlan(query);
             try
             {
                 planMethod.Invoke();

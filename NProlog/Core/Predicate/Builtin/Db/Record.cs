@@ -18,8 +18,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Db;
 
-
-
 /** Represents a record stored in a {@code RecordedDatabase}. */
 public class Record
 {

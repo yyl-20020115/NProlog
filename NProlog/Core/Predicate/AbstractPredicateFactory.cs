@@ -25,7 +25,7 @@ namespace Org.NProlog.Core.Predicate;
 
 public abstract class AbstractPredicateFactory : PredicateFactory, KnowledgeBaseConsumer
 {
-    private KnowledgeBase knowledgeBase;
+    protected KnowledgeBase knowledgeBase;
     public KnowledgeBase KnowledgeBase { get => knowledgeBase; set { knowledgeBase = value; this.Init(); } }
 
 

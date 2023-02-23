@@ -20,8 +20,8 @@ namespace Org.NProlog.Api;
 [TestClass]
 public class SingleSolutionDoubleQueryTest : AbstractQueryTest
 {
-    private static readonly string EXPECTED_ATOM_EXCEPTION_MESSAGE = "Expected an atom but got: FRACTION with value: 42.5";
-    private static readonly double DOUBLE_VALUE = 42.5;
+    private const string EXPECTED_ATOM_EXCEPTION_MESSAGE = "Expected an atom but got: FRACTION with value: 42.5";
+    private const double DOUBLE_VALUE = 42.5;
 
     public SingleSolutionDoubleQueryTest() : base("X = 42.5.") { }
 
@@ -39,15 +39,15 @@ public class SingleSolutionDoubleQueryTest : AbstractQueryTest
 
 
     public override void TestFindFirstAsAtomName()
-    => FindFirstAsAtomName().assertException(EXPECTED_ATOM_EXCEPTION_MESSAGE);
+    => FindFirstAsAtomName().AssertException(EXPECTED_ATOM_EXCEPTION_MESSAGE);
 
 
     public override void TestFindFirstAsOptionalAtomName()
-    => FindFirstAsOptionalAtomName().assertException(EXPECTED_ATOM_EXCEPTION_MESSAGE);
+    => FindFirstAsOptionalAtomName().AssertException(EXPECTED_ATOM_EXCEPTION_MESSAGE);
 
 
     public override void TestFindAllAsAtomName()
-    => FindAllAsAtomName().assertException(EXPECTED_ATOM_EXCEPTION_MESSAGE);
+    => FindAllAsAtomName().AssertException(EXPECTED_ATOM_EXCEPTION_MESSAGE);
 
 
     public override void TestFindFirstAsDouble()

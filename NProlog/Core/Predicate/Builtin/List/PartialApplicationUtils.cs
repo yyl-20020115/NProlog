@@ -18,11 +18,10 @@ using Org.NProlog.Core.Terms;
 namespace Org.NProlog.Core.Predicate.Builtin.List;
 
 
-
 // Moved methods to separate class so can be used by both MapList and SubList. TODO move to TermUtils
 public static class PartialApplicationUtils
 {
-    private static readonly string KEY_VALUE_PAIR_FUNCTOR = "-";
+    private const string KEY_VALUE_PAIR_FUNCTOR = "-";
 
     public static bool IsAtomOrStructure(Term arg)
     {
@@ -54,8 +53,8 @@ public static class PartialApplicationUtils
             args[i] = new Variable();
         }
         // TODO check not numeric before calling .Name
-        var t = Structure.CreateStructure(partiallyAppliedFunction.Name, args);
-        return predicates.GetPreprocessedPredicateFactory(t);
+        return predicates.GetPreprocessedPredicateFactory(
+            Structure.CreateStructure(partiallyAppliedFunction.Name, args));
     }
 
     public static PredicateFactory GetPartiallyAppliedPredicateFactory(Predicates predicates, Term partiallyAppliedFunction, int numberOfExtraArguments)
@@ -99,9 +98,13 @@ public static class PartialApplicationUtils
         }
     }
 
-    public static Predicate GetPredicate(PredicateFactory pf, Term action, params Term[] args) 
-        => action.NumberOfArguments == 0 ? pf.GetPredicate(args) : pf.GetPredicate(PartialApplicationUtils.CreateArguments(action, args));
+    public static Predicate GetPredicate(PredicateFactory factory, Term action, params Term[] args) 
+        => action.NumberOfArguments == 0 
+        ? factory.GetPredicate(args) 
+        : factory.GetPredicate(CreateArguments(action, args));
 
-    public static bool IsKeyValuePair(Term t)
-        => t.Type == TermType.STRUCTURE && KEY_VALUE_PAIR_FUNCTOR.Equals(t.Name) && t.NumberOfArguments == 2;
+    public static bool IsKeyValuePair(Term term)
+        => term.Type == TermType.STRUCTURE
+        && KEY_VALUE_PAIR_FUNCTOR.Equals(term.Name)
+        && term.NumberOfArguments == 2;
 }

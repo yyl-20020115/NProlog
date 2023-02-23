@@ -26,7 +26,7 @@ public class ReverseTest
                 + "reverse_([], Ys, Ys, [])."
                 + "reverse_([X|Xs], Rs, Ys, [_|Bound]) :- reverse_(Xs, [X|Rs], Ys, Bound).";
 
-    private static readonly ListPredicateAssert PREDICATE_ASSERT = new ListPredicateAssert("reverse", 2, REVERSE_PROLOG);
+    private static readonly ListPredicateAssert PREDICATE_ASSERT = new ("reverse", 2, REVERSE_PROLOG);
     readonly string[] vs1 = {
                "[a,b,c] [c,b,a]",
                "[a(X),b(Y),c(Z)] [c(z),b(y),a(x)]",
@@ -74,7 +74,7 @@ public class ReverseTest
         }
     }
 
-    string[] vs2 =  {
+    readonly string[] vs2 =  {
                "length(X,1000),reverse(X,Y),numbervars(X),reverse(X,Z),reverse(Q,Z).",
                "length(X,1000),length(Y,1000),length(Z,2000),numbervars(X),reverse(X,Y),reverse(Z,X).",
     };

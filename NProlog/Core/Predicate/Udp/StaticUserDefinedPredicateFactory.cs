@@ -17,13 +17,10 @@ using Org.NProlog.Core.Event;
 using Org.NProlog.Core.Terms;
 using Org.NProlog.Core.Kb;
 using Org.NProlog.Core.Exceptions;
-using Org.NProlog.Core.Predicate.Builtin.Db;
 using Org.NProlog.Core.Parser;
-using static Org.NProlog.Core.Predicate.Udp.DynamicUserDefinedPredicateFactory;
 using System.Collections;
 
 namespace Org.NProlog.Core.Predicate.Udp;
-
 
 
 /**
@@ -33,7 +30,7 @@ namespace Org.NProlog.Core.Predicate.Udp;
  */
 public class StaticUserDefinedPredicateFactory : UserDefinedPredicateFactory, PreprocessablePredicateFactory
 {
-    private readonly object _lock = new object();
+    private readonly object _lock = new ();
     private readonly PredicateKey predicateKey;
     private readonly KnowledgeBase kb;
     private readonly SpyPoints.SpyPoint spyPoint;
@@ -196,16 +193,11 @@ public class StaticUserDefinedPredicateFactory : UserDefinedPredicateFactory, Pr
         int lastIdx = clauses.Length - 1;
         var last = clauses[lastIdx];
         if (last.IsRetryable && !last.IsAlwaysCutOnBacktrack)
-        {
             return true;
-        }
 
         for (int i = lastIdx - 1; i > -1; i--)
         {
-            if (!clauses[i].IsAlwaysCutOnBacktrack)
-            {
-                return true;
-            }
+            if (!clauses[i].IsAlwaysCutOnBacktrack) return true;
         }
 
         return false;
@@ -215,9 +207,7 @@ public class StaticUserDefinedPredicateFactory : UserDefinedPredicateFactory, Pr
     public Predicate GetPredicate(Term[] args)
     {
         if (args.Length != predicateKey.NumArgs)
-        {
-            throw new PrologException("User defined predicate: " + predicateKey + " is being called with the wrong number of arguments: " + args.Length + " " + Arrays.ToString(args));
-        }
+           throw new PrologException("User defined predicate: " + predicateKey + " is being called with the wrong number of arguments: " + args.Length + " " + Arrays.ToString(args));
         Compile();
         return compiledPredicateFactory.GetPredicate(args);
     }
@@ -243,7 +233,8 @@ public class StaticUserDefinedPredicateFactory : UserDefinedPredicateFactory, Pr
      * </ul>
      */
 
-    public ICheckedEnumerator<ClauseModel> GetImplications() => new ImplicationsIterator(this.implications);
+    public ICheckedEnumerator<ClauseModel> GetImplications() 
+        => new ImplicationsIterator(this.implications);
 
 
     public bool IsDynamic => false;
@@ -258,9 +249,7 @@ public class StaticUserDefinedPredicateFactory : UserDefinedPredicateFactory, Pr
         get
         {
             if (compiledPredicateFactory == null && !IsCyclic())
-            {
                 Compile();
-            }
 
             return compiledPredicateFactory == null || compiledPredicateFactory.IsRetryable;
         }
@@ -269,22 +258,14 @@ public class StaticUserDefinedPredicateFactory : UserDefinedPredicateFactory, Pr
     public PredicateFactory Preprocess(Term arg)
     {
         if (compiledPredicateFactory == null && !IsCyclic())
-        {
             Compile();
-        }
 
         if (compiledPredicateFactory is PreprocessablePredicateFactory factory)
-        {
             return factory.Preprocess(arg);
-        }
         else if (compiledPredicateFactory != null)
-        {
             return compiledPredicateFactory;
-        }
         else
-        {
             return this;
-        }
     }
 
     /**
@@ -293,13 +274,9 @@ public class StaticUserDefinedPredicateFactory : UserDefinedPredicateFactory, Pr
     public class ImplicationsIterator: ICheckedEnumerator<ClauseModel>
     {
         private readonly ICheckedEnumerator<ClauseModel> iterator;
-        public ImplicationsIterator(List<ClauseModel> implications)
-        {
-            iterator = ListCheckedEnumerator<ClauseModel>.Of(implications);
-        }
+        public ImplicationsIterator(List<ClauseModel> implications) => iterator = ListCheckedEnumerator<ClauseModel>.Of(implications);
         object IEnumerator.Current => this.Current;
-        public ClauseModel Current => iterator.Current.Copy()
-            ;
+        public ClauseModel Current => iterator.Current.Copy();
 
         public bool CanMoveNext => this.iterator.CanMoveNext;
 
@@ -336,10 +313,8 @@ public class StaticUserDefinedPredicateFactory : UserDefinedPredicateFactory, Pr
             this.argIdx = clauses.ImmutableColumns[0];
             this.actions = clauses.ClauseActions;
             this.map = new(actions.Length);
-            foreach (ClauseAction a in actions)
-            {
+            foreach (var a in actions)
                 map.Add(a.Model.Consequent.GetArgument(argIdx), a);
-            }
             this.retryable = IsClausesRetryable(actions);
             this.staticUserDefinedPredicateFactory = staticUserDefinedPredicateFactory;
         }
@@ -359,11 +334,7 @@ public class StaticUserDefinedPredicateFactory : UserDefinedPredicateFactory, Pr
         public PredicateFactory Preprocess(Term arg)
         {
             if (arg.GetArgument(argIdx).IsImmutable)
-            {
-                return !map.TryGetValue(arg.GetArgument(argIdx),out var action)
-                    ? new NeverSucceedsPredicateFactory(staticUserDefinedPredicateFactory.spyPoint)
-                    : staticUserDefinedPredicateFactory.CreateSingleClausePredicateFactory(action);
-            }
+                return !map.TryGetValue(arg.GetArgument(argIdx), out var action) ? new NeverSucceedsPredicateFactory(staticUserDefinedPredicateFactory.spyPoint) : staticUserDefinedPredicateFactory.CreateSingleClausePredicateFactory(action);
             else
             {
                 var result = OptimisePredicateFactory(staticUserDefinedPredicateFactory.kb, actions, arg);
@@ -411,15 +382,11 @@ public class StaticUserDefinedPredicateFactory : UserDefinedPredicateFactory, Pr
         {
             var data = arg.GetArgument(argIdx).IsImmutable ? index.GetMatches(arg.Args) : actions;
             var result = OptimisePredicateFactory(staticUserDefinedPredicateFactory.kb, data, arg);
-            if (result.Count < actions.Length)
-            {
-                var clauses = Clauses.CreateFromActions(staticUserDefinedPredicateFactory.kb, result, arg);
-                return staticUserDefinedPredicateFactory.CreateInterpretedPredicateFactoryFromClauses(clauses);
-            }
-            else
-            {
-                return this;
-            }
+            return result.Count < actions.Length
+                ? staticUserDefinedPredicateFactory.CreateInterpretedPredicateFactoryFromClauses(
+                     Clauses.CreateFromActions(staticUserDefinedPredicateFactory.kb, result, arg)
+                    )
+                : this;
         }
     }
 
@@ -431,7 +398,7 @@ public class StaticUserDefinedPredicateFactory : UserDefinedPredicateFactory, Pr
         private readonly StaticUserDefinedPredicateFactory staticUserDefinedPredicateFactory;
         public IndexablePredicateFactory(Clauses clauses, StaticUserDefinedPredicateFactory staticUserDefinedPredicateFactory)
         {
-            this.index = new Indexes(clauses);
+            this.index = new (clauses);
             this.retryable = IsClausesRetryable(clauses.ClauseActions);
             this.staticUserDefinedPredicateFactory = staticUserDefinedPredicateFactory;
         }
@@ -448,15 +415,10 @@ public class StaticUserDefinedPredicateFactory : UserDefinedPredicateFactory, Pr
         {
             var data = index.Index(arg.Args);
             var result = OptimisePredicateFactory(staticUserDefinedPredicateFactory.kb, data, arg);
-            if (result.Count < index.ClauseCount)
-            {
-                var clauses = Clauses.CreateFromActions(staticUserDefinedPredicateFactory.kb, result, arg);
-                return staticUserDefinedPredicateFactory.CreateInterpretedPredicateFactoryFromClauses(clauses);
-            }
-            else
-            {
-                return this;
-            }
+            return result.Count < index.ClauseCount
+                ? staticUserDefinedPredicateFactory.CreateInterpretedPredicateFactoryFromClauses(
+                    Clauses.CreateFromActions(staticUserDefinedPredicateFactory.kb, result, arg))
+                : this;
         }
     }
 
@@ -486,15 +448,10 @@ public class StaticUserDefinedPredicateFactory : UserDefinedPredicateFactory, Pr
         public PredicateFactory Preprocess(Term arg)
         {
             var result = OptimisePredicateFactory(staticUserDefinedPredicateFactory.kb, data, arg);
-            if (result.Count < data.Length)
-            {
-                var clauses = Clauses.CreateFromActions(staticUserDefinedPredicateFactory.kb, result, arg);
-                return staticUserDefinedPredicateFactory.CreateInterpretedPredicateFactoryFromClauses(clauses);
-            }
-            else
-            {
-                return this;
-            }
+            return result.Count < data.Length
+                ? staticUserDefinedPredicateFactory.CreateInterpretedPredicateFactoryFromClauses(
+                     Clauses.CreateFromActions(staticUserDefinedPredicateFactory.kb, result, arg))
+                : this;
         }
     }
 
@@ -502,12 +459,10 @@ public class StaticUserDefinedPredicateFactory : UserDefinedPredicateFactory, Pr
     {
         List<ClauseAction> result = new();
         var queryArgs = TermUtils.Copy(arg.Args);
-        foreach (ClauseAction action in data)
+        foreach (var action in data)
         {
             if (ClauseActionFactory.IsMatch(action, queryArgs))
-            {
                 result.Add(action);
-            }
         }
         if (result.Count == 0)
         {
@@ -521,10 +476,7 @@ public class StaticUserDefinedPredicateFactory : UserDefinedPredicateFactory, Pr
         private readonly ClauseAction[] clauses;
         private int pos = -1;
         private bool disposed = false;
-        public ActionIterator(ClauseAction[] clauses)
-        {
-            this.clauses = clauses;
-        }
+        public ActionIterator(ClauseAction[] clauses) => this.clauses = clauses;
         public ClauseAction Current 
             => this.pos < 0 
             ? throw new InvalidOperationException("Call MoveNext() first") 

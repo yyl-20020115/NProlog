@@ -24,12 +24,10 @@ public class MemberCheckTest : TestUtils
     [TestMethod]
     public void TestPreprocessed()
     {
-        KnowledgeBase kb = CreateKnowledgeBase();
-        Term term = ParseTerm("memberchk(X, [a,b,c]).");
-        MemberCheck m = (MemberCheck)kb.Predicates.GetPredicateFactory(term);
-
-        PredicateFactory optimised = m.Preprocess(term);
-
+        var kb = CreateKnowledgeBase();
+        var term = ParseTerm("memberchk(X, [a,b,c]).");
+        var m = (MemberCheck)kb.Predicates.GetPredicateFactory(term);
+        var optimised = m.Preprocess(term);
         Assert.AreEqual("PreprocessedMemberCheck", optimised.GetType().Name);
     }
 

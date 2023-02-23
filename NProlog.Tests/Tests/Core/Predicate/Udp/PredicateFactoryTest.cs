@@ -25,17 +25,11 @@ public class PredicateFactoryTest
 
         public bool IsRetryable => true;
 
-        public Predicate GetPredicate(Term[] args)
-        {
-            throw new InvalidOperationException();
-        }
+        public Predicate GetPredicate(Term[] args) => throw new InvalidOperationException();
+        public bool IsAlwaysCutOnBacktrack => false;
+
     }
     /** Assert default implementation of PredicateFactory.isAlwaysCutOnBacktrack */
     [TestMethod]
-    public void TestIsAlwaysCutOnBacktrack()
-    {
-        PredicateFactory pf = new Pf();
-
-        Assert.IsFalse(pf.IsAlwaysCutOnBacktrack);
-    }
+    public void TestIsAlwaysCutOnBacktrack() => Assert.IsFalse(new Pf().IsAlwaysCutOnBacktrack);
 }

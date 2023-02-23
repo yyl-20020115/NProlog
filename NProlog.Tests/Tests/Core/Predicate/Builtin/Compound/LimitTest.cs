@@ -13,24 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-using Org.NProlog.Core.Kb;
 using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Compound;
 
 [TestClass]
-
-
-
 public class LimitTest : TestUtils
 {
     [TestMethod]
     public void TestPreprocessCannotOptimiseVariable()
     {
-        Limit o = new Limit();
+        var o = new Limit();
 
-        Term t = Terms.Structure.CreateStructure("limit", new Term[] { new IntegerNumber(3), new Variable("Y") });
-        PredicateFactory optimised = o.Preprocess(t);
+        var t = Terms.Structure.CreateStructure("limit", new Term[] { new IntegerNumber(3), new Variable("Y") });
+        var optimised = o.Preprocess(t);
 
         Assert.AreSame(o, optimised);
     }
@@ -112,7 +108,7 @@ public class LimitTest : TestUtils
         Verify(mockPreprocessablePredicateFactory).Preprocess(queryArg);
         Verify(mockPredicateFactory, Times(2)).GetPredicate(queryArg.Args);
         Verify(mockPredicate, Times(3)).Evaluate();
-        var a1 = Verify(mockPredicate, Times(4)).CouldReevaluationSucceed;
+        var _ = Verify(mockPredicate, Times(4)).CouldReevaluationSucceed;
         VerifyNoMoreInteractions(mockPreprocessablePredicateFactory, mockPredicateFactory, mockPredicate);
     }
 }

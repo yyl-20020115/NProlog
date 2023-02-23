@@ -20,8 +20,8 @@ namespace Org.NProlog.Api;
 [TestClass]
 public class SingleSolutionAtomQueryTest : AbstractQueryTest
 {
-    private static readonly string EXPECTED_NUMERIC_EXCEPTION_MESSAGE = "Expected Numeric but got: ATOM with value: test";
-    private static readonly string ATOM_NAME = "test";
+    private const string EXPECTED_NUMERIC_EXCEPTION_MESSAGE = "Expected Numeric but got: ATOM with value: test";
+    private const string ATOM_NAME = "test";
 
     public SingleSolutionAtomQueryTest() : base("X = test.") { }
 
@@ -47,25 +47,25 @@ public class SingleSolutionAtomQueryTest : AbstractQueryTest
     => FindAllAsAtomName().AreEqual(new List<string>() { ATOM_NAME });
 
 
-    public override void TestFindFirstAsDouble() => FindFirstAsDouble().assertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
+    public override void TestFindFirstAsDouble() => FindFirstAsDouble().AssertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
 
 
     public override void TestFindFirstAsOptionalDouble()
-    => FindFirstAsOptionalDouble().assertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
+    => FindFirstAsOptionalDouble().AssertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
 
 
     public override void TestFindAllAsDouble()
-    => FindAllAsDouble().assertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
+    => FindAllAsDouble().AssertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
 
 
     public override void TestFindFirstAsLong()
-    => FindFirstAsLong().assertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
+    => FindFirstAsLong().AssertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
 
 
     public override void TestFindFirstAsOptionalLong()
-    => FindFirstAsOptionalLong().assertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
+    => FindFirstAsOptionalLong().AssertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
 
 
     public override void TestFindAllAsLong()
-    => FindAllAsLong().assertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
+    => FindAllAsLong().AssertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
 }

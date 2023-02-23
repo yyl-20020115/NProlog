@@ -21,10 +21,10 @@ public class ListFactoryTest : TestUtils
     [TestMethod]
     public void TestCreationWithoutTail()
     {
-        Term[] args = CreateArguments();
-        Term l = ListFactory.CreateList(args);
+        var args = CreateArguments();
+        var l = ListFactory.CreateList(args);
 
-        foreach (Term arg in args)
+        foreach (var arg in args)
         {
             TestIsList(l);
             Assert.AreEqual(arg, l.GetArgument(0));
@@ -38,11 +38,11 @@ public class ListFactoryTest : TestUtils
     [TestMethod]
     public void TestCreationWithTail()
     {
-        Term[] args = CreateArguments();
-        Term tail = new Atom("tail");
-        Term l = ListFactory.CreateList(args, tail);
+        var args = CreateArguments();
+        var tail = new Atom("tail");
+        var l = ListFactory.CreateList(args, tail);
 
-        foreach (Term arg in args)
+        foreach (var arg in args)
         {
             TestIsList(l);
             Assert.AreEqual(arg, l.GetArgument(0));
@@ -55,7 +55,7 @@ public class ListFactoryTest : TestUtils
     [TestMethod]
     public void TestCreationWithTailButNoHead()
     {
-        Term tail = new Atom("tail");
+        var tail = new Atom("tail");
         Assert.AreSame(tail, ListFactory.CreateList(new Term[0], tail));
     }
 
@@ -63,11 +63,11 @@ public class ListFactoryTest : TestUtils
     [TestMethod]
     public void TestCreationWithJavaCollection()
     {
-        Term[] args = CreateArguments();
+        var args = CreateArguments();
         //       Collection<Term> c = Arrays.asList(args);
         var c = args.ToArray();
-        Term listFromArray = ListFactory.CreateList(args);
-        Term listFromCollection = ListFactory.CreateList(c);
+        var listFromArray = ListFactory.CreateList(args);
+        var listFromCollection = ListFactory.CreateList(c);
         Assert.AreEqual(listFromCollection, listFromArray);
     }
 
@@ -94,8 +94,8 @@ public class ListFactoryTest : TestUtils
     [TestMethod]
     public void TestCreateListOfLengthOne()
     {
-        Term t = ListFactory.CreateListOfLength(1);
-        Assert.AreSame(typeof(List), t.GetType());
+        var t = ListFactory.CreateListOfLength(1);
+        Assert.AreSame(typeof(LinkedTermList), t.GetType());
         Assert.IsTrue(t.GetArgument(0).Type.IsVariable);
         Assert.AreSame(EmptyList.EMPTY_LIST, t.GetArgument(1));
         Assert.AreEqual(".(E0, [])", t.ToString());
@@ -104,20 +104,20 @@ public class ListFactoryTest : TestUtils
     [TestMethod]
     public void TestCreateListOfLengthThree()
     {
-        Term t = ListFactory.CreateListOfLength(3);
-        Assert.AreSame(typeof(List), t.GetType());
+        var t = ListFactory.CreateListOfLength(3);
+        Assert.AreSame(typeof(LinkedTermList), t.GetType());
         Assert.IsTrue(t.GetArgument(0).Type.IsVariable);
-        Assert.AreSame(typeof(List), t.GetArgument(1).GetType());
+        Assert.AreSame(typeof(LinkedTermList), t.GetArgument(1).GetType());
         Assert.AreEqual(".(E0, .(E1, .(E2, [])))", t.ToString());
     }
 
     [TestMethod]
     public void TestCreateListFromTwoAtoms()
     {
-        Atom head = Atom("a");
-        Atom tail = Atom("b");
-        List t = ListFactory.CreateList(head, tail);
-        Assert.AreSame(typeof(List), t.GetType());
+        var head = Atom("a");
+        var tail = Atom("b");
+        var t = ListFactory.CreateList(head, tail);
+        Assert.AreSame(typeof(LinkedTermList), t.GetType());
         Assert.AreSame(head, t.GetArgument(0));
         Assert.AreSame(tail, t.GetArgument(1));
         Assert.IsTrue(t.IsImmutable);
@@ -126,10 +126,10 @@ public class ListFactoryTest : TestUtils
     [TestMethod]
     public void TestCreateListWithVariableHead()
     {
-        Variable head = Variable("X");
-        Atom tail = Atom("b");
-        Term t = ListFactory.CreateList(head, tail);
-        Assert.AreSame(typeof(List), t.GetType());
+        var head = Variable("X");
+        var tail = Atom("b");
+        var t = ListFactory.CreateList(head, tail);
+        Assert.AreSame(typeof(LinkedTermList), t.GetType());
         Assert.AreSame(head, t.GetArgument(0));
         Assert.AreSame(tail, t.GetArgument(1));
         Assert.IsFalse(t.IsImmutable);
@@ -138,10 +138,10 @@ public class ListFactoryTest : TestUtils
     [TestMethod]
     public void TestCreateListWithVariableTail()
     {
-        Atom head = Atom("a");
-        Variable tail = Variable("Y");
-        Term t = ListFactory.CreateList(head, tail);
-        Assert.AreSame(typeof(List), t.GetType());
+        var head = Atom("a");
+        var tail = Variable("Y");
+        var t = ListFactory.CreateList(head, tail);
+        Assert.AreSame(typeof(LinkedTermList), t.GetType());
         Assert.AreSame(head, t.GetArgument(0));
         Assert.AreSame(tail, t.GetArgument(1));
         Assert.IsFalse(t.IsImmutable);
@@ -150,19 +150,17 @@ public class ListFactoryTest : TestUtils
     [TestMethod]
     public void TestCreateListWithVariableHeadAndTail()
     {
-        Variable head = Variable("X");
-        Variable tail = Variable("Y");
-        Term t = ListFactory.CreateList(head, tail);
-        Assert.AreSame(typeof(List), t.GetType());
+        var head = Variable("X");
+        var tail = Variable("Y");
+        var t = ListFactory.CreateList(head, tail);
+        Assert.AreSame(typeof(LinkedTermList), t.GetType());
         Assert.AreSame(head, t.GetArgument(0));
         Assert.AreSame(tail, t.GetArgument(1));
         Assert.IsFalse(t.IsImmutable);
     }
 
-    private static Term[] CreateArguments()
-    {
-        return new Term[] { Atom(), Structure(), IntegerNumber(), DecimalFraction(), Variable() };
-    }
+    private static Term[] CreateArguments() 
+        => new Term[] { Atom(), Structure(), IntegerNumber(), DecimalFraction(), Variable() };
 
     private static void TestIsList(Term l)
     {

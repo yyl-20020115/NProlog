@@ -82,7 +82,7 @@ public class Select : AbstractPredicateFactory
         {
             var head = new Variable("Head");
             var tail = new Variable("Tail");
-            var newList = new Terms.List(head, tail);
+            var newList = new Terms.LinkedTermList(head, tail);
             inputList.Unify(newList);
             return new SelectPredicate(tail, head, element, outputList);
         }
@@ -139,7 +139,7 @@ public class Select : AbstractPredicateFactory
                 {
                     head2 = new Variable("Head2");
                     tail = new Variable("Tail");
-                    firstArg.Unify(new Terms.List(head2, tail));
+                    firstArg.Unify(new LinkedTermList(head2, tail));
                 }
                 else
                 {
@@ -158,7 +158,7 @@ public class Select : AbstractPredicateFactory
                 else if (fourthArg.Type.IsVariable)
                 {
                     rest = new Variable("Rest");
-                    fourthArg.Unify(new Terms.List(secondArg, rest));
+                    fourthArg.Unify(new LinkedTermList(secondArg, rest));
                 }
                 else
                 {
@@ -172,6 +172,7 @@ public class Select : AbstractPredicateFactory
         }
 
 
-        public virtual bool CouldReevaluationSucceed => !retrying || (firstArg != EmptyList.EMPTY_LIST && fourthArg != EmptyList.EMPTY_LIST);
+        public virtual bool CouldReevaluationSucceed 
+            => !retrying || (firstArg != EmptyList.EMPTY_LIST && fourthArg != EmptyList.EMPTY_LIST);
     }
 }

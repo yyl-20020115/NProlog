@@ -45,29 +45,17 @@ public class Structure : Term
      * @param args arguments for the new term
      * @return either a new {@link Structure} or a new {@link List}
      */
-    public static Term CreateStructure(string functor, Term[] args)
-    {
-        if (args.Length == 0)
-        {
-            throw new ArgumentException("Cannot create structure with no arguments");
-        }
-
-        if (ListFactory.LIST_PREDICATE_NAME.Equals(functor) && args.Length == 2)
-        {
-            return ListFactory.CreateList(args[0], args[1]);
-        }
-
-        return new Structure(functor, args, IsImmutableWith(args));
-    }
+    public static Term CreateStructure(string functor, Term[] args) => args.Length == 0
+            ? throw new ArgumentException("Cannot create structure with no arguments")
+            : ListFactory.LIST_PREDICATE_NAME.Equals(functor) && args.Length == 2
+            ? ListFactory.CreateList(args[0], args[1])
+            : new Structure(functor, args, IsImmutableWith(args));
 
     private static bool IsImmutableWith(Term[] args)
     {
-        foreach (Term t in args)
+        foreach (var t in args)
         {
-            if (t.IsImmutable == false)
-            {
-                return false;
-            }
+            if (t.IsImmutable == false) return false;
         }
         return true;
     }
@@ -179,19 +167,12 @@ public class Structure : Term
         {
             var tArgs = t.Args;
             if (args.Length != tArgs.Length)
-            {
                 return false;
-            }
             if (!functor.Equals(t.Name))
-            {
                 return false;
-            }
             for (int i = 0; i < args.Length; i++)
             {
-                if (!args[i].Unify(tArgs[i]))
-                {
-                    return false;
-                }
+                if (!args[i].Unify(tArgs[i])) return false;
             }
             return true;
         }
@@ -205,9 +186,7 @@ public class Structure : Term
     public void Backtrack()
     {
         if (!immutable)
-        {
             TermUtils.Backtrack(args);
-        }
     }
 
 
@@ -237,13 +216,9 @@ public class Structure : Term
             foreach (var arg in args)
             {
                 if (first)
-                {
                     first = false;
-                }
                 else
-                {
                     builder.Append(", ");
-                }
                 builder.Append(arg);
             }
         }

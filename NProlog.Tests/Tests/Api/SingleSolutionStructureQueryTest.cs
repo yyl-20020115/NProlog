@@ -20,8 +20,8 @@ namespace Org.NProlog.Api;
 [TestClass]
 public class SingleSolutionStructureQueryTest : AbstractQueryTest
 {
-    private static readonly string EXPECTED_NUMERIC_EXCEPTION_MESSAGE = "Expected Numeric but got: STRUCTURE with value: test(a, 1)";
-    private static readonly string EXPECTED_ATOM_EXCEPTION_MESSAGE = "Expected an atom but got: STRUCTURE with value: test(a, 1)";
+    private const string EXPECTED_NUMERIC_EXCEPTION_MESSAGE = "Expected Numeric but got: STRUCTURE with value: test(a, 1)";
+    private const string EXPECTED_ATOM_EXCEPTION_MESSAGE = "Expected an atom but got: STRUCTURE with value: test(a, 1)";
     private static readonly Term STRUCTURE = Core.Terms.Structure.CreateStructure("test", new Term[] { new Atom("a"), new IntegerNumber(1) });
 
     public SingleSolutionStructureQueryTest() : base("X = test(a, 1).") { }
@@ -39,37 +39,37 @@ public class SingleSolutionStructureQueryTest : AbstractQueryTest
 
 
     public override void TestFindFirstAsAtomName()
-    => FindFirstAsAtomName().assertException(EXPECTED_ATOM_EXCEPTION_MESSAGE);
+    => FindFirstAsAtomName().AssertException(EXPECTED_ATOM_EXCEPTION_MESSAGE);
 
 
     public override void TestFindFirstAsOptionalAtomName()
-    => FindFirstAsOptionalAtomName().assertException(EXPECTED_ATOM_EXCEPTION_MESSAGE);
+    => FindFirstAsOptionalAtomName().AssertException(EXPECTED_ATOM_EXCEPTION_MESSAGE);
 
 
     public override void TestFindAllAsAtomName()
-    => FindAllAsAtomName().assertException(EXPECTED_ATOM_EXCEPTION_MESSAGE);
+    => FindAllAsAtomName().AssertException(EXPECTED_ATOM_EXCEPTION_MESSAGE);
 
 
     public override void TestFindFirstAsDouble()
-    => FindFirstAsDouble().assertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
+    => FindFirstAsDouble().AssertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
 
 
     public override void TestFindFirstAsOptionalDouble()
-    => FindFirstAsOptionalDouble().assertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
+    => FindFirstAsOptionalDouble().AssertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
 
 
     public override void TestFindAllAsDouble()
-    => FindAllAsDouble().assertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
+    => FindAllAsDouble().AssertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
 
 
     public override void TestFindFirstAsLong()
-    => FindFirstAsLong().assertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
+    => FindFirstAsLong().AssertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
 
 
     public override void TestFindFirstAsOptionalLong()
-    => FindFirstAsOptionalLong().assertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
+    => FindFirstAsOptionalLong().AssertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
 
 
     public override void TestFindAllAsLong()
-    => FindAllAsLong().assertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
+    => FindAllAsLong().AssertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
 }

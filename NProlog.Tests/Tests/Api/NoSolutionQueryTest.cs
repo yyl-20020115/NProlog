@@ -26,7 +26,7 @@ public class NoSolutionQueryTest : AbstractQueryTest
 
 
     public override void TestFindFirstAsTerm()
-        => FindFirstAsTerm().assertException(NO_SOLUTION_EXCEPTION_MESSAGE);
+        => FindFirstAsTerm().AssertException(NO_SOLUTION_EXCEPTION_MESSAGE);
 
 
     public override void TestFindFirstAsOptionalTerm()
@@ -38,7 +38,7 @@ public class NoSolutionQueryTest : AbstractQueryTest
 
 
     public override void TestFindFirstAsAtomName()
-        => FindFirstAsAtomName().assertException(NO_SOLUTION_EXCEPTION_MESSAGE);
+        => FindFirstAsAtomName().AssertException(NO_SOLUTION_EXCEPTION_MESSAGE);
 
 
     public override void TestFindFirstAsOptionalAtomName()
@@ -50,7 +50,7 @@ public class NoSolutionQueryTest : AbstractQueryTest
 
 
     public override void TestFindFirstAsDouble()
-    => FindFirstAsDouble().assertException(NO_SOLUTION_EXCEPTION_MESSAGE);
+    => FindFirstAsDouble().AssertException(NO_SOLUTION_EXCEPTION_MESSAGE);
 
 
     public override void TestFindFirstAsOptionalDouble()
@@ -62,7 +62,7 @@ public class NoSolutionQueryTest : AbstractQueryTest
 
 
     public override void TestFindFirstAsLong()
-    => FindFirstAsLong().assertException(NO_SOLUTION_EXCEPTION_MESSAGE);
+    => FindFirstAsLong().AssertException(NO_SOLUTION_EXCEPTION_MESSAGE);
 
 
     public override void TestFindFirstAsOptionalLong()

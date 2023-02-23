@@ -23,7 +23,7 @@ public class ListUtilsTest : TestUtils
     [TestMethod]
     public void TestIsMemberTrue()
     {
-        List list = TermFactory.List(Atom("x"), Atom("y"), Atom("z"));
+        var list = TermFactory.List(Atom("x"), Atom("y"), Atom("z"));
         Assert.IsTrue(ListUtils.IsMember(Atom("x"), list));
         Assert.IsTrue(ListUtils.IsMember(Atom("y"), list));
         Assert.IsTrue(ListUtils.IsMember(Atom("z"), list));
@@ -32,7 +32,7 @@ public class ListUtilsTest : TestUtils
     [TestMethod]
     public void TestIsMemberFailure()
     {
-        List list = TermFactory.List(Atom("x"), Atom("y"), Atom("z"));
+        var list = List(Atom("x"), Atom("y"), Atom("z"));
         Assert.IsFalse(ListUtils.IsMember(Atom("w"), list));
     }
 
@@ -45,9 +45,9 @@ public class ListUtilsTest : TestUtils
     [TestMethod]
     public void TestIsMemberVariable()
     {
-        Atom x = Atom("x");
-        List list = TermFactory.List(x, Atom("y"), Atom("z"));
-        Variable v = Variable();
+        var x = Atom("x");
+        var list = List(x, Atom("y"), Atom("z"));
+        var v = Variable();
         Assert.IsTrue(ListUtils.IsMember(v, list));
         Assert.AreSame(x, v.Term);
     }
@@ -55,8 +55,8 @@ public class ListUtilsTest : TestUtils
     [TestMethod]
     public void TestIsMemberVariablesAsArgumentsOfStructures()
     {
-        Term list = ParseTerm("[p(a, B, 2),p(q, b, C),p(A, b, 5)]");
-        Term element = ParseTerm("p(X,b,5)");
+        var list = ParseTerm("[p(a, B, 2),p(q, b, C),p(A, b, 5)]");
+        var element = ParseTerm("p(X,b,5)");
         Assert.IsTrue(ListUtils.IsMember(element, list));
         Assert.AreEqual("[p(a, B, 2),p(q, b, 5),p(A, b, 5)]", Write(list));
         Assert.AreEqual("p(q, b, 5)", Write(element));
@@ -65,8 +65,8 @@ public class ListUtilsTest : TestUtils
     [TestMethod]
     public void TestIsMemberVariableTail()
     {
-        Variable tail = Variable();
-        Term list = ListFactory.CreateList(new Term[] { Atom("x"), Atom("y"), Atom("z") }, tail);
+        var tail = Variable();
+        var list = ListFactory.CreateList(new Term[] { Atom("x"), Atom("y"), Atom("z") }, tail);
 
         Assert.IsTrue(ListUtils.IsMember(Atom("x"), list));
         Assert.AreEqual(".(x, .(y, .(z, X)))", list.ToString());
@@ -88,9 +88,9 @@ public class ListUtilsTest : TestUtils
         Assert.AreSame(q, tail.GetArgument(0));
         Assert.AreSame(TermType.VARIABLE, tail.GetArgument(1).Type);
 
-        Term newList = list.Term;
-        Term newTail = tail.GetArgument(1);
-        Atom w = Atom("w");
+        var newList = list.Term;
+        var newTail = tail.GetArgument(1);
+        var w = Atom("w");
         Assert.IsTrue(ListUtils.IsMember(w, newList));
         Assert.AreEqual(".(x, .(y, .(z, .(q, .(w, _)))))", newList.ToString());
         Assert.AreNotSame(newTail, newTail.Term);
@@ -102,8 +102,8 @@ public class ListUtilsTest : TestUtils
     [TestMethod]
     public void TestIsMemberAtomTail()
     {
-        Atom tail = Atom("test");
-        Term list = ListFactory.CreateList(new Term[] { Atom("x"), Atom("y"), Atom("z") }, tail);
+        var tail = Atom("test");
+        var list = ListFactory.CreateList(new Term[] { Atom("x"), Atom("y"), Atom("z") }, tail);
 
         Assert.IsTrue(ListUtils.IsMember(Atom("x"), list));
         Assert.AreEqual(".(x, .(y, .(z, test)))", list.ToString());
@@ -145,9 +145,9 @@ public class ListUtilsTest : TestUtils
     [TestMethod]
     public void TestToJavaUtilList()
     {
-        Term[] arguments = CreateArguments();
-        List prologList = (List)ListFactory.CreateList(arguments);
-        List<Term> list = ListUtils.ToList(prologList);
+        var arguments = CreateArguments();
+        var prologList = (LinkedTermList)ListFactory.CreateList(arguments);
+        var list = ListUtils.ToList(prologList);
         Assert.AreEqual(arguments.Length, list.Count);
         for (int i = 0; i < arguments.Length; i++)
         {
@@ -158,15 +158,15 @@ public class ListUtilsTest : TestUtils
     [TestMethod]
     public void TestToJavaUtilListPartialList()
     {
-        List list = (List)ListFactory.CreateList(CreateArguments(), Atom("tail"));
+        var list = (LinkedTermList)ListFactory.CreateList(CreateArguments(), Atom("tail"));
         Assert.IsNull(ListUtils.ToList(list));
     }
 
     [TestMethod]
     public void TestToJavaUtilListEmptyList()
     {
-        List<Term> javaUtilList = ListUtils.ToList(EmptyList.EMPTY_LIST);
-        Assert.IsTrue(javaUtilList.Count == 0);
+        var list = ListUtils.ToList(EmptyList.EMPTY_LIST);
+        Assert.IsTrue(list.Count == 0);
     }
 
     [TestMethod]
@@ -183,13 +183,13 @@ public class ListUtilsTest : TestUtils
     [TestMethod]
     public void TestToSortedUtilList()
     {
-        Atom z = Atom("z");
-        Atom a = Atom("a");
-        Atom h = Atom("h");
-        Atom q = Atom("q");
+        var z = Atom("z");
+        var a = Atom("a");
+        var h = Atom("h");
+        var q = Atom("q");
         // include multiple 'a's to test duplicates are not removed
-        List list = (List)ListFactory.CreateList(new Term[] { z, a, a, h, a, q });
-        List<Term> sortedList = ListUtils.ToSortedList(list);
+        var list = (LinkedTermList)ListFactory.CreateList(new Term[] { z, a, a, h, a, q });
+        var sortedList = ListUtils.ToSortedList(list);
         Assert.AreEqual(6, sortedList.Count);
         Assert.AreSame(a, sortedList[(0)]);
         Assert.AreSame(a, sortedList[(1)]);
@@ -202,8 +202,8 @@ public class ListUtilsTest : TestUtils
     [TestMethod]
     public void TestToSortedJavaUtilListEmptyList()
     {
-        List<Term> javaUtilList = ListUtils.ToSortedList(EmptyList.EMPTY_LIST);
-        Assert.IsTrue(javaUtilList.Count == 0);
+        var list = ListUtils.ToSortedList(EmptyList.EMPTY_LIST);
+        Assert.IsTrue(list.Count == 0);
     }
 
     [TestMethod]
@@ -217,8 +217,6 @@ public class ListUtilsTest : TestUtils
         Assert.IsNull(ListUtils.ToSortedList(new Variable()));
     }
 
-    private static Term[] CreateArguments()
-    {
-        return new Term[] { Atom(), Structure(), IntegerNumber(), DecimalFraction(), Variable() };
-    }
+    private static Term[] CreateArguments() 
+        => new Term[] { Atom(), Structure(), IntegerNumber(), DecimalFraction(), Variable() };
 }

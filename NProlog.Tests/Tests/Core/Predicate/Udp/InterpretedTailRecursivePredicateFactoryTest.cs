@@ -26,9 +26,9 @@ public class InterpretedTailRecursivePredicateFactoryTest : TestUtils
     [TestMethod]
     public void TestSingleResultQuery()
     {
-        Term arg1 = ParseTerm("[a]");
-        Term arg2 = ParseTerm("[a,b,c]");
-        InterpretedTailRecursivePredicate singleResultPredicate = FACTORY.GetPredicate(new Term[] { arg1, arg2 });
+        var arg1 = ParseTerm("[a]");
+        var arg2 = ParseTerm("[a,b,c]");
+        var singleResultPredicate = FACTORY.GetPredicate(new Term[] { arg1, arg2 });
 
         Assert.IsFalse(singleResultPredicate.CouldReevaluationSucceed);
         Assert.IsTrue(singleResultPredicate.Evaluate());
@@ -37,9 +37,9 @@ public class InterpretedTailRecursivePredicateFactoryTest : TestUtils
     [TestMethod]
     public void TestMultiResultQuery()
     {
-        Term arg1 = ParseTerm("X");
-        Term arg2 = ParseTerm("[a,b,c]");
-        InterpretedTailRecursivePredicate multiResultPredicate = FACTORY.GetPredicate(new Term[] { arg1, arg2 });
+        var arg1 = ParseTerm("X");
+        var arg2 = ParseTerm("[a,b,c]");
+        var multiResultPredicate = FACTORY.GetPredicate(new Term[] { arg1, arg2 });
 
         Assert.IsTrue(multiResultPredicate.CouldReevaluationSucceed);
         Assert.IsTrue(multiResultPredicate.Evaluate());
@@ -55,17 +55,15 @@ public class InterpretedTailRecursivePredicateFactoryTest : TestUtils
 
     private static InterpretedTailRecursivePredicateFactory CreateFactory(string firstClauseSyntax, string secondClauseSyntax)
     {
-        KnowledgeBase kb = CreateKnowledgeBase();
-        List<ClauseModel> clauses = CreateClauseModels(firstClauseSyntax, secondClauseSyntax);
-        TailRecursivePredicateMetaData metaData = TailRecursivePredicateMetaData.Create(kb, clauses);
+        var kb = CreateKnowledgeBase();
+        var clauses = CreateClauseModels(firstClauseSyntax, secondClauseSyntax);
+        var metaData = TailRecursivePredicateMetaData.Create(kb, clauses);
         return new InterpretedTailRecursivePredicateFactory(kb, metaData);
     }
 
-    private static List<ClauseModel> CreateClauseModels(string firstClauseSyntax, string secondClauseSyntax)
-    {
-        List<ClauseModel> clauses = new();
-        clauses.Add(CreateClauseModel(firstClauseSyntax));
-        clauses.Add(CreateClauseModel(secondClauseSyntax));
-        return clauses;
-    }
+    private static List<ClauseModel> CreateClauseModels(string firstClauseSyntax, string secondClauseSyntax) => new()
+        {
+            CreateClauseModel(firstClauseSyntax),
+            CreateClauseModel(secondClauseSyntax)
+        };
 }

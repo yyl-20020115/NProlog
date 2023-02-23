@@ -124,21 +124,18 @@ public class Length : AbstractPredicateFactory
         }
 
         if (tail == EmptyList.EMPTY_LIST)
-        {
             return PredicateUtils.ToPredicate(expectedLength.Unify(IntegerNumberCache.ValueOf(actualLength)));
-        }
         else if (!tail.Type.IsVariable)
         {
             throw new PrologException("Expected list but got: " + list.Type + " with value: " + list);
         }
         else if (expectedLength.Type.IsVariable)
-        {
             return new Retryable(actualLength, tail, expectedLength);
-        }
         else
         {
             int requiredLength = TermUtils.ToInt(expectedLength) - actualLength;
-            return PredicateUtils.ToPredicate(requiredLength > -1 && tail.Unify(ListFactory.CreateListOfLength(requiredLength)));
+            return PredicateUtils.ToPredicate(requiredLength > -1 
+                && tail.Unify(ListFactory.CreateListOfLength(requiredLength)));
         }
     }
 
@@ -156,23 +153,17 @@ public class Length : AbstractPredicateFactory
             this.Length = Length;
         }
 
-
         public virtual bool Evaluate()
         {
             list.Backtrack();
             Length.Backtrack();
             if (!list.Unify(ListFactory.CreateListOfLength(currentLength)))
-            {
                 return false;
-            }
             if (!Length.Unify(IntegerNumberCache.ValueOf(startLength + currentLength)))
-            {
                 return false;
-            }
             currentLength++;
             return true;
         }
-
 
         public virtual bool CouldReevaluationSucceed => true;
     }

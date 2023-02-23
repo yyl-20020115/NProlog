@@ -13,13 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-using Org.NProlog.Core.Predicate.Builtin.Db;
 using Org.NProlog.Core.Terms;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Org.NProlog.Core.Predicate.Builtin.List;
-
-
 
 
 /* TEST

@@ -33,9 +33,7 @@ namespace Org.NProlog.Core.Predicate;
 public abstract class AbstractSingleResultPredicate : PredicateFactory, KnowledgeBaseConsumer
 {
     protected KnowledgeBase? knowledgeBase;
-    public AbstractSingleResultPredicate()
-    {
-    }
+    public AbstractSingleResultPredicate() { }
 
     public KnowledgeBase KnowledgeBase
     {

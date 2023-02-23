@@ -19,20 +19,17 @@ using static Org.NProlog.Core.Event.SpyPoints;
 namespace Org.NProlog;
 
 /** Uses {@code prolog-test} to run Prolog code and Compare the results against expectations. */
-//[TestClass]
+[TestClass]
 public class PrologTest
 {
-    private static readonly string SOURCE_PROLOG_TESTS_DIR = ("src/test/prolog");
-    private static readonly string BUILTIN_PREDICATES_PACKAGE = "org.prolog.core.predicate.builtin";
-    private static readonly string EXTRACTED_PREDICATES_TESTS_DIR = ("target/prolog-predicate-tests-extracted-from-java");
-    private static readonly string BUILTIN_OPERATORS_PACKAGE = "org.prolog.core.math.builtin";
-    private static readonly string EXTRACTED_OPERATORS_TESTS_DIR = ("target/prolog-operator-tests-extracted-from-java");
+    private const string SOURCE_PROLOG_TESTS_DIR = ("src/test/prolog");
+    private const string BUILTIN_PREDICATES_PACKAGE = "org.prolog.core.predicate.builtin";
+    private const string EXTRACTED_PREDICATES_TESTS_DIR = ("target/prolog-predicate-tests-extracted-from-java");
+    private const string BUILTIN_OPERATORS_PACKAGE = "org.prolog.core.math.builtin";
+    private const string EXTRACTED_OPERATORS_TESTS_DIR = ("target/prolog-operator-tests-extracted-from-java");
 
     [TestMethod]
-    public void PrologTests()
-    {
-        AssertSuccess(SOURCE_PROLOG_TESTS_DIR);
-    }
+    public void PrologTests() => AssertSuccess(SOURCE_PROLOG_TESTS_DIR);
 
     [TestMethod]
     public void ExtractedPredicateTests()
@@ -51,49 +48,20 @@ public class PrologTest
     public class PL : PrologListener
     {
         List<string> events;
-        public PL(List<string> events)
-        {
-            this.events = events;
-        }
-        public void OnInfo(string message)
-        {
-            Add(message);
-        }
+        public PL(List<string> events) => this.events = events;
+        public void OnInfo(string message) => Add(message);
 
+        public void OnWarn(string message) => Add(message);
 
-        public void OnWarn(string message)
-        {
-            Add(message);
-        }
+        public void OnRedo(SpyPointEvent @event) => Add(@event);
 
+        public void OnFail(SpyPointEvent @event) => Add(@event);
 
-        public void OnRedo(SpyPointEvent @event)
-        {
-            Add(@event);
-        }
+        public void OnExit(SpyPointExitEvent @event) => Add(@event);
 
+        public void OnCall(SpyPointEvent @event) => Add(@event);
 
-        public void OnFail(SpyPointEvent @event)
-        {
-            Add(@event);
-        }
-
-
-        public void OnExit(SpyPointExitEvent @event)
-        {
-            Add(@event);
-        }
-
-
-        public void OnCall(SpyPointEvent @event)
-        {
-            Add(@event);
-        }
-
-        private void Add(Object message)
-        {
-            events.Add(message.ToString());
-        }
+        private void Add(object message) => events.Add(message.ToString());
     }
 
 
@@ -101,7 +69,7 @@ public class PrologTest
     [TestMethod]
     public void PredicateWithManyClauses()
     {
-        string source = ("target/predicateTooLargeToCompileToJava.pl");
+        var source = ("target/predicateTooLargeToCompileToJava.pl");
         int numClauses = 2000;
         using (var pw = new StreamWriter(source))
         {
@@ -117,7 +85,7 @@ public class PrologTest
         }
 
         List<string> events = new();
-        PrologListener listener = new PL(events);
+        var listener = new PL(events);
 
         // assert tests pass
         //assertSuccess(source, new PrologTestRunnerConfig()

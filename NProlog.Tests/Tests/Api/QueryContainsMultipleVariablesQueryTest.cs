@@ -18,54 +18,54 @@ namespace Org.NProlog.Api;
 [TestClass]
 public class QueryContainsMultipleVariablesQueryTest : AbstractQueryTest
 {
-    private static readonly string EXPECTED_ONE_VARIABLE_EXCEPTION_MESSAGE = "Expected exactly one uninstantiated variable but found X and Y";
+    private const string EXPECTED_ONE_VARIABLE_EXCEPTION_MESSAGE = "Expected exactly one uninstantiated variable but found X and Y";
 
     public QueryContainsMultipleVariablesQueryTest() : base("X=1, Y=2.") { }
 
     public override void TestFindFirstAsTerm()
-        => FindFirstAsTerm().assertException(EXPECTED_ONE_VARIABLE_EXCEPTION_MESSAGE);
+        => FindFirstAsTerm().AssertException(EXPECTED_ONE_VARIABLE_EXCEPTION_MESSAGE);
 
 
     public override void TestFindFirstAsOptionalTerm()
-        => FindFirstAsOptionalTerm().assertException(EXPECTED_ONE_VARIABLE_EXCEPTION_MESSAGE);
+        => FindFirstAsOptionalTerm().AssertException(EXPECTED_ONE_VARIABLE_EXCEPTION_MESSAGE);
 
 
     public override void TestFindAllAsTerm()
-    => FindAllAsTerm().assertException(EXPECTED_ONE_VARIABLE_EXCEPTION_MESSAGE);
+    => FindAllAsTerm().AssertException(EXPECTED_ONE_VARIABLE_EXCEPTION_MESSAGE);
 
 
     public override void TestFindFirstAsAtomName()
-    => FindFirstAsAtomName().assertException(EXPECTED_ONE_VARIABLE_EXCEPTION_MESSAGE);
+    => FindFirstAsAtomName().AssertException(EXPECTED_ONE_VARIABLE_EXCEPTION_MESSAGE);
 
 
     public override void TestFindFirstAsOptionalAtomName()
-    => FindFirstAsOptionalAtomName().assertException(EXPECTED_ONE_VARIABLE_EXCEPTION_MESSAGE);
+    => FindFirstAsOptionalAtomName().AssertException(EXPECTED_ONE_VARIABLE_EXCEPTION_MESSAGE);
 
 
     public override void TestFindAllAsAtomName()
-    => FindAllAsAtomName().assertException(EXPECTED_ONE_VARIABLE_EXCEPTION_MESSAGE);
+    => FindAllAsAtomName().AssertException(EXPECTED_ONE_VARIABLE_EXCEPTION_MESSAGE);
 
 
     public override void TestFindFirstAsDouble()
-    => FindFirstAsDouble().assertException(EXPECTED_ONE_VARIABLE_EXCEPTION_MESSAGE);
+    => FindFirstAsDouble().AssertException(EXPECTED_ONE_VARIABLE_EXCEPTION_MESSAGE);
 
 
     public override void TestFindFirstAsOptionalDouble()
-    => FindFirstAsOptionalDouble().assertException(EXPECTED_ONE_VARIABLE_EXCEPTION_MESSAGE);
+    => FindFirstAsOptionalDouble().AssertException(EXPECTED_ONE_VARIABLE_EXCEPTION_MESSAGE);
 
 
     public override void TestFindAllAsDouble()
-    => FindAllAsDouble().assertException(EXPECTED_ONE_VARIABLE_EXCEPTION_MESSAGE);
+    => FindAllAsDouble().AssertException(EXPECTED_ONE_VARIABLE_EXCEPTION_MESSAGE);
 
 
     public override void TestFindFirstAsLong()
-    => FindFirstAsLong().assertException(EXPECTED_ONE_VARIABLE_EXCEPTION_MESSAGE);
+    => FindFirstAsLong().AssertException(EXPECTED_ONE_VARIABLE_EXCEPTION_MESSAGE);
 
 
     public override void TestFindFirstAsOptionalLong()
-    => FindFirstAsOptionalLong().assertException(EXPECTED_ONE_VARIABLE_EXCEPTION_MESSAGE);
+    => FindFirstAsOptionalLong().AssertException(EXPECTED_ONE_VARIABLE_EXCEPTION_MESSAGE);
 
 
     public override void TestFindAllAsLong()
-    => FindAllAsLong().assertException(EXPECTED_ONE_VARIABLE_EXCEPTION_MESSAGE);
+    => FindAllAsLong().AssertException(EXPECTED_ONE_VARIABLE_EXCEPTION_MESSAGE);
 }

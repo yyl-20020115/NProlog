@@ -19,7 +19,6 @@ using Org.NProlog.Core.Math;
 using Org.NProlog.Core.Predicate;
 using Org.NProlog.Core.Predicate.Builtin.Flow;
 using Org.NProlog.Core.Terms;
-using System.Runtime.Intrinsics.Arm;
 using System.Text;
 
 namespace Org.NProlog.Api;
@@ -52,7 +51,7 @@ public class PrologTest : TestUtils
         prolog.SetUserInput(new StringReader("hello"));
 
         // when we execute a query that reads from input
-        QueryResult result = prolog.ExecuteQuery("read(X).");
+        var result = prolog.ExecuteQuery("read(X).");
         result.Next();
 
         // then the new stream should be read from
@@ -62,15 +61,15 @@ public class PrologTest : TestUtils
     [TestMethod]
     public void TestAddPredicateFactory()
     {
-        Prolog prolog = new Prolog();
+        var prolog = new Prolog();
 
         // associate testAddPredicateFactory/1 with an instance of RepeatSetAmount
-        PredicateKey key = new PredicateKey("testAddPredicateFactory", 1);
-        PredicateFactory pf = new RepeatSetAmount();
-        prolog.AddPredicateFactory(key, pf);
+        var key = new PredicateKey("testAddPredicateFactory", 1);
+        var factory = new RepeatSetAmount();
+        prolog.AddPredicateFactory(key, factory);
 
         // confirm that queries can use testAddPredicateFactory/1
-        QueryResult result = prolog.CreateStatement("testAddPredicateFactory(3).").ExecuteQuery();
+        var result = prolog.CreateStatement("testAddPredicateFactory(3).").ExecuteQuery();
 
         Assert.IsTrue(result.Next());
         Assert.IsTrue(result.Next());
@@ -82,7 +81,7 @@ public class PrologTest : TestUtils
     {
         public Numeric Calculate(Term[] args)
         {
-            Numeric n = TermUtils.CastToNumeric(args[0]);
+            var n = CastToNumeric(args[0]);
             return new IntegerNumber(n.Long + 7);
         }
 
@@ -91,15 +90,15 @@ public class PrologTest : TestUtils
     [TestMethod]
     public void TestArithmeticOperator()
     {
-        Prolog prolog = new Prolog();
+        var prolog = new Prolog();
 
         // associate testArithmeticOperator/1 with an operator that adds 7 to its argument
-        PredicateKey key = new PredicateKey("testArithmeticOperator", 1);
-        ArithmeticOperator pf = new AO();
-        prolog.AddArithmeticOperator(key, pf);
+        var key = new PredicateKey("testArithmeticOperator", 1);
+        var op = new AO();
+        prolog.AddArithmeticOperator(key, op);
 
         // confirm that queries can use testAddPredicateFactory/1
-        QueryResult result = prolog.CreateStatement("X is testArithmeticOperator(3).").ExecuteQuery();
+        var result = prolog.CreateStatement("X is testArithmeticOperator(3).").ExecuteQuery();
         //TODO:
         //PrologTest(result.Next());
         //PrologTest(10, TermUtils.CastToNumeric(result.GetTerm("X")).PrologTest()); // 3 + 7 = 10
@@ -107,9 +106,9 @@ public class PrologTest : TestUtils
     [TestMethod]
     public void TestCreatePlan()
     {
-        Prolog prolog = new Prolog();
-        QueryPlan plan = prolog.CreatePlan("X = 1.");
-        QueryResult result = plan.ExecuteQuery();
+        var prolog = new Prolog();
+        var plan = prolog.CreatePlan("X = 1.");
+        var result = plan.ExecuteQuery();
         Assert.IsTrue(result.Next());
         Assert.AreEqual(1, result.GetLong("X"));
     }
@@ -117,9 +116,9 @@ public class PrologTest : TestUtils
     [TestMethod]
     public void TestCreateStatement()
     {
-        Prolog prolog = new Prolog();
-        QueryStatement statement = prolog.CreateStatement("X = 1.");
-        QueryResult result = statement.ExecuteQuery();
+        var prolog = new Prolog();
+        var statement = prolog.CreateStatement("X = 1.");
+        var result = statement.ExecuteQuery();
         Assert.IsTrue(result.Next());
         Assert.AreEqual(1, result.GetLong("X"));
     }
@@ -127,8 +126,8 @@ public class PrologTest : TestUtils
     [TestMethod]
     public void TestExecuteQuery()
     {
-        Prolog prolog = new Prolog();
-        QueryResult result = prolog.ExecuteQuery("X = 1.");
+        var prolog = new Prolog();
+        var result = prolog.ExecuteQuery("X = 1.");
         Assert.IsTrue(result.Next());
         Assert.AreEqual(1, result.GetLong("X"));
     }
@@ -136,7 +135,7 @@ public class PrologTest : TestUtils
     [TestMethod]
     public void TestExecuteOnceNoSolution()
     {
-        Prolog prolog = new Prolog();
+        var prolog = new Prolog();
         try
         {
             prolog.ExecuteOnce("true, true, fail.");
@@ -180,7 +179,7 @@ public class PrologTest : TestUtils
             Assert.IsTrue(t==typeof(DirectoryNotFoundException)||t==typeof(FileNotFoundException) );
 
             // retrieve and check stack trace elements
-            PrologStackTraceElement[] elements = Prolog.GetStackTrace(prologException);
+            var elements = Prolog.GetStackTrace(prologException);
             Assert.AreEqual(3, elements.Length);
             AssertPrologStackTraceElement(elements[0], "z/3", ":-(z(A, B, C), open(A, read, Z))");
             AssertPrologStackTraceElement(elements[1], "y/1", ":-(y(A), ,(is(Q, +(4, 5)), z(A, A, Q)))");
@@ -205,16 +204,13 @@ public class PrologTest : TestUtils
         }
     }
 
-    private static string LineSeparator()
-    {
-        return Environment.NewLine;
-    }
+    private static string LineSeparator() => Environment.NewLine;
 
     [TestMethod]
     public void TestFormatTerm()
     {
-        Prolog p = new Prolog();
-        Term inputTerm = TestUtils.ParseSentence("X is 1 + 1 ; 3 < 5.");
+        var p = new Prolog();
+        var inputTerm = ParseSentence("X is 1 + 1 ; 3 < 5.");
         Assert.AreEqual("X is 1 + 1 ; 3 < 5", p.FormatTerm(inputTerm));
     }
 

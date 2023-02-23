@@ -20,7 +20,6 @@ using Org.NProlog.Core.Terms;
 namespace Org.NProlog.Core.Predicate.Udp;
 
 
-
 /**
  * Represents a user defined predicate.
  *

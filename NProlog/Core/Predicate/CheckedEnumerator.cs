@@ -13,10 +13,7 @@ public class ListCheckedEnumerator<T> : ICheckedEnumerator<T>
     public static ListCheckedEnumerator<T> Of(List<T> list) => new(list);
     private readonly List<T> list;
     private int pos = -1;
-    public ListCheckedEnumerator(List<T> list)
-    {
-        this.list = list;
-    }
+    public ListCheckedEnumerator(List<T> list) => this.list = list;
 
     public bool CanMoveNext => this.pos < this.list.Count - 1;
 
@@ -57,10 +54,7 @@ public class ArrayCheckedEnumerator<T> : ICheckedEnumerator<T>
     public static ArrayCheckedEnumerator<T> Of(T[] list) => new(list);
     private readonly T[] array;
     private int pos = -1;
-    public ArrayCheckedEnumerator(T[] array)
-    {
-        this.array = array;
-    }
+    public ArrayCheckedEnumerator(T[] array) => this.array = array;
 
     public bool CanMoveNext => this.pos < this.array.Length - 1;
 
@@ -87,8 +81,5 @@ public class ArrayCheckedEnumerator<T> : ICheckedEnumerator<T>
     }
     public void Reset() => this.pos = -1;
 
-    public T Remove()
-    {
-        throw new InvalidOperationException("can not remove from array");
-    }
+    public T Remove() => throw new InvalidOperationException("can not remove from array");
 }

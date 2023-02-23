@@ -76,7 +76,7 @@ public class InterpretedTailRecursivePredicate : TailRecursivePredicate
             newConsequentArgs[i] = firstClauseConsequentArgs[i].Copy(sharedVariables);
         }
 
-        if (Unify(currentQueryArgs, newConsequentArgs) == false)
+        if (!Unify(currentQueryArgs, newConsequentArgs))
         {
             return false;
         }
@@ -85,9 +85,7 @@ public class InterpretedTailRecursivePredicate : TailRecursivePredicate
         {
             var t = firstClauseOriginalTerms[i].Copy(sharedVariables);
             if (!firstClausePredicateFactories[i].GetPredicate(t.Args).Evaluate())
-            {
                 return false;
-            }
         }
 
         return true;
@@ -104,24 +102,18 @@ public class InterpretedTailRecursivePredicate : TailRecursivePredicate
         }
 
         if (Unify(currentQueryArgs, newConsequentArgs) == false)
-        {
             return false;
-        }
 
         for (int i = 0; i < secondClauseOriginalTerms.Length - 1; i++)
         {
             var t = secondClauseOriginalTerms[i].Copy(sharedVariables);
             if (!secondClausePredicateFactories[i].GetPredicate(t.Args).Evaluate())
-            {
                 return false;
-            }
         }
 
         var finalTermArgs = secondClauseOriginalTerms[secondClauseOriginalTerms.Length - 1].Args;
         for (int i = 0; i < numArgs; i++)
-        {
             currentQueryArgs[i] = finalTermArgs[i].Copy(sharedVariables);
-        }
 
         return true;
     }
@@ -144,9 +136,7 @@ public class InterpretedTailRecursivePredicate : TailRecursivePredicate
         for (int i = 0; i < inputArgs.Length; i++)
         {
             if (!inputArgs[i].Unify(consequentArgs[i]))
-            {
                 return false;
-            }
         }
         return true;
     }
@@ -196,5 +186,6 @@ public class InterpretedTailRecursivePredicate : TailRecursivePredicate
         }
     }
 
-    public override bool CouldReevaluationSucceed => this.isRetryable;
+    public override bool CouldReevaluationSucceed 
+        => this.isRetryable;
 }

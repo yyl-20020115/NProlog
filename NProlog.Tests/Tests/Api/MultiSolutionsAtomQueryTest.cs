@@ -16,14 +16,14 @@
 using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Api;
-[TestClass]
 
+[TestClass]
 public class MultiSolutionsAtomQueryTest : AbstractQueryTest
 {
-    private static readonly string EXPECTED_NUMERIC_EXCEPTION_MESSAGE = "Expected Numeric but got: ATOM with value: a";
-    private static readonly string FIRST_ATOM_NAME = "a";
-    private static readonly string SECOND_ATOM_NAME = "b";
-    private static readonly string THIRD_ATOM_NAME = "c";
+    private const string EXPECTED_NUMERIC_EXCEPTION_MESSAGE = "Expected Numeric but got: ATOM with value: a";
+    private const string FIRST_ATOM_NAME = "a";
+    private const string SECOND_ATOM_NAME = "b";
+    private const string THIRD_ATOM_NAME = "c";
 
     public MultiSolutionsAtomQueryTest() : base("test(X).", "test(a).test(b).test(c).") { }
     public override void TestFindFirstAsTerm() => FindFirstAsTerm().AreEqual(new Atom(FIRST_ATOM_NAME));
@@ -49,25 +49,25 @@ public class MultiSolutionsAtomQueryTest : AbstractQueryTest
 
 
     public override void TestFindFirstAsDouble()
-        => FindFirstAsDouble().assertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
+        => FindFirstAsDouble().AssertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
 
 
     public override void TestFindFirstAsOptionalDouble()
-    => FindFirstAsOptionalDouble().assertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
+    => FindFirstAsOptionalDouble().AssertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
 
 
     public override void TestFindAllAsDouble()
-    => FindAllAsDouble().assertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
+    => FindAllAsDouble().AssertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
 
 
     public override void TestFindFirstAsLong()
-    => FindFirstAsLong().assertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
+    => FindFirstAsLong().AssertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
 
 
     public override void TestFindFirstAsOptionalLong()
-    => FindFirstAsOptionalLong().assertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
+    => FindFirstAsOptionalLong().AssertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
 
 
     public override void TestFindAllAsLong()
-    => FindAllAsLong().assertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
+    => FindAllAsLong().AssertException(EXPECTED_NUMERIC_EXCEPTION_MESSAGE);
 }

@@ -23,10 +23,7 @@ namespace Org.NProlog.Examples;
 public class SingletonPredicateExample : AbstractSingleResultPredicate
 {
     [TestMethod]
-    public void Test()
-    {
-        Assert.IsTrue(true);
-    }
+    public void Test() => Assert.IsTrue(true);
     protected override bool Evaluate(Term t1, Term t2)
     {
         var t1ToUpperCase = new Atom(TermUtils.GetAtomName(t1).ToUpper());

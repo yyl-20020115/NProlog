@@ -34,7 +34,7 @@ public class VariableTest : TestUtils
         Assert.AreEqual("X", v.ToString());
         Assert.AreSame(v, v.Term);
         Assert.AreSame(v, v.Bound);
-        Assert.IsTrue(TermUtils.TermsEqual(v, v));
+        Assert.IsTrue(TermsEqual(v, v));
 
         try
         {
@@ -70,7 +70,7 @@ public class VariableTest : TestUtils
         }
         try
         {
-            TermUtils.CastToNumeric(v);
+            CastToNumeric(v);
             Assert.Fail();
         }
         catch (PrologException e)
@@ -189,9 +189,9 @@ public class VariableTest : TestUtils
         Term Copy = v.Copy(sharedVariables);
         Assert.AreEqual(1, sharedVariables.Count);
         Assert.AreSame(Copy, sharedVariables[(v)]);
-        Assert.IsFalse(TermUtils.TermsEqual(v, Copy));
+        Assert.IsFalse(TermsEqual(v, Copy));
         Assert.IsTrue(v.Unify(Copy));
-        Assert.IsTrue(TermUtils.TermsEqual(v, Copy));
+        Assert.IsTrue(TermsEqual(v, Copy));
     }
 
     /**
@@ -554,40 +554,28 @@ public class VariableTest : TestUtils
     }
 
     [TestMethod]
-    public void TestVariableNotEqualToUnifiedAtom()
-    {
-        AssertVariableNotEqualToUnifiedTerm(new Atom("test"));
-    }
+    public void TestVariableNotEqualToUnifiedAtom() 
+        => AssertVariableNotEqualToUnifiedTerm(new Atom("test"));
 
     [TestMethod]
     public void TestVariableNotEqualToUnifiedInteger()
-    {
-        AssertVariableNotEqualToUnifiedTerm(new IntegerNumber(7));
-    }
+        => AssertVariableNotEqualToUnifiedTerm(new IntegerNumber(7));
 
     [TestMethod]
     public void TestVariableNotEqualToUnifiedFraction()
-    {
-        AssertVariableNotEqualToUnifiedTerm(new DecimalFraction(7));
-    }
+        => AssertVariableNotEqualToUnifiedTerm(new DecimalFraction(7));
 
     [TestMethod]
     public void TestVariableNotEqualToUnifiedStructure()
-    {
-        AssertVariableNotEqualToUnifiedTerm(Terms.Structure.CreateStructure("test", new Term[] { Atom() }));
-    }
+        => AssertVariableNotEqualToUnifiedTerm(Terms.Structure.CreateStructure("test", new Term[] { Atom() }));
 
     [TestMethod]
     public void TestVariableNotEqualToUnifiedList()
-    {
-        AssertVariableNotEqualToUnifiedTerm(new List(Atom(), Atom()));
-    }
+        => AssertVariableNotEqualToUnifiedTerm(new LinkedTermList(Atom(), Atom()));
 
     [TestMethod]
     public void TestVariableNotEqualToUnifiedEmptyList()
-    {
-        AssertVariableNotEqualToUnifiedTerm(EmptyList.EMPTY_LIST);
-    }
+        => AssertVariableNotEqualToUnifiedTerm(EmptyList.EMPTY_LIST);
 
     private static void AssertVariableNotEqualToUnifiedTerm(Term t)
     {

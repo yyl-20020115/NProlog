@@ -32,7 +32,7 @@ public class InterpretedUserDefinedPredicateTest : TestUtils
     private ClauseAction mockAction2;
     private ClauseAction mockAction3;
     private Term[] queryArgs = Array(Atom("a"), Atom("b"), Atom("c"));
-    private SimpleListener listener = new SimpleListener();
+    private SimpleListener listener = new ();
 
     [TestInitialize]
     public void Before()
@@ -49,15 +49,12 @@ public class InterpretedUserDefinedPredicateTest : TestUtils
     }
 
     [TestCleanup]
-    public void After()
-    {
-        VerifyNoMoreInteractions(mockAction1, mockAction2, mockAction3);
-    }
+    public void After() => VerifyNoMoreInteractions(mockAction1, mockAction2, mockAction3);
 
     [TestMethod]
     public void TestAllSucceedOnceSpypointDisabled()
     {
-        spyPoints.TraceEnabled = (false);
+        spyPoints.TraceEnabled = false;
 
         AssertAllSucceedOnce();
 
@@ -72,13 +69,13 @@ public class InterpretedUserDefinedPredicateTest : TestUtils
         AssertAllSucceedOnce();
 
         Assert.AreEqual("CALLtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)", listener.Result);
-        var a1 = Verify(mockAction1).Model;
-        var a2 = Verify(mockAction2).Model;
-        var a3 = Verify(mockAction3).Model;
+        _ = Verify(mockAction1).Model;
+        _ = Verify(mockAction2).Model;
+        _ = Verify(mockAction3).Model;
     }
     private void AssertAllSucceedOnce()
     {
-        InterpretedUserDefinedPredicate testObject = new InterpretedUserDefinedPredicate(
+        var testObject = new InterpretedUserDefinedPredicate(
             ListCheckedEnumerator<ClauseAction>.Of(new List<ClauseAction>() { mockAction1, mockAction2, mockAction3 }), spyPoint, queryArgs);
 
         When(mockAction1.GetPredicate(queryArgs)).ThenReturn(PredicateUtils.TRUE);
@@ -97,11 +94,11 @@ public class InterpretedUserDefinedPredicateTest : TestUtils
         Assert.IsTrue(testObject.Evaluate());
 
         Verify(mockAction1).GetPredicate(queryArgs);
-        var a1 = Verify(mockAction1).IsAlwaysCutOnBacktrack;
+        _ = Verify(mockAction1).IsAlwaysCutOnBacktrack;
         Verify(mockAction2).GetPredicate(queryArgs);
-        var a2 = Verify(mockAction2).IsAlwaysCutOnBacktrack;
+        _ = Verify(mockAction2).IsAlwaysCutOnBacktrack;
         Verify(mockAction3).GetPredicate(queryArgs);
-        var a3 = Verify(mockAction3).IsAlwaysCutOnBacktrack;
+        _ = Verify(mockAction3).IsAlwaysCutOnBacktrack;
     }
 
     [TestMethod]
@@ -162,9 +159,9 @@ public class InterpretedUserDefinedPredicateTest : TestUtils
         Assert.AreEqual(
                     "CALLtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)",
                     listener.Result);
-        var a1 = Verify(mockAction1).Model;
-        var a2 = Verify(mockAction2, Times(5)).Model;
-        var a3 = Verify(mockAction3).Model;
+        _ = Verify(mockAction1).Model;
+        _ = Verify(mockAction2, Times(5)).Model;
+        _ = Verify(mockAction3).Model;
     }
 
     private void AssertSecondRuleRepeatableContinueUntilFails()
@@ -172,7 +169,7 @@ public class InterpretedUserDefinedPredicateTest : TestUtils
         var testObject = new InterpretedUserDefinedPredicate(
             ListCheckedEnumerator<ClauseAction>.Of(new List<ClauseAction> { mockAction1, mockAction2, mockAction3 }), spyPoint, queryArgs);
 
-        Predicate mockPredicate = new MockPredicate();
+        var mockPredicate = new MockPredicate();
         When(mockPredicate.Evaluate()).ThenReturn(true, true, true, true, true, false);
         When(mockPredicate.CouldReevaluationSucceed).ThenReturn(true, true, true, true, true);
 
@@ -198,13 +195,13 @@ public class InterpretedUserDefinedPredicateTest : TestUtils
         Assert.IsTrue(testObject.Evaluate());
 
         Verify(mockAction1).GetPredicate(queryArgs);
-        var a1 = Verify(mockAction1).IsAlwaysCutOnBacktrack;
+        _ = Verify(mockAction1).IsAlwaysCutOnBacktrack;
         Verify(mockAction2).GetPredicate(queryArgs);
-        var a2 = Verify(mockAction2, Times(5)).IsAlwaysCutOnBacktrack;
+        _ = Verify(mockAction2, Times(5)).IsAlwaysCutOnBacktrack;
         Verify(mockAction3).GetPredicate(queryArgs);
-        var a3 = Verify(mockAction3).IsAlwaysCutOnBacktrack;
+        _ = Verify(mockAction3).IsAlwaysCutOnBacktrack;
         Verify(mockPredicate, Times(6)).Evaluate();
-        var a4 = Verify(mockPredicate, Times(5)).CouldReevaluationSucceed;
+        _ = Verify(mockPredicate, Times(5)).CouldReevaluationSucceed;
         VerifyNoMoreInteractions(mockPredicate);
     }
 
@@ -228,9 +225,9 @@ public class InterpretedUserDefinedPredicateTest : TestUtils
         Assert.AreEqual(
                     "CALLtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)",
                     listener.Result);
-        var a1 = Verify(mockAction1).Model;
-        var a2 = Verify(mockAction2, Times(5)).Model;
-        var a3 = Verify(mockAction3).Model;
+        _ = Verify(mockAction1).Model;
+        _ = Verify(mockAction2, Times(5)).Model;
+        _ = Verify(mockAction3).Model;
     }
 
     private void AssertSecondRuleRepeatableContinueUntilReevaluationCannotSucceed()
@@ -291,7 +288,7 @@ public class InterpretedUserDefinedPredicateTest : TestUtils
         Assert.IsTrue(testObject.Evaluate());
 
         Verify(mockAction1).GetPredicate(queryArgs);
-        var m = Verify(mockAction1).IsAlwaysCutOnBacktrack;
+        _ = Verify(mockAction1).IsAlwaysCutOnBacktrack;
         Verify(mockAction2).GetPredicate(queryArgs);
         Verify(mockPredicate).Evaluate();
         VerifyNoMoreInteractions(mockPredicate);
@@ -315,16 +312,16 @@ public class InterpretedUserDefinedPredicateTest : TestUtils
         AssertSecondRuntimeException();
 
         Assert.AreEqual("CALLtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)", listener.Result);
-        var a = Verify(mockAction1).Model;
-        var b = Verify(mockAction2).Model;
+        _ = Verify(mockAction1).Model;
+        _ = Verify(mockAction2).Model;
     }
 
     private void AssertSecondRuntimeException()
     {
         var testObject = new InterpretedUserDefinedPredicate(ListCheckedEnumerator<ClauseAction>.Of(new List<ClauseAction> { mockAction1, mockAction2, mockAction3 }), spyPoint, queryArgs);
 
-        SystemException exception = new SystemException();
-        Predicate mockPredicate = new MockPredicate();
+        var exception = new SystemException();
+        var mockPredicate = new MockPredicate();
         When(mockPredicate.Evaluate()).ThenThrow(exception);
 
         When(mockAction1.GetPredicate(queryArgs)).ThenReturn(PredicateUtils.TRUE);
@@ -354,43 +351,24 @@ public class InterpretedUserDefinedPredicateTest : TestUtils
 
     public class SimpleListener : PrologListener
     {
-        readonly StringBuilder result = new StringBuilder();
+        readonly StringBuilder result = new ();
+
+        public void OnInfo(string message) => throw new InvalidOperationException(message);
 
 
-        public void OnInfo(string message)
-        {
-            throw new InvalidOperationException(message);
-        }
+        public void OnWarn(string message) => throw new InvalidOperationException(message);
 
 
-        public void OnWarn(string message)
-        {
-            throw new InvalidOperationException(message);
-        }
+        public void OnCall(SpyPointEvent @event) => Update("CALL", @event);
 
 
-        public void OnCall(SpyPointEvent @event)
-        {
-            Update("CALL", @event);
-        }
+        public void OnRedo(SpyPointEvent @event) => Update("REDO", @event);
 
 
-        public void OnRedo(SpyPointEvent @event)
-        {
-            Update("REDO", @event);
-        }
+        public void OnExit(SpyPointExitEvent @event) => Update("EXIT", @event);
 
 
-        public void OnExit(SpyPointExitEvent @event)
-        {
-            Update("EXIT", @event);
-        }
-
-
-        public void OnFail(SpyPointEvent @event)
-        {
-            Update("FAIL", @event);
-        }
+        public void OnFail(SpyPointEvent @event) => Update("FAIL", @event);
 
         private void Update(string level, SpyPointEvent @event)
         {

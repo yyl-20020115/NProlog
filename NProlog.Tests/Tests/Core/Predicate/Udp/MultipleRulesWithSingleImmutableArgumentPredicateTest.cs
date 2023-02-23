@@ -21,7 +21,7 @@ namespace Org.NProlog.Core.Predicate.Udp;
 [TestClass]
 public class MultipleRulesWithSingleImmutableArgumentPredicateTest : TestUtils
 {
-    private static readonly string FUNCTOR = "test";
+    private const string FUNCTOR = "test";
 
     private KnowledgeBase kb;
     private PredicateFactory testObject;
@@ -31,12 +31,12 @@ public class MultipleRulesWithSingleImmutableArgumentPredicateTest : TestUtils
     {
         string[] atomNames = { "a", "b", "c", "c", "c", "c", "c", "d", "e", "b", "f" };
 
-        kb = TestUtils.CreateKnowledgeBase(TestUtils.PROLOG_DEFAULT_PROPERTIES);
-        PredicateKey key = new PredicateKey(FUNCTOR, 1);
-        StaticUserDefinedPredicateFactory pf = new StaticUserDefinedPredicateFactory(kb, key);
-        foreach (string atomName in atomNames)
+        kb = CreateKnowledgeBase(PROLOG_DEFAULT_PROPERTIES);
+        var key = new PredicateKey(FUNCTOR, 1);
+        var pf = new StaticUserDefinedPredicateFactory(kb, key);
+        foreach (var atomName in atomNames)
         {
-            ClauseModel clause = ClauseModel.CreateClauseModel(Structure(FUNCTOR, Atom(atomName)));
+            var clause = ClauseModel.CreateClauseModel(Structure(FUNCTOR, Atom(atomName)));
             pf.AddLast(clause);
         }
         kb.Predicates.AddUserDefinedPredicate(pf);
@@ -45,10 +45,7 @@ public class MultipleRulesWithSingleImmutableArgumentPredicateTest : TestUtils
     }
 
     [TestMethod]
-    public void TestSuceedsNever()
-    {
-        Assert.AreSame(SucceedsNeverPredicate.SINGLETON, testObject.GetPredicate(new Term[] { Atom("z") }));
-    }
+    public void TestSuceedsNever() => Assert.AreSame(SucceedsNeverPredicate.SINGLETON, testObject.GetPredicate(new Term[] { Atom("z") }));
 
     [TestMethod]
     public void TestSucceedsOnce()
@@ -69,7 +66,7 @@ public class MultipleRulesWithSingleImmutableArgumentPredicateTest : TestUtils
 
     private void AssertSucceedsMany(Term arg, int expectedSuccesses)
     {
-        Predicate p = testObject.GetPredicate(new Term[] { arg });
+        var p = testObject.GetPredicate(new Term[] { arg });
         Assert.AreSame(typeof(InterpretedUserDefinedPredicate), p.GetType()); // TODO Add assertClass to TestUtils
         for (int i = 0; i < expectedSuccesses; i++)
         {
@@ -87,7 +84,7 @@ public class MultipleRulesWithSingleImmutableArgumentPredicateTest : TestUtils
 
         kb.SpyPoints.TraceEnabled = (true);
 
-        Predicate p = testObject.GetPredicate(new Term[] { Atom("z") });
+        var p = testObject.GetPredicate(new Term[] { Atom("z") });
         Assert.IsFalse(p.Evaluate());
         Assert.AreSame(typeof(SucceedsNeverPredicate), p.GetType());
         Assert.AreEqual("CALLtest(z)FAILtest(z)", o.GetResult());
@@ -101,7 +98,7 @@ public class MultipleRulesWithSingleImmutableArgumentPredicateTest : TestUtils
 
         kb.SpyPoints.TraceEnabled = (true);
 
-        Predicate p = testObject.GetPredicate(new Term[] { Atom("a") });
+        var p = testObject.GetPredicate(new Term[] { Atom("a") });
         Assert.IsTrue(p.Evaluate());
         Assert.IsFalse(p.CouldReevaluationSucceed);
         Assert.AreSame(typeof(SucceedsOncePredicate), p.GetType());
@@ -111,12 +108,12 @@ public class MultipleRulesWithSingleImmutableArgumentPredicateTest : TestUtils
     [TestMethod]
     public void TestSpyPointEnabledSucceedsMany()
     {
-        SimplePrologListener o = new SimplePrologListener();
+        var o = new SimplePrologListener();
         kb.PrologListeners.AddListener(o);
 
         kb.SpyPoints.TraceEnabled = (true);
 
-        Predicate p = testObject.GetPredicate(new Term[] { Atom("c") });
+        var p = testObject.GetPredicate(new Term[] { Atom("c") });
         Assert.IsTrue(p.Evaluate());
         Assert.IsTrue(p.CouldReevaluationSucceed);
         Assert.IsTrue(p.Evaluate());

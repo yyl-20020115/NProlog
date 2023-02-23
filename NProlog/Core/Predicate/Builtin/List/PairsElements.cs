@@ -18,9 +18,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.List;
 
-
-
-
 /* TEST
 %?- pairs_keys([a-y, c-x, b-z], L)
 % L = [a,c,b]
@@ -45,11 +42,8 @@ public class PairsElements : AbstractSingleResultPredicate
 
     private readonly int argumentIdx;
 
-    private PairsElements(int argumentIdx)
-    {
-        this.argumentIdx = argumentIdx;
-    }
-
+    private PairsElements(int argumentIdx) 
+        => this.argumentIdx = argumentIdx;
 
     protected override bool Evaluate(Term pairs, Term values)
     {
@@ -59,18 +53,13 @@ public class PairsElements : AbstractSingleResultPredicate
         {
             var head = tail.GetArgument(0);
             if (!PartialApplicationUtils.IsKeyValuePair(head))
-            {
                 throw new PrologException("Expected every element of list to be a compound term with a functor of - and two arguments but got: " + head);
-            }
             selected.Add(head.GetArgument(argumentIdx));
-
             tail = tail.GetArgument(1);
         }
 
         if (tail.Type != TermType.EMPTY_LIST)
-        {
             throw new PrologException("Expected first element to be a ground list but got: " + pairs);
-        }
 
         return values.Unify(ListFactory.CreateList(selected));
     }

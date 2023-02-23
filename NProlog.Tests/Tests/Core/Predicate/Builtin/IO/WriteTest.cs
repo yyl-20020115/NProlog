@@ -26,17 +26,12 @@ public class WriteTest : TestUtils
     private readonly TextWriter originalOut = Console.Out;
 
     [TestInitialize]
-    public void SetUpStreams()
-    {
-
-        Console.SetOut(redirectedOut);
-
-    }
+    public void SetUpStreams() => Console.SetOut(redirectedOut);
 
     [TestMethod]
     public void TestWriteString()
     {
-        Write w = IO.Write.DoWrite();
+        var w = IO.Write.DoWrite();
         w.KnowledgeBase = (CreateKnowledgeBase());
         w.Evaluate(new Term[] { new Atom(TEXT) });
         Assert.AreEqual(TEXT, redirectedOut.ToString());
@@ -45,15 +40,12 @@ public class WriteTest : TestUtils
     [TestMethod]
     public void TestWritelnString()
     {
-        Write w = IO.Write.DoWriteLn();
+        var w = IO.Write.DoWriteLn();
         w.KnowledgeBase = (CreateKnowledgeBase());
         w.Evaluate(new Term[] { new Atom(TEXT) });
         Assert.AreEqual(TEXT + Environment.NewLine, redirectedOut.ToString());
     }
 
     [TestCleanup]
-    public void RestoreStreams()
-    {
-        Console.SetOut(originalOut);
-    }
+    public void RestoreStreams() => Console.SetOut(originalOut);
 }

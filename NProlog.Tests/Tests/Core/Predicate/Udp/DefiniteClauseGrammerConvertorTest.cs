@@ -31,39 +31,24 @@ public class DefiniteClauseGrammerConvertorTest
 
     private static bool IsDCG(string inputSyntax)
     {
-        Term input = TestUtils.ParseSentence(inputSyntax);
+        var input = TestUtils.ParseSentence(inputSyntax);
         return DefiniteClauseGrammerConvertor.IsDCG(input);
     }
 
     [TestMethod]
-    public void TestSingleAtomAntecedent()
-    {
-        PerformConversion("a --> b.", "a(A1, A0) :- b(A1, A0)");
-    }
+    public void TestSingleAtomAntecedent() => PerformConversion("a --> b.", "a(A1, A0) :- b(A1, A0)");
 
     [TestMethod]
-    public void TestTwoAtomAntecedent()
-    {
-        PerformConversion("a --> b, c.", "a(A2, A0) :- b(A2, A1) , c(A1, A0)");
-    }
+    public void TestTwoAtomAntecedent() => PerformConversion("a --> b, c.", "a(A2, A0) :- b(A2, A1) , c(A1, A0)");
 
     [TestMethod]
-    public void TestFiveAtomAntecedent()
-    {
-        PerformConversion("a --> b, c, d, e, f.", "a(A5, A0) :- b(A5, A4) , c(A4, A3) , d(A3, A2) , e(A2, A1) , f(A1, A0)");
-    }
+    public void TestFiveAtomAntecedent() => PerformConversion("a --> b, c, d, e, f.", "a(A5, A0) :- b(A5, A4) , c(A4, A3) , d(A3, A2) , e(A2, A1) , f(A1, A0)");
 
     [TestMethod]
-    public void TestSingleElementListAntecedent()
-    {
-        PerformConversion("a --> [xyz].", "a([xyz|A], A)");
-    }
+    public void TestSingleElementListAntecedent() => PerformConversion("a --> [xyz].", "a([xyz|A], A)");
 
     [TestMethod]
-    public void TestConjunctionOfSingleElementListsAntecedent()
-    {
-        PerformConversion("test1 --> [a], [b], [c].", "test1([a,b,c|A0], A0)");
-    }
+    public void TestConjunctionOfSingleElementListsAntecedent() => PerformConversion("test1 --> [a], [b], [c].", "test1([a,b,c|A0], A0)");
 
     [TestMethod]
     public void TestMixtureOfAtomsAndSingleElementLists()
@@ -102,8 +87,8 @@ public class DefiniteClauseGrammerConvertorTest
 
     private static void PerformConversion(string inputSyntax, string expectedOutputSyntax)
     {
-        Term input = TestUtils.ParseSentence(inputSyntax);
-        Term output = DefiniteClauseGrammerConvertor.Convert(input);
+        var input = TestUtils.ParseSentence(inputSyntax);
+        var output = DefiniteClauseGrammerConvertor.Convert(input);
         Assert.AreEqual(expectedOutputSyntax, TestUtils.Write(output));
     }
 }

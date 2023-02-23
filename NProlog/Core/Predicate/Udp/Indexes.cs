@@ -86,7 +86,7 @@ public class Indexes
     public Index GetOrCreateIndex(int bitmask)
     {
         var _ref = indexes[bitmask];
-        var index = _ref != null ? _ref.Value : null;
+        var index = _ref?.Value;
 
         if (index == null)
         {
@@ -95,12 +95,11 @@ public class Indexes
                 while (index == null)
                 {
                     _ref = indexes[bitmask];
-                    index = _ref != null ? _ref.Value : null;
+                    index = _ref?.Value;
 
                     if (index == null)
                     {
-                        index = CreateIndex(bitmask);
-                        indexes[bitmask] = new(index);
+                        indexes[bitmask] = new(index = CreateIndex(bitmask));
                     }
                 }
             }
@@ -150,8 +149,7 @@ public class Indexes
             var key = keyFactory.CreateKey(positions, clause.Model.Consequent.Args);
             if (!map.TryGetValue(key, out var list))
             {
-                list = new();
-                map.Add(key, list);
+                map.Add(key, list = new());
             }
             list.Add(clause);
         }
@@ -174,10 +172,7 @@ public class Indexes
         int ctr = 0;
         foreach (var index in indexes)
         {
-            if (index != null)
-            {
-                ctr++;
-            }
+            if (index != null) ctr++;
         }
         return ctr;
     }
@@ -188,10 +183,7 @@ public class Indexes
         int ctr = 0;
         foreach (var index in indexes)
         {
-            if (index != null && index.Value == null)
-            {
-                ctr++;
-            }
+            if (index != null && index.Value == null) ctr++;
         }
         return ctr;
     }

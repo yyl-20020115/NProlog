@@ -25,7 +25,7 @@ public class StructureTest : TestUtils
     public void TestCreationWithArguments()
     {
         Term[] args = { Atom(), Structure(), IntegerNumber(), DecimalFraction(), Variable() };
-        Structure p = Structure("test", args);
+        var p = Structure("test", args);
         Assert.AreEqual("test", p.Name);
         Assert.IsTrue(Enumerable.SequenceEqual(args, p.Args));
         //assertArrayEquals(args, p.Args);
@@ -41,25 +41,25 @@ public class StructureTest : TestUtils
     [TestMethod]
     public void TestGetValueNoVariables()
     {
-        Structure p = Structure("p", Atom(), Structure("p", Atom()), List(IntegerNumber(), DecimalFraction()));
-        Structure p2 = p.Term;
+        var p = Structure("p", Atom(), Structure("p", Atom()), List(IntegerNumber(), DecimalFraction()));
+        var p2 = p.Term;
         Assert.AreSame(p, p2);
     }
 
     [TestMethod]
     public void TestGetValueUnassignedVariables()
     {
-        Structure p = Structure("p", Variable(), Structure("p", Variable()), List(Variable(), Variable()));
+        var p = Structure("p", Variable(), Structure("p", Variable()), List(Variable(), Variable()));
         Assert.AreSame(p, p.Term);
     }
 
     [TestMethod]
     public void TestGetValueAssignedVariable()
     {
-        Variable x = Variable("X");
-        Structure p1 = Structure("p", Atom(), Structure("p", Atom(), x, IntegerNumber()), List(IntegerNumber(), DecimalFraction()));
+        var x = Variable("X");
+        var p1 = Structure("p", Atom(), Structure("p", Atom(), x, IntegerNumber()), List(IntegerNumber(), DecimalFraction()));
         x.Unify(Atom());
-        Structure p2 = p1.Term;
+        var p2 = p1.Term;
         Assert.AreNotSame(p1, p2);
         Assert.AreEqual(p1.ToString(), p2.ToString());
         AssertStrictEquality(p1, p2, true);
@@ -68,22 +68,22 @@ public class StructureTest : TestUtils
     [TestMethod]
     public void TestGetBoundNoVariables()
     {
-        Structure p = Structure("p", Atom(), Structure("p", Atom()), List(IntegerNumber(), DecimalFraction()));
+        var p = Structure("p", Atom(), Structure("p", Atom()), List(IntegerNumber(), DecimalFraction()));
         Assert.AreSame(p, p.Bound);
     }
 
     [TestMethod]
     public void TestGetBoundUnassignedVariables()
     {
-        Structure p = Structure("p", Variable(), Structure("p", Variable()), List(Variable(), Variable()));
+        var p = Structure("p", Variable(), Structure("p", Variable()), List(Variable(), Variable()));
         Assert.AreSame(p, p.Bound);
     }
 
     [TestMethod]
     public void TestGetBoundAssignedVariable()
     {
-        Variable x = Variable("X");
-        Structure p = Structure("p", Atom(), Structure("p", Atom(), x, IntegerNumber()), List(IntegerNumber(), DecimalFraction()));
+        var x = Variable("X");
+        var p = Structure("p", Atom(), Structure("p", Atom(), x, IntegerNumber()), List(IntegerNumber(), DecimalFraction()));
         x.Unify(Atom());
         Assert.AreSame(p, p.Bound);
     }
@@ -91,10 +91,10 @@ public class StructureTest : TestUtils
     [TestMethod]
     public void TestCreationList()
     {
-        Term t = Terms.Structure.CreateStructure(".", new Term[] { Atom("a"), Atom("b") });
+        var t = Terms.Structure.CreateStructure(".", new Term[] { Atom("a"), Atom("b") });
         Assert.AreEqual(TermType.LIST, t.Type);
-        Assert.IsTrue(t is List);
-        Term l = ParseSentence("[a | b].");
+        Assert.IsTrue(t is LinkedTermList);
+        var l = ParseSentence("[a | b].");
         Assert.AreEqual(l.ToString(), t.ToString());
     }
 
@@ -102,9 +102,9 @@ public class StructureTest : TestUtils
     public void TestUnifyWhenBothPredicatesHaveVariableArguments()
     {
         // test(x, Y)
-        Structure p1 = Structure("test", new Atom("x"), new Variable("Y"));
+        var p1 = Structure("test", new Atom("x"), new Variable("Y"));
         // test(X, y)
-        Structure p2 = Structure("test", new Variable("X"), new Atom("y"));
+        var p2 = Structure("test", new Variable("X"), new Atom("y"));
         Assert.IsTrue(p1.Unify(p2));
         Assert.AreEqual("test(x, y)", p1.ToString());
         Assert.AreEqual(p1.ToString(), p2.ToString());
@@ -114,10 +114,10 @@ public class StructureTest : TestUtils
     public void TestUnifyWhenPredicateHasSameVariableTwiceAsArgument()
     {
         // test(x, y)
-        Structure p1 = Structure("test", new Atom("x"), new Atom("y"));
+        var p1 = Structure("test", new Atom("x"), new Atom("y"));
         // test(X, X)
-        Variable v = new Variable("X");
-        Structure p2 = Structure("test", v, v);
+        var v = new Variable("X");
+        var p2 = Structure("test", v, v);
 
         Assert.IsFalse(p2.Unify(p1));
         Assert.AreEqual("test(x, y)", p1.ToString());
@@ -140,8 +140,8 @@ public class StructureTest : TestUtils
     public void TestUnifyVariableThatIsPredicateArgument()
     {
         // test(X, X)
-        Variable v = new Variable("X");
-        Structure p = Structure("test", v, v);
+        var v = new Variable("X");
+        var p = Structure("test", v, v);
         Assert.AreEqual("test(X, X)", p.ToString());
         Assert.IsTrue(v.Unify(new Atom("x")));
         Assert.AreEqual("test(x, x)", p.ToString());
@@ -151,9 +151,9 @@ public class StructureTest : TestUtils
     public void TestUnifyDifferentNamesSameArguments()
     {
         Term[] args = { Atom(), IntegerNumber(), DecimalFraction() };
-        Structure p1 = Structure("test1", args);
-        Structure p2 = Structure("test2", args);
-        Structure p3 = Structure("test", args);
+        var p1 = Structure("test1", args);
+        var p2 = Structure("test2", args);
+        var p3 = Structure("test", args);
         AssertStrictEqualityAndUnify(p1, p2, false);
         AssertStrictEqualityAndUnify(p1, p3, false);
     }
@@ -186,7 +186,7 @@ public class StructureTest : TestUtils
     [TestMethod]
     public void TestUnifyWrongType()
     {
-        Structure p = Structure("1", new Term[] { Atom() });
+        var p = Structure("1", new Term[] { Atom() });
         AssertStrictEqualityAndUnify(p, new Atom("1"), false);
         AssertStrictEqualityAndUnify(p, new IntegerNumber(1), false);
         AssertStrictEqualityAndUnify(p, new DecimalFraction(1), false);
@@ -197,7 +197,7 @@ public class StructureTest : TestUtils
     {
         try
         {
-            Structure("test", TermUtils.EMPTY_ARRAY);
+            Structure("test", EMPTY_ARRAY);
             Assert.Fail();
         }
         catch (ArgumentException e)
@@ -209,8 +209,8 @@ public class StructureTest : TestUtils
     [TestMethod]
     public void TestCopyWithoutVariablesOrNestedArguments()
     {
-        Structure p = Structure("test", Atom(), IntegerNumber(), DecimalFraction());
-        Structure Copy = p.Copy(null);
+        var p = Structure("test", Atom(), IntegerNumber(), DecimalFraction());
+        var Copy = p.Copy(null);
         Assert.AreSame(p, Copy);
     }
 
@@ -218,17 +218,17 @@ public class StructureTest : TestUtils
     public void TestCopyWithUnassignedVariables()
     {
         // create structure where some arguments are variables
-        string name = "test";
-        Atom a = Atom();
-        IntegerNumber i = IntegerNumber();
-        DecimalFraction d = DecimalFraction();
-        Variable x = new Variable("X");
-        Variable y = new Variable("Y");
-        Structure original = Structure(name, a, x, i, y, d, x);
+        var name = "test";
+        var a = Atom();
+        var i = IntegerNumber();
+        var d = DecimalFraction();
+        var x = new Variable("X");
+        var y = new Variable("Y");
+        var original = Structure(name, a, x, i, y, d, x);
 
         // make a Copy
         Dictionary<Variable, Variable> sharedVariables = new();
-        Structure Copy = original.Copy(sharedVariables);
+        var Copy = original.Copy(sharedVariables);
 
         // Compare Copy to original
         Assert.AreEqual(2, sharedVariables.Count);
@@ -284,12 +284,12 @@ public class StructureTest : TestUtils
     [TestMethod]
     public void TestIsImmutable()
     {
-        Variable v = Variable("X");
-        Atom a = Atom("test");
-        Structure p1 = Structure("p", Atom(), Structure("p", Atom(), v, IntegerNumber()), List(IntegerNumber(), DecimalFraction()));
+        var v = Variable("X");
+        var a = Atom("test");
+        var p1 = Structure("p", Atom(), Structure("p", Atom(), v, IntegerNumber()), List(IntegerNumber(), DecimalFraction()));
         Assert.IsFalse(p1.IsImmutable);
         v.Unify(a);
-        Structure p2 = p1.Copy(null);
+        var p2 = p1.Copy(null);
         Assert.IsFalse(p1.IsImmutable);
         Assert.IsTrue(p2.IsImmutable);
         Assert.AreSame(v, p1.GetArgument(1).GetArgument(1));
@@ -299,14 +299,14 @@ public class StructureTest : TestUtils
     [TestMethod]
     public void TestBacktrack()
     {
-        Variable x = Variable("X");
-        Variable y = Variable("Y");
-        Variable z = Variable("Z");
-        Atom a1 = Atom("test1");
-        Atom a2 = Atom("test2");
-        Atom a3 = Atom("test3");
-        Structure p1 = Structure("p", x, Structure("p", a1, y));
-        Structure p2 = Structure("p", z);
+        var x = Variable("X");
+        var y = Variable("Y");
+        var z = Variable("Z");
+        var a1 = Atom("test1");
+        var a2 = Atom("test2");
+        var a3 = Atom("test3");
+        var p1 = Structure("p", x, Structure("p", a1, y));
+        var p2 = Structure("p", z);
         x.Unify(p2);
         y.Unify(a2);
         z.Unify(a3);

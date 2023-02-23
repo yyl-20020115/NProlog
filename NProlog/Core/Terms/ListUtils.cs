@@ -84,7 +84,7 @@ public static class ListUtils
      */
     public static List<Term> ToSortedList(Term unsorted)
     {
-        var elements = ListUtils.ToList(unsorted);
+        var elements = ToList(unsorted);
         elements?.Sort(TermComparator.TERM_COMPARATOR);
         return elements;
     }

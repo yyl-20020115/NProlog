@@ -31,10 +31,7 @@ public class IntegerNumber : Numeric
     /**
      * @param value the value this term represents
      */
-    public IntegerNumber(long value)
-    {
-        this.value = value;
-    }
+    public IntegerNumber(long value) => this.value = value;
 
     /**
      * Returns a {@code string} representation of the {@code long} this term represents.
@@ -71,7 +68,7 @@ public class IntegerNumber : Numeric
     public IntegerNumber Term => this;
 
 
-    public IntegerNumber Copy(Dictionary<Variable, Variable> sharedVariables) => this;
+    public IntegerNumber Copy(Dictionary<Variable, Variable> _) => this;
 
 
     public bool Unify(Term t)

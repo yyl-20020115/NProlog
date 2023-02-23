@@ -352,8 +352,7 @@ public class ClauseActionFactoryTest : TestUtils
 
         var a = Create<ZeroArgConsequentRule>("p :- test.");
         Assert.IsFalse(a.IsAlwaysCutOnBacktrack);
-
-        var m = Verify(mockPredicateFactory).IsAlwaysCutOnBacktrack;
+        _ = Verify(mockPredicateFactory).IsAlwaysCutOnBacktrack;
     }
 
     [TestMethod]
@@ -363,8 +362,7 @@ public class ClauseActionFactoryTest : TestUtils
 
         var a = Create<ZeroArgConsequentRule>("p :- test.");
         Assert.IsFalse(a.IsAlwaysCutOnBacktrack);
-
-        var m = Verify(mockPredicateFactory).IsAlwaysCutOnBacktrack;
+        _ = Verify(mockPredicateFactory).IsAlwaysCutOnBacktrack;
     }
 
     [TestMethod]
@@ -437,8 +435,7 @@ public class ClauseActionFactoryTest : TestUtils
 
         var a = Create<ImmutableConsequentRule>("p(a,b,c) :- test.");
         Assert.IsFalse(a.IsRetryable);
-
-        var m = Verify(mockPredicateFactory)?.IsRetryable;
+        _ = Verify(mockPredicateFactory)?.IsRetryable;
     }
 
     [TestMethod]
@@ -448,8 +445,7 @@ public class ClauseActionFactoryTest : TestUtils
 
         var a = Create<ImmutableConsequentRule>("p(a,b,c) :- test.");
         Assert.IsFalse(a.IsRetryable);
-
-        var m = Verify(mockPredicateFactory)?.IsRetryable;
+        _ = Verify(mockPredicateFactory)?.IsRetryable;
     }
 
     [TestMethod]
@@ -459,8 +455,7 @@ public class ClauseActionFactoryTest : TestUtils
 
         var a = Create<ImmutableConsequentRule>("p(a,b,c) :- test.");
         Assert.IsFalse(a.IsAlwaysCutOnBacktrack);
-
-        var m = Verify(mockPredicateFactory)?.IsAlwaysCutOnBacktrack;
+        _ = Verify(mockPredicateFactory)?.IsAlwaysCutOnBacktrack;
     }
 
     [TestMethod]
@@ -470,8 +465,7 @@ public class ClauseActionFactoryTest : TestUtils
 
         var a = Create<ImmutableConsequentRule>("p(a,b,c) :- test.");
         Assert.IsFalse(a?.IsAlwaysCutOnBacktrack);
-
-        var m = Verify(mockPredicateFactory)?.IsAlwaysCutOnBacktrack;
+        _ = Verify(mockPredicateFactory)?.IsAlwaysCutOnBacktrack;
     }
 
     [TestMethod]
@@ -567,8 +561,7 @@ public class ClauseActionFactoryTest : TestUtils
 
         var a = Create<MutableRule>("p(a,X,c) :- test.");
         Assert.IsFalse(a.IsRetryable);
-
-        var m = Verify(mockPredicateFactory)?.IsRetryable;
+        _ = Verify(mockPredicateFactory)?.IsRetryable;
     }
 
     [TestMethod]
@@ -578,8 +571,7 @@ public class ClauseActionFactoryTest : TestUtils
 
         var a = Create<MutableRule>("p(a,X,c) :- test.");
         Assert.IsFalse(a.IsRetryable);
-
-        var m = Verify(mockPredicateFactory)?.IsRetryable;
+        _ = Verify(mockPredicateFactory)?.IsRetryable;
     }
 
     [TestMethod]
@@ -600,8 +592,7 @@ public class ClauseActionFactoryTest : TestUtils
 
         var a = Create<MutableRule>("p(a,X,c) :- test.");
         Assert.IsFalse(a.IsAlwaysCutOnBacktrack);
-
-        var m = Verify(mockPredicateFactory)?.IsAlwaysCutOnBacktrack;
+        _ = Verify(mockPredicateFactory)?.IsAlwaysCutOnBacktrack;
     }
 
     [TestMethod]
@@ -709,15 +700,15 @@ public class ClauseActionFactoryTest : TestUtils
         var a = Create<MutableFact>("p(X,b,Y).");
         Variable x = new ("X");
 
-        Assert.IsTrue(ClauseActionFactory.IsMatch(a, new Term[] { x, x, x }));
+        Assert.IsTrue(IsMatch(a, new Term[] { x, x, x }));
         Assert.AreSame(x, x.Term);
 
-        Assert.IsFalse(ClauseActionFactory.IsMatch(a, new Term[] { x, new Atom("c"), x }));
+        Assert.IsFalse(IsMatch(a, new Term[] { x, new Atom("c"), x }));
         Assert.AreSame(x, x.Term);
 
-        Assert.IsTrue(ClauseActionFactory.IsMatch(a, new Term[] { new Atom("a"), new Atom("b"), new Atom("c") }));
+        Assert.IsTrue(IsMatch(a, new Term[] { new Atom("a"), new Atom("b"), new Atom("c") }));
 
-        Assert.IsTrue(ClauseActionFactory.IsMatch(a, new Term[] { new Atom("c"), new Atom("b"), new Atom("a") }));
+        Assert.IsTrue(IsMatch(a, new Term[] { new Atom("c"), new Atom("b"), new Atom("a") }));
     }
 
 
@@ -725,7 +716,7 @@ public class ClauseActionFactoryTest : TestUtils
     {
         var type = typeof(T);
         var model = CreateClauseModel(syntax);
-        var result = ClauseActionFactory.CreateClauseAction(kb, model);
+        var result = CreateClauseAction(kb, model);
         AssertType(type, result);
         Assert.AreSame(model, result.Model);
         return (T)result;

@@ -28,12 +28,12 @@ namespace Org.NProlog.Core.Predicate;
 [TestClass]
 public class PredicatesTest : TestUtils
 {
-    private readonly PredicateKey KEY = new PredicateKey("test", 2);
+    private readonly PredicateKey KEY = new ("test", 2);
 
     [TestMethod]
     public void TestCannotReplacePredicateFactoryWithAnotherPredicateFactory()
     {
-        Prolog prolog = new Prolog();
+        var prolog = new Prolog();
 
         // given that a build-in predicate is associated with the key
         prolog.AddPredicateFactory(KEY, new MockPredicateFactory());
@@ -73,7 +73,7 @@ public class PredicatesTest : TestUtils
     [TestMethod]
     public void TestCannotReplacePredicateFactoryWithDynamicUserDefinedPredicate()
     {
-        Prolog prolog = new Prolog();
+        var prolog = new Prolog();
 
         // given that a build-in predicate is associated with the key
         prolog.AddPredicateFactory(KEY, new MockPredicateFactory());
@@ -113,7 +113,7 @@ public class PredicatesTest : TestUtils
     [TestMethod]
     public void TestCannotReplaceNonDynamicUserDefinedPredicateWithPredicateFactory()
     {
-        Prolog prolog = new Prolog();
+        var prolog = new Prolog();
 
         // given that a non-dynamic user defined predicate is associated with the key
         prolog.ConsultReader(new StringReader("test(a, b)."));
@@ -133,7 +133,7 @@ public class PredicatesTest : TestUtils
     [TestMethod]
     public void TestCannotUpdateNonDynamicUserDefinedPredicateWithNonDynamicUserDefinedPredicate()
     {
-        Prolog prolog = new Prolog();
+        var prolog = new Prolog();
 
         // given that a non-dynamic user defined predicate is associated with the key
         prolog.ConsultReader(new StringReader("test(a, b)."));
@@ -146,7 +146,7 @@ public class PredicatesTest : TestUtils
         }
         catch (PrologException e)
         {
-            string expected = "Cannot Append to already defined user defined predicate as it is not dynamic. You can set the predicate to dynamic by adding the following line to start of the file that the predicate is defined in:\n?- dynamic(test/2).";
+            var expected = "Cannot Append to already defined user defined predicate as it is not dynamic. You can set the predicate to dynamic by adding the following line to start of the file that the predicate is defined in:\n?- dynamic(test/2).";
             Assert.AreEqual(expected, e.InnerException.Message);
         }
     }
@@ -154,7 +154,7 @@ public class PredicatesTest : TestUtils
     [TestMethod]
     public void TestCannotUpdateNonDynamicUserDefinedPredicateWithDynamicUserDefinedPredicate()
     {
-        Prolog prolog = new Prolog();
+        var prolog = new Prolog();
 
         // given that a non-dynamic user defined predicate is associated with the key
         prolog.ConsultReader(new StringReader("test(a, b)."));
@@ -174,7 +174,7 @@ public class PredicatesTest : TestUtils
     [TestMethod]
     public void TestCannotUpdateNonDynamicUserDefinedPredicateWithAssertedPredicate()
     {
-        Prolog prolog = new Prolog();
+        var prolog = new Prolog();
 
         // given that a non-dynamic user defined predicate is associated with the key
         prolog.ConsultReader(new StringReader("test(a, b)."));
@@ -194,7 +194,7 @@ public class PredicatesTest : TestUtils
     [TestMethod]
     public void TestCannotReplaceDynamicUserDefinedPredicateWithPredicateFactory()
     {
-        Prolog prolog = new Prolog();
+        var prolog = new Prolog();
 
         // given that a dynamic user defined predicate is associated with the key
         prolog.ConsultReader(new StringReader("?- dynamic(test/2). test(a, b)."));
@@ -214,13 +214,13 @@ public class PredicatesTest : TestUtils
     [TestMethod]
     public void TestCanUpdateDynamicUserDefinedPredicateWithUserDefinedPredicate()
     {
-        Prolog prolog = new Prolog();
+        var prolog = new Prolog();
 
         // given that a dynamic user defined predicate is associated with the key
         prolog.ConsultReader(new StringReader("?- dynamic(test/2). test(a, b)."));
 
         // querying it should find the defined clause
-        QueryResult r = prolog.ExecuteQuery("test(X, Y).");
+        var r = prolog.ExecuteQuery("test(X, Y).");
         Assert.IsTrue(r.Next());
         Assert.AreEqual("a", r.GetAtomName("X"));
         Assert.AreEqual("b", r.GetAtomName("Y"));
@@ -246,13 +246,13 @@ public class PredicatesTest : TestUtils
     [TestMethod]
     public void TestCanUpdateDynamicUserDefinedPredicateWithDynamicUserDefinedPredicate()
     {
-        Prolog prolog = new Prolog();
+        var prolog = new Prolog();
 
         // given that a dynamic user defined predicate is associated with the key
         prolog.ConsultReader(new StringReader("?- dynamic(test/2). test(a, b)."));
 
         // querying it should find the defined clause
-        QueryResult r = prolog.ExecuteQuery("test(X, Y).");
+        var r = prolog.ExecuteQuery("test(X, Y).");
         Assert.IsTrue(r.Next());
         Assert.AreEqual("a", r.GetAtomName("X"));
         Assert.AreEqual("b", r.GetAtomName("Y"));
@@ -278,13 +278,13 @@ public class PredicatesTest : TestUtils
     [TestMethod]
     public void TestCanUpdateAssertedPredicateWithUserDefinedPredicate()
     {
-        Prolog prolog = new Prolog();
+        var prolog = new Prolog();
 
         // given that a clause has been asserted for the key
         prolog.ExecuteOnce("assert(test(a, b)).");
 
         // querying it should find the defined clause
-        QueryResult r = prolog.ExecuteQuery("test(X, Y).");
+        var r = prolog.ExecuteQuery("test(X, Y).");
         Assert.IsTrue(r.Next());
         Assert.AreEqual("a", r.GetAtomName("X"));
         Assert.AreEqual("b", r.GetAtomName("Y"));
@@ -310,7 +310,7 @@ public class PredicatesTest : TestUtils
     [TestMethod]
     public void TestCannotReplaceAssertedPredicateWithPredicateFactory()
     {
-        Prolog prolog = new Prolog();
+        var prolog = new Prolog();
 
         // given that a clause has been asserted for the key
         prolog.ExecuteOnce("assert(test(a, b)).");
@@ -357,8 +357,8 @@ public class PredicatesTest : TestUtils
         prolog.ConsultReader(new StringReader(input1.ToString()));
 
         // querying it should find the defined clause
-        QueryPlan plan = prolog.CreatePlan("testRule(X).");
-        QueryResult r = plan.ExecuteQuery();
+        var plan = prolog.CreatePlan("testRule(X).");
+        var r = plan.ExecuteQuery();
         Assert.IsTrue(r.Next());
         Assert.AreEqual("b", r.GetAtomName("X"));
         Assert.IsTrue(r.Next());
@@ -372,7 +372,7 @@ public class PredicatesTest : TestUtils
         Assert.IsTrue(Enumerable.SequenceEqual(new string[] { "b", "d", "f", "h" }.ToList(), plan.CreateStatement().FindAllAsAtomName()));
 
         // attempting to Add more user defined clauses for the key should succeed, as was declared dynamic when first consulted
-        StringBuilder input2 = new StringBuilder();
+        var input2 = new StringBuilder();
         input2.Append("test(a,1).");
 
         prolog.ConsultReader(new StringReader("test(j,10)."));
@@ -397,7 +397,7 @@ public class PredicatesTest : TestUtils
     [TestMethod]
     public void TestGetPredicate()
     {
-        Predicates p = TestUtils.CreateKnowledgeBase().Predicates;
+        var p = CreateKnowledgeBase().Predicates;
         Assert.AreSame(PredicateUtils.TRUE, p.GetPredicate(Atom("true")));
         Assert.AreSame(PredicateUtils.FALSE, p.GetPredicate(Atom("does_not_exist")));
     }

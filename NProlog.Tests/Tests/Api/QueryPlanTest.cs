@@ -96,7 +96,7 @@ public class QueryPlanTest : TestUtils
     {
         var prolog = new Prolog();
         prolog.ConsultReader(new StringReader("test(1, a).test(_, b).test(3, c)."));
-        string query = "test(2, X).";
+        var query = "test(2, X).";
 
         var plan = prolog.CreatePlan(query);
         var statement = prolog.CreateStatement(query);

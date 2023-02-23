@@ -17,7 +17,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.List;
 
-
 /* TEST
 %TRUE reverse([a],[a])
 %TRUE reverse([a,b,c],[c,b,a])
@@ -243,7 +242,6 @@ namespace Org.NProlog.Core.Predicate.Builtin.List;
  */
 public class Reverse : AbstractPredicateFactory
 {
-
     protected override Predicate GetPredicate(Term list1, Term list2) 
         => new ReversePredicate(list1, list2);
 
@@ -264,13 +262,13 @@ public class Reverse : AbstractPredicateFactory
             this.arg4 = list2;
         }
 
-
         public virtual bool Evaluate()
         {
             while (true)
             {
                 // reverse([], Ys, Ys, []).
-                if (!retrying && arg1.Unify(EmptyList.EMPTY_LIST) && arg4.Unify(EmptyList.EMPTY_LIST) && arg2.Unify(arg3))
+                if (!retrying && arg1.Unify(EmptyList.EMPTY_LIST)
+                    && arg4.Unify(EmptyList.EMPTY_LIST) && arg2.Unify(arg3))
                 {
                     retrying = true;
                     return true;
@@ -295,7 +293,7 @@ public class Reverse : AbstractPredicateFactory
                 {
                     x = new Variable("X");
                     xs = new Variable("Xs");
-                    arg1.Unify(new Terms.List(x, xs));
+                    arg1.Unify(new Terms.LinkedTermList(x, xs));
                 }
                 else
                 {
@@ -308,8 +306,8 @@ public class Reverse : AbstractPredicateFactory
                 }
                 else if (arg4.Type.IsVariable)
                 {
-                    Variable v = new Variable("Bound");
-                    arg4.Unify(new Terms.List(new Variable(), v));
+                    var v = new Variable("Bound");
+                    arg4.Unify(new LinkedTermList(new Variable(), v));
                     arg4 = v;
                 }
                 else
@@ -318,13 +316,13 @@ public class Reverse : AbstractPredicateFactory
                 }
 
                 arg1 = xs.Term;
-                arg2 = new Terms.List(x.Term, arg2.Term);
+                arg2 = new LinkedTermList(x.Term, arg2.Term);
                 arg3 = arg3.Term;
                 arg4 = arg4.Term;
             }
         }
 
-
-        public virtual bool CouldReevaluationSucceed => !retrying || (arg1 != EmptyList.EMPTY_LIST && arg4 != EmptyList.EMPTY_LIST);
+        public virtual bool CouldReevaluationSucceed 
+            => !retrying || (arg1 != EmptyList.EMPTY_LIST && arg4 != EmptyList.EMPTY_LIST);
     }
 }

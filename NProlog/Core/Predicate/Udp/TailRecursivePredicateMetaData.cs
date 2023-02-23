@@ -73,10 +73,10 @@ public class TailRecursivePredicateMetaData
     {
         if (terms.Count != 2) return false;
 
-        var firstTerm = terms[(0)];
+        var firstTerm = terms[0];
         if (!KnowledgeBaseUtils.IsSingleAnswer(kb, firstTerm.Antecedent)) return false;
 
-        var secondTerm = terms[(1)];
+        var secondTerm = terms[1];
         return IsAntecedentRecursive(kb, secondTerm);
     }
 

@@ -29,7 +29,7 @@ public class LengthTest
                 "length_([_|L],N0,N) :- (var(N);number(N)), N1 is N0+1,length_(L, N1, N).";
 
     private static readonly ListPredicateAssert PREDICATE_ASSERT
-         = new ListPredicateAssert("length", 2, LENGTH_PROLOG);
+         = new ("length", 2, LENGTH_PROLOG);
     private static readonly string[] value = new string[]{
         "[] X",
                "[] -1",

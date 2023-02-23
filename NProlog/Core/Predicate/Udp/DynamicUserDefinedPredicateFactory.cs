@@ -15,15 +15,11 @@
  */
 using Org.NProlog.Core.Event;
 using Org.NProlog.Core.Kb;
-using Org.NProlog.Core.Predicate.Builtin.Db;
 using Org.NProlog.Core.Terms;
 using System.Collections;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 
 namespace Org.NProlog.Core.Predicate.Udp;
-
-
 
 /**
  * Maintains a record of the clauses that represents a "dynamic" user defined predicate.
@@ -152,7 +148,7 @@ public class DynamicUserDefinedPredicateFactory : UserDefinedPredicateFactory
     {
         if (hasPrimaryKey)
         {
-            Term firstArg = clauseModel.Consequent.GetArgument(0);
+            var firstArg = clauseModel.Consequent.GetArgument(0);
             if (!firstArg.IsImmutable || !index.TryAdd(firstArg, metaData))
             {
                 hasPrimaryKey = false;
@@ -233,9 +229,7 @@ public class DynamicUserDefinedPredicateFactory : UserDefinedPredicateFactory
         public void Reset()
         {
             if (!this.disposed)
-            {
                 this.current = null;
-            }
         }
     }
 
@@ -252,12 +246,10 @@ public class DynamicUserDefinedPredicateFactory : UserDefinedPredicateFactory
 
         object IEnumerator.Current => this.Current;
 
-        public ImplicationsIterator(DynamicUserDefinedPredicateFactory dynamicUserDefinedPredicateFactory)
-        {
-            this.factory = dynamicUserDefinedPredicateFactory;
-        }
+        public ImplicationsIterator(DynamicUserDefinedPredicateFactory dynamicUserDefinedPredicateFactory) => this.factory = dynamicUserDefinedPredicateFactory;
 
-        public bool CanMoveNext => this.started ? this.current != null : this.factory.ends[FIRST]!=null;
+        public bool CanMoveNext 
+            => this.started ? this.current != null : this.factory.ends[FIRST]!=null;
 
         /**
         * Returns a <i>new copy</i> to avoid the original being altered.
@@ -289,9 +281,7 @@ public class DynamicUserDefinedPredicateFactory : UserDefinedPredicateFactory
         public void Dispose()
         {
             if (!this.disposed)
-            {
                 this.disposed = true;
-            }
         }
 
 
@@ -304,21 +294,15 @@ public class DynamicUserDefinedPredicateFactory : UserDefinedPredicateFactory
                     var firstArg = current.clause.Model.Consequent.GetArgument(0);
 
                     if (!factory.index.Remove(firstArg, out var r))
-                    {
                         throw new InvalidOperationException();
-                    }
                 }
                 if (current.previous != null)
-                {
                     current.previous.next = current.next;
-                }
                 else
                 {
                     var newHead = current.next;
                     if (newHead != null)
-                    {
                         newHead.previous = null;
-                    }
                     factory.ends[FIRST] = newHead;
                 }
                 if (current.next != null)
@@ -329,9 +313,7 @@ public class DynamicUserDefinedPredicateFactory : UserDefinedPredicateFactory
                 {
                     var newTail = current.previous;
                     if (newTail != null)
-                    {
                         newTail.next = null;
-                    }
                     factory.ends[LAST] = newTail;
                 }
                 if (factory.ends[FIRST] == null && factory.ends[LAST] == null)
@@ -355,10 +337,8 @@ public class DynamicUserDefinedPredicateFactory : UserDefinedPredicateFactory
         public ClauseActionMetaData previous;
         public ClauseActionMetaData next;
 
-        public ClauseActionMetaData(KnowledgeBase kb, ClauseModel clauseModel)
-        {
-            this.clause = ClauseActionFactory.CreateClauseAction(kb, clauseModel);
-        }
+        public ClauseActionMetaData(KnowledgeBase kb, ClauseModel clauseModel) 
+            => this.clause = ClauseActionFactory.CreateClauseAction(kb, clauseModel);
     }
 
 

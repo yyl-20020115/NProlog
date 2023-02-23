@@ -33,7 +33,7 @@ public class SingleRetryableRulePredicateFactory : PreprocessablePredicateFactor
 
 
     public RetryableRulePredicate GetPredicate(Term[] args)
-        => new RetryableRulePredicate(clause, spyPoint, args);
+        => new (clause, spyPoint, args);
 
 
     public bool IsRetryable => true;
@@ -62,9 +62,7 @@ public class SingleRetryableRulePredicateFactory : PreprocessablePredicateFactor
                 if (p == null)
                 {
                     if (isSpyPointEnabled)
-                    {
                         spyPoint.LogCall(this, args);
-                    }
                     p = clause.GetPredicate(args);
                 }
                 else if (isSpyPointEnabled)
@@ -75,17 +73,13 @@ public class SingleRetryableRulePredicateFactory : PreprocessablePredicateFactor
                 if (p.Evaluate())
                 { // TODO p.couldReevaluationSucceed() &&
                     if (isSpyPointEnabled)
-                    {
                         spyPoint.LogExit(this, args, clause.Model);
-                    }
                     return true;
                 }
                 else
                 {
                     if (isSpyPointEnabled)
-                    {
                         spyPoint.LogFail(this, args);
-                    }
                     return false;
                 }
             }

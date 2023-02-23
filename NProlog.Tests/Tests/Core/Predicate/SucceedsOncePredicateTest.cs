@@ -19,14 +19,8 @@ namespace Org.NProlog.Core.Predicate;
 public class SucceedsOncePredicateTest
 {
     [TestMethod]
-    public void TestEvaluates()
-    {
-        Assert.IsTrue(SucceedsOncePredicate.SINGLETON.Evaluate());
-    }
+    public void TestEvaluates() => Assert.IsTrue(SucceedsOncePredicate.SINGLETON.Evaluate());
 
     [TestMethod]
-    public void TestCouldReevaluationSucceed()
-    {
-        Assert.IsFalse(SucceedsOncePredicate.SINGLETON.CouldReevaluationSucceed);
-    }
+    public void TestCouldReevaluationSucceed() => Assert.IsFalse(SucceedsOncePredicate.SINGLETON.CouldReevaluationSucceed);
 }

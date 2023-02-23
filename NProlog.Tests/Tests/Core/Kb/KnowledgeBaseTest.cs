@@ -27,11 +27,10 @@ namespace Org.NProlog.Core.Kb;
 [TestClass]
 public class KnowledgeBaseTest : TestUtils
 {
-    private KnowledgeBase kb = TestUtils.CreateKnowledgeBase();
-    private Predicates predicates;
+    private readonly KnowledgeBase kb = CreateKnowledgeBase();
+    private readonly Predicates predicates;
     public KnowledgeBaseTest()
     {
-        kb = TestUtils.CreateKnowledgeBase();
         predicates = kb.Predicates;
     }
 
@@ -39,7 +38,7 @@ public class KnowledgeBaseTest : TestUtils
     [TestMethod]
     public void TestDefaultPrologProperties()
     {
-        KnowledgeBase kb = KnowledgeBaseUtils.CreateKnowledgeBase();
+        var kb = KnowledgeBaseUtils.CreateKnowledgeBase();
         Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreSame(typeof(PrologDefaultProperties), kb.PrologProperties.GetType());
     }
 
@@ -47,7 +46,7 @@ public class KnowledgeBaseTest : TestUtils
     [TestMethod]
     public void TestConfiguredPrologProperties()
     {
-        KnowledgeBase kb = KnowledgeBaseUtils.CreateKnowledgeBase(TestUtils.PROLOG_DEFAULT_PROPERTIES);
+        var kb = KnowledgeBaseUtils.CreateKnowledgeBase(TestUtils.PROLOG_DEFAULT_PROPERTIES);
         Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreSame(TestUtils.PROLOG_DEFAULT_PROPERTIES, kb.PrologProperties);
     }
 
@@ -55,8 +54,8 @@ public class KnowledgeBaseTest : TestUtils
     [TestMethod]
     public void TestGetNumeric()
     {
-        Structure p = Structure("-", IntegerNumber(7), IntegerNumber(3));
-        Numeric n = kb.ArithmeticOperators.GetNumeric(p);
+        var p = Structure("-", IntegerNumber(7), IntegerNumber(3));
+        var n = kb.ArithmeticOperators.GetNumeric(p);
         Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreSame(typeof(IntegerNumber), n.GetType());
         Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual(4, n.Long);
     }
@@ -64,8 +63,8 @@ public class KnowledgeBaseTest : TestUtils
     [TestMethod]
     public void TestCannotOverwritePluginPredicate()
     { // TODO these assertions are duplicated in PredicatesTest
-        Term input = Atom("true");
-        PredicateKey key = PredicateKey.CreateForTerm(input);
+        var input = Atom("true");
+        var key = PredicateKey.CreateForTerm(input);
         try
         {
             predicates.CreateOrReturnUserDefinedPredicate(key);
@@ -111,24 +110,24 @@ public class KnowledgeBaseTest : TestUtils
         Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsTrue(predicates.GetUserDefinedPredicates().Count == 0);
 
         // Create user defined predicate test/0.
-        PredicateKey key1 = PredicateKey.CreateForTerm(Atom("test"));
-        UserDefinedPredicateFactory udp1 = predicates.CreateOrReturnUserDefinedPredicate(key1);
+        var key1 = PredicateKey.CreateForTerm(Atom("test"));
+        var udp1 = predicates.CreateOrReturnUserDefinedPredicate(key1);
         Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreSame(key1, udp1.PredicateKey);
         Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreSame(key1, udp1.PredicateKey);
         Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual(1, predicates.GetUserDefinedPredicates().Count);
 
         // Add a clause to the user defined predicate.
-        ClauseModel clause1 = ClauseModel.CreateClauseModel(TestUtils.ParseSentence("test :- write(clause1)."));
+        var clause1 = ClauseModel.CreateClauseModel(TestUtils.ParseSentence("test :- write(clause1)."));
         udp1.AddLast(clause1);
 
         // Retrieve user defined predicate test/0
-        PredicateKey key2 = PredicateKey.CreateForTerm(Atom("test"));
+        var key2 = PredicateKey.CreateForTerm(Atom("test"));
         Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreSame(udp1, predicates.CreateOrReturnUserDefinedPredicate(key2));
         Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual(1, predicates.GetUserDefinedPredicates().Count);
 
         // Create new user defined predicate with same key as already defined version. Add a clause.
-        UserDefinedPredicateFactory udp2 = new StaticUserDefinedPredicateFactory(kb, key1);
-        ClauseModel clause2 = ClauseModel.CreateClauseModel(TestUtils.ParseSentence("test :- write(clause2)."));
+        var udp2 = new StaticUserDefinedPredicateFactory(kb, key1);
+        var clause2 = ClauseModel.CreateClauseModel(TestUtils.ParseSentence("test :- write(clause2)."));
         udp2.AddLast(clause2);
 
         // Add new user defined predicate test/0 and confirm previous version has been updated with extra clause.
@@ -139,8 +138,8 @@ public class KnowledgeBaseTest : TestUtils
         Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual(clause2.Original, udp1.GetClauseModel(1).Original);
         Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual(1, predicates.GetUserDefinedPredicates().Count);
 
-        PredicateKey key3 = PredicateKey.CreateForTerm(Atom("test2"));
-        UserDefinedPredicateFactory udp3 = predicates.CreateOrReturnUserDefinedPredicate(key3);
+        var key3 = PredicateKey.CreateForTerm(Atom("test2"));
+        var udp3 = predicates.CreateOrReturnUserDefinedPredicate(key3);
         Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreSame(key3, udp3.PredicateKey);
         Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual(2, predicates.GetUserDefinedPredicates().Count);
 
@@ -152,7 +151,7 @@ public class KnowledgeBaseTest : TestUtils
     [TestMethod]
     public void TestGetUserDefinedPredicatesUnmodifiable()
     {
-        Dictionary<PredicateKey, UserDefinedPredicateFactory> userDefinedPredicates = predicates.GetUserDefinedPredicates();
+        var userDefinedPredicates = predicates.GetUserDefinedPredicates();
         try
         {
             userDefinedPredicates.Add(null, null);
@@ -234,29 +233,25 @@ public class KnowledgeBaseTest : TestUtils
     [TestMethod]
     public void TestGetPredicateAndGetPredicateFactory1()
     {
-        var input = Atom("true");
-        AssertGetPredicateFactory(input, typeof(True));
+        AssertGetPredicateFactory(Atom("true"), typeof(True));
     }
 
     [TestMethod]
     public void TestGetPredicateAndGetPredicateFactory2()
     {
-        var input = Atom("does_not_exist");
-        AssertGetPredicateFactory(input, typeof(UnknownPredicate));
+        AssertGetPredicateFactory(Atom("does_not_exist"), typeof(UnknownPredicate));
     }
 
     [TestMethod]
     public void TestGetPredicateAndGetPredicateFactory3()
     {
-        var input = Structure("=", Atom(), Atom());
-        AssertGetPredicateFactory(input, typeof(Equal));
+        AssertGetPredicateFactory(Structure("=", Atom(), Atom()), typeof(Equal));
     }
 
     [TestMethod]
     public void TestGetPredicateAndGetPredicateFactory4()
     {
-        var input = Structure("=", Atom(), Atom(), Atom());
-        AssertGetPredicateFactory(input, typeof(UnknownPredicate));
+        AssertGetPredicateFactory(Structure("=", Atom(), Atom(), Atom()), typeof(UnknownPredicate));
     }
 
     [TestMethod]
@@ -451,20 +446,17 @@ public class KnowledgeBaseTest : TestUtils
 
     private void AssertGetPredicateFactory(Term input, Type expected)
     {
-        PredicateFactory ef1 = predicates.GetPredicateFactory(input);
+        var ef1 = predicates.GetPredicateFactory(input);
         Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreSame(expected, ef1.GetType());
 
-        PredicateKey key = PredicateKey.CreateForTerm(input);
-        PredicateFactory ef2 = predicates.GetPredicateFactory(key);
+        var key = PredicateKey.CreateForTerm(input);
+        var ef2 = predicates.GetPredicateFactory(key);
         Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreSame(expected, ef2.GetType());
     }
 
     public class DummyPredicateFactoryNoPublicConstructor : PredicateFactory
     {
-        public static DummyPredicateFactoryNoPublicConstructor GetInstance()
-        {
-            return new DummyPredicateFactoryNoPublicConstructor();
-        }
+        public static DummyPredicateFactoryNoPublicConstructor GetInstance() => new ();
 
         private DummyPredicateFactoryNoPublicConstructor()
         {
@@ -472,10 +464,7 @@ public class KnowledgeBaseTest : TestUtils
         }
 
 
-        public Predicate.Predicate GetPredicate(Term[] args)
-        {
-            throw new InvalidOperationException();
-        }
+        public Predicate.Predicate GetPredicate(Term[] args) => throw new InvalidOperationException();
 
 
         public bool IsRetryable => false;

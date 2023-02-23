@@ -67,9 +67,7 @@ public class RepeatInfinitely : AbstractPredicateFactory
 
     public class RepeatInfinitelyPredicate : Predicate
     {
-
         public bool Evaluate() => true;
-
 
         public bool CouldReevaluationSucceed => true;
     }

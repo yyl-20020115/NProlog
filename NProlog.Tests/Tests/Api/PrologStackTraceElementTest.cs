@@ -30,7 +30,7 @@ public class PrologStackTraceElementTest
     public void Test()
     {
         var key = new PredicateKey("test", 1);
-        Term term = new Atom("test");
+        var term = new Atom("test");
         var e = new PrologStackTraceElement(key, term);
         Assert.AreSame(key, e.PredicateKey);
         Assert.AreSame(term, e.Term);

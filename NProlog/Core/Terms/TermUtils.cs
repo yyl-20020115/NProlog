@@ -19,7 +19,6 @@ using Org.NProlog.Core.Math;
 namespace Org.NProlog.Core.Terms;
 
 
-
 /**
  * Helper methods for performing common tasks on {@link Term} instances.
  */
@@ -48,9 +47,7 @@ public class TermUtils
         var output = new Term[numTerms];
         Dictionary<Variable, Variable> vars = new();
         for (int i = 0; i < numTerms; i++)
-        {
             output[i] = input[i].Copy(vars);
-        }
         return output;
     }
 
@@ -83,9 +80,7 @@ public class TermUtils
             if (!consequentArgs[i].Unify(queryArgs[i]))
             {
                 for (int j = 0; j < i; j++)
-                {
                     queryArgs[j].Backtrack();
-                }
                 return false;
             }
         }
@@ -112,15 +107,11 @@ public class TermUtils
             // ignore
         }
         else if (argument.Type == TermType.VARIABLE)
-        {
             variables.Add((Variable)argument);
-        }
         else
         {
             for (int i = 0; i < argument.NumberOfArguments; i++)
-            {
                 GetAllVariablesInTerm(argument.GetArgument(i), variables);
-            }
         }
     }
 
@@ -162,14 +153,7 @@ public class TermUtils
     public static long ToLong(ArithmeticOperators operators, Term t)
     {
         var n = operators.GetNumeric(t);
-        if (n.Type == TermType.INTEGER)
-        { // TODO use TermUtils.AssertType
-            return n.Long;
-        }
-        else
-        {
-            throw new PrologException("Expected integer but got: " + n.Type + " with value: " + n);
-        }
+        return n.Type == TermType.INTEGER ? n.Long : throw new PrologException("Expected integer but got: " + n.Type + " with value: " + n);
     }
 
     /**
@@ -179,17 +163,7 @@ public class TermUtils
      * @return the name of {@link Atom} represented by the specified {@link Term}
      * @throws ProjogException if the specified {@link Term} does not represent an {@link Atom}
      */
-    public static string GetAtomName(Term t)
-    {
-        if (t.Type != TermType.ATOM)
-        {
-            throw new PrologException("Expected an atom but got: " + t.Type + " with value: " + t);
-        }
-        else
-        {
-            return t.Name;
-        }
-    }
+    public static string GetAtomName(Term t) => t.Type != TermType.ATOM ? throw new PrologException("Expected an atom but got: " + t.Type + " with value: " + t) : t.Name;
 
     public static void AssertType(Term t, TermType type)
     {

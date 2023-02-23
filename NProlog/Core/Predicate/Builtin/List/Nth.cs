@@ -18,8 +18,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.List;
 
-
-
 /* TEST
 %TRUE nth0(0, [a,b,c], a)
 %TRUE nth1(1, [a,b,c], a)
@@ -214,23 +212,17 @@ namespace Org.NProlog.Core.Predicate.Builtin.List;
 public class Nth : AbstractPredicateFactory
 {
     public static Nth Nth0() => new (0);
-
     public static Nth Nth1() => new (1);
 
     private readonly int startingIdx;
 
-    private Nth(int startingIdx)
-    {
-        this.startingIdx = startingIdx;
-    }
+    private Nth(int startingIdx) => this.startingIdx = startingIdx;
 
 
-    protected override Predicate GetPredicate(Term index, Term list, Term element)
-    {
-        return index.Type.IsVariable
-            ? new Retryable(index, list, element,startingIdx)
+    protected override Predicate GetPredicate(Term index, Term list, Term element) 
+        => index.Type.IsVariable
+            ? new Retryable(index, list, element, startingIdx)
             : PredicateUtils.ToPredicate(Evaluate(TermUtils.ToInt(index), list, element));
-    }
 
     private bool Evaluate(int index, Term list, Term element)
     {
@@ -240,39 +232,26 @@ public class Nth : AbstractPredicateFactory
         while (current.Type == TermType.LIST)
         {
             if (currentIdx == requiredIdx)
-            {
                 return element.Unify(current.GetArgument(0));
-            }
             current = current.GetArgument(1);
             currentIdx++;
         }
 
         if (current == EmptyList.EMPTY_LIST)
-        {
             return false;
-        }
         else if (current.Type.IsVariable)
         {
             int requiredLength = requiredIdx - currentIdx;
             if (requiredLength > 0)
             {
-                var t = new Terms.List(element, new Variable("T"));
+                var term = new LinkedTermList(element, new Variable("T"));
                 for (int i = 0; i < requiredLength; i++)
-                {
-                    t = new Terms.List(new Variable("E" + i), t);
-                }
-                current.Unify(t);
+                    term = new LinkedTermList(new Variable("E" + i), term);
+                current.Unify(term);
                 return true;
             }
-            else
-            {
-                return false;
-            }
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
     public class Retryable : Predicate
@@ -299,7 +278,7 @@ public class Nth : AbstractPredicateFactory
                 Backtrack(index, list, element);
                 if (list.Type.IsVariable)
                 {
-                    var newList = new Terms.List(new Variable("_" + ctr), oldList);
+                    var newList = new LinkedTermList(new Variable("_" + ctr), oldList);
                     list.Unify(newList);
                     index.Unify(IntegerNumberCache.ValueOf(ctr++));
                     return true;
@@ -324,7 +303,7 @@ public class Nth : AbstractPredicateFactory
                 Backtrack(index, list, element);
 
                 var tail = new Variable("_" + ctr);
-                var newList = new Terms.List(element, tail);
+                var newList = new LinkedTermList(element, tail);
                 list.Unify(newList);
                 index.Unify(IntegerNumberCache.ValueOf(ctr++));
                 return true;
@@ -342,6 +321,7 @@ public class Nth : AbstractPredicateFactory
         }
 
 
-        public virtual bool CouldReevaluationSucceed => list.Type == TermType.LIST || list.Type.IsVariable;
+        public virtual bool CouldReevaluationSucceed 
+            => list.Type == TermType.LIST || list.Type.IsVariable;
     }
 }

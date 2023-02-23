@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-using Org.NProlog.Core.Event;
 using System.Text;
+using Org.NProlog.Core.Event;
 using static Org.NProlog.Core.Event.SpyPoints;
 
 namespace Org.NProlog;
@@ -25,55 +25,23 @@ public class SimplePrologListener : PrologListener
 {
     private readonly List<string> events = new();
 
-    public void OnInfo(string message)
-    {
-        throw new InvalidOperationException(message);
-    }
+    public void OnInfo(string message) => throw new InvalidOperationException(message);
 
+    public void OnWarn(string message) => throw new InvalidOperationException(message);
 
-    public void OnWarn(string message)
-    {
-        throw new InvalidOperationException(message);
-    }
+    public void OnRedo(SpyPointEvent @event) => Add("REDO", @event);
 
+    public void OnFail(SpyPointEvent @event) => Add("FAIL", @event);
 
-    public void OnRedo(SpyPointEvent @event)
-    {
-        Add("REDO", @event);
-    }
+    public void OnExit(SpyPointExitEvent @event) => Add("EXIT", @event);
 
+    public void OnCall(SpyPointEvent @event) => Add("CALL", @event);
 
-    public void OnFail(SpyPointEvent @event)
-    {
-        Add("FAIL", @event);
-    }
+    private void Add(string level, SpyPointEvent @event) => events.Add(level + @event);
 
+    public bool IsEmpty => events.Count == 0;
 
-    public void OnExit(SpyPointExitEvent @event)
-    {
-        Add("EXIT", @event);
-    }
-
-
-    public void OnCall(SpyPointEvent @event)
-    {
-        Add("CALL", @event);
-    }
-
-    private void Add(string level, SpyPointEvent @event)
-    {
-        events.Add(level + @event);
-    }
-
-    public bool IsEmpty()
-    {
-        return events.Count == 0;
-    }
-
-    public string Get(int index)
-    {
-        return events[(index)];
-    }
+    public string Get(int index) => events[(index)];
 
     public int Count => events.Count;
 

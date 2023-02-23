@@ -13,13 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-using Org.NProlog.Core.Predicate.Builtin.Db;
 using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.List;
-
-
-
 
 /* TEST
 %TRUE subtract([a,b,c,d,e,f], [a,s,d,f], [b,c,e])
@@ -78,29 +74,19 @@ public class SubtractFromList : AbstractSingleResultPredicate
         var itemsToRemoveAsList = ListUtils.ToList(itemsToRemove);
 
         if (originalAsList == null || itemsToRemoveAsList == null)
-        {
             return false;
-        }
         foreach (var item in originalAsList.ToArray())
-        {
             if (ShouldBeRemoved(item, itemsToRemoveAsList))
-            {
                 originalAsList.Remove(item);
-            }
-        }
 
         return result.Unify(ListFactory.CreateList(originalAsList));
     }
 
-    private bool ShouldBeRemoved(Term item, List<Term> itemsToRemoveAsList)
+    private static bool ShouldBeRemoved(Term item, List<Term> itemsToRemoveAsList)
     {
         foreach (var itemToRemove in itemsToRemoveAsList)
-        {
             if (IsUnified(item, itemToRemove))
-            {
                 return true;
-            }
-        }
         return false;
     }
 
@@ -110,9 +96,7 @@ public class SubtractFromList : AbstractSingleResultPredicate
         itemToRemove = itemToRemove.Term;
 
         if (item.Unify(itemToRemove))
-        {
             return true;
-        }
         else
         {
             item.Backtrack();

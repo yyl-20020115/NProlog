@@ -109,11 +109,11 @@ public class SentenceParserTest : TestUtils
     public void TestMultiTerm()
     {
         string[] sentences = { "p(A, B, C) :- A = 1 , B = 2 , C = 3", "p(X, Y, Z) :- X = 1 , Y = 2 , Z = 3", "p(Q, W, E) :- Q = 1 ; W = 2 ; E = 3" };
-        string source = sentences[0] + ".\n" + sentences[1] + ". " + sentences[2] + ".";
-        SentenceParser sp = GetSentenceParser(source);
-        foreach (string sentence in sentences)
+        var source = sentences[0] + ".\n" + sentences[1] + ". " + sentences[2] + ".";
+        var sp = GetSentenceParser(source);
+        foreach (var sentence in sentences)
         {
-            Term t = sp.ParseSentence();
+            var t = sp.ParseSentence();
             Assert.IsNotNull(t);
             Assert.AreEqual(sentence, Write(t));
         }
@@ -122,14 +122,14 @@ public class SentenceParserTest : TestUtils
     [TestMethod]
     public void TestVariables()
     {
-        Term t = ParseSentence("test(A, A, _A, _A, B, _, _).");
-        Variable a1 = (Variable)t.GetArgument(0);
-        Variable a2 = (Variable)t.GetArgument(1);
-        Variable _a1 = (Variable)t.GetArgument(2);
-        Variable _a2 = (Variable)t.GetArgument(3);
-        Variable b = (Variable)t.GetArgument(4);
-        Variable _1 = (Variable)t.GetArgument(5);
-        Variable _2 = (Variable)t.GetArgument(6);
+        var t = ParseSentence("test(A, A, _A, _A, B, _, _).");
+        var a1 = (Variable)t.GetArgument(0);
+        var a2 = (Variable)t.GetArgument(1);
+        var _a1 = (Variable)t.GetArgument(2);
+        var _a2 = (Variable)t.GetArgument(3);
+        var b = (Variable)t.GetArgument(4);
+        var _1 = (Variable)t.GetArgument(5);
+        var _2 = (Variable)t.GetArgument(6);
 
         Assert.AreEqual("A", a1.Id);
         Assert.AreEqual("A", a2.Id);
@@ -154,16 +154,10 @@ public class SentenceParserTest : TestUtils
     }
 
     [TestMethod]
-    public void TestConjunction()
-    {
-        AssertParse("a, b, c.", "a , b , c", ",(,(a, b), c)");
-    }
+    public void TestConjunction() => AssertParse("a, b, c.", "a , b , c", ",(,(a, b), c)");
 
     [TestMethod]
-    public void TestBrackets1()
-    {
-        AssertParse("a(b,(c)).", "a(b, c)", "a(b, c)");
-    }
+    public void TestBrackets1() => AssertParse("a(b,(c)).", "a(b, c)", "a(b, c)");
 
     [TestMethod]
     public void TestBrackets2()
@@ -173,70 +167,48 @@ public class SentenceParserTest : TestUtils
     }
 
     [TestMethod]
-    public void TestBrackets3()
-    {
-        AssertParse("?- X is 4*(2+3).", "?- X is 4 * (2 + 3)", "?-(is(X, *(4, +(2, 3))))");
-    }
+    public void TestBrackets3() => AssertParse("?- X is 4*(2+3).", "?- X is 4 * (2 + 3)", "?-(is(X, *(4, +(2, 3))))");
 
     [TestMethod]
-    public void TestBrackets4()
-    {
-        AssertParse("?- Y = ( ## = @@ ).", "?- Y = (## = @@)", "?-(=(Y, =(##, @@)))");
-    }
+    public void TestBrackets4() => AssertParse("?- Y = ( ## = @@ ).", "?- Y = (## = @@)", "?-(=(Y, =(##, @@)))");
 
     [TestMethod]
     public void TestBrackets5()
-    {
-        AssertParse("?- X = a(b,(c)).", "?- X = a(b, c)", "?-(=(X, a(b, c)))");
-    }
+        => AssertParse("?- X = a(b,(c)).", "?- X = a(b, c)", "?-(=(X, a(b, c)))");
 
     [TestMethod]
     public void TestBrackets6()
-    {
-        AssertParse("X = ( A = 1 , B = 2 , C = 3).", "X = (A = 1 , B = 2 , C = 3)", "=(X, ,(,(=(A, 1), =(B, 2)), =(C, 3)))");
-    }
+        => AssertParse("X = ( A = 1 , B = 2 , C = 3).", "X = (A = 1 , B = 2 , C = 3)", "=(X, ,(,(=(A, 1), =(B, 2)), =(C, 3)))");
 
     [TestMethod]
     public void TestParsingBrackets7()
-    {
-        AssertParse("X = (!).", "X = !", "=(X, !)");
-    }
+        => AssertParse("X = (!).", "X = !", "=(X, !)");
 
     [TestMethod]
     public void TestParsingBrackets8()
-    {
-        AssertParse("X = (a, !).", "X = (a , !)", "=(X, ,(a, !))");
-    }
+        => AssertParse("X = (a, !).", "X = (a , !)", "=(X, ,(a, !))");
 
     [TestMethod]
     public void TestParsingBrackets9()
-    {
-        AssertParse("X = (a, !; b).", "X = (a , ! ; b)", "=(X, ;(,(a, !), b))");
-    }
+        => AssertParse("X = (a, !; b).", "X = (a , ! ; b)", "=(X, ;(,(a, !), b))");
 
     [TestMethod]
     public void TestParsingBrackets10()
-    {
-        AssertParse("X = [a,'('|Y].", "X = [a,(|Y]", "=(X, .(a, .((, Y)))");
-    }
+        => AssertParse("X = [a,'('|Y].", "X = [a,(|Y]", "=(X, .(a, .((, Y)))");
 
     [TestMethod]
     public void TestParsingBrackets11()
-    {
-        AssertParse("a :- (b, c ; e), f.", "a :- b , c ; e , f", ":-(a, ,(;(,(b, c), e), f))");
-    }
+        => AssertParse("a :- (b, c ; e), f.", "a :- b , c ; e , f", ":-(a, ,(;(,(b, c), e), f))");
 
     [TestMethod]
     public void TestParsingBrackets12()
-    {
-        AssertParse("a :- z, (b, c ; e), f.", "a :- z , (b , c ; e) , f", ":-(a, ,(,(z, ;(,(b, c), e)), f))");
-    }
+        => AssertParse("a :- z, (b, c ; e), f.", "a :- z , (b , c ; e) , f", ":-(a, ,(,(z, ;(,(b, c), e)), f))");
 
     [TestMethod]
     public void TestExtraTextAfterFullStop()
     {
-        SentenceParser sp = GetSentenceParser("?- consult(\'bench.pl\'). jkhkj");
-        Term t = sp.ParseSentence();
+        var sp = GetSentenceParser("?- consult(\'bench.pl\'). jkhkj");
+        var t = sp.ParseSentence();
         Assert.AreEqual("?-(consult(bench.pl))", t.ToString());
         try
         {
@@ -251,9 +223,7 @@ public class SentenceParserTest : TestUtils
 
     [TestMethod]
     public void TestMixtureOfPrefixInfixAndPostfixOperands()
-    {
-        AssertParse("a --> { 1 + -2 }.", "a --> { 1 + -2 }", "-->(a, {(}(+(1, -2))))");
-    }
+        => AssertParse("a --> { 1 + -2 }.", "a --> { 1 + -2 }", "-->(a, {(}(+(1, -2))))");
 
     /**
      * Test "xf" (postfix) associativity.
@@ -264,10 +234,10 @@ public class SentenceParserTest : TestUtils
     [TestMethod]
     public void TestParseOperandXF()
     {
-        Operands o = new Operands();
+        var o = new Operands();
         o.AddOperand("~", "xf", 900);
-        SentenceParser sp = SentenceParser.GetInstance("a ~.", o);
-        Term t = sp.ParseSentence();
+        var sp = SentenceParser.GetInstance("a ~.", o);
+        var t = sp.ParseSentence();
         Assert.AreEqual("~(a)", t.ToString());
         try
         {
@@ -290,10 +260,10 @@ public class SentenceParserTest : TestUtils
     [TestMethod]
     public void TestParseOperandYF()
     {
-        Operands o = new Operands();
+        var o = new Operands();
         o.AddOperand(":", "yf", 900);
-        SentenceParser sp = SentenceParser.GetInstance("a : :.", o);
-        Term t = sp.ParseSentence();
+        var sp = SentenceParser.GetInstance("a : :.", o);
+        var t = sp.ParseSentence();
         Assert.AreEqual(":(:(a))", t.ToString());
     }
 
@@ -329,21 +299,17 @@ public class SentenceParserTest : TestUtils
     }
 
     [TestMethod]
-    public void TestListAfterPrefixOperator()
-    {
-        AssertParse("?- [a,b,c].", "?- [a,b,c]", "?-(.(a, .(b, .(c, []))))");
-    }
+    public void TestListAfterPrefixOperator() 
+        => AssertParse("?- [a,b,c].", "?- [a,b,c]", "?-(.(a, .(b, .(c, []))))");
 
     [TestMethod]
-    public void TestSentenceTerminatorAsAtomName()
-    {
-        AssertParse("p(C) :- C=='.'.", "p(C) :- C == .", ":-(p(C), ==(C, .))");
-    }
+    public void TestSentenceTerminatorAsAtomName() 
+        => AssertParse("p(C) :- C=='.'.", "p(C) :- C == .", ":-(p(C), ==(C, .))");
 
     [TestMethod]
     public void TestAlphaNumericPredicateName()
     {
-        string expectedOutput = "is(X, ~(1, 1))";
+        var expectedOutput = "is(X, ~(1, 1))";
         Check("X is '~'(1,1)", expectedOutput);
         Check("X is ~(1,1)", expectedOutput);
     }
@@ -351,21 +317,21 @@ public class SentenceParserTest : TestUtils
     [TestMethod]
     public void TestInfixOperatorAsPredicateName()
     {
-        string expectedOutput = "is(X, +(1, 1))";
+        var expectedOutput = "is(X, +(1, 1))";
         Check("X is '+'(1,1)", expectedOutput);
         Check("X is 1+1", expectedOutput);
         Check("X is +(1,1)", expectedOutput);
         Check("X = >(+(1,1),-2)", "=(X, >(+(1, 1), -2))");
     }
 
-    private void CheckEquation(string input, string expected)
+    private static void CheckEquation(string input, string expected)
     {
         Check(input, expected);
 
         // apply same extra tests just because is easy to do...
         Check("X is " + input, "is(X, " + expected + ")");
-        string conjunction = "X is " + input + ", Y is " + input + ", Z is " + input;
-        string expectedConjunctionResult = ",(,(is(X, " + expected + "), is(Y, " + expected + ")), is(Z, " + expected + "))";
+        var conjunction = "X is " + input + ", Y is " + input + ", Z is " + input;
+        var expectedConjunctionResult = ",(,(is(X, " + expected + "), is(Y, " + expected + ")), is(Z, " + expected + "))";
         Check(conjunction, expectedConjunctionResult);
         Check("?- " + conjunction, "?-(" + expectedConjunctionResult + ")");
         Check("test(X, Y, Z) :- " + conjunction, ":-(test(X, Y, Z), " + expectedConjunctionResult + ")");
@@ -377,11 +343,11 @@ public class SentenceParserTest : TestUtils
         }
     }
 
-    private void Error(string input)
+    private static void Error(string input)
     {
         try
         {
-            Term term = ParseSentence(input);
+            var term = ParseSentence(input);
             Assert.Fail("parsing: " + input + " produced: " + term + " when expected an exception");
         }
         catch (ParserException pe)
@@ -399,13 +365,13 @@ public class SentenceParserTest : TestUtils
      * @param input syntax (not including trailing .) to attempt to produce term for
      * @param expectedOutput what ToString method of Term should look like
      */
-    private Term Check(string input, string expectedOutput)
+    private static Term Check(string input, string expectedOutput)
     {
         Error(input);
         try
         {
             input += ".";
-            Term t = ParseSentence(input);
+            var t = ParseSentence(input);
             if (!expectedOutput.Equals(t.ToString()))
             {
                 throw new Exception("got: " + t + " instead of: " + expectedOutput);
@@ -418,15 +384,13 @@ public class SentenceParserTest : TestUtils
         }
     }
 
-    private void AssertParse(string input, string expectedFormatterOutput, string expectedToString)
+    private static void AssertParse(string input, string expectedFormatterOutput, string expectedToString)
     {
-        Term t = ParseSentence(input);
+        var t = ParseSentence(input);
         Assert.AreEqual(expectedFormatterOutput, Write(t));
         Assert.AreEqual(expectedToString, t.ToString());
     }
 
-    private SentenceParser GetSentenceParser(string source)
-    {
-        return TestUtils.CreateSentenceParser(source);
-    }
+    private static SentenceParser GetSentenceParser(string source) 
+        => CreateSentenceParser(source);
 }

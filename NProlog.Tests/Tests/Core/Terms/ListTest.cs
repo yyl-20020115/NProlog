@@ -24,41 +24,41 @@ namespace Org.NProlog.Core.Terms;
 [TestClass]
 public class ListTest : TestUtils
 {
-    private static readonly int LONG_LIST_SIZE = 1000;
+    private const int LONG_LIST_SIZE = 1000;
 
     [TestMethod]
     public void TestGetName()
     {
-        List testList = new List(new Atom("a"), new Atom("b"));
+        var testList = new LinkedTermList(new Atom("a"), new Atom("b"));
         Assert.AreEqual(".", testList.Name);
     }
 
     [TestMethod]
     public void TestToString()
     {
-        List testList = new List(new Atom("a"), new Atom("b"));
+        var testList = new LinkedTermList(new Atom("a"), new Atom("b"));
         Assert.AreEqual(".(a, b)", testList.ToString());
     }
 
     [TestMethod]
     public void TestMutableListGetTerm()
     {
-        List testList = new List(new Atom("a"), new Atom("b"));
-        List l = testList.Term;
+        var testList = new LinkedTermList(new Atom("a"), new Atom("b"));
+        var l = testList.Term;
         Assert.AreSame(testList, l);
     }
 
     [TestMethod]
     public void TestImmutableListGetTerm()
     {
-        Atom a = new Atom("a");
-        Atom b = new Atom("b");
-        Atom c = new Atom("c");
-        Variable x = new Variable("X");
-        Variable y = new Variable("Y");
-        Variable z = new Variable("Z");
-        List sublist = ListFactory.CreateList(y, z);
-        List originalList = ListFactory.CreateList(x, sublist);
+        var a = new Atom("a");
+        var b = new Atom("b");
+        var c = new Atom("c");
+        var x = new Variable("X");
+        var y = new Variable("Y");
+        var z = new Variable("Z");
+        var sublist = ListFactory.CreateList(y, z);
+        var originalList = ListFactory.CreateList(x, sublist);
 
         Assert.AreSame(originalList, originalList.Term);
 
@@ -67,7 +67,7 @@ public class ListTest : TestUtils
         Assert.AreSame(x, originalList.GetArgument(0));
         Assert.AreSame(sublist, originalList.GetArgument(1));
 
-        List newList = originalList.Term;
+        var newList = originalList.Term;
         Assert.AreNotSame(originalList, newList);
         Assert.AreSame(a, newList.GetArgument(0));
         Assert.AreSame(sublist, newList.GetArgument(1));
@@ -96,23 +96,23 @@ public class ListTest : TestUtils
     [TestMethod]
     public void TestGetType()
     {
-        List testList = new List(new Atom("a"), new Atom("b"));
+        var testList = new LinkedTermList(new Atom("a"), new Atom("b"));
         Assert.AreSame(TermType.LIST, testList.Type);
     }
 
     [TestMethod]
     public void TestGetNumberOfArguments()
     {
-        List testList = new List(new Atom("a"), new Atom("b"));
+        var testList = new LinkedTermList(new Atom("a"), new Atom("b"));
         Assert.AreEqual(2, testList.NumberOfArguments);
     }
 
     [TestMethod]
     public void TestGetArgument()
     {
-        Term head = new Atom("a");
-        Term tail = new Atom("b");
-        List testList = new List(head, tail);
+        var head = new Atom("a");
+        var tail = new Atom("b");
+        var testList = new LinkedTermList(head, tail);
         Assert.AreSame(head, testList.GetArgument(0));
         Assert.AreSame(tail, testList.GetArgument(1));
     }
@@ -122,7 +122,7 @@ public class ListTest : TestUtils
     {
         for (int index = -1; index <= 1; index++)
         {
-            List testList = new List(new Atom("a"), new Atom("b"));
+            var testList = new LinkedTermList(new Atom("a"), new Atom("b"));
             try
             {
                 testList.GetArgument(index);
@@ -138,10 +138,10 @@ public class ListTest : TestUtils
     [TestMethod]
     public void TestGetArgs()
     {
-        Term head = new Atom("a");
-        Term tail = new Atom("b");
-        List testList = new List(head, tail);
-        Term[] args = testList.Args;
+        var head = new Atom("a");
+        var tail = new Atom("b");
+        var testList = new LinkedTermList(head, tail);
+        var args = testList.Args;
         Assert.AreEqual(2, args.Length);
         Assert.AreSame(head, args[0]);
         Assert.AreSame(tail, args[1]);
@@ -151,7 +151,7 @@ public class ListTest : TestUtils
     [TestMethod]
     public void TestCopyNoVariableElements()
     {
-        List testList = new List(new Atom("a"), new Atom("b"));
+        var testList = new LinkedTermList(new Atom("a"), new Atom("b"));
         Assert.AreSame(testList, testList.Copy(null));
     }
 
@@ -164,7 +164,7 @@ public class ListTest : TestUtils
         var Y = new Variable("Y");
         var head = Structure("p", X);
 
-        var original = new List(head, Y); // [p(X), Y]
+        var original = new LinkedTermList(head, Y); // [p(X), Y]
 
         Assert.AreSame(original, original.Term);
 
@@ -253,14 +253,14 @@ public class ListTest : TestUtils
     [TestMethod]
     public void TestImmutableHeadMutableTailCopy()
     {
-        Variable x = new Variable("X");
-        Atom a = new Atom("a");
-        Atom b = new Atom("b");
-        List sublist = ListFactory.CreateList(a, b);
-        List originalList = ListFactory.CreateList(x, sublist);
+        var x = new Variable("X");
+        var a = new Atom("a");
+        var b = new Atom("b");
+        var sublist = ListFactory.CreateList(a, b);
+        var originalList = ListFactory.CreateList(x, sublist);
 
         Dictionary<Variable, Variable> variables = new();
-        List newList = originalList.Copy(variables);
+        var newList = originalList.Copy(variables);
         Assert.AreSame(variables[(x)], newList.GetArgument(0));
         Assert.AreSame(sublist, newList.GetArgument(1));
     }
@@ -268,19 +268,19 @@ public class ListTest : TestUtils
     [TestMethod]
     public void TestGetValueNoVariableElements()
     {
-        List testList = new List(new Atom("a"), new Atom("b"));
+        var testList = new LinkedTermList(new Atom("a"), new Atom("b"));
         Assert.AreSame(testList, testList.Term);
     }
 
     [TestMethod]
     public void TestListWithVariableArguments()
     {
-        Atom a = new Atom("a");
-        Atom b = new Atom("b");
-        Variable X = new Variable("X");
-        Variable Y = new Variable("Y");
-        List l1 = new List(a, Y);
-        List l2 = new List(X, b);
+        var a = new Atom("a");
+        var b = new Atom("b");
+        var X = new Variable("X");
+        var Y = new Variable("Y");
+        var l1 = new LinkedTermList(a, Y);
+        var l2 = new LinkedTermList(X, b);
 
         AssertStrictEqualityUnifyAndBacktrack(l1, l2);
         AssertStrictEqualityUnifyAndBacktrack(l2, l1);
@@ -290,9 +290,9 @@ public class ListTest : TestUtils
     public void TestUnifyWhenBothListsHaveVariableArguments1()
     {
         // [x, Y]
-        List l1 = new List(new Atom("x"), new Variable("Y"));
+        var l1 = new LinkedTermList(new Atom("x"), new Variable("Y"));
         // [X, y]
-        List l2 = new List(new Variable("X"), new Atom("y"));
+        var l2 = new LinkedTermList(new Variable("X"), new Atom("y"));
         Assert.IsTrue(l1.Unify(l2));
         Assert.AreEqual(".(x, y)", l1.ToString());
         Assert.AreEqual(l1.ToString(), l2.ToString());
@@ -302,9 +302,9 @@ public class ListTest : TestUtils
     public void TestUnifyWhenBothListsHaveVariableArguments2()
     {
         // [x, z]
-        List l1 = new List(new Atom("x"), new Atom("z"));
+        var l1 = new LinkedTermList(new Atom("x"), new Atom("z"));
         // [X, y]
-        List l2 = new List(new Variable("X"), new Atom("y"));
+        var l2 = new LinkedTermList(new Variable("X"), new Atom("y"));
         Assert.IsFalse(l1.Unify(l2));
         Assert.AreEqual(".(x, z)", l1.ToString());
         // Note: following is expected quirk - list doesn't automatically Backtrack on failure
@@ -318,9 +318,9 @@ public class ListTest : TestUtils
     public void TestUnifyWhenBothListsHaveVariableArguments3()
     {
         // [X, z]
-        List l1 = new List(new Variable("X"), new Atom("z"));
+        var l1 = new LinkedTermList(new Variable("X"), new Atom("z"));
         // [x, y]
-        List l2 = new List(new Atom("x"), new Atom("y"));
+        var l2 = new LinkedTermList(new Atom("x"), new Atom("y"));
         Assert.IsFalse(l1.Unify(l2));
         // Note: following is expected quirk - list doesn't automatically Backtrack on failure
         Assert.AreEqual(".(x, z)", l1.ToString());
@@ -340,8 +340,8 @@ public class ListTest : TestUtils
         {
             if (i != 0)
             {
-                bigListSyntaxBuilder1.Append(",");
-                bigListSyntaxBuilder2.Append(",");
+                bigListSyntaxBuilder1.Append(',');
+                bigListSyntaxBuilder2.Append(',');
             }
             bigListSyntaxBuilder1.Append(i);
             // make one element in second list different than first
@@ -354,17 +354,17 @@ public class ListTest : TestUtils
                 bigListSyntaxBuilder2.Append(i);
             }
         }
-        bigListSyntaxBuilder1.Append("]");
-        bigListSyntaxBuilder2.Append("]");
-        string bigListSyntax1 = bigListSyntaxBuilder1.ToString();
-        string bigListSyntax2 = bigListSyntaxBuilder2.ToString();
-        List t1 = (List)TestUtils.ParseSentence(bigListSyntax1 + ".");
-        List t2 = (List)TestUtils.ParseSentence(bigListSyntax1 + ".");
-        List t3 = (List)TestUtils.ParseSentence(bigListSyntax2 + ".");
+        bigListSyntaxBuilder1.Append(']');
+        bigListSyntaxBuilder2.Append(']');
+        var bigListSyntax1 = bigListSyntaxBuilder1.ToString();
+        var bigListSyntax2 = bigListSyntaxBuilder2.ToString();
+        var t1 = (LinkedTermList)ParseSentence(bigListSyntax1 + ".");
+        var t2 = (LinkedTermList)ParseSentence(bigListSyntax1 + ".");
+        var t3 = (LinkedTermList)ParseSentence(bigListSyntax2 + ".");
         Assert.AreNotSame(t1, t2);
         // NOTE important to test write method doesn't throw stackoverflow
-        Assert.AreEqual(bigListSyntax1, TestUtils.Write(t1));
-        Assert.AreEqual(bigListSyntax2, TestUtils.Write(t3));
+        Assert.AreEqual(bigListSyntax1, Write(t1));
+        Assert.AreEqual(bigListSyntax2, Write(t3));
         // NOTE important to test ToString, Equals and Unify methods don't throw stackoverflow
         AssertMatch(t1, t1, true);
         AssertMatch(t1, t2, true);
@@ -375,18 +375,18 @@ public class ListTest : TestUtils
     [TestMethod]
     public void TestLongListWithMutableElements()
     {
-        StringBuilder bigListSyntaxBuilder1 = new StringBuilder("[");
-        StringBuilder bigListSyntaxBuilder2 = new StringBuilder("[");
+        var bigListSyntaxBuilder1 = new StringBuilder("[");
+        var bigListSyntaxBuilder2 = new StringBuilder("[");
         for (int i = 0; i < LONG_LIST_SIZE; i++)
         {
             if (i != 0)
             {
-                bigListSyntaxBuilder1.Append(",");
-                bigListSyntaxBuilder2.Append(",");
+                bigListSyntaxBuilder1.Append(',');
+                bigListSyntaxBuilder2.Append(',');
             }
             if (i == LONG_LIST_SIZE - 1)
             {
-                bigListSyntaxBuilder1.Append("X");
+                bigListSyntaxBuilder1.Append('X');
             }
             else
             {
@@ -394,23 +394,23 @@ public class ListTest : TestUtils
             }
             if (i == LONG_LIST_SIZE - 2)
             {
-                bigListSyntaxBuilder2.Append("Y");
+                bigListSyntaxBuilder2.Append('Y');
             }
             else
             {
                 bigListSyntaxBuilder2.Append(i);
             }
         }
-        bigListSyntaxBuilder1.Append("]");
-        bigListSyntaxBuilder2.Append("]");
-        string bigListSyntax1 = bigListSyntaxBuilder1.ToString();
-        string bigListSyntax2 = bigListSyntaxBuilder2.ToString();
-        List t1 = (List)TestUtils.ParseSentence(bigListSyntax1 + ".");
-        List t2 = (List)TestUtils.ParseSentence(bigListSyntax2 + ".");
+        bigListSyntaxBuilder1.Append(']');
+        bigListSyntaxBuilder2.Append(']');
+        var bigListSyntax1 = bigListSyntaxBuilder1.ToString();
+        var bigListSyntax2 = bigListSyntaxBuilder2.ToString();
+        var t1 = (LinkedTermList)ParseSentence(bigListSyntax1 + ".");
+        var t2 = (LinkedTermList)ParseSentence(bigListSyntax2 + ".");
         Assert.AreSame(t1, t1.Term);
         Assert.AreSame(t2, t2.Term);
-        Assert.AreEqual(bigListSyntax1, TestUtils.Write(t1));
-        Assert.AreEqual(bigListSyntax2, TestUtils.Write(t2));
+        Assert.AreEqual(bigListSyntax1, Write(t1));
+        Assert.AreEqual(bigListSyntax2, Write(t2));
         AssertStrictEquality(t1, t2, false);
         Assert.IsTrue(t1.Unify(t2));
         AssertStrictEquality(t1, t2, true);
@@ -421,11 +421,11 @@ public class ListTest : TestUtils
         t2.Backtrack();
         AssertStrictEquality(t1, t2, false);
 
-        List t1Copy = t1.Copy(new());
-        Assert.AreEqual(bigListSyntax1, TestUtils.Write(t1Copy));
+        var t1Copy = t1.Copy(new());
+        Assert.AreEqual(bigListSyntax1, Write(t1Copy));
         AssertStrictEquality(t1, t1Copy, false);
-        List t2Copy = t2.Copy(new());
-        Assert.AreEqual(bigListSyntax2, TestUtils.Write(t2Copy));
+        var t2Copy = t2.Copy(new());
+        Assert.AreEqual(bigListSyntax2, Write(t2Copy));
         AssertStrictEquality(t2, t2Copy, false);
     }
 
@@ -438,32 +438,32 @@ public class ListTest : TestUtils
     public void TestLongListWithVariableTails()
     {
         Term input = EmptyList.EMPTY_LIST;
-        Term[] atoms = new Term[LONG_LIST_SIZE];
-        Term[] lists = new Term[LONG_LIST_SIZE];
+        var atoms = new Term[LONG_LIST_SIZE];
+        var lists = new Term[LONG_LIST_SIZE];
         for (int i = 0; i < LONG_LIST_SIZE; i++)
         {
-            Atom atom = new Atom("atom" + i);
+            var atom = new Atom("atom" + i);
             atoms[i] = atom;
-            Variable head = new Variable("H" + i);
+            var head = new Variable("H" + i);
             head.Unify(atom);
-            Variable _tail = new Variable("T" + i);
+            var _tail = new Variable("T" + i);
             _tail.Unify(input);
-            input = new List(head, _tail);
+            input = new LinkedTermList(head, _tail);
             lists[i] = input;
         }
 
-        Term output = input.Term;
+        var output = input.Term;
         Assert.AreNotSame(input, output);
         AssertStrictEquality(input, output, true);
         for (int i = LONG_LIST_SIZE - 1; i > -1; i--)
         {
-            Assert.AreSame(typeof(List), output.GetType());
+            Assert.AreSame(typeof(LinkedTermList), output.GetType());
             Assert.AreSame(atoms[i], output.GetArgument(0));
             output = output.GetArgument(1);
         }
         Assert.AreSame(EmptyList.EMPTY_LIST, output);
 
-        Term tail = input.GetArgument(1).Bound;
+        var tail = input.GetArgument(1).Bound;
         input.Backtrack();
         Assert.AreSame(TermType.VARIABLE, input.GetArgument(0).Type);
         Assert.AreEqual("H" + (LONG_LIST_SIZE - 1), input.GetArgument(0).ToString());
@@ -473,7 +473,7 @@ public class ListTest : TestUtils
         bool first = true;
         for (int i = LONG_LIST_SIZE - 2; i > -1; i--)
         {
-            Assert.AreSame(first ? typeof(List) : typeof(Variable), tail.GetType());
+            Assert.AreSame(first ? typeof(LinkedTermList) : typeof(Variable), tail.GetType());
             first = false;
             Assert.AreSame(TermType.LIST, tail.Type);
             Assert.AreSame(atoms[i], tail.GetArgument(0).Bound);
@@ -486,46 +486,46 @@ public class ListTest : TestUtils
     [TestMethod]
     public void TestIsImmutable()
     {
-        Atom _atom = Atom("a");
-        IntegerNumber number = IntegerNumber(42);
-        Variable variable1 = Variable("X");
-        Variable variable2 = Variable("Y");
-        Structure immutableStructure = Structure("p", Atom("c"));
-        Structure mutableStructure = Structure("p", Variable("Z"));
+        var _atom = Atom("a");
+        var number = IntegerNumber(42);
+        var variable1 = Variable("X");
+        var variable2 = Variable("Y");
+        var immutableStructure = Structure("p", Atom("c"));
+        var mutableStructure = Structure("p", Variable("Z"));
 
         // assert when both terms are mutable
-        Assert.IsTrue(new List(_atom, number).IsImmutable);
-        Assert.IsTrue(new List(_atom, _atom).IsImmutable);
-        Assert.IsTrue(new List(immutableStructure, number).IsImmutable);
-        Assert.IsTrue(new List(_atom, immutableStructure).IsImmutable);
-        Assert.IsTrue(new List(immutableStructure, immutableStructure).IsImmutable);
+        Assert.IsTrue(new LinkedTermList(_atom, number).IsImmutable);
+        Assert.IsTrue(new LinkedTermList(_atom, _atom).IsImmutable);
+        Assert.IsTrue(new LinkedTermList(immutableStructure, number).IsImmutable);
+        Assert.IsTrue(new LinkedTermList(_atom, immutableStructure).IsImmutable);
+        Assert.IsTrue(new LinkedTermList(immutableStructure, immutableStructure).IsImmutable);
 
         // assert when one at least one term is a variable
-        Assert.IsFalse(new List(variable1, variable2).IsImmutable);
-        Assert.IsFalse(new List(variable1, variable1).IsImmutable);
-        Assert.IsFalse(new List(_atom, variable2).IsImmutable);
-        Assert.IsFalse(new List(variable1, number).IsImmutable);
-        Assert.IsFalse(new List(immutableStructure, variable2).IsImmutable);
-        Assert.IsFalse(new List(variable1, immutableStructure).IsImmutable);
+        Assert.IsFalse(new LinkedTermList(variable1, variable2).IsImmutable);
+        Assert.IsFalse(new LinkedTermList(variable1, variable1).IsImmutable);
+        Assert.IsFalse(new LinkedTermList(_atom, variable2).IsImmutable);
+        Assert.IsFalse(new LinkedTermList(variable1, number).IsImmutable);
+        Assert.IsFalse(new LinkedTermList(immutableStructure, variable2).IsImmutable);
+        Assert.IsFalse(new LinkedTermList(variable1, immutableStructure).IsImmutable);
 
         // assert when one term is a mutable structure
-        Assert.IsFalse(new List(_atom, mutableStructure).IsImmutable);
-        Assert.IsFalse(new List(mutableStructure, number).IsImmutable);
-        Assert.IsFalse(new List(mutableStructure, immutableStructure).IsImmutable);
-        Assert.IsFalse(new List(immutableStructure, mutableStructure).IsImmutable);
-        Assert.IsFalse(new List(mutableStructure, number).IsImmutable);
-        Assert.IsFalse(new List(mutableStructure, mutableStructure).IsImmutable);
+        Assert.IsFalse(new LinkedTermList(_atom, mutableStructure).IsImmutable);
+        Assert.IsFalse(new LinkedTermList(mutableStructure, number).IsImmutable);
+        Assert.IsFalse(new LinkedTermList(mutableStructure, immutableStructure).IsImmutable);
+        Assert.IsFalse(new LinkedTermList(immutableStructure, mutableStructure).IsImmutable);
+        Assert.IsFalse(new LinkedTermList(mutableStructure, number).IsImmutable);
+        Assert.IsFalse(new LinkedTermList(mutableStructure, mutableStructure).IsImmutable);
     }
 
     [TestMethod]
     public void TestIsImmutableAfterCopy()
     {
-        Variable v = Variable("X");
-        Atom a = Atom("test");
-        List l1 = List(Atom(), Structure("p", Atom(), v, IntegerNumber()), List(IntegerNumber(), DecimalFraction()));
+        var v = Variable("X");
+        var a = Atom("test");
+        var l1 = List(Atom(), Structure("p", Atom(), v, IntegerNumber()), List(IntegerNumber(), DecimalFraction()));
         Assert.IsFalse(l1.IsImmutable);
         v.Unify(a);
-        List l2 = l1.Copy(null);
+        var l2 = l1.Copy(null);
         Assert.IsFalse(l1.IsImmutable);
         Assert.IsTrue(l2.IsImmutable, l2.ToString());
         Assert.AreSame(v, l1.GetArgument(1).GetArgument(0).GetArgument(1));
@@ -535,33 +535,33 @@ public class ListTest : TestUtils
     [TestMethod]
     public void TestHashCode()
     {
-        Atom w = new Atom("w");
-        Atom x = new Atom("x");
-        Atom y = new Atom("y");
-        Atom z = new Atom("z");
-        List l1 = new List(x, new List(y, z));
+        var w = new Atom("w");
+        var x = new Atom("x");
+        var y = new Atom("y");
+        var z = new Atom("z");
+        var l1 = new LinkedTermList(x, new LinkedTermList(y, z));
 
-        Assert.AreEqual(l1.GetHashCode(), new List(x, new List(y, z)).GetHashCode());
-        Assert.AreEqual(l1.GetHashCode(), new List(new Atom("x"), new List(new Atom("y"), new Atom("z"))).GetHashCode());
+        Assert.AreEqual(l1.GetHashCode(), new LinkedTermList(x, new LinkedTermList(y, z)).GetHashCode());
+        Assert.AreEqual(l1.GetHashCode(), new LinkedTermList(new Atom("x"), new LinkedTermList(new Atom("y"), new Atom("z"))).GetHashCode());
 
         // assert lists of same Length and elements do not have same hashcode if order is different
-        Assert.AreNotEqual(l1.GetHashCode(), new List(x, new List(z, y)).GetHashCode());
-        Assert.AreNotEqual(l1.GetHashCode(), new List(z, new List(y, x)).GetHashCode());
-        Assert.AreNotEqual(l1.GetHashCode(), new List(z, new List(x, y)).GetHashCode());
-        Assert.AreNotEqual(l1.GetHashCode(), new List(y, new List(y, z)).GetHashCode());
-        Assert.AreNotEqual(l1.GetHashCode(), new List(y, new List(z, y)).GetHashCode());
+        Assert.AreNotEqual(l1.GetHashCode(), new LinkedTermList(x, new LinkedTermList(z, y)).GetHashCode());
+        Assert.AreNotEqual(l1.GetHashCode(), new LinkedTermList(z, new LinkedTermList(y, x)).GetHashCode());
+        Assert.AreNotEqual(l1.GetHashCode(), new LinkedTermList(z, new LinkedTermList(x, y)).GetHashCode());
+        Assert.AreNotEqual(l1.GetHashCode(), new LinkedTermList(y, new LinkedTermList(y, z)).GetHashCode());
+        Assert.AreNotEqual(l1.GetHashCode(), new LinkedTermList(y, new LinkedTermList(z, y)).GetHashCode());
 
         // assert lists of same Length do not have same hashcode if elements are different
-        Assert.AreNotEqual(l1.GetHashCode(), new List(w, new List(y, z)).GetHashCode());
-        Assert.AreNotEqual(l1.GetHashCode(), new List(x, new List(w, z)).GetHashCode());
-        Assert.AreNotEqual(l1.GetHashCode(), new List(x, new List(y, w)).GetHashCode());
-        Assert.AreNotEqual(l1.GetHashCode(), new List(x, new List(y, new Variable("z"))).GetHashCode());
+        Assert.AreNotEqual(l1.GetHashCode(), new LinkedTermList(w, new LinkedTermList(y, z)).GetHashCode());
+        Assert.AreNotEqual(l1.GetHashCode(), new LinkedTermList(x, new LinkedTermList(w, z)).GetHashCode());
+        Assert.AreNotEqual(l1.GetHashCode(), new LinkedTermList(x, new LinkedTermList(y, w)).GetHashCode());
+        Assert.AreNotEqual(l1.GetHashCode(), new LinkedTermList(x, new LinkedTermList(y, new Variable("z"))).GetHashCode());
 
         // assert lists of different Length do not have same hashcode
-        Assert.AreNotEqual(l1.GetHashCode(), new List(x, y).GetHashCode());
+        Assert.AreNotEqual(l1.GetHashCode(), new LinkedTermList(x, y).GetHashCode());
     }
 
-    private static void AssertMatch(List l1, List l2, bool expectMatch)
+    private static void AssertMatch(LinkedTermList l1, LinkedTermList l2, bool expectMatch)
     {
         // NOTE important to test that ToString, Equals, hashCode and Unify methods don't throw stackoverflow
         AssertStrictEquality(l1, l2, expectMatch);
@@ -571,7 +571,7 @@ public class ListTest : TestUtils
         Assert.AreEqual(expectMatch, l1.ToString().Equals(l2.ToString()));
     }
 
-    private static void AssertStrictEqualityUnifyAndBacktrack(List l1, List l2)
+    private static void AssertStrictEqualityUnifyAndBacktrack(LinkedTermList l1, LinkedTermList l2)
     {
         AssertStrictEquality(l1, l2, false);
         Assert.AreSame(l1, l1.Term);

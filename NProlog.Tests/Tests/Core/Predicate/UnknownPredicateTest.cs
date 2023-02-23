@@ -23,16 +23,16 @@ namespace Org.NProlog.Core.Predicate;
 [TestClass]
 public class UnknownPredicateTest : TestUtils
 {
-    private static readonly string FUNCTOR = "UnknownPredicateTest";
+    private const string FUNCTOR = "UnknownPredicateTest";
 
     [TestMethod]
     public void TestUnknownPredicate()
     {
-        KnowledgeBase kb = TestUtils.CreateKnowledgeBase();
-        PredicateKey key = new PredicateKey(FUNCTOR, 1);
+        var kb = CreateKnowledgeBase();
+        var key = new PredicateKey(FUNCTOR, 1);
 
         // create UnknownPredicate for a not-yet-defined UnknownPredicateTest/1 predicate
-        UnknownPredicate e = new UnknownPredicate(kb, key);
+        var e = new UnknownPredicate(kb, key);
         Assert.IsTrue(e.IsRetryable);
 
         // assert that FAIL returned when UnknownPredicateTest/1 not yet defined
@@ -49,13 +49,13 @@ public class UnknownPredicateTest : TestUtils
     [TestMethod]
     public void TestPreprocessStillUnknown()
     {
-        KnowledgeBase kb = TestUtils.CreateKnowledgeBase();
-        PredicateKey key = new PredicateKey(FUNCTOR, 1);
+        var kb = CreateKnowledgeBase();
+        var key = new PredicateKey(FUNCTOR, 1);
 
         // create UnknownPredicate for a not-yet-defined predicate
-        UnknownPredicate original = new UnknownPredicate(kb, key);
+        var original = new UnknownPredicate(kb, key);
 
-        PredicateFactory result = original.Preprocess(Terms.Structure.CreateStructure(FUNCTOR, new Term[] { new Atom("a") }));
+        var result = original.Preprocess(Terms.Structure.CreateStructure(FUNCTOR, new Term[] { new Atom("a") }));
 
         Assert.AreSame(original, result);
     }
@@ -63,7 +63,7 @@ public class UnknownPredicateTest : TestUtils
     [TestMethod]
     public void TestPreprocessNotPreprocessablePredicateFactory()
     {
-        var kb = TestUtils.CreateKnowledgeBase();
+        var kb = CreateKnowledgeBase();
         var key = new PredicateKey(FUNCTOR, 1);
 
         // create UnknownPredicate for a predicate represented by a mock PredicateFactory (note not a PreprocessablePredicateFactory)
@@ -71,7 +71,7 @@ public class UnknownPredicateTest : TestUtils
         var mockPredicateFactory = new MockPredicateFactory();
         kb.Predicates.AddPredicateFactory(key, mockPredicateFactory);
 
-        PredicateFactory result = original.Preprocess(Terms.Structure.CreateStructure(FUNCTOR, new Term[] { new Atom("a") }));
+        var result = original.Preprocess(Terms.Structure.CreateStructure(FUNCTOR, new Term[] { new Atom("a") }));
 
         Assert.AreSame(mockPredicateFactory, result);
         VerifyNoInteractions(mockPredicateFactory);
@@ -80,7 +80,7 @@ public class UnknownPredicateTest : TestUtils
     [TestMethod]
     public void TestPreprocessPreprocessablePredicateFactory()
     {
-        var kb = TestUtils.CreateKnowledgeBase();
+        var kb = CreateKnowledgeBase();
         var key = new PredicateKey(FUNCTOR, 1);
 
         // create UnknownPredicate for a predicate represented by a mock PreprocessablePredicateFactory
@@ -91,7 +91,7 @@ public class UnknownPredicateTest : TestUtils
         var arg = Terms.Structure.CreateStructure(FUNCTOR, new Term[] { new Atom("a") });
         When(mockPreprocessablePredicateFactory.Preprocess(arg)).ThenReturn(mockPredicateFactory);
 
-        PredicateFactory result = original.Preprocess(Terms.Structure.CreateStructure(FUNCTOR, new Term[] { new Atom("a") }));
+        var result = original.Preprocess(Terms.Structure.CreateStructure(FUNCTOR, new Term[] { new Atom("a") }));
 
         Assert.AreEqual(mockPreprocessablePredicateFactory, result);
         Verify(mockPreprocessablePredicateFactory).Preprocess(arg);

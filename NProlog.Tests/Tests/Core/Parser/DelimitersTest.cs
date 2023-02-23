@@ -99,20 +99,14 @@ public class DelimitersTest
 
     private void AssertDelimiter(bool expectedResult, params char[] chars)
     {
-        foreach (char c in chars)
+        foreach (var c in chars)
         {
             Assert.AreEqual(expectedResult, Delimiters.IsDelimiter(c));
             Assert.AreEqual(expectedResult, Delimiters.IsDelimiter(c.ToString()));
         }
     }
 
-    private Token Symbol(string value)
-    {
-        return new Token(value, TokenType.SYMBOL);
-    }
+    private static Token Symbol(string value) => new (value, TokenType.SYMBOL);
 
-    private Token Atom(string value)
-    {
-        return new Token(value, TokenType.ATOM);
-    }
+    private static Token Atom(string value) => new (value, TokenType.ATOM);
 }

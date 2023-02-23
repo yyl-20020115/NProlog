@@ -21,15 +21,12 @@ public class TermFormatterTest : TestUtils
     [TestMethod]
     public void TestTermToString()
     {
-        string inputSyntax = "?- X = -1 + 1.684 , p(1, 7.3, [_,[]|c])";
-        Term inputTerm = ParseSentence(inputSyntax + ".");
+        var inputSyntax = "?- X = -1 + 1.684 , p(1, 7.3, [_,[]|c])";
+        var inputTerm = ParseSentence(inputSyntax + ".");
 
-        TermFormatter tf = CreateFormatter();
+        var tf = CreateFormatter();
         Assert.AreEqual(inputSyntax, tf.FormatTerm(inputTerm));
     }
 
-    private static TermFormatter CreateFormatter()
-    {
-        return CreateKnowledgeBase().TermFormatter;
-    }
+    private static TermFormatter CreateFormatter() => CreateKnowledgeBase().TermFormatter;
 }

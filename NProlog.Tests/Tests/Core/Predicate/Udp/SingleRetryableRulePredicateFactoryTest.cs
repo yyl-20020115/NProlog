@@ -16,8 +16,6 @@
 using Org.NProlog.Core.Event;
 using Org.NProlog.Core.Exceptions;
 using Org.NProlog.Core.Terms;
-using static Org.NProlog.Core.Event.SpyPoints;
-using static Org.NProlog.Core.Predicate.Udp.SingleRetryableRulePredicateFactory;
 
 namespace Org.NProlog.Core.Predicate.Udp;
 
@@ -102,7 +100,7 @@ public class SingleRetryableRulePredicateFactoryTest : TestUtils
     public void TestRuntimeExceptionSpyPointDisabled()
     {
         spyPoints.TraceEnabled = (false);
-        SystemException exception = new SystemException();
+        var exception = new SystemException();
         When(mockPredicate?.Evaluate()).ThenThrow(exception);
 
         var result = testObject.GetPredicate(queryArgs);
@@ -119,7 +117,7 @@ public class SingleRetryableRulePredicateFactoryTest : TestUtils
 
         Assert.AreEqual("", listener.GetResult());
         Verify(mockPredicate)?.Evaluate();
-        var m = Verify(mockAction).Model;
+        _ = Verify(mockAction).Model;
     }
 
     [TestMethod]
@@ -187,7 +185,7 @@ public class SingleRetryableRulePredicateFactoryTest : TestUtils
 
         //Assert.AreEqual("CALLtest(a, b, c)", listener.GetResult());
         Verify(mockPredicate)?.Evaluate();
-        var m = Verify(mockAction).Model;
+        _ = Verify(mockAction).Model;
     }
 
     [TestMethod]
@@ -208,6 +206,6 @@ public class SingleRetryableRulePredicateFactoryTest : TestUtils
         Assert.IsTrue(result.CouldReevaluationSucceed);
 
         Verify(mockPredicate)?.Evaluate();
-        var m = Verify(mockPredicate, Times(2)).CouldReevaluationSucceed;
+        _ = Verify(mockPredicate, Times(2)).CouldReevaluationSucceed;
     }
 }

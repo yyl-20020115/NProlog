@@ -70,9 +70,7 @@ public class TokenParserTest : TestUtils
 
     [TestMethod]
     public void TestAnonymousVariable()
-    {
-        AssertTokenType("_", TokenType.VARIABLE);
-    }
+        => AssertTokenType("_", TokenType.VARIABLE);
 
     [TestMethod]
     public void TestInteger()
@@ -99,9 +97,7 @@ public class TokenParserTest : TestUtils
         {
             // ignore escape character - that is tested in testEscapedCharCode instead
             if (c != '\\')
-            {
                 AssertCharCode("0'" + c, c);
-            }
         }
     }
 
@@ -178,54 +174,41 @@ public class TokenParserTest : TestUtils
 
     [TestMethod]
     public void TestSequence()
-    {
-        AssertParse("Abc12.5@>=-0_2_jgkj a-2hUY_ty\nu\n% kghjgkj\na/*b*/c 0'zyz 0' 0'\u00610'\u0062345", "Abc12", ".", "5", "@>=", "-", "0", "_2_jgkj", "a", "-", "2", "hUY_ty", "u",
-                    "a", "c", "122", "yz", "32", "97", "98", "345");
-    }
+        => AssertParse("Abc12.5@>=-0_2_jgkj a-2hUY_ty\nu\n% kghjgkj\na/*b*/c 0'zyz 0' 0'\u00610'\u0062345", "Abc12", ".", "5", "@>=", "-", "0", "_2_jgkj", "a", "-", "2", "hUY_ty", "u", "a", "c", "122", "yz", "32", "97", "98", "345");
 
     [TestMethod]
     public void TestSentence()
-    {
-        AssertParse("X is ~( 'Y', 1 ,a).", "X", "is", "~", "(", "Y", ",", "1", ",", "a", ")", ".");
-    }
-
+        => AssertParse("X is ~( 'Y', 1 ,a).", "X", "is", "~", "(", "Y", ",", "1", ",", "a", ")", ".");
+    
     [TestMethod]
     public void TestNonAlphanumericCharacterFollowedByPeriod()
-    {
-        AssertParse("!.", "!", ".");
-    }
+        => AssertParse("!.", "!", ".");
 
     /** Test that "!" and ";" get parsed separately, rather than as single combined "!;" element. */
     [TestMethod]
     public void TestCutFollowedByDisjunction()
-    {
-        AssertParse("!;true", "!", ";", "true");
-    }
+        => AssertParse("!;true", "!", ";", "true");
 
     /** Test that "(", "!", ")" and "." get parsed separately, rather than as single combined "(!)." element. */
     [TestMethod]
     public void TestCutInBrackets()
-    {
-        AssertParse("(!).", "(", "!", ")", ".");
-    }
+        => AssertParse("(!).", "(", "!", ")", ".");
 
     [TestMethod]
     public void TestWhitespaceAndComments()
     {
-        TokenParser p = Create("/* comment */\t % comment\n % comment\r\n\n");
+        var p = Create("/* comment */\t % comment\n % comment\r\n\n");
         Assert.IsFalse(p.HasNext);
     }
 
     [TestMethod]
     public void TestMultiLineComments()
-    {
-        AssertParse("/*\n\n*\n/\n*/a/*/b*c/d/*e*/f", "a", "f");
-    }
+        => AssertParse("/*\n\n*\n/\n*/a/*/b*c/d/*e*/f", "a", "f");
 
     [TestMethod]
     public void TestFollowedByTerm()
     {
-        TokenParser tp = Create("?- , [ abc )");
+        var tp = Create("?- , [ abc )");
         tp.Next();
         Assert.IsFalse(tp.IsFollowedByTerm());
         tp.Next();
@@ -240,9 +223,9 @@ public class TokenParserTest : TestUtils
     [TestMethod]
     public void TestRewindException()
     {
-        TokenParser tp = Create("a b c");
+        var tp = Create("a b c");
         Assert.AreEqual("a", tp.Next().Name);
-        Token b = tp.Next();
+        var b = tp.Next();
         Assert.AreEqual("b", b.Name);
         tp.Rewind(b);
         Assert.AreSame(b, tp.Next());
@@ -253,7 +236,7 @@ public class TokenParserTest : TestUtils
         AssertRewindException(tp, "a");
 
         Assert.AreEqual("b", tp.Next().Name);
-        Token c = tp.Next();
+        var c = tp.Next();
         Assert.AreEqual("c", c.Name);
 
         // check that the value specified in call to rewind has to be the last value parsed
@@ -271,7 +254,7 @@ public class TokenParserTest : TestUtils
         AssertRewindException(tp, "c");
     }
 
-    private void AssertRewindException(TokenParser tp, string value)
+    private static void AssertRewindException(TokenParser tp, string value)
     {
         try
         {
@@ -284,21 +267,17 @@ public class TokenParserTest : TestUtils
         }
     }
 
-    private void AssertCharCode(string input, int expectedOutput)
-    {
-        AssertTokenType(input, expectedOutput.ToString(), TokenType.INTEGER);
-    }
+    private void AssertCharCode(string input, int expectedOutput) 
+        => AssertTokenType(input, expectedOutput.ToString(), TokenType.INTEGER);
 
     private void AssertTokenType(string syntax, TokenType type)
-    {
-        AssertTokenType(syntax, syntax, type);
-    }
+        => AssertTokenType(syntax, syntax, type);
 
     private void AssertTokenType(string syntax, string value, TokenType type)
     {
-        TokenParser p = Create(syntax);
+        var p = Create(syntax);
         Assert.IsTrue(p.HasNext);
-        Token token = p.Next();
+        var token = p.Next();
         Assert.AreEqual(value, token.Name);
         Assert.AreEqual(type, token.Type);
         Assert.IsFalse(p.HasNext);
@@ -306,10 +285,10 @@ public class TokenParserTest : TestUtils
 
     private void AssertParse(string sentence, params string[] tokens)
     {
-        TokenParser tp = Create(sentence);
-        foreach (string w in tokens)
+        var tp = Create(sentence);
+        foreach (var w in tokens)
         {
-            Token next = tp.Next();
+            var next = tp.Next();
             Assert.AreEqual(w, next.Name);
             tp.Rewind(next);
             Assert.AreSame(next, tp.Next());
@@ -330,7 +309,7 @@ public class TokenParserTest : TestUtils
     {
         try
         {
-            TokenParser p = Create(input);
+            var p = Create(input);
             p.Next();
             Assert.Fail();
         }
@@ -340,9 +319,6 @@ public class TokenParserTest : TestUtils
         }
     }
 
-    private TokenParser Create(string syntax)
-    {
-        StringReader sr = new StringReader(syntax);
-        return new TokenParser(sr, operands);
-    }
+    private TokenParser Create(string syntax) 
+        => new (new StringReader(syntax), operands);
 }

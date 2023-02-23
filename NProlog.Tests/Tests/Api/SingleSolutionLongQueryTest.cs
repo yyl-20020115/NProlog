@@ -20,8 +20,8 @@ namespace Org.NProlog.Api;
 [TestClass]
 public class SingleSolutionLongQueryTest : AbstractQueryTest
 {
-    private static readonly string EXPECTED_ATOM_EXCEPTION_MESSAGE = "Expected an atom but got: INTEGER with value: 42";
-    private static readonly long LONG_VALUE = 42;
+    private const string EXPECTED_ATOM_EXCEPTION_MESSAGE = "Expected an atom but got: INTEGER with value: 42";
+    private const long LONG_VALUE = 42;
 
     public SingleSolutionLongQueryTest() : base("X = 42.") { }
 
@@ -35,13 +35,13 @@ public class SingleSolutionLongQueryTest : AbstractQueryTest
     public override void TestFindAllAsTerm() => FindAllAsTerm().AreEqual(new List<Term> { new IntegerNumber(LONG_VALUE) });
 
 
-    public override void TestFindFirstAsAtomName() => FindFirstAsAtomName().assertException(EXPECTED_ATOM_EXCEPTION_MESSAGE);
+    public override void TestFindFirstAsAtomName() => FindFirstAsAtomName().AssertException(EXPECTED_ATOM_EXCEPTION_MESSAGE);
 
 
-    public override void TestFindFirstAsOptionalAtomName() => FindFirstAsOptionalAtomName().assertException(EXPECTED_ATOM_EXCEPTION_MESSAGE);
+    public override void TestFindFirstAsOptionalAtomName() => FindFirstAsOptionalAtomName().AssertException(EXPECTED_ATOM_EXCEPTION_MESSAGE);
 
 
-    public override void TestFindAllAsAtomName() => FindAllAsAtomName().assertException(EXPECTED_ATOM_EXCEPTION_MESSAGE);
+    public override void TestFindAllAsAtomName() => FindAllAsAtomName().AssertException(EXPECTED_ATOM_EXCEPTION_MESSAGE);
 
 
     public override void TestFindFirstAsDouble() => FindFirstAsDouble().AreEqual((double)LONG_VALUE);

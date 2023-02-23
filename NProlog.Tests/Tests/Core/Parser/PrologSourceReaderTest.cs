@@ -42,17 +42,17 @@ public class PrologSourceReaderTest : TestUtils
     [TestMethod]
     public void TestParserException()
     {
-        string message = "While parsing arguments of test_dynamic expected ) or , but got: d";
-        string lineWithSyntaxError = "test_dynamic(a,b,c d). % Line 3";
+        var message = "While parsing arguments of test_dynamic expected ) or , but got: d";
+        var lineWithSyntaxError = "test_dynamic(a,b,c d). % Line 3";
         try
         {
-            string f = WriteToFile("test_dynamic(a,b).\n" + "test_dynamic(a,b,c).\n" + lineWithSyntaxError + "\n" + "test_dynamic(a,b,c,d,e).");
+            var f = WriteToFile("test_dynamic(a,b).\n" + "test_dynamic(a,b,c).\n" + lineWithSyntaxError + "\n" + "test_dynamic(a,b,c,d,e).");
             PrologSourceReader.ParseFile(CreateKnowledgeBase(), f);
             Assert.Fail();
         }
         catch (PrologException e)
         {
-            ParserException p = (ParserException)e.InnerException;
+            var p = (ParserException)e.InnerException;
             Assert.AreEqual(message + " Line: " + lineWithSyntaxError, p.Message);
             Assert.AreEqual(lineWithSyntaxError, p.Line);
             Assert.AreEqual(3, p.LineNumber);
@@ -61,12 +61,12 @@ public class PrologSourceReaderTest : TestUtils
         }
     }
 
-    private void AssertParserExceptionDescription(ParserException p, string message, string line)
+    private static void AssertParserExceptionDescription(ParserException p, string message, string line)
     {
         var writer = new StringWriter();
         p.GetDescription(writer);
         writer.Close();
-        string[] lines = writer.ToString().Split("\n");
+        var lines = writer.ToString().Split("\n");
         Assert.AreEqual(message, lines[0].Trim());
         Assert.AreEqual(line, lines[1].Trim());
         Assert.AreEqual("^", lines[2].Trim());
@@ -75,12 +75,12 @@ public class PrologSourceReaderTest : TestUtils
     [TestMethod]
     public void TestDynamicKeywordForAlreadyDefinedFunction()
     {
-        KnowledgeBase kb = CreateKnowledgeBase();
+        var kb = CreateKnowledgeBase();
 
-        string f1 = WriteToFile("test_not_dynamic(a,b,c).");
+        var f1 = WriteToFile("test_not_dynamic(a,b,c).");
         PrologSourceReader.ParseFile(kb, f1);
 
-        string f2 = WriteToFile("?- dynamic(test_not_dynamic/3)." + "test_not_dynamic(x,y,z).");
+        var f2 = WriteToFile("?- dynamic(test_not_dynamic/3)." + "test_not_dynamic(x,y,z).");
         try
         {
             PrologSourceReader.ParseFile(kb, f2);
@@ -95,8 +95,8 @@ public class PrologSourceReaderTest : TestUtils
     [TestMethod]
     public void TestDynamicKeyword()
     {
-        KnowledgeBase kb = CreateKnowledgeBase();
-        string f = WriteToFile("?- dynamic(test_dynamic/3).\n"
+        var kb = CreateKnowledgeBase();
+        var f = WriteToFile("?- dynamic(test_dynamic/3).\n"
                     + "test_dynamic(a,b).\n"
                     + "test_dynamic(a,b,c).\n"
                     + "test_dynamic(x,y,z).\n"
@@ -107,56 +107,50 @@ public class PrologSourceReaderTest : TestUtils
                     + "test_dynamic2(7,8,9).");
         PrologSourceReader.ParseFile(kb, f);
 
-        AssertDynamicUserDefinedPredicate(kb, new PredicateKey("test_dynamic", 3));
-        AssertClauseModels(kb, new PredicateKey("test_dynamic", 3), "a, b, c", "x, y, z", "q, w, e");
+        AssertDynamicUserDefinedPredicate(kb, new ("test_dynamic", 3));
+        AssertClauseModels(kb, new ("test_dynamic", 3), "a, b, c", "x, y, z", "q, w, e");
 
-        AssertStaticUserDefinedPredicate(kb, new PredicateKey("test_dynamic", 2));
-        AssertStaticUserDefinedPredicate(kb, new PredicateKey("test_dynamic", 4));
-        AssertStaticUserDefinedPredicate(kb, new PredicateKey("test_dynamic2", 3));
-        AssertClauseModels(kb, new PredicateKey("test_dynamic2", 3), "1, 2, 3", "4, 5, 6", "7, 8, 9");
+        AssertStaticUserDefinedPredicate(kb, new ("test_dynamic", 2));
+        AssertStaticUserDefinedPredicate(kb, new ("test_dynamic", 4));
+        AssertStaticUserDefinedPredicate(kb, new ("test_dynamic2", 3));
+        AssertClauseModels(kb, new("test_dynamic2", 3), "1, 2, 3", "4, 5, 6", "7, 8, 9");
     }
 
-    private void AssertDynamicUserDefinedPredicate(KnowledgeBase kb, PredicateKey key)
+    private static void AssertDynamicUserDefinedPredicate(KnowledgeBase kb, PredicateKey key)
     {
-        UserDefinedPredicateFactory udp = GetUserDefinedPredicate(kb, key);
-        Assert.AreSame(typeof(DynamicUserDefinedPredicateFactory), udp.GetType());
+        Assert.AreSame(typeof(DynamicUserDefinedPredicateFactory), GetUserDefinedPredicate(kb, key).GetType());
     }
 
-    private void AssertStaticUserDefinedPredicate(KnowledgeBase kb, PredicateKey key)
+    private static void AssertStaticUserDefinedPredicate(KnowledgeBase kb, PredicateKey key)
     {
-        UserDefinedPredicateFactory udp = GetUserDefinedPredicate(kb, key);
+        var udp = GetUserDefinedPredicate(kb, key);
         Assert.AreSame(typeof(StaticUserDefinedPredicateFactory), udp.GetType());
     }
 
-    private void AssertClauseModels(KnowledgeBase kb, PredicateKey key, params string[] expectedArgs)
+    private static void AssertClauseModels(KnowledgeBase kb, PredicateKey key, params string[] expectedArgs)
     {
-        UserDefinedPredicateFactory udp = GetUserDefinedPredicate(kb, key);
+        var udp = GetUserDefinedPredicate(kb, key);
         for (int i = 0; i < expectedArgs.Length; i++)
         {
-            string actual = udp.GetClauseModel(i).Original.ToString();
-            string expected = key.Name + "(" + expectedArgs[i] + ")";
+            var actual = udp.GetClauseModel(i).Original.ToString();
+            var expected = key.Name + "(" + expectedArgs[i] + ")";
             Assert.AreEqual(expected, actual);
         }
         Assert.IsNull(udp.GetClauseModel(expectedArgs.Length));
     }
 
-    private UserDefinedPredicateFactory GetUserDefinedPredicate(KnowledgeBase kb, PredicateKey key)
+    private static UserDefinedPredicateFactory GetUserDefinedPredicate(KnowledgeBase kb, PredicateKey key)
     {
-        PredicateFactory ef = kb.Predicates.GetPredicateFactory(key);
+        var ef = kb.Predicates.GetPredicateFactory(key);
         Assert.IsNotNull(ef);
-        UserDefinedPredicateFactory udp = kb.Predicates.CreateOrReturnUserDefinedPredicate(key);
+        var udp = kb.Predicates.CreateOrReturnUserDefinedPredicate(key);
         Assert.AreSame(ef, udp);
         return udp;
     }
 
-    private void AssertMessageContainsText(PrologException e, string text)
-    {
-        int i = e.Message.IndexOf(text);
-        Assert.IsTrue(i > -1, e.Message);
-    }
+    private static void AssertMessageContainsText(PrologException e, string text) 
+        => Assert.IsTrue(e.Message.IndexOf(text) > -1, e.Message);
 
-    private string WriteToFile(string contents)
-    {
-        return WriteToTempFile(this.GetType(), contents);
-    }
+    private string WriteToFile(string contents) 
+        => WriteToTempFile(this.GetType(), contents);
 }

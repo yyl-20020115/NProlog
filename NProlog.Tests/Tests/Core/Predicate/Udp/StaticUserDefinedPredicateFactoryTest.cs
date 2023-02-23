@@ -43,9 +43,9 @@ public class StaticUserDefinedPredicateFactoryTest : TestUtils
 
     private static void AssertSingleRuleAlwaysTruePredicate(string term)
     {
-        PredicateFactory pf = GetActualPredicateFactory(ToTerms(term));
+        var pf = GetActualPredicateFactory(ToTerms(term));
         Assert.AreSame(typeof(SingleNonRetryableRulePredicateFactory), pf.GetType());
-        Predicate p = pf.GetPredicate(TermUtils.EMPTY_ARRAY);
+        var p = pf.GetPredicate(TermUtils.EMPTY_ARRAY);
         Assert.IsTrue(p.Evaluate());
         Assert.IsFalse(p.CouldReevaluationSucceed);
         Assert.IsFalse(pf.IsRetryable);
@@ -76,7 +76,7 @@ public class StaticUserDefinedPredicateFactoryTest : TestUtils
     {
         var pf = GetActualPredicateFactory(ToTerms(term));
         Assert.AreEqual(typeof(SingleNonRetryableRulePredicateFactory), pf.GetType());
-        var p = pf.GetPredicate(TermUtils.EMPTY_ARRAY);
+        var p = pf.GetPredicate(EMPTY_ARRAY);
         Assert.IsFalse(p.CouldReevaluationSucceed);
         Assert.IsFalse(pf.IsRetryable);
     }
@@ -92,7 +92,7 @@ public class StaticUserDefinedPredicateFactoryTest : TestUtils
 
     private static void AssertRepeatSetAmount(string term)
     {
-        Term[] clauses = ToTerms(term, term, term);
+        var clauses = ToTerms(term, term, term);
         int expectedSuccessfulEvaluations = clauses.Length;
         var pf = GetActualPredicateFactory(clauses);
         // Note that use to return specialised "MultipleRulesAlwaysTruePredicate" object for predicates of this style
@@ -114,7 +114,7 @@ public class StaticUserDefinedPredicateFactoryTest : TestUtils
     [TestMethod]
     public void TestSingleFactWithSingleImmutableArgumentPredicate()
     {
-        PredicateFactory pf = GetActualPredicateFactory("p(a).");
+        var pf = GetActualPredicateFactory("p(a).");
         Assert.AreSame(typeof(SingleNonRetryableRulePredicateFactory), pf.GetType());
         Assert.IsFalse(pf.IsRetryable);
     }
@@ -122,7 +122,7 @@ public class StaticUserDefinedPredicateFactoryTest : TestUtils
     [TestMethod]
     public void TestMultipleFactsWithSingleImmutableArgumentPredicate()
     {
-        PredicateFactory pf = GetActualPredicateFactory("p(a).", "p(b).", "p(c).");
+        var pf = GetActualPredicateFactory("p(a).", "p(b).", "p(c).");
         AssertLinkedHashMapPredicateFactory(pf);
         Assert.IsTrue(pf.IsRetryable);
     }
@@ -130,7 +130,7 @@ public class StaticUserDefinedPredicateFactoryTest : TestUtils
     [TestMethod]
     public void TestMultipleFactsWithSingleImmutableArgumentPredicateDuplicates()
     {
-        PredicateFactory pf = GetActualPredicateFactory("p(a).", "p(a).", "p(a).");
+        var pf = GetActualPredicateFactory("p(a).", "p(a).", "p(a).");
         AssertSingleIndexPredicateFactory(pf);
         Assert.IsTrue(pf.IsRetryable);
     }
@@ -139,7 +139,7 @@ public class StaticUserDefinedPredicateFactoryTest : TestUtils
     public void TestMultipleFactsWithSingleImmutableArgumentPredicateDifferentTypes()
     {
         string[] clauses = { "p(a).", "p(1).", "p(1.0).", "p(x(a)).", "p([]).", "p([a,b])." };
-        PredicateFactory pf = GetActualPredicateFactory(clauses);
+        var pf = GetActualPredicateFactory(clauses);
         AssertLinkedHashMapPredicateFactory(pf);
         Assert.IsTrue(pf.IsRetryable);
     }
@@ -147,7 +147,7 @@ public class StaticUserDefinedPredicateFactoryTest : TestUtils
     [TestMethod]
     public void TestSingleFactWithMultipleImmutableArgumentsPredicate()
     {
-        PredicateFactory pf = GetActualPredicateFactory("p(a,b,c).");
+        var pf = GetActualPredicateFactory("p(a,b,c).");
         Assert.AreSame(typeof(SingleNonRetryableRulePredicateFactory), pf.GetType());
         Assert.IsFalse(pf.IsRetryable);
     }
@@ -155,7 +155,7 @@ public class StaticUserDefinedPredicateFactoryTest : TestUtils
     [TestMethod]
     public void TestMultipleFactsWithMultipleImmutableArgumentsPredicate()
     {
-        PredicateFactory pf = GetActualPredicateFactory("p(a,b,c).", "p(1,2,3).", "p(x,y,z).");
+        var pf = GetActualPredicateFactory("p(a,b,c).", "p(1,2,3).", "p(x,y,z).");
         AssertIndexablePredicateFactory(pf);
         Assert.IsTrue(pf.IsRetryable);
     }
@@ -163,9 +163,9 @@ public class StaticUserDefinedPredicateFactoryTest : TestUtils
     [TestMethod]
     public void TestMultipleFactsWithNoArgumentsPredicate()
     {
-        PredicateFactory pf = GetActualPredicateFactory("p.", "p.", "p.");
+        var pf = GetActualPredicateFactory("p.", "p.", "p.");
         Assert.IsTrue(pf.IsRetryable);
-        Predicate p = pf.GetPredicate(TermUtils.EMPTY_ARRAY);
+        var p = pf.GetPredicate(TermUtils.EMPTY_ARRAY);
         Assert.AreSame(typeof(InterpretedUserDefinedPredicate), p.GetType());
         Assert.IsTrue(p.Evaluate());
         Assert.IsTrue(p.Evaluate());
@@ -177,8 +177,8 @@ public class StaticUserDefinedPredicateFactoryTest : TestUtils
     public void TestIndexablePredicate()
     {
         // has mutable arg so not treated as facts but some args are indexable
-        Term[] clauses = ToTerms("p(a,b,c).", "p(1,2,3).", "p(x,y,Z).");
-        PredicateFactory pf = GetActualPredicateFactory(clauses);
+        var clauses = ToTerms("p(a,b,c).", "p(1,2,3).", "p(x,y,Z).");
+        var pf = GetActualPredicateFactory(clauses);
         Assert.AreEqual("IndexablePredicateFactory", pf.GetType().Name);
         Assert.IsTrue(pf.IsRetryable);
     }
@@ -187,7 +187,7 @@ public class StaticUserDefinedPredicateFactoryTest : TestUtils
     public void TestNotIndexablePredicate()
     {
         // not args are indexable as none are always immutable
-        PredicateFactory pf = GetActualPredicateFactory("p(a,b,c).", "p(1,2,3).", "p(X,Y,Z).");
+        var pf = GetActualPredicateFactory("p(a,b,c).", "p(1,2,3).", "p(X,Y,Z).");
         Assert.AreEqual("NotIndexablePredicateFactory", pf.GetType().Name);
         Assert.IsTrue(pf.IsRetryable);
     }
@@ -195,11 +195,11 @@ public class StaticUserDefinedPredicateFactoryTest : TestUtils
     [TestMethod]
     public void TestNeverSucceedsPredicateFactory()
     {
-        PredicateFactory pf = GetActualPredicateFactory("p(a,b,c).", "p(1,2,3).", "p(x,y,Z).");
+        var pf = GetActualPredicateFactory("p(a,b,c).", "p(1,2,3).", "p(x,y,Z).");
         Assert.AreEqual("IndexablePredicateFactory", pf.GetType().Name);
         Assert.IsTrue(pf.IsRetryable);
-        Structure term = Structure("p", Atom("q"), Atom("w"), Atom("e"));
-        PredicateFactory preprocessedPredicateFactory = ((PreprocessablePredicateFactory)pf).Preprocess(term);
+        var term = Structure("p", Atom("q"), Atom("w"), Atom("e"));
+        var preprocessedPredicateFactory = ((PreprocessablePredicateFactory)pf).Preprocess(term);
         Assert.AreSame(typeof(NeverSucceedsPredicateFactory), preprocessedPredicateFactory.GetType());
         Assert.AreSame(PredicateUtils.FALSE, preprocessedPredicateFactory.GetPredicate(term.Args));
         Assert.IsFalse(preprocessedPredicateFactory.IsRetryable);
@@ -208,7 +208,7 @@ public class StaticUserDefinedPredicateFactoryTest : TestUtils
     [TestMethod]
     public void TestInterpretedTailRecursivePredicateFactory()
     {
-        PredicateFactory pf = GetActualPredicateFactory(ToTerms(RECURSIVE_PREDICATE_SYNTAX));
+        var pf = GetActualPredicateFactory(ToTerms(RECURSIVE_PREDICATE_SYNTAX));
         Assert.AreSame(typeof(InterpretedTailRecursivePredicateFactory), pf.GetType());
         Assert.IsTrue(pf.IsRetryable);
     }
@@ -216,7 +216,7 @@ public class StaticUserDefinedPredicateFactoryTest : TestUtils
     [TestMethod]
     public void TestInterpretedUserDefinedPredicate()
     {
-        PredicateFactory pf = GetActualPredicateFactory(ToTerms(NON_RECURSIVE_PREDICATE_SYNTAX));
+        var pf = GetActualPredicateFactory(ToTerms(NON_RECURSIVE_PREDICATE_SYNTAX));
         Assert.AreSame(typeof(InterpretedUserDefinedPredicate), pf.GetPredicate(CreateArgs(3)).GetType());
         Assert.IsTrue(pf.IsRetryable);
     }
@@ -224,14 +224,14 @@ public class StaticUserDefinedPredicateFactoryTest : TestUtils
     [TestMethod]
     public void TestRetryableRule()
     {
-        PredicateFactory pf = GetActualPredicateFactory("x(X) :- var(X), !, repeat.");
+        var pf = GetActualPredicateFactory("x(X) :- var(X), !, repeat.");
         AssertSingleRetryableRulePredicateFactory(pf);
     }
 
     [TestMethod]
     public void TestConjunctionContainingVariables()
     {
-        PredicateFactory pf = GetActualPredicateFactory("and(X,Y) :- X, Y.");
+        var pf = GetActualPredicateFactory("and(X,Y) :- X, Y.");
         AssertSingleRetryableRulePredicateFactory(pf);
         Assert.IsTrue(pf.IsRetryable);
     }
@@ -239,17 +239,17 @@ public class StaticUserDefinedPredicateFactoryTest : TestUtils
     [TestMethod]
     public void TestVariableAntecedent()
     {
-        PredicateFactory pf = GetActualPredicateFactory("true(X) :- X.");
+        var pf = GetActualPredicateFactory("true(X) :- X.");
         AssertSingleRetryableRulePredicateFactory(pf);
     }
 
     [TestMethod]
     public void TestAddFirst()
     {
-        KnowledgeBase kb = TestUtils.CreateKnowledgeBase(TestUtils.PROLOG_DEFAULT_PROPERTIES);
-        Term t = TestUtils.ParseSentence("test(X).");
-        ClauseModel clauseModel = ClauseModel.CreateClauseModel(t);
-        StaticUserDefinedPredicateFactory f = new StaticUserDefinedPredicateFactory(kb, PredicateKey.CreateForTerm(t));
+        var kb = CreateKnowledgeBase(PROLOG_DEFAULT_PROPERTIES);
+        var t = ParseSentence("test(X).");
+        var clauseModel = ClauseModel.CreateClauseModel(t);
+        var f = new StaticUserDefinedPredicateFactory(kb, PredicateKey.CreateForTerm(t));
         try
         {
             f.AddFirst(clauseModel);
@@ -265,18 +265,18 @@ public class StaticUserDefinedPredicateFactoryTest : TestUtils
     [TestMethod]
     public void TestAddLast()
     {
-        KnowledgeBase kb = TestUtils.CreateKnowledgeBase(TestUtils.PROLOG_DEFAULT_PROPERTIES);
-        Term t = TestUtils.ParseSentence("test(a).");
-        StaticUserDefinedPredicateFactory f = new StaticUserDefinedPredicateFactory(kb, PredicateKey.CreateForTerm(t));
+        var kb = CreateKnowledgeBase(PROLOG_DEFAULT_PROPERTIES);
+        var t = ParseSentence("test(a).");
+        var f = new StaticUserDefinedPredicateFactory(kb, PredicateKey.CreateForTerm(t));
 
         // ok to Add clause as predicate not yet compiled
-        ClauseModel firstClause = ClauseModel.CreateClauseModel(t);
+        var firstClause = ClauseModel.CreateClauseModel(t);
         f.AddLast(firstClause);
 
         f.Compile();
 
         // no longer ok to Add clause as predicate has been compiled
-        ClauseModel secondClause = ClauseModel.CreateClauseModel(TestUtils.ParseSentence("test(z)."));
+        var secondClause = ClauseModel.CreateClauseModel(TestUtils.ParseSentence("test(z)."));
         try
         {
             f.AddFirst(secondClause);
@@ -287,53 +287,31 @@ public class StaticUserDefinedPredicateFactoryTest : TestUtils
         }
     }
 
-    private static void AssertSingleRetryableRulePredicateFactory(PredicateFactory p)
-    {
-        Assert.AreSame(typeof(SingleRetryableRulePredicateFactory), p.GetType());
-    }
+    private static void AssertSingleRetryableRulePredicateFactory(PredicateFactory p) => Assert.AreSame(typeof(SingleRetryableRulePredicateFactory), p.GetType());
 
-    private static void AssertIndexablePredicateFactory(PredicateFactory p)
-    {
-        Assert.AreEqual("IndexablePredicateFactory", p.GetType().Name);
-    }
+    private static void AssertIndexablePredicateFactory(PredicateFactory p) => Assert.AreEqual("IndexablePredicateFactory", p.GetType().Name);
 
-    private static void AssertSingleIndexPredicateFactory(PredicateFactory p)
-    {
-        Assert.AreEqual("SingleIndexPredicateFactory", p.GetType().Name);
-    }
+    private static void AssertSingleIndexPredicateFactory(PredicateFactory p) => Assert.AreEqual("SingleIndexPredicateFactory", p.GetType().Name);
 
     private static void AssertLinkedHashMapPredicateFactory(PredicateFactory p)
-    {
-        Assert.AreEqual("LinkedHashMapPredicateFactory", p.GetType().Name);
-    }
+    => Assert.AreEqual("LinkedHashMapPredicateFactory", p.GetType().Name);
 
-    private static Term[] CreateArgs(Term term)
-    {
-        return CreateArgs(term.NumberOfArguments);
-    }
+    private static Term[] CreateArgs(Term term) => CreateArgs(term.NumberOfArguments);
 
-    private static Term[] CreateArgs(int numArgs)
-    {
-        Term[] args = new Term[numArgs];
-        ArraysHelpers.Fill(args, Atom());
-        return args;
-    }
+    private static Term[] CreateArgs(int numArgs) => ArraysHelpers.Fill(new Term[numArgs], Atom());
 
-    private static PredicateFactory GetActualPredicateFactory(params string[] clauses)
-    {
-        return GetActualPredicateFactory(ToTerms(clauses));
-    }
+    private static PredicateFactory GetActualPredicateFactory(params string[] clauses) => GetActualPredicateFactory(ToTerms(clauses));
 
     private static PredicateFactory GetActualPredicateFactory(Term[] clauses)
     {
-        KnowledgeBase kb = TestUtils.CreateKnowledgeBase(TestUtils.PROLOG_DEFAULT_PROPERTIES);
+        var kb = CreateKnowledgeBase(PROLOG_DEFAULT_PROPERTIES);
         StaticUserDefinedPredicateFactory f = null;
         foreach (var clause in clauses)
         {
-            ClauseModel clauseModel = ClauseModel.CreateClauseModel(clause);
+            var clauseModel = ClauseModel.CreateClauseModel(clause);
             if (f == null)
             {
-                PredicateKey key = PredicateKey.CreateForTerm(clauseModel.Consequent);
+                var key = PredicateKey.CreateForTerm(clauseModel.Consequent);
                 f = new StaticUserDefinedPredicateFactory(kb, key);
             }
             f.AddLast(clauseModel);
@@ -343,11 +321,9 @@ public class StaticUserDefinedPredicateFactoryTest : TestUtils
 
     private static Term[] ToTerms(params string[] clausesSyntax)
     {
-        Term[] clauses = new Term[clausesSyntax.Length];
+        var clauses = new Term[clausesSyntax.Length];
         for (int i = 0; i < clauses.Length; i++)
-        {
-            clauses[i] = TestUtils.ParseSentence(clausesSyntax[i]);
-        }
+            clauses[i] = ParseSentence(clausesSyntax[i]);
         return clauses;
     }
 }

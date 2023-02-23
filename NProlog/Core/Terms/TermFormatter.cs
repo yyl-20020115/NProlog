@@ -30,10 +30,7 @@ public class TermFormatter
 {
     private readonly Operands operands;
 
-    public TermFormatter(Operands operands)
-    {
-        this.operands = operands;
-    }
+    public TermFormatter(Operands operands) => this.operands = operands;
 
     /**
      * Returns a string representation of the specified {@code Term}.
@@ -98,7 +95,7 @@ public class TermFormatter
         return builder;
     }
 
-    private static Term GetList(Term t) => t.Type == TermType.LIST ? t : null;
+    private static Term GetList(Term term) => term.Type == TermType.LIST ? term : null;
 
     private StringBuilder WritePredicate(Term @operator, StringBuilder builder)
     {
@@ -121,21 +118,21 @@ public class TermFormatter
         return builder;
     }
 
-    private bool IsInfixOperator(Term t)
-        => t.Type == TermType.STRUCTURE && t.Args.Length == 2 && operands.Infix(t.Name);
+    private bool IsInfixOperator(Term term)
+        => term.Type == TermType.STRUCTURE && term.Args.Length == 2 && operands.Infix(term.Name);
 
-    private int WriteInfixOperator(Term p, StringBuilder builder)
+    private int WriteInfixOperator(Term term, StringBuilder builder)
     {
-        var args = p.Args;
+        var args = term.Args;
         Write(args[0], builder);
-        builder.Append(' ').Append(p.Name).Append(' ');
+        builder.Append(' ').Append(term.Name).Append(' ');
         // if second argument is an infix operand then add brackets around it so:
         //  ?-(,(fail, ;(fail, true)))
         // appears as:
         //  ?- fail , (fail ; true)
         // not:
         //  ?- fail , fail ; true
-        if (IsInfixOperator(args[1]) && IsEqualOrLowerPriority(p, args[1]))
+        if (IsInfixOperator(args[1]) && IsEqualOrLowerPriority(term, args[1]))
         {
             builder.Append('(');
             WriteInfixOperator(args[1], builder);
@@ -151,36 +148,34 @@ public class TermFormatter
     private bool IsEqualOrLowerPriority(Term p1, Term p2)
         => operands.GetInfixPriority(p1.Name) <= operands.GetInfixPriority(p2.Name);
 
-    private bool IsPrefixOperator(Term t)
-        => t.Type == TermType.STRUCTURE && t.Args.Length == 1 && operands.Prefix(t.Name);
+    private bool IsPrefixOperator(Term term)
+        => term.Type == TermType.STRUCTURE && term.Args.Length == 1 && operands.Prefix(term.Name);
 
-    private void WritePrefixOperator(Term @operator, StringBuilder builder)
+    private void WritePrefixOperator(Term term, StringBuilder builder)
     {
-        builder.Append(@operator.Name).Append(' ');
-        Write(@operator.Args[0], builder);
+        builder.Append(term.Name).Append(' ');
+        Write(term.Args[0], builder);
     }
 
     private bool IsPostfixOperator(Term t)
         => t.Type == TermType.STRUCTURE && t.Args.Length == 1 && operands.Postfix(t.Name);
 
-    private void WritePostfixOperator(Term @operator, StringBuilder builder)
+    private void WritePostfixOperator(Term term, StringBuilder builder)
     {
-        Write(@operator.Args[0], builder);
-        builder.Append(' ').Append(@operator.Name);
+        Write(term.Args[0], builder);
+        builder.Append(' ').Append(term.Name);
     }
 
-    private void WriteNonOperatorPredicate(Term @operator, StringBuilder builder)
+    private void WriteNonOperatorPredicate(Term term, StringBuilder builder)
     {
-        var name = @operator.Name;
-        var args = @operator.Args;
+        var name = term.Name;
+        var args = term.Args;
         builder.Append(name);
         builder.Append('(');
         for (int i = 0; i < args.Length; i++)
         {
             if (i != 0)
-            {
                 builder.Append(", ");
-            }
             Write(args[i], builder);
         }
         builder.Append(')');

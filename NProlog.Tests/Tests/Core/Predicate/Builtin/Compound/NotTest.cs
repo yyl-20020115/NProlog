@@ -25,14 +25,14 @@ public class NotTest : TestUtils
     [TestMethod]
     public void TestBacktrackOnSuccess()
     {
-        KnowledgeBase kb = CreateKnowledgeBase();
-        Term term = ParseTerm("not((X=4, X<3)).");
-        Not n = (Not)kb.Predicates.GetPredicateFactory(term);
+        var kb = CreateKnowledgeBase();
+        var term = ParseTerm("not((X=4, X<3)).");
+        var n = (Not)kb.Predicates.GetPredicateFactory(term);
 
         Dictionary<Variable, Variable> sharedVariables = new();
-        Term Copy = term.Copy(sharedVariables);
+        var Copy = term.Copy(sharedVariables);
         Assert.AreSame(PredicateUtils.TRUE, n.GetPredicate(Copy.Args));
-        Variable variable = sharedVariables.Values.First();
+        var variable = sharedVariables.Values.First();
         // confirm the Backtrack implemented by Not did not unassign X
         Assert.AreEqual("X", variable.Id);
         Assert.AreEqual(TermType.VARIABLE, variable.Type);
@@ -41,11 +41,11 @@ public class NotTest : TestUtils
     [TestMethod]
     public void TestPreprocessCannotOptimiseVariable()
     {
-        KnowledgeBase kb = CreateKnowledgeBase();
-        Term term = ParseTerm("not(X).");
-        Not n = (Not)kb.Predicates.GetPredicateFactory(term);
+        var kb = CreateKnowledgeBase();
+        var term = ParseTerm("not(X).");
+        var n = (Not)kb.Predicates.GetPredicateFactory(term);
 
-        PredicateFactory optimised = n.Preprocess(term);
+        var optimised = n.Preprocess(term);
 
         Assert.AreSame(n, optimised);
     }

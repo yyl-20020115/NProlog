@@ -58,10 +58,7 @@ public class Subset : AbstractSingleResultPredicate
     {
         foreach (var element in ListUtils.ToList(subsetTerm))
         {
-            if (!ListUtils.IsMember(element, set))
-            {
-                return false;
-            }
+            if (!ListUtils.IsMember(element, set)) return false;
             set = set.Term;
         }
         return true;

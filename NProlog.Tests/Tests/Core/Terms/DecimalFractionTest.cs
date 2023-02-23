@@ -22,7 +22,7 @@ namespace Org.NProlog.Core.Terms;
 [TestClass]
 public class DecimalFractionTest : TestUtils
 {
-    private static readonly double DELTA = 0;
+    private const double DELTA = 0;
 
     [TestMethod]
     public void TestGetName()
@@ -44,16 +44,16 @@ public class DecimalFractionTest : TestUtils
     [TestMethod]
     public void TestGetTerm()
     {
-        DecimalFraction d1 = new DecimalFraction(0);
-        DecimalFraction d2 = d1.Term;
+        var d1 = new DecimalFraction(0);
+        var d2 = d1.Term;
         Assert.AreSame(d1, d2);
     }
 
     [TestMethod]
     public void TestGetBound()
     {
-        DecimalFraction d1 = new DecimalFraction(0);
-        Term d2 = d1.Bound;
+        var d1 = new DecimalFraction(0);
+        var d2 = d1.Bound;
         Assert.AreSame(d1, d2);
     }
 
@@ -72,8 +72,8 @@ public class DecimalFractionTest : TestUtils
     [TestMethod]
     public void TestCalculate()
     {
-        DecimalFraction d1 = new DecimalFraction(0);
-        DecimalFraction d2 = d1.Calculate(TermUtils.EMPTY_ARRAY);
+        var d1 = new DecimalFraction(0);
+        var d2 = d1.Calculate(EMPTY_ARRAY);
         Assert.AreSame(d1, d2);
     }
 
@@ -88,14 +88,14 @@ public class DecimalFractionTest : TestUtils
     [TestMethod]
     public void TestGetType()
     {
-        DecimalFraction d = DecimalFraction();
+        var d = DecimalFraction();
         Assert.AreSame(TermType.FRACTION, d.Type);
     }
 
     [TestMethod]
     public void TestGetNumberOfArguments()
     {
-        DecimalFraction d = DecimalFraction();
+        var d = DecimalFraction();
         Assert.AreEqual(0, d.NumberOfArguments);
     }
 
@@ -106,7 +106,7 @@ public class DecimalFractionTest : TestUtils
         for(int index = -1;index<=1;index++)
         try
         {
-            DecimalFraction d = DecimalFraction();
+            var d = DecimalFraction();
             d.GetArgument(index);
             Assert.Fail();
         }
@@ -119,14 +119,14 @@ public class DecimalFractionTest : TestUtils
     [TestMethod]
     public void TestGetArgs()
     {
-        DecimalFraction d = DecimalFraction();
+        var d = DecimalFraction();
         Assert.AreSame(TermUtils.EMPTY_ARRAY, d.Args);
     }
 
     [TestMethod]
     public void TestHashCode()
     {
-        DecimalFraction n = new DecimalFraction(7);
+        var n = new DecimalFraction(7);
 
         Assert.AreEqual(n.GetHashCode(), new DecimalFraction(7).GetHashCode());
         Assert.AreNotEqual(n.GetHashCode(), new DecimalFraction(7.1).GetHashCode());
@@ -136,7 +136,7 @@ public class DecimalFractionTest : TestUtils
     [TestMethod]
     public void TestEquals()
     {
-        DecimalFraction n = new DecimalFraction(7);
+        var n = new DecimalFraction(7);
 
         Assert.IsTrue(n.Equals(n));
         Assert.IsTrue(n.Equals(new DecimalFraction(7)));

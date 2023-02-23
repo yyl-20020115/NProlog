@@ -1,10 +1,5 @@
 ﻿using Org.NProlog.Core.Predicate.Udp;
 using Org.NProlog.Core.Terms;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Org.NProlog.Core.Predicate;
 
@@ -18,7 +13,5 @@ public class MockClauseAction : ClauseAction
 
     public bool IsAlwaysCutOnBacktrack => true;
 
-
     public Predicate GetPredicate(Term[] input) => this.predicate;
-
 }

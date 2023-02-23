@@ -33,8 +33,7 @@ public class Clauses
         List<ClauseAction> actions = new();
         foreach (var model in models)
         {
-            var action = ClauseActionFactory.CreateClauseAction(kb, model);
-            actions.Add(action);
+            actions.Add(ClauseActionFactory.CreateClauseAction(kb, model));
         }
         return CreateFromActions(kb, actions, null);
     }
@@ -70,7 +69,7 @@ public class Clauses
             }
         }
 
-        return new Clauses(actions, immutableColumns);
+        return new (actions, immutableColumns);
     }
 
     private static bool[] CreateArray(int numArgs, Term query)
@@ -80,7 +79,7 @@ public class Clauses
         {
             for (int i = 0; i < result.Length; i++)
             {
-                Term arg = query.GetArgument(i);
+                var arg = query.GetArgument(i);
                 result[i] = arg.IsImmutable || IsAnonymousVariable(arg);
             }
         }
@@ -95,10 +94,7 @@ public class Clauses
         int ctr = 0;
         for (int i = 0; i < a.Length; i++)
         {
-            if (a[i])
-            {
-                ctr++;
-            }
+            if (a[i]) ctr++;
         }
         return ctr;
     }

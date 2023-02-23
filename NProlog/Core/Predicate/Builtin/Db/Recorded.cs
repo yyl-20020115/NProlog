@@ -18,9 +18,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Db;
 
-
-
-
 /* TEST
 %FAIL recorded(X,Y,Z)
 
@@ -36,7 +33,8 @@ namespace Org.NProlog.Core.Predicate.Builtin.Db;
 public class Recorded : AbstractPredicateFactory
 {
 
-    protected override Predicate GetPredicate(Term key, Term value) => GetPredicate(key, value, new Variable());
+    protected override Predicate GetPredicate(Term key, Term value) 
+        => GetPredicate(key, value, new Variable());
 
     protected override Predicate GetPredicate(Term key, Term value, Term reference)
     {
@@ -48,7 +46,9 @@ public class Recorded : AbstractPredicateFactory
     }
 
     private static IEnumerator<Record> GetIterator(Term key, RecordedDatabase database) 
-        => key.Type.IsVariable ? database.GetAll() : database.GetChain(PredicateKey.CreateForTerm(key));
+        => key.Type.IsVariable 
+        ? database.GetAll() 
+        : database.GetChain(PredicateKey.CreateForTerm(key));
 
     public class RecordedPredicate : Predicate
     {
@@ -81,7 +81,6 @@ public class Recorded : AbstractPredicateFactory
 
         private static bool Unify(Record record, Term key, Term value, Term reference) 
             => key.Unify(record.Key) && value.Unify(record.Value) && reference.Unify(record.Reference);
-
 
         public virtual bool CouldReevaluationSucceed => itr.Current!=null;
     }

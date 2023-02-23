@@ -101,20 +101,11 @@ public class PrologConsoleTest : TestUtils
         Compare(expected, actual);
     }
 
-    private string CreateFileToConsult(params string[] lines)
-    {
-        return WriteToTempFile(this.GetType(), Concatenate(lines));
-    }
+    private string CreateFileToConsult(params string[] lines) => WriteToTempFile(this.GetType(), Concatenate(lines));
 
-    private static string CreateInput(params string[] lines)
-    {
-        return Concatenate(lines) + QUIT_COMMAND;
-    }
+    private static string CreateInput(params string[] lines) => Concatenate(lines) + QUIT_COMMAND;
 
-    private static string CreateExpectedOutput(params string[] lines)
-    {
-        return EXPECTED_HEADER + Concatenate(lines) + EXPECTED_FOOTER;
-    }
+    private static string CreateExpectedOutput(params string[] lines) => EXPECTED_HEADER + Concatenate(lines) + EXPECTED_FOOTER;
 
     private static string GetOutput(string input)
     {
@@ -122,7 +113,6 @@ public class PrologConsoleTest : TestUtils
         var c = new PrologConsole(new StringReader(input), writer);
         c.Run(new List<string>());
         return writer.ToString();
-
     }
 
     private static void Compare(string expected, string actual)
@@ -138,10 +128,7 @@ public class PrologConsoleTest : TestUtils
      * to check the actual input meets our expectations we first need to "tidy it" to remove inconsistencies (i.e. thread
      * IDs and timings).
      */
-    private static string MakeSuitableForComparison(string _in)
-    {
-        return ReplaceTimings(ReplaceThreadId(_in));
-    }
+    private static string MakeSuitableForComparison(string _in) => ReplaceTimings(ReplaceThreadId(_in));
 
     /**
      * Return a version of the input with the thread IDs removed.
@@ -167,5 +154,5 @@ public class PrologConsoleTest : TestUtils
         }
         return result.ToString();
     }
-    private static string LineSeparator => Environment.NewLine;
+    private readonly static string LineSeparator = Environment.NewLine;
 }

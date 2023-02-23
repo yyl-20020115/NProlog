@@ -81,18 +81,7 @@ public class DecimalFraction : Numeric
     public bool Unify(Term t)
     {
         var tType = t.Type;
-        if (tType == TermType.FRACTION)
-        {
-            return value == ((DecimalFraction)t.Term).value;
-        }
-        else if (tType.IsVariable)
-        {
-            return t.Unify(this);
-        }
-        else
-        {
-            return false;
-        }
+        return tType == TermType.FRACTION ? value == ((DecimalFraction)t.Term).value : tType.IsVariable && t.Unify(this);
     }
 
 
@@ -114,7 +103,7 @@ public class DecimalFraction : Numeric
     public double Double => value;
 
 
-    public DecimalFraction Calculate(Term[] args) => this;
+    public DecimalFraction Calculate(Term[] _) => this;
 
 
     public override bool Equals(object? o) 

@@ -23,35 +23,32 @@ namespace Org.NProlog.Core.Predicate.Udp;
 [TestClass]
 public class PredicateMetaData : AbstractPredicateFactory
 {
-
     protected override Predicate GetPredicate(Term input, Term variable)
     {
         List<Term> attributes = new();
 
-        PredicateFactory pf = Predicates.GetPredicateFactory(input);
+        var pf = Predicates.GetPredicateFactory(input);
         attributes.AddRange(ToTerms("factory", pf));
-        if (pf is StaticUserDefinedPredicateFactory)
+        if (pf is StaticUserDefinedPredicateFactory factory)
         {
-            PredicateFactory apf = ((StaticUserDefinedPredicateFactory)pf).GetActualPredicateFactory();
+            var apf = factory.GetActualPredicateFactory();
             attributes.AddRange(ToTerms("actual", apf));
         }
-        if (pf is PreprocessablePredicateFactory)
+        if (pf is PreprocessablePredicateFactory factory1)
         {
-            PredicateFactory preprocessed = ((PreprocessablePredicateFactory)pf).Preprocess(input);
+            var preprocessed = factory1.Preprocess(input);
             attributes.AddRange(ToTerms("processed", preprocessed));
         }
 
         return new MetaDataPredicate(variable, attributes);
     }
 
-    private static List<Term> ToTerms(string type, PredicateFactory pf)
-    {
-        List<Term> attributes = new();
-        attributes.Add(Structure.CreateStructure(":", new Term[] { new Atom(type + "_class"), new Atom(pf.GetType().Name) }));
-        attributes.Add(Structure.CreateStructure(":", new Term[] { new Atom(type + "_isRetryable"), new Atom("" + pf.IsRetryable) }));
-        attributes.Add(Structure.CreateStructure(":", new Term[] { new Atom(type + "_isAlwaysCutOnBacktrack"), new Atom("" + pf.IsAlwaysCutOnBacktrack) }));
-        return attributes;
-    }
+    private static List<Term> ToTerms(string type, PredicateFactory pf) => new()
+        {
+            Structure.CreateStructure(":", new Term[] { new Atom(type + "_class"), new Atom(pf.GetType().Name) }),
+            Structure.CreateStructure(":", new Term[] { new Atom(type + "_isRetryable"), new Atom("" + pf.IsRetryable) }),
+            Structure.CreateStructure(":", new Term[] { new Atom(type + "_isAlwaysCutOnBacktrack"), new Atom("" + pf.IsAlwaysCutOnBacktrack) })
+        };
 
     private class MetaDataPredicate : Predicate
     {
@@ -64,21 +61,16 @@ public class PredicateMetaData : AbstractPredicateFactory
             this.iterator = ListCheckedEnumerator<Term>.Of(attributes);
         }
 
-
         public bool Evaluate()
         {
             while (iterator.MoveNext())
             {
                 variable.Backtrack();
                 var next = iterator.Current;
-                if (variable.Unify(next))
-                {
-                    return true;
-                }
+                if (variable.Unify(next)) return true;
             }
             return false;
         }
-
 
         public bool CouldReevaluationSucceed => iterator.CanMoveNext;
     }

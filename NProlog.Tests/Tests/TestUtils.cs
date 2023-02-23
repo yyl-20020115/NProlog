@@ -82,7 +82,7 @@ public class TestUtils : TermFactory
     {
         try
         {
-            KnowledgeBase kb = KnowledgeBaseUtils.CreateKnowledgeBase(prologProperties);
+            var kb = KnowledgeBaseUtils.CreateKnowledgeBase(prologProperties);
             KnowledgeBaseUtils.Bootstrap(kb);
             return kb;
         }
@@ -126,8 +126,8 @@ public class TestUtils : TermFactory
 
     public static Term[] ParseTermsFromFile(string f)
     {
-        using TextReader fr = new StreamReader(f);
-        var sp = SentenceParser.GetInstance(fr, OPERANDS);
+        using var reader = new StreamReader(f);
+        var sp = SentenceParser.GetInstance(reader, OPERANDS);
 
         List<Term> result = new();
         Term next;
@@ -143,8 +143,8 @@ public class TestUtils : TermFactory
 
     public static void AssertStrictEquality(Term t1, Term t2, bool expectedResult)
     {
-        Assert.AreEqual(expectedResult, TermUtils.TermsEqual(t1, t2));
-        Assert.AreEqual(expectedResult, TermUtils.TermsEqual(t2, t1));
+        Assert.AreEqual(expectedResult, TermsEqual(t1, t2));
+        Assert.AreEqual(expectedResult, TermsEqual(t2, t1));
         if (expectedResult)
         {
             // assert that if terms are equal then they have the same hashcode
@@ -152,23 +152,11 @@ public class TestUtils : TermFactory
         }
     }
 
-    public static void AssertType(Type expected, Object instance)
-    {
-        Assert.AreSame(expected, instance.GetType());
-    }
-    public static T[] Any<T>()
-    {
-        return System.Array.Empty<T>();
-    }
-    
-    public static int Times(int invocationTimes)
-    {
-        return invocationTimes;
-    }
-    public static T Verify<T>(T mock, int times = 1)
-    {
-        return mock;
-    }
+    public static void AssertType(Type expected, object instance) => Assert.AreSame(expected, instance.GetType());
+    public static T[] Any<T>() => System.Array.Empty<T>();
+
+    public static int Times(int invocationTimes) => invocationTimes;
+    public static T Verify<T>(T mock, int times = 1) => mock;
     public static void VerifyNoInteractions(params object[] os)
     {
     }
@@ -238,26 +226,26 @@ public class TestUtils : TermFactory
         }
     }
 
-    public static void AssertNotEqualsHashCode(Object o1, Object o2)
+    public static void AssertNotEqualsHashCode(object o1, object o2)
     {
         Assert.IsFalse(o1.Equals(o2));
         Assert.IsFalse(o2.Equals(o1));
         Assert.AreNotEqual(o1.GetHashCode(), o2.GetHashCode());
     }
 
-    public static void AssertHashCodeEquals(Object a, Object b)
+    public static void AssertHashCodeEquals(object a, object b)
     {
         Assert.AreEqual(a.GetHashCode(), b.GetHashCode());
     }
 
-    public static void AssertHashCodeNotEquals(Object a, Object b)
+    public static void AssertHashCodeNotEquals(object a, object b)
     {
         Assert.AreNotEqual(a.GetHashCode(), b.GetHashCode());
     }
 
     public static Clauses CreateClauses(params string[] clauses)
     {
-        var kb = TestUtils.CreateKnowledgeBase();
+        var kb = CreateKnowledgeBase();
         List<ClauseModel> models = new();
         foreach (string clause in clauses)
         {

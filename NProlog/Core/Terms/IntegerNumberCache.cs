@@ -34,5 +34,7 @@ public static class IntegerNumberCache
     }
 
     public static IntegerNumber ValueOf(long l) 
-        => l >= MIN_CACHED_VALUE && l <= MAX_CACHED_VALUE ? CACHE[(int)l + OFFSET] : new IntegerNumber(l);
+        => l >= MIN_CACHED_VALUE && l <= MAX_CACHED_VALUE 
+        ? CACHE[(int)l + OFFSET] 
+        : new (l);
 }

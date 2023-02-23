@@ -30,8 +30,8 @@ public class QueryStatementTest : TestUtils
     [TestMethod]
     public void TestSetTerm()
     {
-        QueryStatement s = new QueryStatement(kb, "X = Y.");
-        Term term = Core.Terms.Structure.CreateStructure("test", new Term[] { new Atom("a") });
+        var s = new QueryStatement(kb, "X = Y.");
+        var term = Core.Terms.Structure.CreateStructure("test", new Term[] { new Atom("a") });
         s.SetTerm("Y", term);
         Assert.AreSame(term, s.FindFirstAsTerm());
     }
@@ -39,7 +39,7 @@ public class QueryStatementTest : TestUtils
     [TestMethod]
     public void TestSetAtomName()
     {
-        QueryStatement s = new QueryStatement(kb, "X = Y.");
+        var s = new QueryStatement(kb, "X = Y.");
         s.SetAtomName("Y", "a");
         Assert.AreEqual(new Atom("a"), s.FindFirstAsTerm());
     }
@@ -47,7 +47,7 @@ public class QueryStatementTest : TestUtils
     [TestMethod]
     public void TestSetDouble()
     {
-        QueryStatement s = new QueryStatement(kb, "X = Y.");
+        var s = new QueryStatement(kb, "X = Y.");
         s.SetDouble("Y", 42.5);
         Assert.AreEqual(new DecimalFraction(42.5), s.FindFirstAsTerm());
     }
@@ -55,7 +55,7 @@ public class QueryStatementTest : TestUtils
     [TestMethod]
     public void TestSetLong()
     {
-        QueryStatement s = new QueryStatement(kb, "X = Y.");
+        var s = new QueryStatement(kb, "X = Y.");
         s.SetLong("Y", 42);
         Assert.AreEqual(new IntegerNumber(42), s.FindFirstAsTerm());
     }
@@ -63,77 +63,77 @@ public class QueryStatementTest : TestUtils
     [TestMethod]
     public void TestSetListOfTermsVarargsVersion()
     {
-        QueryStatement s = new QueryStatement(kb, "X = Y.");
-        Term term1 = Core.Terms.Structure.CreateStructure("test", new Term[] { new Atom("a") });
-        Term term2 = new Atom("a");
-        Term term3 = new IntegerNumber(1);
+        var s = new QueryStatement(kb, "X = Y.");
+        var term1 = Core.Terms.Structure.CreateStructure("test", new Term[] { new Atom("a") });
+        var term2 = new Atom("a");
+        var term3 = new IntegerNumber(1);
         s.SetListOfTerms("Y", term1, term2, term3);
-        Assert.AreEqual(new List(term1, new List(term2, new List(term3, EmptyList.EMPTY_LIST))), s.FindFirstAsTerm());
+        Assert.AreEqual(new LinkedTermList(term1, new LinkedTermList(term2, new LinkedTermList(term3, EmptyList.EMPTY_LIST))), s.FindFirstAsTerm());
     }
 
     [TestMethod]
     public void TestSetListOfTermsListVersion()
     {
-        QueryStatement s = new QueryStatement(kb, "X = Y.");
-        Term term1 = Core.Terms.Structure.CreateStructure("test", new Term[] { new Atom("a") });
-        Term term2 = new Atom("a");
-        Term term3 = new IntegerNumber(1);
+        var s = new QueryStatement(kb, "X = Y.");
+        var term1 = Core.Terms.Structure.CreateStructure("test", new Term[] { new Atom("a") });
+        var term2 = new Atom("a");
+        var term3 = new IntegerNumber(1);
         s.SetListOfTerms("Y", term1, term2, term3);
-        Assert.AreEqual(new List(term1, new List(term2, new List(term3, EmptyList.EMPTY_LIST))), s.FindFirstAsTerm());
+        Assert.AreEqual(new LinkedTermList(term1, new LinkedTermList(term2, new LinkedTermList(term3, EmptyList.EMPTY_LIST))), s.FindFirstAsTerm());
     }
 
     [TestMethod]
     public void TestSetListOfAtomNamesVarargsVersion()
     {
-        QueryStatement s = new QueryStatement(kb, "X = Y.");
+        var s = new QueryStatement(kb, "X = Y.");
         s.SetListOfAtomNames("Y", "a", "b", "c");
-        Assert.AreEqual(new List(new Atom("a"), new List(new Atom("b"), new List(new Atom("c"), EmptyList.EMPTY_LIST))), s.FindFirstAsTerm());
+        Assert.AreEqual(new LinkedTermList(new Atom("a"), new LinkedTermList(new Atom("b"), new LinkedTermList(new Atom("c"), EmptyList.EMPTY_LIST))), s.FindFirstAsTerm());
     }
 
     [TestMethod]
     public void TestSetListOfAtomNamesListVersion()
     {
-        QueryStatement s = new Prolog().CreateStatement("X = Y.");
+        var s = new Prolog().CreateStatement("X = Y.");
         s.SetListOfAtomNames("Y", "a", "b", "c");
-        Assert.AreEqual(new List(new Atom("a"), new List(new Atom("b"), new List(new Atom("c"), EmptyList.EMPTY_LIST))), s.FindFirstAsTerm());
+        Assert.AreEqual(new LinkedTermList(new Atom("a"), new LinkedTermList(new Atom("b"), new LinkedTermList(new Atom("c"), EmptyList.EMPTY_LIST))), s.FindFirstAsTerm());
     }
 
     [TestMethod]
     public void TestSetListOfDoubles_varargs_version()
     {
-        QueryStatement s = new QueryStatement(kb, "X = Y.");
+        var s = new QueryStatement(kb, "X = Y.");
         s.SetListOfDoubles("Y", 42.5, 180.2, -7.0);
-        Assert.AreEqual(new List(new DecimalFraction(42.5), new List(new DecimalFraction(180.2), new List(new DecimalFraction(-7.0), EmptyList.EMPTY_LIST))), s.FindFirstAsTerm());
+        Assert.AreEqual(new LinkedTermList(new DecimalFraction(42.5), new LinkedTermList(new DecimalFraction(180.2), new LinkedTermList(new DecimalFraction(-7.0), EmptyList.EMPTY_LIST))), s.FindFirstAsTerm());
     }
 
     [TestMethod]
     public void TestSetListOfDoubles_list_version()
     {
-        QueryStatement s = new Prolog().CreateStatement("X = Y.");
+        var s = new Prolog().CreateStatement("X = Y.");
         s.SetListOfDoubles("Y", 42.5, 180.2, -7.0);
-        Assert.AreEqual(new List(new DecimalFraction(42.5), new List(new DecimalFraction(180.2), new List(new DecimalFraction(-7.0), EmptyList.EMPTY_LIST))), s.FindFirstAsTerm());
+        Assert.AreEqual(new LinkedTermList(new DecimalFraction(42.5), new LinkedTermList(new DecimalFraction(180.2), new LinkedTermList(new DecimalFraction(-7.0), EmptyList.EMPTY_LIST))), s.FindFirstAsTerm());
     }
 
     [TestMethod]
     public void TestSetListOfLongs_varargs_version()
     {
-        QueryStatement s = new QueryStatement(kb, "X = Y.");
+        var s = new QueryStatement(kb, "X = Y.");
         s.SetListOfLongs("Y", 42, 180, -7);
-        Assert.AreEqual(new List(new IntegerNumber(42), new List(new IntegerNumber(180), new List(new IntegerNumber(-7), EmptyList.EMPTY_LIST))), s.FindFirstAsTerm());
+        Assert.AreEqual(new LinkedTermList(new IntegerNumber(42), new LinkedTermList(new IntegerNumber(180), new LinkedTermList(new IntegerNumber(-7), EmptyList.EMPTY_LIST))), s.FindFirstAsTerm());
     }
 
     [TestMethod]
     public void TestSetListOfLongs_list_version()
     {
-        QueryStatement s = new QueryStatement(kb, "X = Y.");
+        var s = new QueryStatement(kb, "X = Y.");
         s.SetListOfLongs("Y", 42L, 180L, -7L);
-        Assert.AreEqual(new List(new IntegerNumber(42), new List(new IntegerNumber(180), new List(new IntegerNumber(-7), EmptyList.EMPTY_LIST))), s.FindFirstAsTerm());
+        Assert.AreEqual(new LinkedTermList(new IntegerNumber(42), new LinkedTermList(new IntegerNumber(180), new LinkedTermList(new IntegerNumber(-7), EmptyList.EMPTY_LIST))), s.FindFirstAsTerm());
     }
 
     [TestMethod]
     public void TestNotReusable()
     {
-        QueryStatement s = new QueryStatement(kb, "X = Y.");
+        var s = new QueryStatement(kb, "X = Y.");
         s.ExecuteQuery();
         try
         {
@@ -150,7 +150,7 @@ public class QueryStatementTest : TestUtils
     [TestMethod]
     public void TestUnknownVariable()
     {
-        QueryStatement s = new Prolog().CreateStatement("X = Y.");
+        var s = new Prolog().CreateStatement("X = Y.");
         try
         {
             s.SetTerm("Z", new Atom("a"));
@@ -165,7 +165,7 @@ public class QueryStatementTest : TestUtils
     [TestMethod]
     public void TestAlreadySetVariable()
     {
-        QueryStatement s = new QueryStatement(kb, "X = Y.");
+        var s = new QueryStatement(kb, "X = Y.");
         s.SetTerm("X", new Atom("a"));
         try
         {
@@ -183,7 +183,7 @@ public class QueryStatementTest : TestUtils
     {
         try
         {
-            new QueryStatement(kb, "X");
+            var s = new QueryStatement(kb, "X");
             Assert.Fail();
         }
         catch (ParserException e)
@@ -197,7 +197,7 @@ public class QueryStatementTest : TestUtils
     {
         try
         {
-            new QueryStatement(kb, "X is 1. Y is 2.");
+            var s = new QueryStatement(kb, "X is 1. Y is 2.");
             Assert.Fail();
 
         }
@@ -225,7 +225,7 @@ public class QueryStatementTest : TestUtils
     [TestMethod]
     public void TestExecuteOnceNoSolution()
     {
-        QueryStatement s = new QueryStatement(kb, "true, true, fail.");
+        var s = new QueryStatement(kb, "true, true, fail.");
         try
         {
             s.ExecuteOnce();

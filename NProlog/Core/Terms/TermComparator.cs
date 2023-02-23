@@ -65,8 +65,8 @@ public class TermComparator : IComparer<Term>
 
     public int Compare(Term? t1, Term? t2)
     {
-        Term v1 = t1.Term;
-        Term v2 = t2.Term;
+        var v1 = t1.Term;
+        var v2 = t2.Term;
 
         // if the both arguments refer to the same object then must be identical
         // this deals with the case where both arguments are empty lists
@@ -93,28 +93,22 @@ public class TermComparator : IComparer<Term>
     private int CompareStructures(Term t1, Term t2)
     {
         // compare number of arguments
-        int t1Length = t1.NumberOfArguments;
-        int t2Length = t2.NumberOfArguments;
+        var t1Length = t1.NumberOfArguments;
+        var t2Length = t2.NumberOfArguments;
         if (t1Length != t2Length)
-        {
             return t1Length > t2Length ? 1 : -1;
-        }
 
         // compare predicate names
-        int nameComparison = t1.Name.CompareTo(t2.Name);
+        var nameComparison = t1.Name.CompareTo(t2.Name);
         if (nameComparison != 0)
-        {
             return nameComparison;
-        }
 
         // compare arguments one at a time
-        for (int i = 0; i < t1Length; i++)
+        for (var i = 0; i < t1Length; i++)
         {
-            int argComparison = Compare(t1.GetArgument(i), t2.GetArgument(i));
+            var argComparison = Compare(t1.GetArgument(i), t2.GetArgument(i));
             if (argComparison != 0)
-            {
                 return argComparison;
-            }
         }
 
         // if still cannot separate then consider them identical

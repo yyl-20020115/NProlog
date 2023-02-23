@@ -24,38 +24,34 @@ namespace Org.NProlog.Core.Terms;
 public class TermUtilsTest : TestUtils
 {
     [TestMethod]
-    public void TestEmptyArray()
-    {
-        Assert.AreEqual(0, TermUtils.EMPTY_ARRAY.Length);
-
-    }
+    public void TestEmptyArray() => Assert.AreEqual(0, EMPTY_ARRAY.Length);
 
     [TestMethod]
     public void TestCopy()
     {
         // setup input terms
-        Atom a = Atom("a");
-        Variable x = Variable("X");
-        Variable y = Variable("Y");
-        Variable z = Variable("Z");
+        var a = Atom("a");
+        var x = Variable("X");
+        var y = Variable("Y");
+        var z = Variable("Z");
         Assert.IsTrue(x.Unify(a));
-        Structure p = Structure("p", x, y);
+        var p = Structure("p", x, y);
         Term[] input = { a, p, x, y, z };
 
         // perform Copy
-        Term[] output = TermUtils.Copy(input);
+        var output = Copy(input);
 
         // check result
         Assert.AreEqual(input.Length, output.Length);
 
         Assert.AreSame(a, output[0]);
 
-        Term t = output[1];
+        var t = output[1];
         Assert.AreSame(TermType.STRUCTURE, t.Type);
         Assert.AreSame(p.Name, t.Name);
         Assert.AreEqual(2, t.NumberOfArguments);
         Assert.AreSame(a, t.GetArgument(0));
-        Term copyOfY = t.GetArgument(1);
+        var copyOfY = t.GetArgument(1);
         AssertVariable(copyOfY, "Y");
 
         Assert.AreSame(a, output[2]);
@@ -76,12 +72,12 @@ public class TermUtilsTest : TestUtils
     public void TestBacktrack()
     {
         // setup input terms
-        Atom a = Atom("a");
-        Atom b = Atom("b");
-        Atom c = Atom("c");
-        Variable x = Variable("X");
-        Variable y = Variable("Y");
-        Variable z = Variable("Z");
+        var a = Atom("a");
+        var b = Atom("b");
+        var c = Atom("c");
+        var x = Variable("X");
+        var y = Variable("Y");
+        var z = Variable("Z");
         Assert.IsTrue(x.Unify(a));
         Assert.IsTrue(y.Unify(b));
         Assert.IsTrue(z.Unify(c));
@@ -107,17 +103,17 @@ public class TermUtilsTest : TestUtils
     public void TestUnifySuccess()
     {
         // setup input terms
-        Variable x = Variable("X");
-        Variable y = Variable("Y");
-        Variable z = Variable("Z");
-        Atom a = Atom("a");
-        Atom b = Atom("b");
-        Atom c = Atom("c");
+        var x = Variable("X");
+        var y = Variable("Y");
+        var z = Variable("Z");
+        var a = Atom("a");
+        var b = Atom("b");
+        var c = Atom("c");
         Term[] input1 = { x, b, z };
         Term[] input2 = { a, y, c };
 
         // attempt unification
-        Assert.IsTrue(TermUtils.Unify(input1, input2));
+        Assert.IsTrue(Unify(input1, input2));
 
         // assert all variables unified to atoms
         Assert.AreSame(a, x.Term);
@@ -129,12 +125,12 @@ public class TermUtilsTest : TestUtils
     public void TestUnifyFailure()
     {
         // setup input terms
-        Variable x = Variable("X");
-        Variable y = Variable("Y");
-        Variable z = Variable("Z");
-        Atom a = Atom("a");
-        Atom b = Atom("b");
-        Atom c = Atom("c");
+        var x = Variable("X");
+        var y = Variable("Y");
+        var z = Variable("Z");
+        var a = Atom("a");
+        var b = Atom("b");
+        var c = Atom("c");
         Term[] input1 = { x, b, z, b };
         Term[] input2 = { a, y, c, a };
 
@@ -152,22 +148,22 @@ public class TermUtilsTest : TestUtils
     [TestMethod]
     public void TestGetAllVariablesInTerm()
     {
-        Variable q = Variable("Q");
-        Variable r = Variable("R");
-        Variable s = Variable("S");
-        Variable t = Variable("T");
-        Variable v = Variable("V");
-        Variable w = Variable("W");
-        Variable x = Variable("X");
-        Variable y = Variable("Y");
-        Variable z = Variable("Z");
-        Variable anon = new Variable();
+        var q = Variable("Q");
+        var r = Variable("R");
+        var s = Variable("S");
+        var t = Variable("T");
+        var v = Variable("V");
+        var w = Variable("W");
+        var x = Variable("X");
+        var y = Variable("Y");
+        var z = Variable("Z");
+        var anon = new Variable();
         Variable[] variables = { q, r, s, t, v, w, x, y, z, anon };
-        Structure input = Structure("p1", x, v, anon, EmptyList.EMPTY_LIST, y, q, IntegerNumber(1), Structure("p2", y, DecimalFraction(1.5), w), List(s, y, IntegerNumber(7), r, t),
+        var input = Structure("p1", x, v, anon, EmptyList.EMPTY_LIST, y, q, IntegerNumber(1), Structure("p2", y, DecimalFraction(1.5), w), List(s, y, IntegerNumber(7), r, t),
                     z);
-        HashSet<Variable> result = TermUtils.GetAllVariablesInTerm(input);
+        var result = GetAllVariablesInTerm(input);
         Assert.AreEqual(variables.Length, result.Count);
-        foreach (Variable variable in variables)
+        foreach (var variable in variables)
         {
             Assert.IsTrue(result.Contains(variable));
         }
@@ -176,14 +172,14 @@ public class TermUtilsTest : TestUtils
     [TestMethod]
     public void TestIntegerNumberCastToNumeric()
     {
-        IntegerNumber i = IntegerNumber();
+        var i = IntegerNumber();
         Assert.AreSame(i, TermUtils.CastToNumeric(i));
     }
 
     [TestMethod]
     public void TestDecimalFractionCastToNumeric()
     {
-        DecimalFraction d = DecimalFraction();
+        var d = DecimalFraction();
         Assert.AreSame(d, TermUtils.CastToNumeric(d));
     }
 
@@ -192,8 +188,8 @@ public class TermUtilsTest : TestUtils
     {
         try
         {
-            Atom a = Atom("1");
-            TermUtils.CastToNumeric(a);
+            var a = Atom("1");
+            CastToNumeric(a);
             Assert.Fail();
         }
         catch (PrologException e)
@@ -205,19 +201,19 @@ public class TermUtilsTest : TestUtils
     [TestMethod]
     public void TestVariableCastToNumeric()
     {
-        Variable v = Variable();
+        var v = Variable();
         try
         {
-            TermUtils.CastToNumeric(v);
+            CastToNumeric(v);
             Assert.Fail();
         }
         catch (PrologException e)
         {
             Assert.AreEqual("Expected Numeric but got: VARIABLE with value: X", e.Message);
         }
-        IntegerNumber i = IntegerNumber();
+        var i = IntegerNumber();
         v.Unify(i);
-        Assert.AreSame(i, TermUtils.CastToNumeric(v));
+        Assert.AreSame(i, CastToNumeric(v));
     }
 
     [TestMethod]
@@ -225,10 +221,10 @@ public class TermUtilsTest : TestUtils
     {
         // test that, even if it represents an arithmetic expression,
         // a structure causes an exception when passed to CastToNumeric
-        Structure arithmeticExpression = Structure("*", IntegerNumber(3), IntegerNumber(7));
+        var arithmeticExpression = Structure("*", IntegerNumber(3), IntegerNumber(7));
         try
         {
-            TermUtils.CastToNumeric(arithmeticExpression);
+            CastToNumeric(arithmeticExpression);
             Assert.Fail();
         }
         catch (PrologException e)
@@ -240,8 +236,8 @@ public class TermUtilsTest : TestUtils
     [TestMethod]
     public void TestIntegerNumberToLong()
     {
-        KnowledgeBase kb = TestUtils.CreateKnowledgeBase();
-        ArithmeticOperators operators = kb.ArithmeticOperators;
+        var kb = CreateKnowledgeBase();
+        var operators = kb.ArithmeticOperators;
         Assert.AreEqual(int.MaxValue, TermUtils.ToLong(operators, IntegerNumber(int.MaxValue)));
         Assert.AreEqual(1, TermUtils.ToLong(operators, IntegerNumber(1)));
         Assert.AreEqual(0, TermUtils.ToLong(operators, IntegerNumber(0)));
@@ -251,16 +247,16 @@ public class TermUtilsTest : TestUtils
     [TestMethod]
     public void TestArithmeticFunctionToLong()
     {
-        KnowledgeBase kb = TestUtils.CreateKnowledgeBase();
-        ArithmeticOperators operators = kb.ArithmeticOperators;
-        Structure arithmeticExpression = Structure("*", IntegerNumber(3), IntegerNumber(7));
+        var kb = CreateKnowledgeBase();
+        var operators = kb.ArithmeticOperators;
+        var arithmeticExpression = Structure("*", IntegerNumber(3), IntegerNumber(7));
         Assert.AreEqual(21, TermUtils.ToLong(operators, arithmeticExpression));
     }
 
     [TestMethod]
     public void TestToLongExceptions()
     {
-        KnowledgeBase kb = TestUtils.CreateKnowledgeBase();
+        var kb = CreateKnowledgeBase();
         AssertTestToLongException(kb, Atom("test"), "Cannot find arithmetic operator: test/0");
         AssertTestToLongException(kb, Structure("p", IntegerNumber(1), IntegerNumber(1)), "Cannot find arithmetic operator: p/2");
         AssertTestToLongException(kb, DecimalFraction(0), "Expected integer but got: FRACTION with value: 0.0");
@@ -269,10 +265,10 @@ public class TermUtilsTest : TestUtils
 
     private static void AssertTestToLongException(KnowledgeBase kb, Term t, string expectedExceptionMessage)
     {
-        ArithmeticOperators operators = kb.ArithmeticOperators;
+        var operators = kb.ArithmeticOperators;
         try
         {
-            TermUtils.ToLong(operators, t);
+            ToLong(operators, t);
             Assert.Fail();
         }
         catch (PrologException e)
@@ -284,17 +280,17 @@ public class TermUtilsTest : TestUtils
     [TestMethod]
     public void TestGetAtomName()
     {
-        Atom a = Atom("testAtomName");
+        var a = Atom("testAtomName");
         Assert.AreEqual("testAtomName", TermUtils.GetAtomName(a));
     }
 
     [TestMethod]
     public void TestGetAtomNameException()
     {
-        Structure p = Structure("testAtomName", Atom());
+        var p = Structure("testAtomName", Atom());
         try
         {
-            TermUtils.GetAtomName(p);
+            GetAtomName(p);
             Assert.Fail();
         }
         catch (PrologException e)
@@ -306,10 +302,10 @@ public class TermUtilsTest : TestUtils
     [TestMethod]
     public void AssertType()
     {
-        TermUtils.AssertType(Atom("testAtomName"), TermType.ATOM);
+        AssertType(Atom("testAtomName"), TermType.ATOM);
         try
         {
-            TermUtils.AssertType(Atom("testAtomName"), TermType.LIST);
+            AssertType(Atom("testAtomName"), TermType.LIST);
             Assert.Fail();
         }
         catch (PrologException e)
@@ -328,10 +324,7 @@ public class TermUtilsTest : TestUtils
         AssertToInt(int.MinValue);
     }
 
-    private static void AssertToInt(long n)
-    {
-        Assert.AreEqual(n, TermUtils.ToInt(IntegerNumber(n)));
-    }
+    private static void AssertToInt(long n) => Assert.AreEqual(n, TermUtils.ToInt(IntegerNumber(n)));
 
     [TestMethod]
     public void TestToIntException()
@@ -346,7 +339,7 @@ public class TermUtilsTest : TestUtils
     {
         try
         {
-            TermUtils.ToInt(IntegerNumber(n));
+            ToInt(IntegerNumber(n));
             Assert.Fail();
         }
         catch (PrologException e)

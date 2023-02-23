@@ -32,11 +32,7 @@ public class AbstractSingleResultPredicateTest : TestUtils
     {
         public KnowledgeBase kb;
 
-
-        protected override void Init()
-        {
-            kb = base.KnowledgeBase;
-        }
+        protected override void Init() => kb = base.KnowledgeBase;
     }
 
     /**
@@ -46,8 +42,8 @@ public class AbstractSingleResultPredicateTest : TestUtils
     [TestMethod]
     public void TestInit()
     {
-        TestPredicate pf = new TestPredicate();
-        KnowledgeBase kb = TestUtils.CreateKnowledgeBase();
+        var pf = new TestPredicate();
+        var kb = CreateKnowledgeBase();
         pf.KnowledgeBase = (kb);
         Assert.AreSame(kb, pf.kb);
         Assert.AreSame(kb, pf.KnowledgeBase);
@@ -60,7 +56,7 @@ public class AbstractSingleResultPredicateTest : TestUtils
     [TestMethod]
     public void TestIllegalArgumentException()
     {
-        AbstractSingleResultPredicate pf = new ASPX();
+        var pf = new ASPX();
 
         for (int i = 0; i < 100; i++)
         {
@@ -71,41 +67,33 @@ public class AbstractSingleResultPredicateTest : TestUtils
     public class ASP0 : AbstractSingleResultPredicate
     {
         AtomicBoolean ab;
-        public ASP0(AtomicBoolean ab)
-        {
-            this.ab = ab;
-        }
+        public ASP0(AtomicBoolean ab) => this.ab = ab;
 
-        protected override bool Evaluate()
-        {
-            return ab.Value;
-        }
+        protected override bool Evaluate() => ab.Value;
     }
 
     [TestMethod]
     public void TestNoArguments()
     {
-        AtomicBoolean ab = new AtomicBoolean();
-        AbstractSingleResultPredicate pf = new ASP0(ab);
+        var ab = new AtomicBoolean();
+        var pf = new ASP0(ab);
 
         ab.Value = true;
-        Assert.AreSame(PredicateUtils.TRUE, pf.GetPredicate(new Term[0]));
+        Assert.AreSame(PredicateUtils.TRUE, pf.GetPredicate(System.Array.Empty<Term>()));
 
         ab.Value = false;
-        Assert.AreSame(PredicateUtils.FALSE, pf.GetPredicate(new Term[0]));
+        Assert.AreSame(PredicateUtils.FALSE, pf.GetPredicate(System.Array.Empty<Term>()));
     }
 
     public class ASP1 : AbstractSingleResultPredicate
     {
         protected override bool Evaluate(Term t)
-        {
-            return t == ARG1;
-        }
+            => t == ARG1;
     };
     [TestMethod]
     public void TestOneArgument()
     {
-        AbstractSingleResultPredicate pf = new ASP1();
+        var pf = new ASP1();
 
         Assert.AreSame(PredicateUtils.TRUE, pf.GetPredicate(new Term[] { ARG1 }));
 
@@ -114,15 +102,12 @@ public class AbstractSingleResultPredicateTest : TestUtils
 
     public class ASP2 : AbstractSingleResultPredicate
     {
-        protected override bool Evaluate(Term t1, Term t2)
-        {
-            return t1 == ARG1 && t2 == ARG2;
-        }
+        protected override bool Evaluate(Term t1, Term t2) => t1 == ARG1 && t2 == ARG2;
     }
     [TestMethod]
     public void TestTwoArguments()
     {
-        AbstractSingleResultPredicate pf = new ASP2();
+        var pf = new ASP2();
 
         Assert.AreSame(PredicateUtils.TRUE, pf.GetPredicate(new Term[] { ARG1, ARG2 }));
 
@@ -131,16 +116,12 @@ public class AbstractSingleResultPredicateTest : TestUtils
 
     public class ASP3 : AbstractSingleResultPredicate
     {
-
-        protected override bool Evaluate(Term t1, Term t2, Term t3)
-        {
-            return t1 == ARG1 && t2 == ARG2 && t3 == ARG3;
-        }
+        protected override bool Evaluate(Term t1, Term t2, Term t3) => t1 == ARG1 && t2 == ARG2 && t3 == ARG3;
     }
     [TestMethod]
     public void TestThreeArguments()
     {
-        AbstractSingleResultPredicate pf = new ASP3(); ;
+        var pf = new ASP3(); ;
 
         Assert.AreSame(PredicateUtils.TRUE, pf.GetPredicate(new Term[] { ARG1, ARG2, ARG3 }));
 
@@ -148,32 +129,27 @@ public class AbstractSingleResultPredicateTest : TestUtils
     }
     public class ASP4 : AbstractSingleResultPredicate
     {
-
-        protected override bool Evaluate(Term t1, Term t2, Term t3, Term t4)
-        {
-            return t1 == ARG1 && t2 == ARG2 && t3 == ARG3 && t4 == ARG4;
-        }
+        protected override bool Evaluate(Term t1, Term t2, Term t3, Term t4) => t1 == ARG1 && t2 == ARG2 && t3 == ARG3 && t4 == ARG4;
     }
     [TestMethod]
     public void TestFourArguments()
     {
-        AbstractSingleResultPredicate pf = new ASP4();
-
+        var pf = new ASP4();
         Assert.AreSame(PredicateUtils.TRUE, pf.GetPredicate(new Term[] { ARG1, ARG2, ARG3, ARG4 }));
 
         Assert.AreSame(PredicateUtils.FALSE, pf.GetPredicate(new Term[] { ARG1, ARG1, ARG1, ARG1 }));
     }
 
-    private static void AssertIllegalArgumentException(AbstractSingleResultPredicate pf, int numberOfArguments)
+    private static void AssertIllegalArgumentException(AbstractSingleResultPredicate predicate, int numberOfArguments)
     {
         try
         {
-            pf.GetPredicate(new Term[numberOfArguments]);
+            predicate.GetPredicate(new Term[numberOfArguments]);
             Assert.Fail();
         }
         catch (Exception e)
         {
-            Assert.AreEqual("The predicate factory: " + pf.GetType().Name + " does not accept the number of arguments: " + numberOfArguments, e.Message);
+            Assert.AreEqual("The predicate factory: " + predicate.GetType().Name + " does not accept the number of arguments: " + numberOfArguments, e.Message);
         }
     }
 }

@@ -109,12 +109,12 @@ public class IsTest : TestUtils
         var kb = CreateKnowledgeBase();
         var isTerm = ParseTerm("X is abs(1+Y).");
 
-        Is _is = (Is)kb.Predicates.GetPredicateFactory(isTerm);
+        var _is = (Is)kb.Predicates.GetPredicateFactory(isTerm);
         PredicateFactory optimised = _is.Preprocess(isTerm);
         Assert.AreEqual("PreprocessedIs", optimised.GetType().Name);
 
         Dictionary<Variable, Variable> sharedVariables = new();
-        Term Copy = isTerm.Copy(sharedVariables);
+        var Copy = isTerm.Copy(sharedVariables);
         Variable x = null;
         Variable y = null;
         foreach (Variable v in sharedVariables.Values)

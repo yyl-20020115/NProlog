@@ -85,9 +85,7 @@ public class TermParserTest : TestUtils
     public void TestIntegerNumbers()
     {
         for (int i = 0; i < 10; i++)
-        {
             AssertNonVariableTerm(new IntegerNumber(i), i.ToString());
-        }
         AssertNonVariableTerm(new IntegerNumber(long.MaxValue), long.MaxValue.ToString());
         AssertNonVariableTerm(new IntegerNumber(long.MinValue), long.MinValue.ToString());
     }
@@ -95,7 +93,7 @@ public class TermParserTest : TestUtils
     public void TestDecimalFractions()
     {
         double[] testData = { 0, 1, 2, 10, 3.14, 1.0000001, 0.2 };
-        foreach (double d in testData)
+        foreach (var d in testData)
         {
             AssertNonVariableTerm(new DecimalFraction(d),(d).PatchDoubleString());
             AssertNonVariableTerm(new DecimalFraction(-d), (-d).PatchDoubleString());
@@ -127,7 +125,7 @@ public class TermParserTest : TestUtils
 
     private void TestPredicate(string syntax)
     {
-        Term t = ParseTerm(syntax);
+        var t = ParseTerm(syntax);
         Assert.IsNotNull(t);
         Assert.AreSame(typeof(Structure), t.GetType());
     }
@@ -144,12 +142,12 @@ public class TermParserTest : TestUtils
     [TestMethod]
     public void TestLists()
     {
-        Atom a = new Atom("a");
-        Atom b = new Atom("b");
-        Atom c = new Atom("c");
-        Atom d = new Atom("d");
-        Atom e = new Atom("e");
-        Atom f = new Atom("f");
+        var a = new Atom("a");
+        var b = new Atom("b");
+        var c = new Atom("c");
+        var d = new Atom("d");
+        var e = new Atom("e");
+        var f = new Atom("f");
         TestList("[a,b,c]", new Term[] { a, b, c }, null);
         TestList("[a,b,c|d]", new Term[] { a, b, c }, d);
         TestList("[ a, b, c | d ]", new Term[] { a, b, c }, d);
@@ -158,20 +156,12 @@ public class TermParserTest : TestUtils
         TestList("[a,b,c|[]]]", new Term[] { a, b, c }, null);
     }
 
-    private void TestList(string input, Term[] expectedArgs, Term expectedTail)
+    private static void TestList(string input, Term[] expectedArgs, Term expectedTail)
     {
-        Term expected;
-        if (expectedTail == null)
-        {
-            expected = ListFactory.CreateList(expectedArgs);
-        }
-        else
-        {
-            expected = ListFactory.CreateList(expectedArgs, expectedTail);
-        }
-        Term actual = ParseTerm(input);
+        var expected = expectedTail == null ? ListFactory.CreateList(expectedArgs) : ListFactory.CreateList(expectedArgs, expectedTail);
+        var actual = ParseTerm(input);
         Assert.AreSame(TermType.LIST, actual.Type);
-        Assert.IsTrue(actual is List);
+        Assert.IsTrue(actual is LinkedTermList);
         Assert.AreEqual(expected, actual);
     }
 
@@ -187,16 +177,10 @@ public class TermParserTest : TestUtils
     }
 
     [TestMethod]
-    public void TestEmptyList()
-    {
-        Assert.AreSame(EmptyList.EMPTY_LIST, ParseTerm("[]"));
-    }
+    public void TestEmptyList() => Assert.AreSame(EmptyList.EMPTY_LIST, ParseTerm("[]"));
 
     [TestMethod]
-    public void TestNoArgumentStructure()
-    {
-        ParseInvalid("p()");
-    }
+    public void TestNoArgumentStructure() => ParseInvalid("p()");
 
     [TestMethod]
     public void TestListsUsingPredicateSyntax()
@@ -204,9 +188,9 @@ public class TermParserTest : TestUtils
         TestPredicate(".(1)");
         TestPredicate(".(1, 2, 3)");
 
-        Atom a = new Atom("a");
-        Atom b = new Atom("b");
-        Atom c = new Atom("c");
+        var a = new Atom("a");
+        var b = new Atom("b");
+        var c = new Atom("c");
         TestList(".(a, b)", new Term[] { a }, b);
         TestList(".(a, .(b, c))", new Term[] { a, b }, c);
         TestList(".(a, .(b, .(c, [])))", new Term[] { a, b, c }, EmptyList.EMPTY_LIST);
@@ -239,7 +223,7 @@ public class TermParserTest : TestUtils
     [TestMethod]
     public void TestNoCache()
     {
-        Term t = ParseTerm("p(1,a,0.5)=p(a,0.5,1).");
+        var t = ParseTerm("p(1,a,0.5)=p(a,0.5,1).");
 
         // the integer number 1 will be reused due to th use of IntegerNumberCache
         Assert.AreEqual(t.GetArgument(0).GetArgument(0), t.GetArgument(1).GetArgument(2));
@@ -252,9 +236,9 @@ public class TermParserTest : TestUtils
         Assert.AreNotSame(t.GetArgument(0).GetArgument(2), t.GetArgument(1).GetArgument(1));
     }
 
-    private void AssertNonVariableTerm(Term expected, string input)
+    private static void AssertNonVariableTerm(Term expected, string input)
     {
-        Term actual = ParseTerm(input);
+        var actual = ParseTerm(input);
         Assert.IsNotNull(actual);
         Assert.AreEqual(expected.GetType(), actual.GetType());
         Assert.AreEqual(expected.Type, actual.Type);
@@ -263,9 +247,9 @@ public class TermParserTest : TestUtils
         Assert.AreEqual(expected, actual);
     }
 
-    private void AssertVariableTerm(Term expected, string input)
+    private static void AssertVariableTerm(Term expected, string input)
     {
-        Term actual = ParseTerm(input);
+        var actual = ParseTerm(input);
         Assert.IsNotNull(actual);
         Assert.AreEqual(expected.GetType(), actual.GetType());
         Assert.AreEqual(expected.Type, actual.Type);
@@ -273,7 +257,7 @@ public class TermParserTest : TestUtils
         Assert.IsTrue(expected.Unify(actual));
     }
 
-    private void ParseInvalid(string source)
+    private static void ParseInvalid(string source)
     {
         try
         {

@@ -40,13 +40,13 @@ public class AbstractArithmeticOperatorTest : TestUtils
         try
         {
             var c = new DummyArithmeticOperator();
-            c.KnowledgeBase = (TestUtils.CreateKnowledgeBase());
+            c.KnowledgeBase = (CreateKnowledgeBase());
             c.Calculate(CreateArgs(numberOfArguments, IntegerNumber()));
             Assert.Fail();
         }
         catch (Exception e)
         {
-            string expectedMessage = "The ArithmeticOperator: Org.NProlog.Core.Math.AbstractArithmeticOperatorTest+DummyArithmeticOperator does not accept the number of arguments: "
+            var expectedMessage = "The ArithmeticOperator: Org.NProlog.Core.Math.AbstractArithmeticOperatorTest+DummyArithmeticOperator does not accept the number of arguments: "
                                      + numberOfArguments;
             Assert.AreEqual(expectedMessage, e.Message);
         }
@@ -54,44 +54,35 @@ public class AbstractArithmeticOperatorTest : TestUtils
     public class AAO : AbstractArithmeticOperator
     {
         Numeric expected;
-        public AAO(Numeric expected)
-        {
-            this.expected = expected;
-        }
-        public override Numeric Calculate(Numeric n1)
-        {
-            return expected;
-        }
+        public AAO(Numeric expected) => this.expected = expected;
+        public override Numeric Calculate(Numeric n1) => expected;
     };
     [TestMethod]
     public void TestOneArg()
     {
-        Numeric expected = IntegerNumber(14);
-        AbstractArithmeticOperator c = new AAO(expected);
-
-        c.KnowledgeBase = (CreateKnowledgeBase());
+        var expected = IntegerNumber(14);
+        var c = new AAO(expected)
+        {
+            KnowledgeBase = (CreateKnowledgeBase())
+        };
         Assert.AreSame(expected, c.Calculate(new Term[] { IntegerNumber() }));
         Assert.AreSame(expected, c.Calculate(new Term[] { DecimalFraction() }));
     }
     public class AAO2 : AbstractArithmeticOperator
     {
-        Numeric expected;
-        public AAO2(Numeric expected)
-        {
-            this.expected = expected;
-        }
+        readonly Numeric expected;
+        public AAO2(Numeric expected) => this.expected = expected;
 
-        public override Numeric Calculate(Numeric n1, Numeric n2)
-        {
-            return expected;
-        }
+        public override Numeric Calculate(Numeric n1, Numeric n2) => expected;
     }
     [TestMethod]
     public void TestTwoArgs()
     {
-        Numeric expected = IntegerNumber(14);
-        AbstractArithmeticOperator c = new AAO2(expected);
-        c.KnowledgeBase = (CreateKnowledgeBase());
+        var expected = IntegerNumber(14);
+        var c = new AAO2(expected)
+        {
+            KnowledgeBase = (CreateKnowledgeBase())
+        };
         Assert.AreSame(expected, c.Calculate(new Term[] { IntegerNumber(), IntegerNumber() }));
         Assert.AreSame(expected, c.Calculate(new Term[] { DecimalFraction(), DecimalFraction() }));
         Assert.AreSame(expected, c.Calculate(new Term[] { IntegerNumber(), DecimalFraction() }));
@@ -99,16 +90,13 @@ public class AbstractArithmeticOperatorTest : TestUtils
     }
     public class AAO3 : AbstractArithmeticOperator
     {
-        public override Numeric Calculate(Numeric n1)
-        {
-            return n1;
-        }
+        public override Numeric Calculate(Numeric n1) => n1;
     }
 
     [TestMethod]
     public void TestInvalidArgument()
     {
-        AbstractArithmeticOperator c = new AAO3();
+        var c = new AAO3();
         c.KnowledgeBase = (CreateKnowledgeBase());
 
         AssertUnexpectedAtom(c, Atom());
@@ -116,16 +104,13 @@ public class AbstractArithmeticOperatorTest : TestUtils
     }
     public class AAO4 : AbstractArithmeticOperator
     {
-        public override Numeric Calculate(Numeric n1, Numeric n2)
-        {
-            return n1;
-        }
+        public override Numeric Calculate(Numeric n1, Numeric n2) => n1;
 
     }
     [TestMethod]
     public void TestInvalidArguments()
     {
-        AbstractArithmeticOperator c = new AAO4();
+        var c = new AAO4();
 
         c.KnowledgeBase = (CreateKnowledgeBase());
 
@@ -137,7 +122,7 @@ public class AbstractArithmeticOperatorTest : TestUtils
         AssertUnexpectedVariable(c, Variable(), IntegerNumber());
     }
 
-    private void AssertUnexpectedAtom(AbstractArithmeticOperator c, params Term[] args)
+    private static void AssertUnexpectedAtom(AbstractArithmeticOperator c, params Term[] args)
     {
         try
         {
@@ -150,7 +135,7 @@ public class AbstractArithmeticOperatorTest : TestUtils
         }
     }
 
-    private void AssertUnexpectedVariable(AbstractArithmeticOperator c, params Term[] args)
+    private static void AssertUnexpectedVariable(AbstractArithmeticOperator c, params Term[] args)
     {
         try
         {
@@ -164,52 +149,49 @@ public class AbstractArithmeticOperatorTest : TestUtils
     }
     public class AAO5 : AbstractArithmeticOperator
     {
-        public override Numeric Calculate(Numeric n1)
-        {
-            return new IntegerNumber(n1.Long + 5);
-        }
+        public override Numeric Calculate(Numeric n1) => new IntegerNumber(n1.Long + 5);
 
     }
     [TestMethod]
     public void TestArithmeticFunctionArgument()
     {
-        AbstractArithmeticOperator c = new AAO5();
-        c.KnowledgeBase = (TestUtils.CreateKnowledgeBase());
-        Structure arithmeticFunction = Structure("*", IntegerNumber(3), IntegerNumber(7));
+        var c = new AAO5
+        {
+            KnowledgeBase = (CreateKnowledgeBase())
+        };
+        var arithmeticFunction = Structure("*", IntegerNumber(3), IntegerNumber(7));
         Numeric result = c.Calculate(new Term[] { arithmeticFunction });
         Assert.AreEqual(26, result.Long); // 26 = (3*7)+5
     }
     public class AAO6 : AbstractArithmeticOperator
     {
-        public override Numeric Calculate(Numeric n1, Numeric n2)
-        {
-            return new IntegerNumber(n1.Long - n2.Long);
-        }
+        public override Numeric Calculate(Numeric n1, Numeric n2) => new IntegerNumber(n1.Long - n2.Long);
     }
     [TestMethod]
     public void TestArithmeticFunctionArguments()
     {
-        AbstractArithmeticOperator c = new AAO6();
-        c.KnowledgeBase = (CreateKnowledgeBase());
-        Structure f1 = Structure("*", IntegerNumber(3), IntegerNumber(7));
-        Structure f2 = Structure("/", IntegerNumber(12), IntegerNumber(2));
-        Numeric result = c.Calculate(new Term[] { f1, f2 });
+        var c = new AAO6
+        {
+            KnowledgeBase = (CreateKnowledgeBase())
+        };
+        var f1 = Structure("*", IntegerNumber(3), IntegerNumber(7));
+        var f2 = Structure("/", IntegerNumber(12), IntegerNumber(2));
+        var result = c.Calculate(new Term[] { f1, f2 });
         Assert.AreEqual(15, result.Long); // 15 = (3*7)-(12/2)
     }
     public class AAO7 : AbstractArithmeticOperator
     {
 
-        public override Numeric Calculate(Numeric n1)
-        {
-            return new IntegerNumber(-(n1.Long * 2));
-        }
+        public override Numeric Calculate(Numeric n1) => new IntegerNumber(-(n1.Long * 2));
 
     }
     [TestMethod]
     public void TestPreprocessOneArgument()
     {
-        AbstractArithmeticOperator c = new AAO7();
-        c.KnowledgeBase = (CreateKnowledgeBase());
+        var c = new AAO7
+        {
+            KnowledgeBase = (CreateKnowledgeBase())
+        };
         Assert.AreEqual(IntegerNumber(-84), c.Preprocess(Structure("dummy", IntegerNumber(42))));
         Assert.AreSame(c, c.Preprocess(Structure("dummy", Variable())));
         // TODO test PreprocessedUnaryOperator
@@ -219,17 +201,16 @@ public class AbstractArithmeticOperatorTest : TestUtils
     public class AAO8 : AbstractArithmeticOperator
     {
         public override Numeric Calculate(Numeric n1, Numeric n2)
-        {
-            return new IntegerNumber(n1.Long - n2.Long + 42);
-        }
-
+        => new IntegerNumber(n1.Long - n2.Long + 42);
     }
 
     [TestMethod]
     public void TestPreprocessTwoArguments()
     {
-        AbstractArithmeticOperator c = new AAO8();
-        c.KnowledgeBase = (CreateKnowledgeBase());
+        var c = new AAO8
+        {
+            KnowledgeBase = (CreateKnowledgeBase())
+        };
         Assert.AreEqual(IntegerNumber(47), c.Preprocess(Structure("dummy", IntegerNumber(8), IntegerNumber(3))));
         Assert.AreSame(c, c.Preprocess(Structure("dummy", Variable(), Variable())));
         // TODO test PreprocessedBinaryOperator
@@ -249,7 +230,7 @@ public class AbstractArithmeticOperatorTest : TestUtils
     [TestMethod]
     public void TestPreprocessNotPure()
     {
-        AbstractArithmeticOperator c = new AAO9();
+        var c = new AAO9();
         Assert.AreSame(c, c.Preprocess(Structure("dummy", IntegerNumber(42))));
         Assert.AreSame(c, c.Preprocess(Structure("dummy", Variable())));
     }
@@ -261,9 +242,8 @@ public class AbstractArithmeticOperatorTest : TestUtils
     [TestMethod]
     public void TestIsPure()
     {
-        AbstractArithmeticOperator c = new AAO10();
+        var c = new AAO10();
 
         Assert.IsTrue(c.IsPure);
-
     }
 }

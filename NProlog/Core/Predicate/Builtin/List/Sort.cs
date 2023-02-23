@@ -17,9 +17,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.List;
 
-
-
-
 /* TEST
 %?- msort([q,w,e,r,t,y], X)
 % X=[e,q,r,t,w,y]
@@ -69,10 +66,9 @@ namespace Org.NProlog.Core.Predicate.Builtin.List;
  */
 public class Sort : AbstractSingleResultPredicate
 {
-
     protected override bool Evaluate(Term unsorted, Term sorted)
     {
         var elements = ListUtils.ToSortedList(unsorted);
-        return elements == null ? false : sorted.Unify(ListFactory.CreateList(elements));
+        return elements != null && sorted.Unify(ListFactory.CreateList(elements));
     }
 }

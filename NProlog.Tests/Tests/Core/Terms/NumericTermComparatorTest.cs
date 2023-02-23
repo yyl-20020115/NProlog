@@ -22,13 +22,10 @@ namespace Org.NProlog.Core.Terms;
 [TestClass]
 public class NumericTermComparatorTest : TestUtils
 {
-    private readonly KnowledgeBase kb = TestUtils.CreateKnowledgeBase();
+    private readonly KnowledgeBase kb = CreateKnowledgeBase();
     private readonly ArithmeticOperators operators;
 
-    public NumericTermComparatorTest()
-    {
-        operators = kb.ArithmeticOperators;
-    }
+    public NumericTermComparatorTest() => operators = kb.ArithmeticOperators;
     [TestMethod]
     public void TestCompareDecimalValues()
     {
@@ -106,8 +103,8 @@ public class NumericTermComparatorTest : TestUtils
     [TestMethod]
     public void TestStructuresRepresentingArithmeticOperators()
     {
-        Structure addition = Structure("+", IntegerNumber(1), IntegerNumber(3));
-        Structure subtraction = Structure("-", IntegerNumber(5), IntegerNumber(2));
+        var addition = Structure("+", IntegerNumber(1), IntegerNumber(3));
+        var subtraction = Structure("-", IntegerNumber(5), IntegerNumber(2));
 
         // test Compare(Term, Term) evaluates structures representing arithmetic expressions
         Assert.AreEqual(1, NumericTermComparator.Compare(addition, subtraction, operators));
@@ -136,7 +133,7 @@ public class NumericTermComparatorTest : TestUtils
         }
     }
 
-    private void ComparePrimitives(long i1, long i2)
+    private static void ComparePrimitives(long i1, long i2)
     {
         CompareIntegers(IntegerNumber(i1), IntegerNumber(i2));
         CompareIntegers(IntegerNumber(i2), IntegerNumber(i1));
@@ -150,32 +147,32 @@ public class NumericTermComparatorTest : TestUtils
 
     private static void CompareIntegers(IntegerNumber t1, IntegerNumber t2)
     {
-        long i1 = t1.Long;
-        long i2 = t2.Long;
+        var i1 = t1.Long;
+        var i2 = t2.Long;
         Assert.AreEqual(i1.CompareTo(i2), NumericTermComparator.Compare(t1, t2));
         Assert.AreEqual(i2.CompareTo(i1), NumericTermComparator.Compare(t2, t1));
     }
 
     private static void CompareDecimals(DecimalFraction t1, DecimalFraction t2)
     {
-        double d1 = t1.Double;
-        double d2 = t2.Double;
+        var d1 = t1.Double;
+        var d2 = t2.Double;
         Assert.AreEqual(d1.CompareTo(d2), NumericTermComparator.Compare(t1, t2));
         Assert.AreEqual(d2.CompareTo(d1), NumericTermComparator.Compare(t2, t1));
     }
 
     private static void CompareMixedTypes(Numeric t1, Numeric t2)
     {
-        double d1 = t1.Double;
-        double d2 = t2.Double;
+        var d1 = t1.Double;
+        var d2 = t2.Double;
         Assert.AreEqual(d1.CompareTo(d2), NumericTermComparator.Compare(t1, t2));
         Assert.AreEqual(d2.CompareTo(d1), NumericTermComparator.Compare(t2, t1));
     }
 
     private void Compare(string s1, string s2, KnowledgeBase kb, int expected)
     {
-        Term t1 = TestUtils.ParseSentence(s1 + ".");
-        Term t2 = TestUtils.ParseSentence(s2 + ".");
+        var t1 = ParseSentence(s1 + ".");
+        var t2 = ParseSentence(s2 + ".");
         Assert.AreEqual(expected, NumericTermComparator.Compare(t1, t2, operators));
         Assert.AreEqual(0 - expected, NumericTermComparator.Compare(t2, t1, operators));
     }

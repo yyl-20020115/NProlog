@@ -23,28 +23,22 @@ namespace Org.NProlog.Core.Terms;
 public class EmptyListTest
 {
     [TestMethod]
-    public void TestGetName()
-    {
-        Assert.AreEqual(".", EmptyList.EMPTY_LIST.Name);
-    }
+    public void TestGetName() => Assert.AreEqual(".", EmptyList.EMPTY_LIST.Name);
 
     [TestMethod]
-    public void TestToString()
-    {
-        Assert.AreEqual("[]", EmptyList.EMPTY_LIST.ToString());
-    }
+    public void TestToString() => Assert.AreEqual("[]", EmptyList.EMPTY_LIST.ToString());
 
     [TestMethod]
     public void TestGetTerm()
     {
-        EmptyList e = EmptyList.EMPTY_LIST.Term;
+        var e = EmptyList.EMPTY_LIST.Term;
         Assert.AreSame(EmptyList.EMPTY_LIST, e);
     }
 
     [TestMethod]
     public void TestGetBound()
     {
-        Term e = EmptyList.EMPTY_LIST.Bound;
+        var e = EmptyList.EMPTY_LIST.Bound;
         Assert.AreSame(EmptyList.EMPTY_LIST, e);
     }
 
@@ -76,8 +70,6 @@ public class EmptyListTest
     }
 
     [TestMethod]
-    public void TestGetArgs()
-    {
-        Assert.AreSame(TermUtils.EMPTY_ARRAY, EmptyList.EMPTY_LIST.Args);
-    }
+    public void TestGetArgs() 
+        => Assert.AreSame(TermUtils.EMPTY_ARRAY, EmptyList.EMPTY_LIST.Args);
 }

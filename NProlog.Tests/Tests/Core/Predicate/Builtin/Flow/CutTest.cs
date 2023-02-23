@@ -16,33 +16,32 @@
 namespace Org.NProlog.Core.Predicate.Builtin.Flow;
 
 [TestClass]
-
 public class CutTest : TestUtils
 {
     [TestMethod]
     public void TestIsAlwaysCutOnBacktrack()
     {
-        Cut c = new Cut();
+        var c = new Cut();
         Assert.IsTrue(c.IsAlwaysCutOnBacktrack);
     }
 
     [TestMethod]
     public void TestIsRetryable()
     {
-        Cut c = new Cut();
+        var c = new Cut();
         Assert.IsTrue(c.IsRetryable);
     }
 
     [TestMethod]
     public void TestGetPredicate()
     {
-        Cut c = new Cut();
+        var c = new Cut();
 
-        Predicate p1 = c.GetPredicate();
+        var p1 = c.GetPredicate();
         Assert.IsTrue(p1.Evaluate());
         AssertThrows(typeof(CutException), () => p1.Evaluate());
 
-        Predicate p2 = c.GetPredicate();
+        var p2 = c.GetPredicate();
         Assert.IsTrue(p2.Evaluate());
         AssertThrows(typeof(CutException), () => p2.Evaluate());
     }

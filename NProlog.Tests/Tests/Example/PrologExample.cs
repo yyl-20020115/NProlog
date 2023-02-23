@@ -27,7 +27,7 @@ public class PrologExample
         Assert.IsTrue(true);
         //_Main(new string[0]);
     }
-    public static void _Main(string[] args)
+    public static void DoMain(string[] args)
     {
         var p = new Prolog();
         p.ConsultFile(new("test.pl"));
@@ -38,7 +38,7 @@ public class PrologExample
             Console.WriteLine("X = " + r1.GetTerm("X") + " Y = " + r1.GetTerm("Y"));
         }
         s1.SetTerm("X", (Term)new Atom("d"));
-        QueryResult r2 = s1.ExecuteQuery();
+        var r2 = s1.ExecuteQuery();
         while (r2.Next())
         {
             Console.WriteLine("Y = " + r2.GetTerm("Y"));

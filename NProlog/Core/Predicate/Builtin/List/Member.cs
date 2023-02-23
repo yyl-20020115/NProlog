@@ -132,7 +132,6 @@ namespace Org.NProlog.Core.Predicate.Builtin.List;
  */
 public class Member : AbstractPredicateFactory
 {
-
     protected override Predicate GetPredicate(Term element, Term list)
         => new MemberPredicate(element, list);
 
@@ -150,12 +149,11 @@ public class Member : AbstractPredicateFactory
             this.currentList = originalList;
         }
 
-
         public virtual bool Evaluate()
         {
             if (isTailVariable)
             {
-                var n = new Terms.List(new Variable(), currentList.Term);
+                var n = new Terms.LinkedTermList(new Variable(), currentList.Term);
                 currentList.Backtrack();
                 currentList.Unify(n);
                 return true;
@@ -167,18 +165,16 @@ public class Member : AbstractPredicateFactory
                 {
                     element.Backtrack();
                     originalList.Backtrack();
-                    Term head = currentList.GetArgument(0);
+                    var head = currentList.GetArgument(0);
                     currentList = currentList.GetArgument(1);
                     if (element.Unify(head))
-                    {
                         return true;
-                    }
                 }
                 else if (currentList.Type.IsVariable)
                 {
                     isTailVariable = true;
                     element.Backtrack();
-                    Terms.List n = new Terms.List(element, new Variable());
+                    var n = new LinkedTermList(element, new Variable());
                     currentList.Unify(n);
                     return true;
                 }

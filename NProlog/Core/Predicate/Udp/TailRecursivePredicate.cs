@@ -40,7 +40,6 @@ public abstract class TailRecursivePredicate : Predicate
     private bool retrying;
     private bool succeededOnPreviousGo;
 
-
     public virtual bool Evaluate()
     {
         if (retrying)

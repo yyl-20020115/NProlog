@@ -23,14 +23,11 @@ namespace Org.NProlog.Examples;
 public class CalculatableExample : ArithmeticOperator
 {
     [TestMethod]
-    public void Test()
-    {
-        Assert.IsTrue(true);
-    }
+    public void Test() => Assert.IsTrue(true);
     public Numeric Calculate(Term[] args)
     {
-        Numeric input = TermUtils.CastToNumeric(args[0]);
-        long rounded = (long)Math.Round(input.Double);
+        var input = TermUtils.CastToNumeric(args[0]);
+        var rounded = (long)Math.Round(input.Double);
         return new IntegerNumber(rounded);
     }
 }

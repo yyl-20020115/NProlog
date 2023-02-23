@@ -24,17 +24,17 @@ public class IndexesTest : TestUtils
     [TestMethod]
     public void TestAllPermutationsOfThreeArgs()
     {
-        Atom a = Atom("a");
-        Atom b = Atom("b");
-        Atom c = Atom("c");
-        Atom d = Atom("d");
+        var a = Atom("a");
+        var b = Atom("b");
+        var c = Atom("c");
+        var d = Atom("d");
         var clauses = CreateClauses("p(a,b,c).", "p(a,c,b).", "p(b,c,a).", "p(a,d,c).");
-        ClauseAction first = clauses.ClauseActions[0];
-        ClauseAction second = clauses.ClauseActions[1];
-        ClauseAction third = clauses.ClauseActions[2];
-        ClauseAction fourth = clauses.ClauseActions[3];
+        var first = clauses.ClauseActions[0];
+        var second = clauses.ClauseActions[1];
+        var third = clauses.ClauseActions[2];
+        var fourth = clauses.ClauseActions[3];
 
-        Indexes indexes = new Indexes(clauses);
+        var indexes = new Indexes(clauses);
         Assert.AreEqual(0, indexes.CountReferences());
 
         // 1 arg indexes
@@ -62,17 +62,17 @@ public class IndexesTest : TestUtils
     [TestMethod]
     public void TestMaxThreeArgsPerIndex()
     {
-        Atom a = Atom("a");
-        Atom b = Atom("b");
-        Atom c = Atom("c");
-        Atom d = Atom("d");
-        Atom e = Atom("e");
-        Clauses clauses = CreateClauses("p(a,b,c,d,e).", "p(a,b,c,d,f).", "p(a,b,c,f,g).", "p(a,b,f,g,h).");
-        ClauseAction first = clauses.ClauseActions[0];
-        ClauseAction second = clauses.ClauseActions[1];
-        ClauseAction third = clauses.ClauseActions[2];
+        var a = Atom("a");
+        var b = Atom("b");
+        var c = Atom("c");
+        var d = Atom("d");
+        var e = Atom("e");
+        var clauses = CreateClauses("p(a,b,c,d,e).", "p(a,b,c,d,f).", "p(a,b,c,f,g).", "p(a,b,f,g,h).");
+        var first = clauses.ClauseActions[0];
+        var second = clauses.ClauseActions[1];
+        var third = clauses.ClauseActions[2];
 
-        Indexes indexes = new Indexes(clauses);
+        var indexes = new Indexes(clauses);
 
         // a maximum of the first 3 immutable args will be used in the index
         AssertMatches(indexes, Array(a, b, c, d, e), first, second, third);
@@ -83,22 +83,22 @@ public class IndexesTest : TestUtils
     [TestMethod]
     public void TestMaxNineArgsIndexable()
     {
-        Atom a = Atom("a");
-        Atom b = Atom("b");
-        Atom c = Atom("c");
-        Atom d = Atom("d");
-        Atom e = Atom("e");
-        Atom f = Atom("f");
-        Atom g = Atom("g");
-        Atom h = Atom("h");
-        Atom i = Atom("i");
-        Atom j = Atom("j");
-        Clauses clauses = CreateClauses("p(a,b,c,d,e,f,g,h,i,j).", "p(q,w,e,r,t,y,u,i,o,p).", "p(z,x,k,v,b,n,m,a,s,d).");
-        ClauseAction first = clauses.ClauseActions[0];
-        ClauseAction second = clauses.ClauseActions[1];
-        ClauseAction third = clauses.ClauseActions[2];
+        var a = Atom("a");
+        var b = Atom("b");
+        var c = Atom("c");
+        var d = Atom("d");
+        var e = Atom("e");
+        var f = Atom("f");
+        var g = Atom("g");
+        var h = Atom("h");
+        var i = Atom("i");
+        var j = Atom("j");
+        var clauses = CreateClauses("p(a,b,c,d,e,f,g,h,i,j).", "p(q,w,e,r,t,y,u,i,o,p).", "p(z,x,k,v,b,n,m,a,s,d).");
+        var first = clauses.ClauseActions[0];
+        var second = clauses.ClauseActions[1];
+        var third = clauses.ClauseActions[2];
 
-        Indexes indexes = new Indexes(clauses);
+        var indexes = new Indexes(clauses);
 
         // a maximum of the first 9 immutable args will be considered for use in the index
         AssertMatches(indexes, Array(a, CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable()), first);
@@ -118,22 +118,22 @@ public class IndexesTest : TestUtils
     [TestMethod]
     public void TestMuttableArgsNotIncludeInMaxLimits()
     {
-        Atom a = Atom("a");
-        Atom b = Atom("b");
-        Atom c = Atom("c");
-        Atom d = Atom("d");
-        Atom q = Atom("q");
-        Atom k = Atom("k");
-        Atom j = Atom("j");
-        Atom x = Atom("x");
-        Atom z = Atom("z");
+        var a = Atom("a");
+        var b = Atom("b");
+        var c = Atom("c");
+        var d = Atom("d");
+        var q = Atom("q");
+        var k = Atom("k");
+        var j = Atom("j");
+        var x = Atom("x");
+        var z = Atom("z");
         // 3rd and 8th args not considered indexable as sometimes mutable
-        Clauses clauses = CreateClauses("p(z,x,X,v,b,n,m,h,s,d,e,q).", "p(a,b,c,d,e,f,g,p(Y),i,j,k,l).", "p(a,b,c,z,e,f,g,h,i,j,x,y).");
-        ClauseAction first = clauses.ClauseActions[0];
-        ClauseAction second = clauses.ClauseActions[1];
-        ClauseAction third = clauses.ClauseActions[2];
+        var clauses = CreateClauses("p(z,x,X,v,b,n,m,h,s,d,e,q).", "p(a,b,c,d,e,f,g,p(Y),i,j,k,l).", "p(a,b,c,z,e,f,g,h,i,j,x,y).");
+        var first = clauses.ClauseActions[0];
+        var second = clauses.ClauseActions[1];
+        var third = clauses.ClauseActions[2];
 
-        Indexes indexes = new Indexes(clauses);
+        var indexes = new Indexes(clauses);
         // 4th argument ("d") will be included in composite index.
         // This is dispite there being a 3 arg max limit in the number of args per index.
         // This is because the third argument is not considered for indexing as one of the clauses has
@@ -168,9 +168,9 @@ public class IndexesTest : TestUtils
             }
             models.Add(ClauseModel.CreateClauseModel(Structure("p", args)));
         }
-        Clauses clauses = Clauses.CreateFromModels(TestUtils.CreateKnowledgeBase(), models);
+        var clauses = Clauses.CreateFromModels(TestUtils.CreateKnowledgeBase(), models);
 
-        Indexes indexes = new Indexes(clauses);
+        var indexes = new Indexes(clauses);
 
         //TODO:
         //Collections.shuffle(models);
@@ -179,10 +179,10 @@ public class IndexesTest : TestUtils
         for (int i = 0; i < numArgs; i++)
         {
             itr.MoveNext();
-            ClauseModel expected = itr.Current;
-            Term[] args = Array(CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable());
+            var expected = itr.Current;
+            var args = Array(CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable());
             args[i] = expected.Consequent.GetArgument(i);
-            ClauseAction[] matches = indexes.Index(args);
+            var matches = indexes.Index(args);
             Assert.AreEqual(1, matches.Length);
             Assert.AreSame(expected, matches[0].Model);
         }
@@ -192,11 +192,11 @@ public class IndexesTest : TestUtils
             for (int i2 = i1 + 1; i2 < numArgs; i2++)
             {
                 itr.MoveNext();
-                ClauseModel expected = itr.Current;
-                Term[] args = Array(CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable());
+                var expected = itr.Current;
+                var args = Array(CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable());
                 args[i1] = expected.Consequent.GetArgument(i1);
                 args[i2] = expected.Consequent.GetArgument(i2);
-                ClauseAction[] matches = indexes.Index(args);
+                var matches = indexes.Index(args);
                 Assert.AreEqual(1, matches.Length);
                 Assert.AreSame(expected, matches[0].Model);
             }
@@ -209,12 +209,12 @@ public class IndexesTest : TestUtils
                 for (int i3 = i2 + 1; i3 < numArgs; i3++)
                 {
                     itr.MoveNext();
-                    ClauseModel expected = itr.Current;
-                    Term[] args = Array(CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable());
+                    var expected = itr.Current;
+                    var args = Array(CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable(), CreateVariable());
                     args[i1] = expected.Consequent.GetArgument(i1);
                     args[i2] = expected.Consequent.GetArgument(i2);
                     args[i3] = expected.Consequent.GetArgument(i3);
-                    ClauseAction[] matches = indexes.Index(args);
+                    var matches = indexes.Index(args);
                     Assert.AreEqual(1, matches.Length);
                     Assert.AreSame(expected, matches[0].Model);
                 }
@@ -229,7 +229,7 @@ public class IndexesTest : TestUtils
     private static void AssertMatches(Indexes indexes, Term[] input, params ClauseAction[] expected)
     {
         Assert.IsTrue(expected.Length > 0);
-        ClauseAction[] actual = indexes.Index(input);
+        var actual = indexes.Index(input);
         Assert.AreSame(actual, indexes.Index(input)); // assert same object gets returned for multiple calls
         Assert.AreEqual(expected.Length, actual.Length);
         for (int i = 0; i < actual.Length; i++)
@@ -240,13 +240,10 @@ public class IndexesTest : TestUtils
 
     private static void AssertNoMatches(Indexes indexes, Term[] input)
     {
-        ClauseAction[] actual = indexes.Index(input);
+        var actual = indexes.Index(input);
         Assert.AreSame(actual, indexes.Index(input)); // assert same object gets returned for multiple calls
         Assert.AreEqual(0, actual.Length);
     }
 
-    private static Variable CreateVariable()
-    {
-        return Variable();
-    }
+    private static Variable CreateVariable() => Variable();
 }
