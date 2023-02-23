@@ -73,7 +73,7 @@ public class ClauseModel
             antecedent = TRUE;
         }
 
-        return new ClauseModel(original, consequent, antecedent);
+        return new (original, consequent, antecedent);
     }
 
     private ClauseModel(Term original, Term consequent, Term antecedent)
@@ -100,7 +100,6 @@ public class ClauseModel
     }
 
     public bool IsFact => TRUE.Equals(antecedent);
-
 
     public override string ToString() => "[" + base.ToString() + " " + consequent + " " + antecedent + "]";
 }

@@ -199,7 +199,7 @@ public class RecordedDatabase
             {
                 var key = recordedDatabase.keys[keyIdx];
                 if (recordedDatabase.chains.TryGetValue(key, out var chain))
-                    chainIterator = new ChainIterator(chain);
+                    chainIterator = new (chain);
             }
         }
 

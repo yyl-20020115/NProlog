@@ -118,15 +118,11 @@ public class Conjunction : AbstractPredicateFactory, PreprocessablePredicateFact
           : PredicateUtils.FALSE;
     }
 
-
     public virtual PredicateFactory Preprocess(Term term)
     {
         var firstArg = term.GetArgument(0);
         var secondArg = term.GetArgument(1);
-        if (firstArg.Type.IsVariable || secondArg.Type.IsVariable)
-        {
-            return this;
-        }
+        if (firstArg.Type.IsVariable || secondArg.Type.IsVariable) return this;
 
         var firstPredicateFactory = Predicates.GetPreprocessedPredicateFactory(firstArg);
         var secondPredicateFactory = Predicates.GetPreprocessedPredicateFactory(secondArg);
@@ -146,13 +142,11 @@ public class Conjunction : AbstractPredicateFactory, PreprocessablePredicateFact
             this.secondPredicateFactory = secondPredicateFactory;
         }
 
-
         protected override Predicate GetPredicate(Term arg1, Term arg2)
         {
             var firstPredicate = firstPredicateFactory.GetPredicate(arg1.Args);
             return firstPredicate.Evaluate() ? new ConjunctionPredicate(firstPredicate, secondPredicateFactory, arg2) : PredicateUtils.FALSE;
         }
-
 
         public bool IsAlwaysCutOnBacktrack
             => secondPredicateFactory.IsAlwaysCutOnBacktrack 
@@ -170,7 +164,6 @@ public class Conjunction : AbstractPredicateFactory, PreprocessablePredicateFact
             this.firstPredicateFactory = firstPredicateFactory;
             this.secondPredicateFactory = secondPredicateFactory;
         }
-
 
         protected override bool Evaluate(Term arg1, Term arg2)
             => firstPredicateFactory.GetPredicate(arg1.Args).Evaluate() && secondPredicateFactory.GetPredicate(arg2.Term.Args).Evaluate();

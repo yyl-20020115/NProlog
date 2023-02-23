@@ -17,7 +17,6 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Classify;
 
-
 /* TEST
 %TRUE nonvar(abc)
 %TRUE nonvar(1)

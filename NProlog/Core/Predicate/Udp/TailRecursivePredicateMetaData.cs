@@ -85,7 +85,7 @@ public class TailRecursivePredicateMetaData
         var consequent = secondTerm.Consequent;
         var antecedent = secondTerm.Antecedent;
         var functions = KnowledgeBaseUtils.ToArrayOfConjunctions(antecedent);
-        var lastFunction = functions[functions.Length - 1];
+        var lastFunction = functions[^1];
         if (lastFunction.Type == TermType.STRUCTURE
             && lastFunction.Name.Equals(consequent.Name)
             && lastFunction.NumberOfArguments == consequent.NumberOfArguments)
@@ -111,8 +111,8 @@ public class TailRecursivePredicateMetaData
      */
     public TailRecursivePredicateMetaData(List<ClauseModel> clauses)
     {
-        this.firstClause = clauses[(0)];
-        this.secondClause = clauses[(1)];
+        this.firstClause = clauses[0];
+        this.secondClause = clauses[1];
 
         int numberOfArguments = firstClause.Consequent.NumberOfArguments;
 

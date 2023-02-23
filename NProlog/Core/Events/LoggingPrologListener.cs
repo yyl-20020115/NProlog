@@ -35,7 +35,7 @@ public class LoggingPrologListener : PrologListener
     public void OnInfo(string message) 
         => Log("INFO " + message);
     private void Log(string level, SpyPointEvent @event) 
-        => Log("[" + @event.GetSourceId() + "] " + level + " " + @event.GetFormattedTerm());
+        => Log($"[{@event.GetSourceId()}] {level} {@event.GetFormattedTerm()}");
     private void Log(string message) 
         => writer.WriteLine(message);
 }

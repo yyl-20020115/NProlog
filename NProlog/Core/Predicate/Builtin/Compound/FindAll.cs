@@ -71,7 +71,6 @@ y(X) :- X = o(T,R), q(T), q(R).
  */
 public class FindAll : AbstractSingleResultPredicate, PreprocessablePredicateFactory
 {
-
     protected override bool Evaluate(Term template, Term goal, Term output) 
         => EvaluateFindAll(Predicates.GetPredicateFactory(goal), template, goal, output);
 
@@ -109,12 +108,12 @@ public class FindAll : AbstractSingleResultPredicate, PreprocessablePredicateFac
 
     private class PreprocessedFindAll : PredicateFactory
     {
-        private readonly PredicateFactory pf;
+        private readonly PredicateFactory factory;
 
-        public PreprocessedFindAll(PredicateFactory pf) => this.pf = pf;
+        public PreprocessedFindAll(PredicateFactory factory) => this.factory = factory;
 
         public virtual Predicate GetPredicate(Term[] args)
-            => PredicateUtils.ToPredicate(EvaluateFindAll(pf, args[0], args[1], args[2]));
+            => PredicateUtils.ToPredicate(EvaluateFindAll(factory, args[0], args[1], args[2]));
 
         public bool IsRetryable => false;
     }

@@ -65,7 +65,7 @@ public class Operands
                 if (operandsMap.TryGetValue(operandName, out var o))
                     // if the operand is already registered throw an exception if the precedence is different else do nothing
                     if (o.precedence != precedence || o.associativity != a)
-                        throw new PrologException("Operand: " + operandName + " with associativity: " + o.associativity + " and precedence: " + o.precedence + " already exists");
+                        throw new PrologException($"Operand: {operandName} with associativity: {o.associativity} and precedence: {o.precedence} already exists");
             }
             else
             {
@@ -85,10 +85,7 @@ public class Operands
         }
         catch (ArgumentException e)
         {
-            throw new PrologException("Cannot add operand with associativity of: "
-                                      + associativityName
-                                      + " as the only values allowed are: "
-                                      + StringUtils.ToString(Associativity.Values.Keys));
+            throw new PrologException($"Cannot add operand with associativity of: {associativityName} as the only values allowed are: {StringUtils.ToString(Associativity.Values.Keys)}");
         }
     }
 
@@ -99,7 +96,7 @@ public class Operands
             Location.PREFIX => prefixOperands,
             Location.POSTFIX => postfixOperands,
             // the Associativity enum currently only has 3 values, all of which are included in the above switch statement - so should never get here
-            _ => throw new PrologException("Do not support associativity: " + a),
+            _ => throw new PrologException($"Already defined operator: {a}"),
         };
 
     /** Returns the priority (precedence/level) of the infix operator represented by {@code op}. */

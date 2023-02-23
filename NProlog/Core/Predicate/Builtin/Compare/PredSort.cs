@@ -70,7 +70,6 @@ public class PredSort : AbstractSingleResultPredicate, PreprocessablePredicateFa
     /** The arity of the predicate represented by the first argument. */
     private const int FIRST_ARG_ARITY = 3;
 
-
     protected override bool Evaluate(Term predicateName, Term input, Term sorted)
     {
         var pf = PartialApplicationUtils.GetPartiallyAppliedPredicateFactory(
@@ -81,11 +80,7 @@ public class PredSort : AbstractSingleResultPredicate, PreprocessablePredicateFa
     private static bool EvaluatePredSort(PredicateFactory pf, Term predicateName, Term input, Term sorted)
     {
         var list = ListUtils.ToList(input);
-        if (list == null)
-        {
-            return false;
-        }
-
+        if (list == null) return false;
         //      Collections.sort(list,);
         list.Sort(new PredSortComparator(pf, predicateName));
         return sorted.Unify(ListFactory.CreateList(list));
@@ -101,7 +96,6 @@ public class PredSort : AbstractSingleResultPredicate, PreprocessablePredicateFa
             this.pf = pf;
             this.predicateName = predicateName;
         }
-
 
         public int Compare(Term? o1, Term? o2)
         {
@@ -120,7 +114,7 @@ public class PredSort : AbstractSingleResultPredicate, PreprocessablePredicateFa
             }
             else
             {
-                throw new InvalidOperationException(predicateName + " " + result + " " + o1 + " " + o2); // TODO
+                throw new InvalidOperationException($"{predicateName} {result} {o1} {o2}"); // TODO
             }
         }
     }

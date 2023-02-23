@@ -147,7 +147,7 @@ public class AtomConcat : AbstractPredicateFactory
             }
             else
             {
-                throw new PrologException("If third argument is not an atom then both first and second arguments must be: " + arg1 + " " + arg2 + " " + arg3);
+                throw new PrologException($"If third argument is not an atom then both first and second arguments must be: {arg1} {arg2} {arg3}");
             }
         }
     }
@@ -156,7 +156,7 @@ public class AtomConcat : AbstractPredicateFactory
     {
         var type = t.Type;
         if (type != TermType.ATOM && !type.IsVariable)
-            throw new PrologException("Expected an atom or variable but got: " + type + " with value: " + t);
+            throw new PrologException($"Expected an atom or variable but got: {type} with value: {t}");
     }
 
     private static bool IsAtom(Term t) 
@@ -184,8 +184,8 @@ public class AtomConcat : AbstractPredicateFactory
                 arg1.Backtrack();
                 arg2.Backtrack();
 
-                var prefix = new Atom(combined.Substring(0, ctr));
-                var suffix = new Atom(combined.Substring(ctr));
+                var prefix = new Atom(combined[..ctr]);
+                var suffix = new Atom(combined[ctr..]);
                 ctr++;
 
                 return arg1.Unify(prefix) && arg2.Unify(suffix);

@@ -110,7 +110,7 @@ public class SentenceParser
         var trailingToken = PopValue();
         return Delimiters.IsSentenceTerminator(trailingToken)
             ? t
-            : throw NewParserException("Expected . after: " + t + " but got: " + trailingToken);
+            : throw NewParserException($"Expected . after: {t} but got: {trailingToken}");
     }
 
     /**
@@ -265,7 +265,7 @@ public class SentenceParser
 
             int prefixLevel = operands.GetPrefixPriority(value);
             if (prefixLevel > currentLevel)
-                throw NewParserException("Invalid prefix: " + value + " level: " + prefixLevel + " greater than current level: " + currentLevel);
+                throw NewParserException($"Invalid prefix: {value} level: {prefixLevel} greater than current level: {currentLevel}");
 
             // The difference between "fy" and "fx" associativity is that a "y" means that the argument
             // can contain operators of <i>the same</i> or lower level of priority
@@ -338,7 +338,7 @@ public class SentenceParser
                 // "x" in "xf" means that the argument can <i>only</i> contain operators of a lower priority.
                 if (levelToCompareTo > level || (operands.Xf(postfixOperand) && levelToCompareTo == level))
                 {
-                    throw NewParserException("Invalid postfix: " + postfixOperand + " " + level + " and term: " + original + " " + levelToCompareTo);
+                    throw NewParserException($"Invalid postfix: {postfixOperand} {level} and term: {original} {levelToCompareTo}");
                 }
             }
         }
@@ -386,7 +386,7 @@ public class SentenceParser
             case TokenType.EMPTY_LIST:
                 return EmptyList.EMPTY_LIST;
             default:
-                throw new SystemException("Unexpected token type: " + token.Type + " with value: " + token);
+                throw new SystemException($"Unexpected token type: {token.Type} with value: {token}");
         }
     }
 
@@ -403,7 +403,7 @@ public class SentenceParser
         {
             PopValue(); //skip opening bracket
             if (Delimiters.IsPredicateCloseBracket(PeekValue()))
-                throw NewParserException("No arguments specified for structure: " + name);
+                throw NewParserException($"No arguments specified for structure: {name}");
 
             List<Token> args = new();
 
@@ -418,7 +418,7 @@ public class SentenceParser
                 else if (Delimiters.IsArgumentSeperator(token))
                     args.Add(GetCommaSeparatedArgument());
                 else
-                    throw NewParserException("While parsing arguments of " + name + " expected ) or , but got: " + token);
+                    throw NewParserException($"While parsing arguments of {name} expected ) or , but got: {token}");
             } while (true);
         }
         else
@@ -434,7 +434,8 @@ public class SentenceParser
      * new {@code Variable} will be created. The only exception to this behaviour is when the id Equals
      * {@link Variable#ANONYMOUS_VARIABLE_ID} - in which case a new {@code Variable} will be always be returned.
      */
-    private Variable GetVariable(string id) => Variable.ANONYMOUS_VARIABLE_ID.Equals(id) ? new Variable() : GetNamedVariable(id);
+    private Variable GetVariable(string id) => Variable.ANONYMOUS_VARIABLE_ID.Equals(id) 
+        ? new Variable() : GetNamedVariable(id);
 
     private Variable GetNamedVariable(string id)
     {
@@ -470,11 +471,11 @@ public class SentenceParser
                 tail = GetCommaSeparatedArgument();
                 token = PopValue();
                 if (!Delimiters.IsListCloseBracket(token))
-                   throw NewParserException("Expected ] to mark end of list after tail but got: " + token);
+                   throw NewParserException($"Expected ] to mark end of list after tail but got: {token}");
                 break;
             }
             else if (!Delimiters.IsArgumentSeperator(token))
-                throw NewParserException("While parsing list expected ] | or , but got: " + token);
+                throw NewParserException($"While parsing list expected ] | or , but got: {token}");
         }
 
         var list = tail;
@@ -509,7 +510,7 @@ public class SentenceParser
         var token = GetToken(int.MaxValue);
         var next = PopValue();
         if (!Delimiters.IsPredicateCloseBracket(next))
-            throw NewParserException("Expected ) but got: " + next + " after " + token);
+            throw NewParserException($"Expected ) but got: {next} after {token}");
         bracketedTokens.Add(token);
         return token;
     }

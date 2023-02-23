@@ -28,9 +28,5 @@ namespace Org.NProlog.Core.Predicate.Builtin.Debug;
 public class Trace : AbstractSingleResultPredicate
 {
 
-    protected override bool Evaluate()
-    {
-        SpyPoints.TraceEnabled = true;
-        return true;
-    }
+    protected override bool Evaluate() => SpyPoints.TraceEnabled = true;
 }

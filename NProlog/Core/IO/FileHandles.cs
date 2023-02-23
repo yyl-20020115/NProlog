@@ -136,10 +136,10 @@ public class FileHandles
             if (inputHandles.ContainsKey(handleName))
             {
                 currentInputHandle = handle;
-                reader = inputHandles[(handleName)];
+                reader = inputHandles[handleName];
             }
             else
-                throw new PrologException("cannot find file input handle with name: " + handleName);
+                throw new PrologException($"cannot find file input handle with name: {handleName}");
         }
     }
 
@@ -156,10 +156,10 @@ public class FileHandles
             if (outputHandles.ContainsKey(handleName))
             {
                 currentOutputHandle = handle;
-                writer = outputHandles[(handleName)];
+                writer = outputHandles[handleName];
             }
             else
-                throw new PrologException("cannot find file output handle with name: " + handleName);
+                throw new PrologException($"cannot find file output handle with name: {handleName}");
         }
     }
 
@@ -177,11 +177,10 @@ public class FileHandles
         lock (this.syncRoot)
         {
             if (inputHandles.ContainsKey(handleName))
-                throw new PrologException("Can not open input for: " + fileName + " as it is already open");
+                throw new PrologException($"Can not open input for: {fileName} as it is already open");
             else
             {
-                var reader = new StreamReader(fileName);
-                inputHandles.Add(handleName, reader);
+                inputHandles.Add(handleName, new StreamReader(fileName));
             }
         }
         return new Atom(handleName);
@@ -201,11 +200,10 @@ public class FileHandles
         lock (this.syncRoot)
         {
             if (outputHandles.ContainsKey(handleName))
-                throw new PrologException("Can not open output for: " + fileName + " as it is already open");
+                throw new PrologException($"Can not open output for: {fileName} as it is already open");
             else
             {
-                var os = new StreamWriter(fileName);
-                outputHandles.Add(handleName, (os));
+                outputHandles.Add(handleName, new StreamWriter(fileName));
             }
         }
         return new (handleName);

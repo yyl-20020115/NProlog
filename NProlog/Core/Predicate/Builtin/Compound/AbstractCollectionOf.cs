@@ -17,19 +17,18 @@ using Org.NProlog.Core.Terms;
 
 namespace Org.NProlog.Core.Predicate.Builtin.Compound;
 
-
 public abstract class AbstractCollectionOf : Predicate
 {
-    private readonly PredicateFactory pf;
+    private readonly PredicateFactory factory;
     private readonly Term template;
     private readonly Term goal;
     private readonly Term bag;
     private List<Variable> variablesNotInTemplate = new();
     private IEnumerator<KeyValuePair<Key, List<Term>>>? enumerator;
 
-    protected AbstractCollectionOf(PredicateFactory pf, Term template, Term goal, Term bag)
+    protected AbstractCollectionOf(PredicateFactory factory, Term template, Term goal, Term bag)
     {
-        this.pf = pf;
+        this.factory = factory;
         this.template = template;
         this.goal = goal;
         this.bag = bag;
@@ -50,23 +49,20 @@ public abstract class AbstractCollectionOf : Predicate
             bag.Unify(ListFactory.CreateList(e.Value));
             for (int i = 0; i < variablesNotInTemplate.Count; i++)
             {
-                Variable v = variablesNotInTemplate[(i)];
+                var v = variablesNotInTemplate[(i)];
                 v.Backtrack();
                 v.Unify(e.Key.terms[(i)]);
             }
             return true;
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
     private void Init(Term template, Term goal)
     {
         variablesNotInTemplate = GetVariablesNotInTemplate(template, goal);
 
-        var predicate = pf.GetPredicate(goal.Args);
+        var predicate = factory.GetPredicate(goal.Args);
 
         Dictionary<Key, List<Term>> m = new();
         if (predicate.Evaluate())
@@ -81,7 +77,6 @@ public abstract class AbstractCollectionOf : Predicate
         }
 
         goal.Backtrack();
-
         enumerator = m.GetEnumerator();
     }
 
@@ -97,7 +92,6 @@ public abstract class AbstractCollectionOf : Predicate
 
     private static bool HasFoundAnotherSolution(Predicate predicate) 
         => predicate.CouldReevaluationSucceed && predicate.Evaluate();
-
 
     public bool CouldReevaluationSucceed => enumerator == null;// || enumerator.Current!=null;
 
@@ -125,7 +119,6 @@ public abstract class AbstractCollectionOf : Predicate
             }
             return false;
         }
-
 
         public override int GetHashCode() => 0;
         // TODO is it possible to improve on returning the same hashCode for all instances?

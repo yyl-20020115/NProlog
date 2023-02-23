@@ -52,7 +52,7 @@ public class ArithmeticOperators
         {
             if (operatorClassNames.ContainsKey(key))
             {
-                throw new PrologException("Already defined operator: " + key);
+                throw new PrologException($"Already defined operator: {key}");
             }
             else
             {
@@ -67,7 +67,7 @@ public class ArithmeticOperators
         {
             if (operatorClassNames.ContainsKey(key))
             {
-                throw new PrologException("Already defined operator: " + key);
+                throw new PrologException($"Already defined operator: {key}");
             }
             else
             {
@@ -98,7 +98,7 @@ public class ArithmeticOperators
             }
             else
             {
-                throw new PrologException("Already defined operator: " + key);
+                throw new PrologException($"Already defined operator: {key}");
             }
         }
     }
@@ -117,7 +117,7 @@ public class ArithmeticOperators
         var tt when tt == TermType.INTEGER => TermUtils.CastToNumeric(t),
         var tt when tt == TermType.STRUCTURE => Calculate(t, t.Args),
         var tt when tt == TermType.ATOM => Calculate(t, TermUtils.EMPTY_ARRAY),
-        _ => throw new PrologException("Cannot get Numeric for term: " + t + " of type: " + t.Type),
+        _ => throw new PrologException($"Cannot get Numeric for term: {t} of type: {t.Type}"),
     };
 
     private Numeric Calculate(Term term, Term[] args) => GetArithmeticOperator(PredicateKey.CreateForTerm(term)).Calculate(args);
@@ -151,7 +151,7 @@ public class ArithmeticOperators
             ? e
             : operatorClassNames.ContainsKey(key)
                 ? InstantiateArithmeticOperator(key)
-                : throw new PrologException("Cannot find arithmetic operator: " + key);
+                : throw new PrologException($"Cannot find arithmetic operator: {key}");
 
     private ArithmeticOperator InstantiateArithmeticOperator(PredicateKey key)
     {
@@ -176,7 +176,7 @@ public class ArithmeticOperators
         }
         catch (Exception e)
         {
-            throw new SystemException("Could not create new ArithmeticOperator using: " + className, e);
+            throw new SystemException($"Could not create new ArithmeticOperator using: {className}", e);
         }
     }
 }

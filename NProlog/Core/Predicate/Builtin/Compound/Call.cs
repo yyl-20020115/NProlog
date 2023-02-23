@@ -119,12 +119,7 @@ test(V1,V2,V3,V4,V5,V6,V7,V8,V9) :-
  */
 public class Call : PredicateFactory, KnowledgeBaseConsumer
 {
-    public KnowledgeBase KnowledgeBase
-    {
-        get;
-        set;
-    }
-
+    public KnowledgeBase KnowledgeBase { get; set; }
 
     public virtual Predicate GetPredicate(params Term[] args)
     {
@@ -134,20 +129,16 @@ public class Call : PredicateFactory, KnowledgeBaseConsumer
         else
         {
             var goalArgs = goal.Args;
-
             var callArgs = new Term[goalArgs.Length + args.Length - 1];
             Array.Copy(goalArgs, callArgs, goalArgs.Length);
             Array.Copy(args, 1, callArgs, goalArgs.Length - 1,args.Length-1);
             //System.arraycopy(args, 1, callArgs, goalArgs.Length, args.Length - 1);
-            var target = Structure.CreateStructure(goal.Name, callArgs);
-            return GetPredicate(target);
+            return GetPredicate(Structure.CreateStructure(goal.Name, callArgs));
         }
     }
 
     private Predicate GetPredicate(Term arg)
         => KnowledgeBase.Predicates.GetPredicate(arg);
 
-
     public bool IsRetryable => true;
-
 }

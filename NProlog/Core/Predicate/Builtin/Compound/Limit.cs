@@ -130,11 +130,10 @@ p(d(5),5).
  */
 public class Limit : AbstractPredicateFactory, PreprocessablePredicateFactory
 {
-
     protected override Predicate GetPredicate(Term maxAttempts, Term goal)
     {
-        var pf = Predicates.GetPredicateFactory(goal);
-        return GetLimitPredicate(pf, maxAttempts, goal);
+        var factory = Predicates.GetPredicateFactory(goal);
+        return GetLimitPredicate(factory, maxAttempts, goal);
     }
 
     private static Predicate GetLimitPredicate(PredicateFactory pf, Term maxAttempts, Term goal)
@@ -147,7 +146,9 @@ public class Limit : AbstractPredicateFactory, PreprocessablePredicateFactory
     public virtual PredicateFactory Preprocess(Term term)
     {
         var goal = term.GetArgument(1);
-        return PartialApplicationUtils.IsAtomOrStructure(goal) ? new OptimisedLimit(Predicates.GetPreprocessedPredicateFactory(goal)) : this;
+        return PartialApplicationUtils.IsAtomOrStructure(goal) 
+            ? new OptimisedLimit(Predicates.GetPreprocessedPredicateFactory(goal)) 
+            : this;
     }
 
     public class OptimisedLimit : PredicateFactory

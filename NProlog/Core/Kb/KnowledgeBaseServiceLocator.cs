@@ -17,7 +17,6 @@ using System.Reflection;
 
 namespace Org.NProlog.Core.Kb;
 
-
 /**
  * Associates arbitrary objects with a {@code KnowledgeBase}.
  * <p>
@@ -130,13 +129,13 @@ public class KnowledgeBaseServiceLocator
     private static void AssertAssignableFrom(Type referenceType, Type instanceType)
     {
         if (!referenceType.IsAssignableFrom(instanceType))
-            throw new ArgumentException(instanceType + " is not of type: " + referenceType);
+            throw new ArgumentException($"{instanceType} is not of type: {referenceType}");
     }
 
     private static void AssertInstanceOf(Type referenceType, object instance)
     {
         if (instance.GetType() != referenceType)
-            throw new ArgumentException(instance + " is not of type: " + referenceType);
+            throw new ArgumentException($"{instance} is not of type: {referenceType}");
     }
 
     /**
@@ -159,7 +158,7 @@ public class KnowledgeBaseServiceLocator
         }
         catch (Exception e)
         {
-            throw new SystemException("Could not create new instance of service: " + c, e);
+            throw new SystemException($"Could not create new instance of service: {c}", e);
         }
     }
 

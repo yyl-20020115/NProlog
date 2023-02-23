@@ -52,7 +52,6 @@ public class Erase : AbstractSingleResultPredicate
         => this.database = KnowledgeBaseServiceLocator.GetServiceLocator(KnowledgeBase).GetInstance
               <RecordedDatabase>(typeof(RecordedDatabase));
 
-
     protected override bool Evaluate(Term arg)
     {
         var reference = TermUtils.CastToNumeric(arg);

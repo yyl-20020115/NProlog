@@ -36,8 +36,10 @@ public class Divide : AbstractArithmeticOperator
             var divisor = n2.Long;
             // e.g. 6 / 2 = 3
             // e.g. 7 / 2 = 3.5
-            return dividend % divisor == 0 ? IntegerNumberCache.ValueOf(dividend / divisor)
-                : DivideFractions(n1, n2);
+            return dividend % divisor == 0 
+                ? IntegerNumberCache.ValueOf(dividend / divisor)
+                : DivideFractions(n1, n2)
+                ;
         }
     }
 

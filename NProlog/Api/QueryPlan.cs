@@ -45,7 +45,7 @@ public class QueryPlan
             this.predicateFactory = kb.Predicates.GetPreprocessedPredicateFactory(parsedInput);
 
             if (parser.ParseSentence() != null)
-                throw new PrologException("More input found after . in " + prologQuery);
+                throw new PrologException($"More input found after . in {prologQuery}");
         }
         catch (ParserException pe)
         {
@@ -53,7 +53,7 @@ public class QueryPlan
         }
         catch (Exception e)
         {
-            throw new PrologException(e.GetType().Name + " caught parsing: " + prologQuery, e);
+            throw new PrologException($"{e.GetType().Name} caught parsing: {prologQuery}", e);
         }
     }
 

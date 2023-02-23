@@ -61,8 +61,5 @@ public class NeverSucceedsPredicateFactoryTest : TestUtils
     }
 
     [TestMethod]
-    public void TestIsRetryable()
-    {
-        Assert.IsFalse(testObject.IsRetryable);
-    }
+    public void TestIsRetryable() => Assert.IsFalse(testObject.IsRetryable);
 }

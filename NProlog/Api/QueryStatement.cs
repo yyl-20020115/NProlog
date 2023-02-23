@@ -56,7 +56,7 @@ public class QueryStatement
             this.variables = parser.GetParsedTermVariables();
 
             if (parser.ParseSentence() != null)
-                throw new PrologException("More input found after . in " + prologQuery);
+                throw new PrologException($"More input found after . in {prologQuery}");
         }
         catch (ParserException pe)
         {
@@ -64,7 +64,7 @@ public class QueryStatement
         }
         catch (Exception e)
         {
-            throw new PrologException(e.GetType().Name + " caught parsing: " + prologQuery, e);
+            throw new PrologException($"{e.GetType().Name} caught parsing: {prologQuery}", e);
         }
     }
 
@@ -90,7 +90,7 @@ public class QueryStatement
             this.variables = new(sharedVariables.Count);
             foreach (var variable in sharedVariables.Values)
                 if (!variable.IsAnonymous && this.variables.ContainsKey(variable.Id))
-                    throw new InvalidOperationException("Duplicate variable id: " + variable.Id);
+                    throw new InvalidOperationException($"Duplicate variable id: {variable.Id}");
                 else
                     this.variables.Add(variable.Id, variable);
         }
@@ -118,9 +118,9 @@ public class QueryStatement
     public void SetTerm(string variableId, Term term)
     {
         if (!variables.TryGetValue(variableId, out var v))
-            throw new PrologException("Do not know about variable named: " + variableId + " in query: " + parsedInput);
+            throw new PrologException($"Do not know about variable named: {variableId} in query: {parsedInput}");
         if (!v.Type.IsVariable)
-            throw new PrologException("Cannot set: " + variableId + " to: " + term + " as has already been set to: " + v);
+            throw new PrologException($"Cannot set: {variableId} to: {term} as has already been set to: {v}");
         var unified = v.Unify(term);
         // should never get here, just checking result of unify(Term) as a sanity check
         if (!unified)
@@ -225,7 +225,7 @@ public class QueryStatement
      * given term cannot be unified with the variable
      * @see #setTerm(string, Term)
      */
-    public void SetListOfDoubles(string variableId, List<Double> doubles)
+    public void SetListOfDoubles(string variableId, List<double> doubles)
     {
         var terms = new Term[doubles.Count];
         for (int i = 0; i < doubles.Count; i++)
@@ -319,7 +319,7 @@ public class QueryStatement
     public void ExecuteOnce()
     {
         if (!ExecuteQuery().Next())
-            throw new PrologException("Failed to find a solution for: " + parsedInput);
+            throw new PrologException($"Failed to find a solution for: {parsedInput}");
     }
 
     /**
@@ -381,7 +381,7 @@ public class QueryStatement
     }
 
     private static PrologException NoSolutionFound() 
-        => new("No solution found.");
+        => new PrologException("No solution found.");
 
     /**
      * Attempt to execute the query once and return a string representation of the atom the single query variable was
@@ -539,12 +539,12 @@ public class QueryStatement
             if (e.Value.Type.IsVariable)
                 {
                     if (id != null)
-                        throw new PrologException("Expected exactly one uninstantiated variable but found " + id + " and " + e.Key);
+                        throw new PrologException($"Expected exactly one uninstantiated variable but found {id} and {e.Key}");
                     id = e.Key;
                 }
 
         if (id == null)
-            throw new PrologException("Expected exactly one uninstantiated variable but found none in: " + parsedInput + " " + variables);
+            throw new PrologException($"Expected exactly one uninstantiated variable but found none in: {parsedInput} {variables}");
 
         return id;
     }

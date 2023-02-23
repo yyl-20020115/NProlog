@@ -28,7 +28,6 @@ namespace Org.NProlog.Core.Predicate.Builtin.Debug;
  */
 public class Debugging : AbstractSingleResultPredicate
 {
-
     protected override bool Evaluate()
     {
         var currentOutputStream = FileHandles.CurrentWriter;

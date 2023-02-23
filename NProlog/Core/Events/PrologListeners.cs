@@ -17,8 +17,6 @@ using static Org.NProlog.Core.Event.SpyPoints;
 
 namespace Org.NProlog.Core.Event;
 
-
-
 /**
  * Controls the registering and notification of listeners of a {@link org.projog.core.kb.KnowledgeBase}.
  * <p>
@@ -36,7 +34,8 @@ public class PrologListeners
      * @param listener a listener to be added
      * @return <tt>true</tt> if this instance did not already reference the specified listener
      */
-    public bool AddListener(PrologListener listener) => listeners.Add(listener);
+    public bool AddListener(PrologListener listener) 
+        => listeners.Add(listener);
 
     /**
      * Deletes an observer from the set of observers of this objects internal {@code Observable}.
@@ -44,7 +43,8 @@ public class PrologListeners
      * @param listener a listener to be deleted
      * @return <tt>true</tt> if this instance did reference the specified listener
      */
-    public bool DeleteListener(PrologListener listener) => listeners.Remove(listener);
+    public bool DeleteListener(PrologListener listener)
+        => listeners.Remove(listener);
 
     /** Notify all listeners of a first attempt to evaluate a goal. */
     public void NotifyCall(SpyPointEvent _event)

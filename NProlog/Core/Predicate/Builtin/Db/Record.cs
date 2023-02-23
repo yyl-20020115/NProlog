@@ -42,9 +42,8 @@ public class Record
                 return new Atom(name);
             else
             {
-                var args = new Term[numArgs];
-                ArraysHelpers.Fill(args, new Variable());
-                return Structure.CreateStructure(name, args);
+                return Structure.CreateStructure(
+                    name, ArraysHelpers.Fill(new Term[numArgs], new Variable()));
             }
         }
     }

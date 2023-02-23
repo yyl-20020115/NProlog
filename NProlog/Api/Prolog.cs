@@ -212,8 +212,8 @@ public class Prolog
      * @return a string representation of the specified {@code Term}
      * @see org.projog.core.term.TermFormatter#formatTerm(Term)
      */
-    public string FormatTerm(Term t) 
-        => knowledgeBase.TermFormatter.FormatTerm(t);
+    public string FormatTerm(Term term) 
+        => knowledgeBase.TermFormatter.FormatTerm(term);
 
     /**
      * Returns the {@link KnowledgeBase} associated with this object.
@@ -240,9 +240,7 @@ public class Prolog
     {
         var stackTrace = GetStackTrace(exception);
         foreach (var e in stackTrace)
-        {
-            writer.WriteLine(e.PredicateKey + " clause: " + FormatTerm(e.Term));
-        }
+            writer.WriteLine($"{e.PredicateKey} clause: {FormatTerm(e.Term)}");
     }
 
     /**

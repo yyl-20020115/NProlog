@@ -85,7 +85,7 @@ public class Functor : AbstractSingleResultPredicate
         var tt when tt == TermType.VARIABLE =>
             term.Unify(CreateTerm(functor, arity)),
         _ =>
-           throw new PrologException("Invalid type for first argument of Functor command: " + term.Type)
+           throw new PrologException($"Invalid type for first argument of Functor command: {term.Type}")
     };
 
     /**
@@ -98,7 +98,7 @@ public class Functor : AbstractSingleResultPredicate
     private static Term CreateTerm(Term functor, Term arity)
     {
         if (functor.Type != TermType.ATOM)
-            throw new PrologException("Expected atom but got: " + functor.Type + " " + functor);
+            throw new PrologException($"Expected atom but got: {functor.Type} {functor}");
 
         int numArgs = TermUtils.ToInt(arity);
         if (numArgs == 0)

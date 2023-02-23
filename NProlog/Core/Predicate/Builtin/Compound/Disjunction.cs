@@ -250,7 +250,6 @@ public class Disjunction : AbstractPredicateFactory, PreprocessablePredicateFact
             => thenPf.IsAlwaysCutOnBacktrack && elsePf.IsAlwaysCutOnBacktrack;
     }
 
-
     protected override Predicate GetPredicate(Term firstArg, Term secondArg) 
         => Predicates.GetPredicateFactory(firstArg) is IfThen
           ? CreateIfThenElse(firstArg, secondArg)

@@ -65,7 +65,6 @@ public class Recorded : AbstractPredicateFactory
             this.itr = itr;
         }
 
-
         public virtual bool Evaluate()
         {
             while (CouldReevaluationSucceed && itr.MoveNext())

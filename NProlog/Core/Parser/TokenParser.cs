@@ -282,7 +282,7 @@ public class TokenParser
             else if (c == 'e' || c == 'E')
             {
                 if (readExponent)
-                    throw NewParserException("unexpected: " + (char)c);
+                    throw NewParserException($"unexpected: {(char)c}");
                 readExponent = true;
                 wasLastCharExponent = true;
             }

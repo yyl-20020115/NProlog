@@ -40,7 +40,7 @@ public class Close : AbstractSingleResultPredicate
         }
         catch (Exception e)
         {
-            throw new PrologException("Unable to close stream for: " + argument, e);
+            throw new PrologException($"Unable to close stream for: {argument}", e);
         }
     }
 }

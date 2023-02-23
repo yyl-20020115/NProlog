@@ -220,7 +220,8 @@ public class TermSplit : AbstractSingleResultPredicate
     private bool EvaluateWithVariableFirstArgument(Term arg1, Term arg2)
     {
         if (IsNotList(arg2))
-            throw new PrologException("As the first argument: " + arg1 + " is a variable the second argument needs to be a list but was: " + arg2 + " of type: " + arg2.Type);
+            throw new PrologException(
+                $"As the first argument: {arg1} is a variable the second argument needs to be a list but was: {arg2} of type: {arg2.Type}");
         var sb = new StringBuilder();
         AppendListElementsToString(sb, arg2);
         var t = ToTerm(sb.ToString());
@@ -257,10 +258,8 @@ public class TermSplit : AbstractSingleResultPredicate
     {
         var t = arg.Type;
         if (t.IsNumeric) return;
-
         if (t == TermType.ATOM && !firstArgNumeric) return;
-
-        throw new PrologException("Unexpected type for first argument: " + t);
+        throw new PrologException($"Unexpected type for first argument: {t}");
     }
 
     private static bool IsNotList(Term t)
@@ -288,11 +287,11 @@ public class TermSplit : AbstractSingleResultPredicate
             sb.Append(NumericToChar(n));
         }
         else if (type != TermType.EMPTY_LIST)
-            throw new PrologException("Unexpected type in list: " + type);
+            throw new PrologException($"Unexpected type in list: {type}");
     }
 
     private static char StringToChar(string name) => name.Length == 1 
-        ? name[(0)] : throw new PrologException("Expected atom in list to have exactly one character: " + name);
+        ? name[(0)] : throw new PrologException($"Expected atom in list to have exactly one character: {name}");
 
     protected Term CharToTerm(char c) => convertToCharCodes ? IntegerNumberCache.ValueOf(c) : new Atom(c.ToString());
 
@@ -302,7 +301,7 @@ public class TermSplit : AbstractSingleResultPredicate
 
     private static Numeric ToNumeric(string s) => !s.Contains('.') ? ToInteger(s) : ToDecimal(s);
 
-    private static IntegerNumber ToInteger(string s) => IntegerNumberCache.ValueOf(int.TryParse(s, out var i) ? i : throw new PrologException("Could not convert characters to an integer: '" + s + "'")); // TODO should this be long.parseLong
+    private static IntegerNumber ToInteger(string s) => IntegerNumberCache.ValueOf(int.TryParse(s, out var i) ? i : throw new PrologException($"Could not convert characters to an integer: '{s}'")); // TODO should this be long.parseLong
 
-    private static Numeric ToDecimal(string s) => new DecimalFraction(double.TryParse(s, out var d) ? d : throw new PrologException("Could not convert characters to a decimal: '" + s + "'"));
+    private static Numeric ToDecimal(string s) => new DecimalFraction(double.TryParse(s, out var d) ? d : throw new PrologException($"Could not convert characters to a decimal: '{s}'"));
 }

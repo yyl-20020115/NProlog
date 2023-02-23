@@ -65,7 +65,6 @@ namespace Org.NProlog.Core.Predicate.Builtin.Compare;
  */
 public class NumericEquality : AbstractNumericComparisonPredicate
 {
-
     protected override bool Evaluate(Term arg1, Term arg2)
         => Compare(arg1, arg2) == 0;
 }

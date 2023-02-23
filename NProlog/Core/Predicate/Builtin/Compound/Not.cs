@@ -77,15 +77,19 @@ public class Not : AbstractSingleResultPredicate, PreprocessablePredicateFactory
     public virtual PredicateFactory Preprocess(Term term)
     {
         var arg = term.GetArgument(0);
-        return PartialApplicationUtils.IsAtomOrStructure(arg) ? new OptimisedNot(Predicates.GetPreprocessedPredicateFactory(arg)) : this;
+        return PartialApplicationUtils.IsAtomOrStructure(arg) 
+            ? new OptimisedNot(Predicates.GetPreprocessedPredicateFactory(arg)) 
+            : this;
     }
 
     public class OptimisedNot : AbstractSingleResultPredicate
     {
         private readonly PredicateFactory factory;
 
-        public OptimisedNot(PredicateFactory factory) => this.factory = Objects.RequireNonNull(factory);
+        public OptimisedNot(PredicateFactory factory) 
+            => this.factory = Objects.RequireNonNull(factory);
 
-        protected override bool Evaluate(Term arg) => EvaluateNot(arg, factory);
+        protected override bool Evaluate(Term arg) 
+            => EvaluateNot(arg, factory);
     }
 }

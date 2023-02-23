@@ -66,7 +66,6 @@ public class Is : AbstractSingleResultPredicate, PreprocessablePredicateFactory
     protected override bool Evaluate(Term arg1, Term arg2)
         => arg1.Unify(ArithmeticOperators.GetNumeric(arg2));
 
-
     public PredicateFactory Preprocess(Term arg)
     {
         var o = ArithmeticOperators.GetPreprocessedArithmeticOperator(arg.GetArgument(1));

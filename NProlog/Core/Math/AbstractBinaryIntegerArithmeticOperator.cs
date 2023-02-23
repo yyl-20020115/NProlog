@@ -28,7 +28,7 @@ public abstract class AbstractBinaryIntegerArithmeticOperator : AbstractArithmet
 
     public static long ToLong(Numeric n) 
         => n.Type == TermType.INTEGER ? n.Long 
-        : throw new PrologException("Expected integer but got: " + n.Type + " with value: " + n);
+        : throw new PrologException($"Expected integer but got: {n.Type} with value: {n}");
 
     /** Returns the result of evaluating an arithmetic expression using the two arguments */
     protected abstract long CalculateLong(long n1, long n2);

@@ -16,7 +16,6 @@
 using Org.NProlog.Core.Exceptions;
 using Org.NProlog.Core.Predicate;
 using Org.NProlog.Core.Terms;
-using System.Text;
 
 namespace Org.NProlog.Api;
 
@@ -162,8 +161,7 @@ public class QueryResult
             : hasFailed
             ? throw new PrologException("No more solutions. Last call to QueryResult.next() returned false.")
             : !variables.TryGetValue(variableId, out var v)
-            ? throw new PrologException("Unknown variable ID: " + variableId + ". Query Contains the variables: " +
-              StringUtils.ToString(GetVariableIds()))
+            ? throw new PrologException($"Unknown variable ID: {variableId}. Query Contains the variables: {StringUtils.ToString(GetVariableIds())}")
             : v.Term;
     /**
      * Returns id's of all variables defined in the query this object represents.

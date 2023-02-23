@@ -29,7 +29,6 @@ namespace Org.NProlog.Core.Predicate.Builtin.IO;
  */
 public class CurrentOutput : AbstractSingleResultPredicate
 {
-
     protected override bool Evaluate(Term argument) 
         => argument.Unify(FileHandles.CurrentOutputHandle);
 }

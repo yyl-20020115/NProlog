@@ -98,7 +98,6 @@ public class NumberVars : AbstractSingleResultPredicate
         return true;
     }
 
-
     protected override bool Evaluate(Term arg1, Term arg2, Term arg3)
     {
         var start = TermUtils.CastToNumeric(arg2).Long;

@@ -20,7 +20,6 @@ using Org.NProlog.Core.Terms;
 namespace Org.NProlog.Core.Predicate.Builtin.Compound;
 
 
-
 // TODO shouldn't need to wrap disjunctions in brackets. e.g. should be able to do: once(true;true;fail)
 /* TEST
 %TRUE once(repeat)

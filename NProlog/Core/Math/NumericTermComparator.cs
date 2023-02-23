@@ -33,10 +33,7 @@ public class NumericTermComparator
     /**
      * Private constructor to force use of {@link #NUMERIC_TERM_COMPARATOR}
      */
-    private NumericTermComparator()
-    {
-        // do nothing
-    }
+    private NumericTermComparator() { }
 
     /**
      * Compares the two arguments, representing arithmetic expressions, for order.

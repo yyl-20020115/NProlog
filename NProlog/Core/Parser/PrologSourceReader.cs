@@ -52,7 +52,7 @@ public class PrologSourceReader
         }
         catch (Exception ex)
         {
-            throw new PrologException("Could not read prolog source from file: " + prologSourceFile + " due to: " + ex, ex);
+            throw new PrologException($"Could not read prolog source from file: {prologSourceFile} due to: {ex}", ex);
         }
     }
 
@@ -77,7 +77,7 @@ public class PrologSourceReader
         }
         catch (Exception ex)
         {
-            throw new PrologException("Could not read prolog source from resource: " + prologSourceResourceName, ex);
+            throw new PrologException($"Could not read prolog source from resource: {prologSourceResourceName}", ex);
         }
     }
 
@@ -100,7 +100,7 @@ public class PrologSourceReader
         }
         catch (Exception e)
         {
-            throw new PrologException("Could not read prolog source from java.io.TextReader: " + reader, e);
+            throw new PrologException($"Could not read prolog source from java.io.TextReader: {reader}", e);
         }
         finally
         {
@@ -133,15 +133,15 @@ public class PrologSourceReader
         {
             NotifyReadingFromResource(kb, resourceName);
             var stream = Properties.Resources.ResourceManager.GetStream(path);
-            return stream == null ? throw new PrologException("Cannot find resource: " + resourceName) : (TextReader)new StreamReader(stream);
+            return stream == null ? throw new PrologException($"Cannot find resource: {resourceName}") : (TextReader)new StreamReader(stream);
         }
     }
 
     private static void NotifyReadingFromFileSystem(KnowledgeBase kb, string file) 
-        => kb.PrologListeners.NotifyInfo("Reading prolog source in: " + file + " from file system");
+        => kb.PrologListeners.NotifyInfo($"Reading prolog source in: {file} from file system");
 
     private static void NotifyReadingFromResource(KnowledgeBase kb, string resourceName)
-        => kb.PrologListeners.NotifyInfo("Reading prolog source in: " + resourceName + " from classpath");
+        => kb.PrologListeners.NotifyInfo($"Reading prolog source in: {resourceName} from classpath");
 
     private PrologSourceReader(KnowledgeBase kb) => this.kb = kb;
 

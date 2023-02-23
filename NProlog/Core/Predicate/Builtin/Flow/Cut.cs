@@ -55,13 +55,7 @@ public class Cut : AbstractPredicateFactory
     {
         private bool retried = false;
 
-        public bool Evaluate()
-        {
-            if (retried)
-                throw CutException.CUT_EXCEPTION;
-            retried = true;
-            return true;
-        }
+        public bool Evaluate() => retried ? throw CutException.CUT_EXCEPTION : (retried = true);
 
         public bool CouldReevaluationSucceed => true;
     }

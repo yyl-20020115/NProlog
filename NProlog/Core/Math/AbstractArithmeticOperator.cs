@@ -22,9 +22,7 @@ public abstract class AbstractArithmeticOperator : PreprocessableArithmeticOpera
 {
     protected KnowledgeBase knowledgeBase;
     protected ArithmeticOperators Operators =>this.knowledgeBase.ArithmeticOperators;
-    public AbstractArithmeticOperator()
-    {
-    }
+    public AbstractArithmeticOperator() { }
     public KnowledgeBase KnowledgeBase
     {
         get => this.knowledgeBase;
@@ -112,7 +110,6 @@ public abstract class AbstractArithmeticOperator : PreprocessableArithmeticOpera
             this.o1 = o1;
             this.o2 = o2;
         }
-
 
         public virtual Numeric Calculate(Term[] args) => op.Calculate(
                 o1 == null ? op.Operators.GetNumeric(args[0]) : o1.Calculate(args[0].Args),
