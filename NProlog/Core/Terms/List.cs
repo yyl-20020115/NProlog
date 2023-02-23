@@ -57,7 +57,7 @@ public class LinkedTermList : Term
      * @return {@link ListFactory#LIST_PREDICATE_NAME}
      */
 
-    public string Name => ListFactory.LIST_PREDICATE_NAME;
+    public string Name => ListFactory.LIST_PREDICATE_NAME.ToString();
 
 
     public Term[] Args => new Term[] { head, tail };
@@ -70,7 +70,7 @@ public class LinkedTermList : Term
     {
         0 => head,
         1 => tail,
-        _ => throw new IndexOutOfRangeException(nameof(index)+":"+index),
+        _ => throw new IndexOutOfRangeException($"{nameof(index)}:{index}"),
     };
 
     /**
@@ -100,13 +100,9 @@ public class LinkedTermList : Term
      */
     private LinkedTermList Traverse(Func<Term,Term> f)
     {
-        if (immutable)
-        {
-            return this;
-        }
+        if (immutable) return this;
 
-        LinkedTermList list = this;
-
+        var list = this;
         List<LinkedTermList> elements = new();
         while (!list.immutable && list.tail.Type == TermType.LIST)
         {
@@ -120,7 +116,7 @@ public class LinkedTermList : Term
             var newTail = f(list.tail);
             if (newHead != list.head || newTail != list.tail)
             {
-                list = new LinkedTermList(newHead, newTail);
+                list = new (newHead, newTail);
             }
         }
 
@@ -130,7 +126,7 @@ public class LinkedTermList : Term
             var newHead = f(next.head);
             if (newHead != next.head || list != next.tail)
             {
-                list = new LinkedTermList(newHead, list);
+                list = new (newHead, list);
             }
             else
             {
@@ -151,10 +147,7 @@ public class LinkedTermList : Term
             var tType = t1.Type;
             if (tType == TermType.LIST)
             {
-                if (t2.GetArgument(0).Unify(t1.GetArgument(0)) == false)
-                {
-                    return false;
-                }
+                if (!t2.GetArgument(0).Unify(t1.GetArgument(0))) return false;
                 t1 = t1.GetArgument(1);
                 t2 = t2.GetArgument(1);
             }
@@ -174,7 +167,7 @@ public class LinkedTermList : Term
     public void Backtrack()
     {
         // used to be implemented using recursion but caused stack overflow problems with long lists
-        LinkedTermList list = this;
+        var list = this;
         while (!list.immutable)
         {
             list.head.Backtrack();
@@ -193,10 +186,7 @@ public class LinkedTermList : Term
 
     public override bool Equals(object? o)
     {
-        if (o == this)
-        {
-            return true;
-        }
+        if (o == this) return true;
 
         if (o is LinkedTermList list && hashCode == o.GetHashCode())
         {
@@ -207,9 +197,7 @@ public class LinkedTermList : Term
             do
             {
                 if (!a.GetArgument(0).Equals(b.GetArgument(0)))
-                {
                     return false;
-                }
 
                 a = a.GetArgument(1);
                 b = b.GetArgument(1);

@@ -58,7 +58,7 @@ public class DecimalFraction : Numeric
      */
 
     public Term GetArgument(int index) 
-        => throw new IndexOutOfRangeException(nameof(index)+":"+index);
+        => throw new IndexOutOfRangeException($"{nameof(index)}:{index}");
 
     /**
      * Returns {@link TermType#FRACTION}.

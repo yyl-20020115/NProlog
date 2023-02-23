@@ -482,7 +482,7 @@ public class SentenceParser
         for (int i = args.Count - 1; i > -1; i--)
         {
             var element = args[(i)];
-            list = CreateStructure(ListFactory.LIST_PREDICATE_NAME, new Token[] { element, list });
+            list = CreateStructure(ListFactory.LIST_PREDICATE_NAME.ToString(), new Token[] { element, list });
         }
         return list;
     }

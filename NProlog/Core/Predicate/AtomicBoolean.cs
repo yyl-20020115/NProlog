@@ -15,100 +15,29 @@
  */
 namespace Org.NProlog.Core.Predicate;
 
-public class AtomicReference<T>
-    where T : class
-{
-    private volatile T _value;
-
-    public AtomicReference(T value = default) => _value = value;
-
-    public T Get() => _value;
-
-    public void Set(T value) => _value = value;
-
-    public bool CompareAndSet(T expect, T update)
-        => Interlocked.CompareExchange(ref _value, update, expect) == expect;
-
-    public T GetAndSet(T value)
-        => Interlocked.Exchange(ref _value, value);
-}
-
-public class AtomicInteger
+public class AtomicBoolean
 {
     private volatile int value;
 
-    /// <summary>
-    /// Creates a new <c>Atomic</c> instance with an initial value of <c>null</c>.
-    /// </summary>
-
-    /// <summary>
-    /// Creates a new <c>Atomic</c> instance with the initial value provided.
-    /// </summary>
-    public AtomicInteger(int value = 0)
-        => this.value = value;
-
-    /// <summary>
-    /// This method returns the current value.
-    /// </summary>
-    /// <returns>
-    /// The <c>T</c> instance.
-    /// </returns>
-    /// <summary>
-    /// This method sets the current value atomically.
-    /// </summary>
-    /// <param name="value">
-    /// The new value to set.
-    /// </param>
-    public int Value
+    public AtomicBoolean(bool b = false)
+        => this.value = b ? 1 : 0;
+    public bool Value
     {
-        get => value;
-        set => Interlocked.Exchange(ref this.value, value);
+        get => this.value != 0;
+        set => Interlocked.Exchange(ref this.value, value ? 1 : 0);
     }
+    public bool Flip()
+        => this.GetAndSet((this.value +1)%2==1);
 
-    public int GetAndIncrement()
-        => this.GetAndSet(this.value + 1);
+    public bool GetAndSet(bool value)
+    => Interlocked.Exchange(ref this.value, value ? 1 : 0) != 0;
 
-    /// <summary>
-    /// This method atomically sets the value and returns the original value.
-    /// </summary>
-    /// <param name="value">
-    /// The new value.
-    /// </param>
-    /// <returns>
-    /// The value before setting to the new value.
-    /// </returns>
-    public int GetAndSet(int value)
-        => Interlocked.Exchange(ref this.value, value);
-
-    /// <summary>
-    /// Atomically sets the value to the given updated value if the current value <c>==</c> the expected value.
-    /// </summary>
-    /// <param name="expected">
-    /// The value to compare against.
-    /// </param>
-    /// <param name="result">
-    /// The value to set if the value is equal to the <c>expected</c> value.
-    /// </param>
-    /// <returns>
-    /// <c>true</c> if the comparison and set was successful. A <c>false</c> indicates the comparison failed.
-    /// </returns>
-    public bool CompareAndSet(int expected, int result)
-        => Interlocked.CompareExchange(ref value, result, expected) == expected;
-
-    /// <summary>
-    /// This operator allows an implicit cast from <c>Atomic&lt;T&gt;</c> to <c>T</c>.
-    /// </summary>
-    public static implicit operator int(AtomicInteger value)
-        => value.Value;
-}
-
-
-public class AtomicBoolean : AtomicInteger
-{
-    public AtomicBoolean(bool b = false) => base.Value = b?1:0;
-    public new bool Value { get => base.Value!=0; set => base.Value = value?1:0; }
+    public bool CompareAndSet(bool expected, bool result)
+        => Interlocked.CompareExchange(ref value, result ? 1 : 0, expected ? 1 : 0) == (expected ? 1 : 0);
 
     public static implicit operator bool(AtomicBoolean value)
         => value.Value;
 
+    public static implicit operator AtomicBoolean(bool value)
+        => new(value);
 }

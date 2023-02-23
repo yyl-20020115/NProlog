@@ -27,7 +27,7 @@ public static class ListFactory
     /**
      * A "{@code .}" is the functor name for all lists in Prolog.
      */
-    public const string LIST_PREDICATE_NAME = ".";
+    public const char LIST_PREDICATE_NAME = '.';
 
     /**
      * Returns a new {@link List} with specified head and tail.
@@ -70,9 +70,7 @@ public static class ListFactory
     {
         int numberOfElements = terms.Length;
         if (numberOfElements == 0)
-        {
             return tail;
-        }
         var list = tail;
         for (int i = numberOfElements - 1; i > -1; i--)
         {
@@ -86,19 +84,15 @@ public static class ListFactory
     public static Term CreateListOfLength(int Length)
     {
         if (Length == 0)
-        {
             return EmptyList.EMPTY_LIST;
-        }
         else if (Length < 0)
-        {
-            throw new ArgumentException("Cannot create list of Length: " + Length);
-        }
+            throw new ArgumentException($"Cannot create list of Length: {Length}");
         else
         {
             Term t = EmptyList.EMPTY_LIST;
             for (int i = Length - 1; i > -1; i--)
             {
-                t = new LinkedTermList(new Variable("E" + i), t);
+                t = new LinkedTermList(new Variable($"E{i}"), t);
             }
             return t;
         }

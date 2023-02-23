@@ -51,7 +51,7 @@ public class IntegerNumber : Numeric
      * @throws IndexOutOfRangeException as this implementation of {@link Term} has no arguments
      */
 
-    public Term GetArgument(int index) => throw new IndexOutOfRangeException(nameof(index)+":"+index);
+    public Term GetArgument(int index) => throw new IndexOutOfRangeException($"{nameof(index)}:{index}");
 
     /**
      * Returns {@link TermType#INTEGER}.

@@ -74,9 +74,7 @@ public class PrologConsole
             if (inputSyntax == null)
                 quit = true;
             else if (IsNotEmpty(inputSyntax))
-            {
                 ParseAndExecute(inputSyntax);
-            }
         }
     }
 
@@ -90,7 +88,7 @@ public class PrologConsole
 
     private void ConsultScripts(List<string> scriptFilenames)
     {
-        foreach (string startupScriptName in scriptFilenames)
+        foreach (var startupScriptName in scriptFilenames)
             ConsultScript(startupScriptName);
     }
 
@@ -161,7 +159,7 @@ public class PrologConsole
     {
         if (e is ParserException pe)
         {
-            writer.WriteLine("ParserException at line: " + pe.LineNumber);
+            writer.WriteLine($"ParserException at line: {pe.LineNumber}");
             pe.GetDescription(writer);
         }
         else if (e is PrologException)
@@ -169,9 +167,7 @@ public class PrologConsole
             writer.WriteLine(e.Message);
             var cause = e.InnerException;
             if (cause != null)
-            {
                 ProcessThrowable(cause);
-            }
         }
         else
         {
@@ -188,9 +184,7 @@ public class PrologConsole
             writer.WriteLine(builder);
             var message = e.Message;
             if (message != null)
-            {
-                writer.WriteLine("Description: " + message);
-            }
+                writer.WriteLine($"Description: {message}");
         }
     }
 
@@ -200,9 +194,7 @@ public class PrologConsole
         var start = DateTime.Now.Millisecond;// System.currentTimeMillis();
         var success = r.Next();
         if (success)
-        {
             WriteVariableAssignments(r, variableIds);
-        }
         WriteOutcome(success, DateTime.Now.Millisecond - start);
         return success && !r.IsExhausted;
     }
@@ -237,7 +229,7 @@ public class PrologConsole
             if (arg.StartsWith("-"))
             {
                 Console.WriteLine();
-                Console.WriteLine("don't know about argument: " + arg);
+                Console.WriteLine($"don't know about argument: {arg}");
                 Environment.Exit(-1);
             }
             startupScriptFilenames.Add(arg);

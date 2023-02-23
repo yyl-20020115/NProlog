@@ -158,7 +158,7 @@ public class Variable : Term
                 Term t = value;
                 do
                 {
-                    Variable v = (Variable)t;
+                    var v = (Variable)t;
                     if (v.value == null)
                     {
                         return v;

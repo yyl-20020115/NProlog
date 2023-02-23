@@ -298,7 +298,7 @@ public class StaticUserDefinedPredicateFactoryTest : TestUtils
 
     private static Term[] CreateArgs(Term term) => CreateArgs(term.NumberOfArguments);
 
-    private static Term[] CreateArgs(int numArgs) => ArraysHelpers.Fill(new Term[numArgs], Atom());
+    private static Term[] CreateArgs(int numArgs) => Arrays.Fill(new Term[numArgs], Atom());
 
     private static PredicateFactory GetActualPredicateFactory(params string[] clauses) => GetActualPredicateFactory(ToTerms(clauses));
 

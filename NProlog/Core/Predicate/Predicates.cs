@@ -152,7 +152,11 @@ public class Predicates
         }
     }
 
-    public PredicateFactory GetPreprocessedPredicateFactory(Term term) => GetPredicateFactory(term) is PreprocessablePredicateFactory factory ? factory.Preprocess(term) : pf;
+    public PredicateFactory GetPreprocessedPredicateFactory(Term term)
+    {
+        var pf = GetPredicateFactory(term);
+        return pf is PreprocessablePredicateFactory factory ? factory.Preprocess(term) : pf;
+    }
 
     /**
      * Returns the {@code PredicateFactory} associated with the specified {@code Term}.

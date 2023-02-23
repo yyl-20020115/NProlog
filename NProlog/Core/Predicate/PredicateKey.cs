@@ -63,12 +63,14 @@ public class PredicateKey : IComparable<PredicateKey>
     {
         if (t.Type != TermType.STRUCTURE)
         {
-            throw new PrologException("Expected a predicate with two arguments and the name: '/' but got: " + t);
+            throw new PrologException(
+                $"Expected a predicate with two arguments and the name: '/' but got: {t}");
         }
 
         if (!PREDICATE_KEY_FUNCTOR.Equals(t.Name) || t.Args.Length != 2)
         {
-            throw new PrologException("Expected a predicate with two arguments and the name: '/' but got: " + t);
+            throw new PrologException(
+                $"Expected a predicate with two arguments and the name: '/' but got: {t}");
         }
 
         var name = TermUtils.GetAtomName(t.Args[0]);
@@ -77,12 +79,12 @@ public class PredicateKey : IComparable<PredicateKey>
     }
 
     private static string GetInvalidTypeExceptionMessage(Term t) 
-        => "Expected an atom or a predicate but got a " + t.Type + " with value: " + t;
+        => $"Expected an atom or a predicate but got a {t.Type} with value: {t}";
 
     public PredicateKey(string name, int numArgs)
     {
         if (numArgs < 0)
-            throw new ArgumentException("Number of arguments: " + numArgs + " is less than 0");
+            throw new ArgumentException($"Number of arguments: {numArgs} is less than 0");
         this.name = name;
         this.numArgs = numArgs;
     }
@@ -91,7 +93,8 @@ public class PredicateKey : IComparable<PredicateKey>
 
     public int NumArgs => numArgs;
 
-    public Term ToTerm() => Structure.CreateStructure(PREDICATE_KEY_FUNCTOR, new Term[] { new Atom(name), IntegerNumberCache.ValueOf(numArgs) });
+    public Term ToTerm() 
+        => Structure.CreateStructure(PREDICATE_KEY_FUNCTOR, new Term[] { new Atom(name), IntegerNumberCache.ValueOf(numArgs) });
 
     /**
      * @param o the reference object with which to compare.
@@ -99,16 +102,19 @@ public class PredicateKey : IComparable<PredicateKey>
      * arguments as this instance
      */
 
-    public override bool Equals(object? o) => o is PredicateKey k && name.Equals(k.name) && numArgs == k.numArgs;
+    public override bool Equals(object? o) 
+        => o is PredicateKey k && name.Equals(k.name) && numArgs == k.numArgs;
 
 
-    public override int GetHashCode() => ToString().GetHashCode();// + numArgs;
+    public override int GetHashCode() 
+        => ToString().GetHashCode();// + numArgs;
 
     /**
      * @return {@code name+"/"+numArgs}
      */
 
-    public override string ToString() => name + PREDICATE_KEY_FUNCTOR + numArgs;
+    public override string ToString()
+        => name + PREDICATE_KEY_FUNCTOR + numArgs;
 
     /**
      * Ordered on name or, if names identical, number of arguments.

@@ -65,7 +65,7 @@ public class EmptyList : Term
      * @throws IndexOutOfRangeException as this implementation of {@link Term} has no arguments
      */
 
-    public Term GetArgument(int index) => throw new IndexOutOfRangeException(nameof(index) + ":" + index);
+    public Term GetArgument(int index) => throw new IndexOutOfRangeException($"{nameof(index)}:{index}");
 
     /**
      * Returns {@link ListFactory#LIST_PREDICATE_NAME}.
@@ -73,7 +73,7 @@ public class EmptyList : Term
      * @return {@link ListFactory#LIST_PREDICATE_NAME}
      */
 
-    public string Name => ListFactory.LIST_PREDICATE_NAME;
+    public string Name => ListFactory.LIST_PREDICATE_NAME.ToString();
 
     /**
      * Returns {@link TermType#EMPTY_LIST}.

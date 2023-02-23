@@ -93,14 +93,10 @@ public class TermUtils
      * @param argument the term to find variables for
      * @return all {@link Variable}s contained in the specified term.
      */
-    public static HashSet<Variable> GetAllVariablesInTerm(Term argument)
-    {
-        HashSet<Variable> variables = new();
-        GetAllVariablesInTerm(argument, variables);
-        return variables;
-    }
+    public static HashSet<Variable> GetAllVariablesInTerm(Term argument) 
+        => GetAllVariablesInTerm(argument, new());
 
-    private static void GetAllVariablesInTerm(Term argument, HashSet<Variable> variables)
+    private static HashSet<Variable> GetAllVariablesInTerm(Term argument, HashSet<Variable> variables)
     {
         if (argument.IsImmutable)
         {
@@ -113,6 +109,7 @@ public class TermUtils
             for (int i = 0; i < argument.NumberOfArguments; i++)
                 GetAllVariablesInTerm(argument.GetArgument(i), variables);
         }
+        return variables;
     }
 
     /**
@@ -123,7 +120,9 @@ public class TermUtils
      * @throws ProjogException if the specified {@link Term} does not represent a {@link Numeric}
      */
     public static Numeric CastToNumeric(Term t) 
-        => t.Type.IsNumeric ? (Numeric)t.Term : throw new PrologException("Expected Numeric but got: " + t.Type + " with value: " + t);
+        => t.Type.IsNumeric 
+        ? (Numeric)t.Term 
+        : throw new PrologException($"Expected Numeric but got: {t.Type} with value: {t}");
 
     /**
      * Returns the integer value of the {@link Numeric} represented by the specified {@link Term}.
@@ -138,7 +137,7 @@ public class TermUtils
         var l = n.Long;
         if (l < int.MinValue || l > int.MaxValue)
         {
-            throw new PrologException("Value cannot be cast to an int without losing precision: " + l);
+            throw new PrologException($"Value cannot be cast to an int without losing precision: {l}");
         }
         return (int)l;
     }
@@ -153,7 +152,9 @@ public class TermUtils
     public static long ToLong(ArithmeticOperators operators, Term t)
     {
         var n = operators.GetNumeric(t);
-        return n.Type == TermType.INTEGER ? n.Long : throw new PrologException("Expected integer but got: " + n.Type + " with value: " + n);
+        return n.Type == TermType.INTEGER 
+            ? n.Long 
+            : throw new PrologException($"Expected integer but got: {n.Type} with value: {n}");
     }
 
     /**
@@ -163,14 +164,13 @@ public class TermUtils
      * @return the name of {@link Atom} represented by the specified {@link Term}
      * @throws ProjogException if the specified {@link Term} does not represent an {@link Atom}
      */
-    public static string GetAtomName(Term t) => t.Type != TermType.ATOM ? throw new PrologException("Expected an atom but got: " + t.Type + " with value: " + t) : t.Name;
+    public static string GetAtomName(Term t) 
+        => t.Type != TermType.ATOM ? throw new PrologException($"Expected an atom but got: {t.Type} with value: {t}") : t.Name;
 
     public static void AssertType(Term t, TermType type)
     {
         if (t.Type != type)
-        {
-            throw new PrologException("Expected " + type + " but got: " + t.Type + " with value: " + t);
-        }
+            throw new PrologException($"Expected {type} but got: {t.Type} with value: {t}");
     }
 
     public static bool TermsEqual(Term a, Term b)

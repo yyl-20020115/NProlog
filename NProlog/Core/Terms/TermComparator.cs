@@ -86,7 +86,7 @@ public class TermComparator : IComparer<Term>
                         => NumericTermComparator.Compare(TermUtils.CastToNumeric(v1), TermUtils.CastToNumeric(t2)),
                     var tt when (tt == TermType.ATOM) => t1.Name.CompareTo(t2.Name),
                     var tt when (tt == TermType.VARIABLE || tt == TermType.CLP_VARIABLE) => v1.GetHashCode() > v2.GetHashCode() ? 1 : -1,// NOTE: uses object's hashCode which is not guaranteed, so may get different results in different JVMs
-                    _ => throw new PrologException("Unknown TermType: " + type1),
+                    _ => throw new PrologException($"Unknown TermType: {type1}"),
                 };
     }
 

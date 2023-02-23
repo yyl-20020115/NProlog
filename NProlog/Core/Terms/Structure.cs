@@ -54,9 +54,7 @@ public class Structure : Term
     private static bool IsImmutableWith(Term[] args)
     {
         foreach (var t in args)
-        {
             if (t.IsImmutable == false) return false;
-        }
         return true;
     }
 

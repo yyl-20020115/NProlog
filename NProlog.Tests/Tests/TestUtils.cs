@@ -95,12 +95,8 @@ public class TestUtils : TermFactory
 
     public static Term[] Array(params Term[] terms) => terms;
 
-    public static Term[] CreateArgs(int numberOfArguments, Term term)
-    {
-        var args = new Term[numberOfArguments];
-        ArraysHelpers.Fill(args, term);
-        return args;
-    }
+    public static Term[] CreateArgs(int numberOfArguments, Term term) 
+        => Arrays.Fill(new Term[numberOfArguments], term);
 
     public static SentenceParser CreateSentenceParser(string prologSyntax)
     => SentenceParser.GetInstance(prologSyntax, OPERANDS);   

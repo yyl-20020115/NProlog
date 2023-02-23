@@ -57,9 +57,7 @@ public static class ListUtils
             }
         }
         else if (list.Type == TermType.EMPTY_LIST)
-        {
-            return new();// Collections.emptyList();
-        }
+            return new();
         else
         {
             // not a list
@@ -104,7 +102,7 @@ public static class ListUtils
         if (list.Type != TermType.LIST && list.Type != TermType.EMPTY_LIST)
         {
             // TODO have InvalidTermTypeException which : ProjogException
-            throw new PrologException("Expected list or empty list but got: " + list.Type + " with value: " + list);
+            throw new PrologException($"Expected list or empty list but got: {list.Type} with value: {list}");
         }
         while (list.Type == TermType.LIST)
         {
@@ -119,6 +117,6 @@ public static class ListUtils
         return list.Type != TermType.EMPTY_LIST
             && (list.Type.IsVariable
                 ? list.Unify(ListFactory.CreateList(element, new Variable()))
-                : throw new PrologException("Expected empty list or variable but got: " + list.Type + " with value: " + list));
+                : throw new PrologException($"Expected empty list or variable but got: {list.Type} with value: {list}"));
     }
 }

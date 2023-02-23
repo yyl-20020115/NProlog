@@ -19,9 +19,4 @@ namespace Org.NProlog.Core.Parser;
 public static class ArraysHelpers
 {
 
-    public static T[] Fill<T>(T[] args, T v)
-    {
-        for (int i = 0; i < args.Length; i++) args[i] = v;
-        return args;
-    }
 }

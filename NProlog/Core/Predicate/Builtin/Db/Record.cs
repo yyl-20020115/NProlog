@@ -43,7 +43,7 @@ public class Record
             else
             {
                 return Structure.CreateStructure(
-                    name, ArraysHelpers.Fill(new Term[numArgs], new Variable()));
+                    name, Arrays.Fill(new Term[numArgs], new Variable()));
             }
         }
     }
