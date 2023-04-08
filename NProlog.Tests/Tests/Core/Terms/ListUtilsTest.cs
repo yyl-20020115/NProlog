@@ -86,17 +86,17 @@ public class ListUtilsTest : TestUtils
         Assert.AreNotSame(tail, tail.Term);
         Assert.AreSame(TermType.LIST, tail.Type);
         Assert.AreSame(q, tail.GetArgument(0));
-        Assert.AreSame(TermType.VARIABLE, tail.GetArgument(1).Type);
+        Assert.AreSame(TermType.VARIABLE, tail?.GetArgument(1)?.Type);
 
         var newList = list.Term;
-        var newTail = tail.GetArgument(1);
+        var newTail = tail?.GetArgument(1);
         var w = Atom("w");
         Assert.IsTrue(ListUtils.IsMember(w, newList));
         Assert.AreEqual(".(x, .(y, .(z, .(q, .(w, _)))))", newList.ToString());
-        Assert.AreNotSame(newTail, newTail.Term);
-        Assert.AreSame(TermType.LIST, newTail.Type);
-        Assert.AreSame(w, newTail.GetArgument(0));
-        Assert.AreSame(TermType.VARIABLE, newTail.GetArgument(1).Type);
+        Assert.AreNotSame(newTail, newTail?.Term);
+        Assert.AreSame(TermType.LIST, newTail?.Type);
+        Assert.AreSame(w, newTail?.GetArgument(0));
+        Assert.AreSame(TermType.VARIABLE, newTail?.GetArgument(1)?.Type);
     }
 
     [TestMethod]
@@ -148,10 +148,10 @@ public class ListUtilsTest : TestUtils
         var arguments = CreateArguments();
         var prologList = (LinkedTermList)ListFactory.CreateList(arguments);
         var list = ListUtils.ToList(prologList);
-        Assert.AreEqual(arguments.Length, list.Count);
+        Assert.AreEqual(arguments.Length, (list?.Count).GetValueOrDefault());
         for (int i = 0; i < arguments.Length; i++)
         {
-            Assert.AreSame(arguments[i], list[(i)]);
+            Assert.AreSame(arguments[i], list?[(i)]);
         }
     }
 
@@ -166,7 +166,7 @@ public class ListUtilsTest : TestUtils
     public void TestToJavaUtilListEmptyList()
     {
         var list = ListUtils.ToList(EmptyList.EMPTY_LIST);
-        Assert.IsTrue(list.Count == 0);
+        Assert.IsTrue((list?.Count).GetValueOrDefault() == 0);
     }
 
     [TestMethod]
@@ -190,20 +190,20 @@ public class ListUtilsTest : TestUtils
         // include multiple 'a's to test duplicates are not removed
         var list = (LinkedTermList)ListFactory.CreateList(new Term[] { z, a, a, h, a, q });
         var sortedList = ListUtils.ToSortedList(list);
-        Assert.AreEqual(6, sortedList.Count);
-        Assert.AreSame(a, sortedList[(0)]);
-        Assert.AreSame(a, sortedList[(1)]);
-        Assert.AreSame(a, sortedList[(2)]);
-        Assert.AreSame(h, sortedList[(3)]);
-        Assert.AreSame(q, sortedList[(4)]);
-        Assert.AreSame(z, sortedList[(5)]);
+        Assert.AreEqual(6, sortedList?.Count);
+        Assert.AreSame(a, sortedList?[(0)]);
+        Assert.AreSame(a, sortedList?[(1)]);
+        Assert.AreSame(a, sortedList?[(2)]);
+        Assert.AreSame(h, sortedList?[(3)]);
+        Assert.AreSame(q, sortedList?[(4)]);
+        Assert.AreSame(z, sortedList?[(5)]);
     }
 
     [TestMethod]
     public void TestToSortedJavaUtilListEmptyList()
     {
         var list = ListUtils.ToSortedList(EmptyList.EMPTY_LIST);
-        Assert.IsTrue(list.Count == 0);
+        Assert.IsTrue((list?.Count).GetValueOrDefault() == 0);
     }
 
     [TestMethod]

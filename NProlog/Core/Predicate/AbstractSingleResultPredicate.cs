@@ -32,10 +32,10 @@ namespace Org.NProlog.Core.Predicate;
  */
 public abstract class AbstractSingleResultPredicate : PredicateFactory, KnowledgeBaseConsumer
 {
-    protected KnowledgeBase knowledgeBase;
+    protected KnowledgeBase? knowledgeBase;
     public AbstractSingleResultPredicate() { }
 
-    public KnowledgeBase KnowledgeBase
+    public KnowledgeBase? KnowledgeBase
     {
         get => this.knowledgeBase;
         set
@@ -88,19 +88,19 @@ public abstract class AbstractSingleResultPredicate : PredicateFactory, Knowledg
     }
 
 
-    protected Predicates Predicates => knowledgeBase.Predicates;
+    protected Predicates? Predicates => knowledgeBase?.Predicates;
 
-    protected ArithmeticOperators ArithmeticOperators => knowledgeBase.ArithmeticOperators;
+    protected ArithmeticOperators? ArithmeticOperators => knowledgeBase?.ArithmeticOperators;
 
-    protected PrologListeners PrologListeners => knowledgeBase.PrologListeners;
+    protected PrologListeners? PrologListeners => knowledgeBase?.PrologListeners;
 
-    protected Operands Operands => knowledgeBase.Operands;
+    protected Operands? Operands => knowledgeBase?.Operands;
 
-    protected TermFormatter TermFormatter => knowledgeBase.TermFormatter;
+    protected TermFormatter? TermFormatter => knowledgeBase?.TermFormatter;
 
-    protected SpyPoints SpyPoints => knowledgeBase.SpyPoints;
+    protected SpyPoints? SpyPoints => knowledgeBase?.SpyPoints;
 
-    protected FileHandles FileHandles => knowledgeBase.FileHandles;
+    protected FileHandles? FileHandles => knowledgeBase?.FileHandles;
 
     // TODO add more convenience methods like getOutputStream() and formatTerm(Term)
 }

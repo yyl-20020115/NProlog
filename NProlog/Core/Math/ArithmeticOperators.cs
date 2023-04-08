@@ -35,7 +35,7 @@ public class ArithmeticOperators
     private readonly KnowledgeBase kb;
     private readonly object syncRoot = new();
     private readonly Dictionary<PredicateKey, string> operatorClassNames = new();
-    private readonly Dictionary<PredicateKey, ArithmeticOperator> operatorInstances = new();
+    private readonly Dictionary<PredicateKey, ArithmeticOperator?> operatorInstances = new();
 
     public ArithmeticOperators(KnowledgeBase kb) => this.kb = kb;
 
@@ -72,7 +72,8 @@ public class ArithmeticOperators
             else
             {
                 operatorClassNames.Add(key, _operator.GetType().Name);
-                var operatorInstance = _operator.Assembly.CreateInstance(_operator.FullName) as ArithmeticOperator;
+                var operatorInstance = _operator.Assembly.CreateInstance(_operator?.FullName??"")
+                    as ArithmeticOperator;
                 if(operatorInstance is KnowledgeBaseConsumer consumer)
                 {
                     consumer.KnowledgeBase = this.kb;
@@ -111,27 +112,28 @@ public class ArithmeticOperators
      * @return the result of evaluating the specified arithmetic expression
      * @throws ProjogException if the specified term does not represent an arithmetic expression
      */
-    public Numeric GetNumeric(Term t) => t.Type switch
+    public Numeric? GetNumeric(Term? t) => t?.Type switch
     {
         var tt when tt == TermType.FRACTION => TermUtils.CastToNumeric(t),
         var tt when tt == TermType.INTEGER => TermUtils.CastToNumeric(t),
-        var tt when tt == TermType.STRUCTURE => Calculate(t, t.Args),
+        var tt when tt == TermType.STRUCTURE => Calculate(t, t?.Args),
         var tt when tt == TermType.ATOM => Calculate(t, TermUtils.EMPTY_ARRAY),
-        _ => throw new PrologException($"Cannot get Numeric for term: {t} of type: {t.Type}"),
+        _ => throw new PrologException($"Cannot get Numeric for term: {t} of type: {t?.Type}"),
     };
 
-    private Numeric Calculate(Term term, Term[] args) => GetArithmeticOperator(PredicateKey.CreateForTerm(term)).Calculate(args);
+    private Numeric? Calculate(Term? term, Term[]? args)
+        => GetArithmeticOperator(PredicateKey.CreateForTerm(term))?.Calculate(args);
 
     /**
      * @return null if not found
      */
-    public ArithmeticOperator GetPreprocessedArithmeticOperator(Term argument) => argument.Type.IsNumeric
-            ? (Numeric)argument.Term
-            : argument.Type == TermType.ATOM || argument.Type == TermType.STRUCTURE
+    public ArithmeticOperator? GetPreprocessedArithmeticOperator(Term? argument) => (argument?.Type?.IsNumeric).GetValueOrDefault()
+            ? argument?.Term as Numeric
+            : argument?.Type == TermType.ATOM || argument?.Type == TermType.STRUCTURE
                 ? GetPreprocessedArithmeticOperator(PredicateKey.CreateForTerm(argument), argument)
                 : null;
 
-    private ArithmeticOperator GetPreprocessedArithmeticOperator(PredicateKey key, Term argument)
+    private ArithmeticOperator? GetPreprocessedArithmeticOperator(PredicateKey key, Term argument)
     {
         if (operatorInstances.ContainsKey(key) || operatorClassNames.ContainsKey(key))
         {
@@ -147,13 +149,13 @@ public class ArithmeticOperators
     /**
      * @throws ProjogException if not found
      */
-    public ArithmeticOperator GetArithmeticOperator(PredicateKey key) => operatorInstances.TryGetValue(key, out var e)
+    public ArithmeticOperator? GetArithmeticOperator(PredicateKey key) => operatorInstances.TryGetValue(key, out var e)
             ? e
             : operatorClassNames.ContainsKey(key)
                 ? InstantiateArithmeticOperator(key)
                 : throw new PrologException($"Cannot find arithmetic operator: {key}");
 
-    private ArithmeticOperator InstantiateArithmeticOperator(PredicateKey key)
+    private ArithmeticOperator? InstantiateArithmeticOperator(PredicateKey key)
     {
         lock (this.syncRoot)
         {
@@ -165,13 +167,12 @@ public class ArithmeticOperators
         }
     }
 
-    private ArithmeticOperator InstantiateArithmeticOperator(string className)
+    private ArithmeticOperator? InstantiateArithmeticOperator(string className)
     {
         try
         {
-            ArithmeticOperator o = KnowledgeBaseUtils.Instantiate<ArithmeticOperator>(kb, className);
-            if (o == null)
-                throw new TypeLoadException(className);
+            var o = KnowledgeBaseUtils.Instantiate<ArithmeticOperator>(kb, className)
+                ?? throw new TypeLoadException(className);
             return o;
         }
         catch (Exception e)

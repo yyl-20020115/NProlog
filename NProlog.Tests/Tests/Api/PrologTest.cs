@@ -174,7 +174,7 @@ public class PrologTest : TestUtils
         {
             var s1 = "Unable to open input for: a_directory_that_doesnt_exist/another_directory_that_doesnt_exist/some_file.xyz";
             var s2 = prologException.Message;
-            var t = prologException.InnerException.GetType();
+            var t = prologException.InnerException?.GetType();
             Assert.AreEqual(s1, s2);
             Assert.IsTrue(t==typeof(DirectoryNotFoundException)||t==typeof(FileNotFoundException) );
 

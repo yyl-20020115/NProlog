@@ -21,12 +21,12 @@ namespace Org.NProlog.Core.Predicate.Udp;
 [TestClass]
 public class SingleNonRetryableRulePredicateFactoryTest : TestUtils
 {
-    private SpyPoints spyPoints;
-    private ClauseAction mockAction;
-    private SingleNonRetryableRulePredicateFactory testObject;
-    private Predicate mockPredicate;
+    private SpyPoints? spyPoints;
+    private ClauseAction? mockAction;
+    private SingleNonRetryableRulePredicateFactory? testObject;
+    private Predicate? mockPredicate;
     private Term[] queryArgs = Array(Atom("a"), Atom("b"), Atom("c"));
-    private SimplePrologListener listener;
+    private SimplePrologListener? listener;
 
     [TestInitialize]
     public void Before()

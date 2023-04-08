@@ -81,7 +81,7 @@ public class QueryPlanTest : TestUtils
         plan.ExecuteOnce();
         plan.ExecuteOnce();
         plan.ExecuteOnce();
-        Verify(mockPredicateFactory, Times(3)).GetPredicate(new Term[0]);
+        Verify(mockPredicateFactory, Times(3))?.GetPredicate(new Term[0]);
 
         VerifyNoMoreInteractions(mockPreprocessablePredicateFactory, mockPredicateFactory);
     }

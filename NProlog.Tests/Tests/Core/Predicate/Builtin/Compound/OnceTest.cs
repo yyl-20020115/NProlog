@@ -54,8 +54,8 @@ public class OnceTest : TestUtils
         Assert.AreSame(PredicateUtils.TRUE, optimised.GetPredicate(new Term[] { queryArg }));
         Assert.AreSame(PredicateUtils.TRUE, optimised.GetPredicate(new Term[] { queryArg }));
 
-        Verify(mockPredicateFactory, Times(3)).GetPredicate(queryArg.Args);
-        Verify(mockPredicate, Times(3)).Evaluate();
+        Verify(mockPredicateFactory, Times(3))?.GetPredicate(queryArg.Args);
+        Verify(mockPredicate, Times(3))?.Evaluate();
         VerifyNoMoreInteractions(mockPredicateFactory, mockPredicate);
     }
 

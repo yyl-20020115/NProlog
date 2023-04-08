@@ -44,30 +44,30 @@ public static class Delimiters
     public static bool IsListOpenBracket(int c) 
         => c == LIST_OPENING_BRACKET;
 
-    public static bool IsPredicateOpenBracket(Token token)
+    public static bool IsPredicateOpenBracket(Token? token)
         => IsMatch(token, PREDICATE_OPENING_BRACKET);
 
-    public static bool IsPredicateCloseBracket(Token token)
+    public static bool IsPredicateCloseBracket(Token? token)
         => IsMatch(token, PREDICATE_CLOSING_BRACKET);
 
-    public static bool IsListOpenBracket(Token token)
+    public static bool IsListOpenBracket(Token? token)
         => IsMatch(token, LIST_OPENING_BRACKET);
 
-    public static bool IsListCloseBracket(Token token)
+    public static bool IsListCloseBracket(Token? token)
         => IsMatch(token, LIST_CLOSING_BRACKET);
 
-    public static bool IsListTail(Token token)
+    public static bool IsListTail(Token? token)
         => IsMatch(token, LIST_TAIL);
 
-    public static bool IsArgumentSeperator(Token token)
+    public static bool IsArgumentSeperator(Token? token)
         => IsMatch(token, ARGUMENT_SEPARATOR);
 
-    public static bool IsSentenceTerminator(Token token) 
+    public static bool IsSentenceTerminator(Token? token) 
         => IsMatch(token, PERIOD);
 
-    public static bool IsMatch(Token token, char expected) 
+    public static bool IsMatch(Token? token, char expected) 
         => token != null 
         && token.Type == TokenType.SYMBOL 
-        && token.Name.Length == 1 
+        && token.Name?.Length == 1 
         && token.Name[0] == expected;
 }

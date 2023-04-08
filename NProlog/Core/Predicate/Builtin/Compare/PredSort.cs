@@ -123,7 +123,7 @@ public class PredSort : AbstractSingleResultPredicate, PreprocessablePredicateFa
     public PredicateFactory Preprocess(Term term)
     {
         var goal = term.GetArgument(1);
-        return goal.Type == TermType.ATOM
+        return goal?.Type == TermType.ATOM
             ? new PreprocessedPredSort(PartialApplicationUtils.GetPreprocessedPartiallyAppliedPredicateFactory(Predicates, goal, FIRST_ARG_ARITY), goal)
             : this;
     }

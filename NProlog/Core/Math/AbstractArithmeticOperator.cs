@@ -20,10 +20,10 @@ namespace Org.NProlog.Core.Math;
 
 public abstract class AbstractArithmeticOperator : PreprocessableArithmeticOperator, KnowledgeBaseConsumer
 {
-    protected KnowledgeBase knowledgeBase;
-    protected ArithmeticOperators Operators =>this.knowledgeBase.ArithmeticOperators;
-    //public AbstractArithmeticOperator() { }
-    public KnowledgeBase KnowledgeBase
+    protected KnowledgeBase? knowledgeBase;
+    protected ArithmeticOperators? Operators =>this.knowledgeBase?.ArithmeticOperators;
+    public AbstractArithmeticOperator() { }
+    public KnowledgeBase? KnowledgeBase
     {
         get => this.knowledgeBase;
         set => this.knowledgeBase = value;
@@ -31,8 +31,8 @@ public abstract class AbstractArithmeticOperator : PreprocessableArithmeticOpera
 
     public virtual Numeric Calculate(Term[] args) => args.Length switch
     {
-        1 => Calculate(this.Operators.GetNumeric(args[0])),
-        2 => Calculate(this.Operators.GetNumeric(args[0]), this.Operators.GetNumeric(args[1])),
+        1 => Calculate(this.Operators?.GetNumeric(args[0])),
+        2 => Calculate(this.Operators?.GetNumeric(args[0]), this.Operators?.GetNumeric(args[1])),
         _ => throw CreateWrongNumberOfArgumentsException(args.Length),
     };
 
@@ -69,18 +69,19 @@ public abstract class AbstractArithmeticOperator : PreprocessableArithmeticOpera
     
     private ArithmeticOperator PreprocessUnaryOperator(Term argument)
     {
-        var o = Operators.GetPreprocessedArithmeticOperator(argument);
+        var o = Operators?.GetPreprocessedArithmeticOperator(argument);
         return o is Numeric numeric ? Calculate(numeric) : o != null
             ? new PreprocessedUnaryOperator(this, o) : (ArithmeticOperator)this;
     }
 
     private ArithmeticOperator PreprocessBinaryOperator(Term argument1, Term argument2)
     {
-        var o1 = Operators.GetPreprocessedArithmeticOperator(argument1);
-        var o2 = Operators.GetPreprocessedArithmeticOperator(argument2);
-        return o1 is Numeric && o2 is Numeric
-            ? Calculate((Numeric)o1, (Numeric)o2)
-            : o1 != null || o2 != null ? new PreprocessedBinaryOperator(this, o1, o2) : this;
+        var o1 = Operators?.GetPreprocessedArithmeticOperator(argument1);
+        var o2 = Operators?.GetPreprocessedArithmeticOperator(argument2);
+        return o1 is Numeric numeric && o2 is Numeric numeric1
+            ? Calculate(numeric, numeric1)
+            : o1 != null || o2 != null 
+            ? new PreprocessedBinaryOperator(this, o1, o2) : this;
     }
 
     public class PreprocessedUnaryOperator : ArithmeticOperator
@@ -101,10 +102,10 @@ public abstract class AbstractArithmeticOperator : PreprocessableArithmeticOpera
     public class PreprocessedBinaryOperator : ArithmeticOperator
     {
         readonly AbstractArithmeticOperator op;
-        readonly ArithmeticOperator o1;
-        readonly ArithmeticOperator o2;
+        readonly ArithmeticOperator? o1;
+        readonly ArithmeticOperator? o2;
 
-        public PreprocessedBinaryOperator(AbstractArithmeticOperator op,ArithmeticOperator o1, ArithmeticOperator o2)
+        public PreprocessedBinaryOperator(AbstractArithmeticOperator op,ArithmeticOperator? o1, ArithmeticOperator? o2)
         {
             this.op = op;
             this.o1 = o1;

@@ -318,7 +318,12 @@ public class InterpretedUserDefinedPredicateTest : TestUtils
 
     private void AssertSecondRuntimeException()
     {
-        var testObject = new InterpretedUserDefinedPredicate(ListCheckedEnumerator<ClauseAction>.Of(new List<ClauseAction> { mockAction1, mockAction2, mockAction3 }), spyPoint, queryArgs);
+        var testObject = new InterpretedUserDefinedPredicate(
+            ListCheckedEnumerator<ClauseAction>.Of(
+                new List<ClauseAction> { 
+                    mockAction1,
+                    mockAction2,
+                    mockAction3 }), spyPoint, queryArgs);
 
         var exception = new SystemException();
         var mockPredicate = new MockPredicate();
@@ -341,11 +346,11 @@ public class InterpretedUserDefinedPredicateTest : TestUtils
             Assert.AreSame(exception, e.InnerException);
         }
 
-        Verify(mockAction1).GetPredicate(queryArgs);
-        var a = Verify(mockAction1).IsAlwaysCutOnBacktrack;
-        Verify(mockAction2).GetPredicate(queryArgs);
-        var m = Verify(mockAction2).Model;
-        Verify(mockPredicate).Evaluate();
+        Verify(mockAction1)?.GetPredicate(queryArgs);
+        var a = Verify(mockAction1)?.IsAlwaysCutOnBacktrack;
+        Verify(mockAction2)?.GetPredicate(queryArgs);
+        var m = Verify(mockAction2)?.Model;
+        Verify(mockPredicate)?.Evaluate();
         VerifyNoMoreInteractions(mockPredicate);
     }
 

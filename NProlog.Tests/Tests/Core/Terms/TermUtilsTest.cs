@@ -61,11 +61,11 @@ public class TermUtilsTest : TestUtils
         AssertVariable(output[4], "Z");
     }
 
-    private static void AssertVariable(Term t, string id)
+    private static void AssertVariable(Term? t, string id)
     {
-        Assert.AreSame(TermType.VARIABLE, t.Type);
-        Assert.AreSame(t, t.Term);
-        Assert.AreEqual(id, ((Variable)t).Id);
+        Assert.AreSame(TermType.VARIABLE, t?.Type);
+        Assert.AreSame(t, t?.Term);
+        Assert.AreEqual(id, (t as Variable)?.Id);
     }
 
     [TestMethod]

@@ -20,20 +20,20 @@ public class Token
 {
     private static readonly Token[] EMPTY_ARGS = Array.Empty<Token>();
 
-    private readonly string value;
+    private readonly string? value;
     private readonly TokenType type;
     private readonly Token[] args;
 
-    public Token(string value, TokenType type) : this(value, type, EMPTY_ARGS) { }
+    public Token(string? value, TokenType type) : this(value, type, EMPTY_ARGS) { }
 
-    public Token(string value, TokenType type, Token[] args)
+    public Token(string? value, TokenType type, Token[] args)
     {
         this.value = value;
         this.type = type;
         this.args = args;
     }
 
-    public string Name => value;
+    public string? Name => value;
 
     public TokenType Type => type;
 
@@ -44,5 +44,5 @@ public class Token
     public int NumberOfArguments => args.Length;
 
 
-    public override string ToString() => value;
+    public override string ToString() => value??"";
 }

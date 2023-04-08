@@ -162,10 +162,10 @@ public class ListFactoryTest : TestUtils
     private static Term[] CreateArguments() 
         => new Term[] { Atom(), Structure(), IntegerNumber(), DecimalFraction(), Variable() };
 
-    private static void TestIsList(Term l)
+    private static void TestIsList(Term? l)
     {
-        Assert.AreEqual(".", l.Name);
-        Assert.AreEqual(TermType.LIST, l.Type);
-        Assert.AreEqual(2, l.NumberOfArguments);
+        Assert.AreEqual(".", l?.Name);
+        Assert.AreEqual(TermType.LIST, l?.Type);
+        Assert.AreEqual(2, l?.NumberOfArguments);
     }
 }

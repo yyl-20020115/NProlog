@@ -59,7 +59,7 @@ public interface Term
      * @throws IndexOutOfRangeException if the index is _out of range
      * ({@code index < 0 || index >= getNumberOfArguments()})
      */
-    Term GetArgument(int index);
+    Term? GetArgument(int index);
 
     /**
      * Returns the {@link TermType} represented by this term.
@@ -79,7 +79,7 @@ public interface Term
      * value = version used in copy)
      * @return a copy of this term
      */
-    Term Copy(Dictionary<Variable, Variable> sharedVariables);
+    Term? Copy(Dictionary<Variable, Variable>? sharedVariables);
 
     /**
      * Returns the term this object is bound to.

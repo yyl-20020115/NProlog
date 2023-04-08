@@ -108,7 +108,7 @@ public class PrologSourceReader
             {
                 reader.Close();
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
         }
@@ -167,7 +167,7 @@ public class PrologSourceReader
     private void ParseTerms(TextReader reader)
     {
         var sp = SentenceParser.GetInstance(reader, kb.Operands);
-        Term t;
+        Term? t;
         while ((t = sp.ParseSentence()) != null)
         {
             if (KnowledgeBaseUtils.IsQuestionOrDirectiveFunctionCall(t))
@@ -186,7 +186,7 @@ public class PrologSourceReader
      */
     private void ProcessQuestion(Term t)
     {
-        var e = kb.Predicates.GetPredicate(t.GetArgument(0));
+        var e = kb.Predicates.GetPredicate(t?.GetArgument(0));
         if (e != null)
         {
             while (e.Evaluate() && e.CouldReevaluationSucceed)

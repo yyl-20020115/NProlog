@@ -358,7 +358,7 @@ public class SentenceParser
         }
         else if (token.Type == TokenType.SYMBOL || token.Type == TokenType.ATOM)
         {
-            return GetAtomOrStructure(token.Name);
+            return GetAtomOrStructure(token?.Name??"");
         }
         else
         {
@@ -515,9 +515,9 @@ public class SentenceParser
         return token;
     }
 
-    private Token PopValue() => parser.Next();
+    private Token? PopValue() => parser.Next();
 
-    private Token PeekValue()
+    private Token? PeekValue()
     {
         var token = PopValue();
         parser.Rewind(token);

@@ -125,7 +125,7 @@ public class BootstrapTest : TestUtils
                 Assert.AreSame(typeof(bool), m.ReturnType);
                 success = true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 // if we can't find a matching method in the class then try its superclass
                 //c = c.getSuperclass();

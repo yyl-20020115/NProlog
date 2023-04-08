@@ -119,9 +119,9 @@ public class TermUtils
      * @return the {@link Numeric} represented by the specified {@link Term}
      * @throws ProjogException if the specified {@link Term} does not represent a {@link Numeric}
      */
-    public static Numeric CastToNumeric(Term t) 
-        => t.Type.IsNumeric 
-        ? (Numeric)t.Term 
+    public static Numeric? CastToNumeric(Term? t) 
+        => (t?.Type?.IsNumeric).GetValueOrDefault()
+        ? t?.Term as Numeric
         : throw new PrologException($"Expected Numeric but got: {t.Type} with value: {t}");
 
     /**
@@ -152,9 +152,9 @@ public class TermUtils
     public static long ToLong(ArithmeticOperators operators, Term t)
     {
         var n = operators.GetNumeric(t);
-        return n.Type == TermType.INTEGER 
+        return n?.Type == TermType.INTEGER 
             ? n.Long 
-            : throw new PrologException($"Expected integer but got: {n.Type} with value: {n}");
+            : throw new PrologException($"Expected integer but got: {n?.Type} with value: {n}");
     }
 
     /**
@@ -173,7 +173,7 @@ public class TermUtils
             throw new PrologException($"Expected {type} but got: {t.Type} with value: {t}");
     }
 
-    public static bool TermsEqual(Term a, Term b)
-        => a.Term.Equals(b.Term);
+    public static bool TermsEqual(Term? a, Term? b)
+        => (a?.Term?.Equals(b?.Term)).GetValueOrDefault();
 
 }

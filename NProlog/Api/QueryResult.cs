@@ -37,9 +37,9 @@ public class QueryResult
      * @param variables collection of variables contained in the query (keyed by variable id)
      * @see QueryStatement#executeQuery()
      */
-    public QueryResult(PredicateFactory predicateFactory, Term query, Dictionary<string, Variable> variables)
+    public QueryResult(PredicateFactory predicateFactory, Term? query, Dictionary<string, Variable> variables)
     {
-        var numArgs = query.NumberOfArguments;
+        var numArgs = (query?.NumberOfArguments).GetValueOrDefault();
         if (numArgs == 0)
         {
             this.predicate = predicateFactory.GetPredicate(TermUtils.EMPTY_ARRAY);
@@ -48,7 +48,7 @@ public class QueryResult
         {
             var args = new Term[numArgs];
             for (int i = 0; i < args.Length; i++)
-                args[i] = query.GetArgument(i).Term;
+                args[i] = query?.GetArgument(i)?.Term;
             this.predicate = predicateFactory.GetPredicate(args);
         }
 

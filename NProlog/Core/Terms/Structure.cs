@@ -130,7 +130,7 @@ public class Structure : Term
         }
     }
 
-    public Structure Copy(Dictionary<Variable, Variable> sharedVariables)
+    public Structure Copy(Dictionary<Variable, Variable>? sharedVariables)
     {
         if (immutable)
         {

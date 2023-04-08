@@ -204,7 +204,7 @@ public class QueryStatementTest : TestUtils
         catch (PrologException e)
         {
             Assert.AreEqual("PrologException caught parsing: X is 1. Y is 2.", e.Message);
-            Assert.AreEqual("More input found after . in X is 1. Y is 2.", e.InnerException.Message);
+            Assert.AreEqual("More input found after . in X is 1. Y is 2.", e.InnerException?.Message??"");
         }
     }
 

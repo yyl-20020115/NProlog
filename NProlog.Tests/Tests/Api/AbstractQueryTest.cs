@@ -147,8 +147,8 @@ public abstract class AbstractQueryTest : TestUtils
         public readonly Func<T> statementMethod;
         public readonly Func<T> planMethod;
         public readonly int id;
-        public readonly Prolog prolog;
-        public string query;
+        public Prolog? prolog = null;
+        public string? query = null;
 
         public StatementMethod(Func<T> statementMethod, Func<T> planMethod)
         {
@@ -202,7 +202,7 @@ public abstract class AbstractQueryTest : TestUtils
 
         private QueryStatement CreateStatement()
         {
-            QueryStatement s = prolog.CreateStatement(query);
+            var s = prolog.CreateStatement(query);
             if ((METHOD_INVOCATIONS_CTR & id) != 0)
             {
                 throw new InvalidOperationException(id + " has been invoked twice by the same test");

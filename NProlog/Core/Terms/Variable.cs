@@ -76,7 +76,9 @@ public class Variable : Term
      * @throws NullReferenceException if the {@code Variable} is currently uninstantiated
      */
 
-    public int NumberOfArguments => value == null ? throw new NullReferenceException() : Value.NumberOfArguments;
+    public int NumberOfArguments => value == null 
+        ? throw new NullReferenceException() 
+        : (Value?.NumberOfArguments).GetValueOrDefault();
 
     /**
      * Calls {@link Term#getArgument(int)} on the {@link Term} this variable is instantiated with.
@@ -84,10 +86,11 @@ public class Variable : Term
      * @throws NullReferenceException if the {@code Variable} is currently uninstantiated
      */
 
-    public Term GetArgument(int index) => value == null ? throw new NullReferenceException() : Value.GetArgument(index);
+    public Term? GetArgument(int index) => value == null 
+        ? throw new NullReferenceException() : Value?.GetArgument(index);
 
 
-    public bool Unify(Term t)
+    public bool Unify(Term? t)
     {
         t = t.Bound;
         if (t == this || t == value)
@@ -101,7 +104,7 @@ public class Variable : Term
         }
         else
         {
-            return Value.Unify(t.Term);
+            return (Value?.Unify(t.Term)).GetValueOrDefault();
         }
     }
 
@@ -112,7 +115,7 @@ public class Variable : Term
      * {@link Term} this variable is instantiated with.
      */
 
-    public TermType Type => value == null ? TermType.VARIABLE : Value.Type;
+    public TermType Type => value == null ? TermType.VARIABLE : Value?.Type;
 
     /**
      * Always returns {@code false} even if instantiated with an immutable {@link Term}.
@@ -123,18 +126,18 @@ public class Variable : Term
     public bool IsImmutable => false;
 
 
-    public Term Copy(Dictionary<Variable, Variable> sharedVariables)
+    public Term? Copy(Dictionary<Variable, Variable>? sharedVariables)
     {
         if (value == null)
         {
-            if (!sharedVariables.TryGetValue(this, out var result))
-                sharedVariables.Add(this, result = new Variable(id));
-            return result.Term;
+            if (sharedVariables != null)
+            {
+                if (!sharedVariables.TryGetValue(this, out var result))
+                    sharedVariables.Add(this, result = new Variable(id));
+                return result.Term;
+            }
         }
-        else
-        {
-            return Value.Copy(sharedVariables);
-        }
+        return Value?.Copy(sharedVariables);
     }
 
 

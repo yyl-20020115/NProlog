@@ -36,7 +36,7 @@ public class SetInput : AbstractSingleResultPredicate
 
     protected override bool Evaluate(Term arg)
     {
-        FileHandles.SetInput(arg);
+        FileHandles?.SetInput(arg);
         return true;
     }
 }

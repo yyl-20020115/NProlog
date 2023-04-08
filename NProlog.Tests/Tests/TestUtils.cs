@@ -101,13 +101,13 @@ public class TestUtils : TermFactory
     public static SentenceParser CreateSentenceParser(string prologSyntax)
     => SentenceParser.GetInstance(prologSyntax, OPERANDS);   
 
-    public static Term ParseSentence(string prologSyntax)
+    public static Term? ParseSentence(string prologSyntax)
     {
         var sp = CreateSentenceParser(prologSyntax);
         return sp.ParseSentence();
     }
 
-    public static Term ParseTerm(string source)
+    public static Term? ParseTerm(string source)
     {
         var sp = CreateSentenceParser(source);
         return sp.ParseTerm();
@@ -116,9 +116,9 @@ public class TestUtils : TermFactory
     public static ClauseModel CreateClauseModel(string prologSentenceSytax)
     => ClauseModel.CreateClauseModel(ParseSentence(prologSentenceSytax));
 
-    public static string Write(Term t) => CreateTermFormatter().FormatTerm(t);
+    public static string Write(Term? t) => CreateTermFormatter().FormatTerm(t);
 
-    public static TermFormatter CreateTermFormatter() => new TermFormatter(OPERANDS);
+    public static TermFormatter CreateTermFormatter() => new (OPERANDS);
 
     public static Term[] ParseTermsFromFile(string f)
     {
@@ -126,7 +126,7 @@ public class TestUtils : TermFactory
         var sp = SentenceParser.GetInstance(reader, OPERANDS);
 
         List<Term> result = new();
-        Term next;
+        Term? next;
         while ((next = sp.ParseSentence()) != null)
         {
             result.Add(next);
@@ -153,10 +153,10 @@ public class TestUtils : TermFactory
 
     public static int Times(int invocationTimes) => invocationTimes;
     public static T? Verify<T>(T? mock, int times = 1) => mock;
-    public static void VerifyNoInteractions(params object[] os)
+    public static void VerifyNoInteractions(params object?[] os)
     {
     }
-    public static void VerifyNoMoreInteractions(params object[] os)
+    public static void VerifyNoMoreInteractions(params object?[] os)
     {
     }
 
@@ -180,7 +180,7 @@ public class TestUtils : TermFactory
     //{
     //    return null;
     //}
-    public static T AssertThrows<T>(Type type, Func<T> func)
+    public static T? AssertThrows<T>(Type type, Func<T> func)
     {
         try
         {
@@ -190,7 +190,7 @@ public class TestUtils : TermFactory
         {
             try
             {
-                Exception ret = null;
+                Exception? ret = null;
                 var ci = type.GetConstructor(new Type[] { typeof(string), typeof(Exception) });
                 if (ci != null)
                 {
@@ -214,7 +214,7 @@ public class TestUtils : TermFactory
                 }
 
                 throw ret ?? ex;
-            }catch(Exception ex2)
+            }catch//(Exception ex2)
             {
                 
             }

@@ -186,7 +186,7 @@ public class VariableTest : TestUtils
     {
         var v = Variable();
         Dictionary<Variable, Variable> sharedVariables = new();
-        Term Copy = v.Copy(sharedVariables);
+        var Copy = v.Copy(sharedVariables);
         Assert.AreEqual(1, sharedVariables.Count);
         Assert.AreSame(Copy, sharedVariables[(v)]);
         Assert.IsFalse(TermsEqual(v, Copy));
@@ -382,62 +382,62 @@ public class VariableTest : TestUtils
     {
         //NOTICE: this kills itself
         return;
-        var v = Variable("X");
-        var t = Structure("name", v);
-        Assert.IsTrue(v.Unify(t));
+        //var v = Variable("X");
+        //var t = Structure("name", v);
+        //Assert.IsTrue(v.Unify(t));
 
-        Assert.AreSame(t, v.Bound);
-        Assert.AreSame(t, t.Bound);
+        //Assert.AreSame(t, v.Bound);
+        //Assert.AreSame(t, t.Bound);
 
-        try
-        {
-            v.Copy(new());
-            Assert.Fail();
-        }
-        catch (StackOverflowException)
-        {
-        }
-        try
-        {
-            t.Copy(new());
-            Assert.Fail();
-        }
-        catch (StackOverflowException)
-        {
-        }
-        try
-        {
-            var m = v.Term;
-            Assert.Fail();
-        }
-        catch (StackOverflowException)
-        {
-        }
-        try
-        {
-            var m = t.Term;
-            Assert.Fail();
-        }
-        catch (StackOverflowException)
-        {
-        }
-        try
-        {
-            v.ToString();
-            Assert.Fail();
-        }
-        catch (StackOverflowException)
-        {
-        }
-        try
-        {
-            t.ToString();
-            Assert.Fail();
-        }
-        catch (StackOverflowException)
-        {
-        }
-        Assert.IsTrue(true);
+        //try
+        //{
+        //    v.Copy(new());
+        //    Assert.Fail();
+        //}
+        //catch (StackOverflowException)
+        //{
+        //}
+        //try
+        //{
+        //    t.Copy(new());
+        //    Assert.Fail();
+        //}
+        //catch (StackOverflowException)
+        //{
+        //}
+        //try
+        //{
+        //    var m = v.Term;
+        //    Assert.Fail();
+        //}
+        //catch (StackOverflowException)
+        //{
+        //}
+        //try
+        //{
+        //    var m = t.Term;
+        //    Assert.Fail();
+        //}
+        //catch (StackOverflowException)
+        //{
+        //}
+        //try
+        //{
+        //    v.ToString();
+        //    Assert.Fail();
+        //}
+        //catch (StackOverflowException)
+        //{
+        //}
+        //try
+        //{
+        //    t.ToString();
+        //    Assert.Fail();
+        //}
+        //catch (StackOverflowException)
+        //{
+        //}
+        //Assert.IsTrue(true);
     }
 
     [TestMethod]

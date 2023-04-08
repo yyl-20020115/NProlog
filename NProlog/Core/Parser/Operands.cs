@@ -168,7 +168,7 @@ public class Operands
     /**
      * Returns {@code true} if {@code op} represents a postfix operator, else {@code false}.
      */
-    public bool Postfix(string op) 
+    public bool Postfix(string? op) 
         => postfixOperands.ContainsKey(op);
 
     /**
@@ -228,7 +228,7 @@ public class Operands
             [xf.name] = xf,
             [yf.name] = yf,
         };
-        public static Associativity ValueOf(string associativityName) =>
+        public static Associativity? ValueOf(string associativityName) =>
             Values.TryGetValue(associativityName, out var associativity) ? associativity : null;
 
         public readonly Location location;

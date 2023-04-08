@@ -78,7 +78,7 @@ public class KnowledgeBaseConsumerNoArgConstructorExample : KnowledgeBaseConsume
 {
     public static int INSTANCE_CTR;
 
-    public KnowledgeBase kb;
+    public KnowledgeBase? kb;
 
     public KnowledgeBaseConsumerNoArgConstructorExample() => INSTANCE_CTR++;
 
@@ -98,9 +98,9 @@ public class KnowledgeBaseConsumerStaticMethodExample : KnowledgeBaseConsumer
 {
     public static int INSTANCE_CTR;
 
-    public KnowledgeBase kb;
+    public KnowledgeBase? kb;
 
-    public KnowledgeBase KnowledgeBase { get => kb; set => kb = value; }
+    public KnowledgeBase? KnowledgeBase { get => kb; set => kb = value; }
 
     public static KnowledgeBaseConsumerStaticMethodExample Create()
     {

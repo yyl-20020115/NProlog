@@ -278,8 +278,8 @@ public class TokenParserTest : TestUtils
         var p = Create(syntax);
         Assert.IsTrue(p.HasNext);
         var token = p.Next();
-        Assert.AreEqual(value, token.Name);
-        Assert.AreEqual(type, token.Type);
+        Assert.AreEqual(value, token?.Name);
+        Assert.AreEqual(type, token?.Type);
         Assert.IsFalse(p.HasNext);
     }
 

@@ -52,7 +52,7 @@ public class NumericTermComparator
      * @see #compare(Numeric, Numeric)
      * @see ArithmeticOperators#getNumeric(Term)
      */
-    public static int Compare(Term t1, Term t2, ArithmeticOperators operators)
+    public static int Compare(Term? t1, Term? t2, ArithmeticOperators operators)
         => Compare(operators.GetNumeric(t1), operators.GetNumeric(t2));
 
     /**

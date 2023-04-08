@@ -26,8 +26,8 @@ namespace Org.NProlog.Core.Predicate.Udp;
  */
 public class DefiniteClauseGrammerConvertor
 {
-    public static bool IsDCG(Term dcgTerm) 
-        => dcgTerm.Type == TermType.STRUCTURE && dcgTerm.NumberOfArguments == 2 && dcgTerm.Name.Equals("-->");
+    public static bool IsDCG(Term? dcgTerm) 
+        => dcgTerm?.Type == TermType.STRUCTURE && dcgTerm.NumberOfArguments == 2 && dcgTerm.Name.Equals("-->");
 
     /**
      * @param dcgTerm predicate with name "-=>" and two arguments

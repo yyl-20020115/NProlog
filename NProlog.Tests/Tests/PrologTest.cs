@@ -61,7 +61,7 @@ public class PrologTest
 
         public void OnCall(SpyPointEvent @event) => Add(@event);
 
-        private void Add(object message) => events.Add(message.ToString());
+        private void Add(object message) => events.Add(message?.ToString()??"");
     }
 
 

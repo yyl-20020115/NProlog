@@ -61,7 +61,7 @@ public class TokenParser
      * @throws ParserException if there are no more tokens to parse (i.e. parser has reached the end of the underlying
      * input stream)
      */
-    public Token Next()
+    public Token? Next()
     {
         if (rewound)
             this.rewound = false;
@@ -100,7 +100,7 @@ public class TokenParser
      * {@link TokenParser#rewind(string)} since the last call to {@link #next()}), or {@code value} is not equal to
      * {@link #getValue()}
      */
-    public void Rewind(Token value)
+    public void Rewind(Token? value)
     {
         if (this.lastParsedToken != value)
             throw new ArgumentException();

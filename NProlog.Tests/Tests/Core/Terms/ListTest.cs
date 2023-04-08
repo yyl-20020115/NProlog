@@ -528,8 +528,8 @@ public class ListTest : TestUtils
         var l2 = l1.Copy(null);
         Assert.IsFalse(l1.IsImmutable);
         Assert.IsTrue(l2.IsImmutable, l2.ToString());
-        Assert.AreSame(v, l1.GetArgument(1).GetArgument(0).GetArgument(1));
-        Assert.AreSame(a, l2.GetArgument(1).GetArgument(0).GetArgument(1));
+        Assert.AreSame(v, l1.GetArgument(1).GetArgument(0)?.GetArgument(1));
+        Assert.AreSame(a, l2.GetArgument(1).GetArgument(0)?.GetArgument(1));
     }
 
     [TestMethod]

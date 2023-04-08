@@ -176,14 +176,14 @@ public class SpyPoints
 
     public class SpyPointExitEvent : SpyPointEvent
     {
-        protected readonly ClauseModel clauseModel;
+        protected readonly ClauseModel? clauseModel;
 
-        public SpyPointExitEvent(SpyPoints spypoints, PredicateKey key, Term[] args, object source, ClauseModel clauseModel)
+        public SpyPointExitEvent(SpyPoints spypoints, PredicateKey key, Term[] args, object source, ClauseModel? clauseModel)
           : base(spypoints, key, args, source) => this.clauseModel = clauseModel;
 
         public string GetFormattedClause()
-            => this.spypoints.termFormatter.FormatTerm(clauseModel.Original);
+            => this.spypoints.termFormatter.FormatTerm(clauseModel?.Original);
 
-        public ClauseModel ClauseModel => clauseModel;
+        public ClauseModel? ClauseModel => clauseModel;
     }
 }

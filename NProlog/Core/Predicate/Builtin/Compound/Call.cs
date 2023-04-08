@@ -119,7 +119,7 @@ test(V1,V2,V3,V4,V5,V6,V7,V8,V9) :-
  */
 public class Call : PredicateFactory, KnowledgeBaseConsumer
 {
-    public KnowledgeBase KnowledgeBase { get; set; }
+    public KnowledgeBase? KnowledgeBase { get; set; }
 
     public virtual Predicate GetPredicate(params Term[] args)
     {

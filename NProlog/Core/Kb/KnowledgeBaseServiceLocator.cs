@@ -52,7 +52,7 @@ public class KnowledgeBaseServiceLocator
     }
 
     private readonly KnowledgeBase kb;
-    private readonly Dictionary<Type, object> services = new();
+    private readonly Dictionary<Type, object?> services = new();
 
     /** @see #getServiceLocator */
     private KnowledgeBaseServiceLocator(KnowledgeBase kb) 
@@ -86,7 +86,7 @@ public class KnowledgeBaseServiceLocator
      * @throws SystemException if an attempt to instantiate a new instance of the {@code instanceType} fails. e.g. If it
      * does not have a public constructor that accepts either no arguments or a single {@code KnowledgeBase} argument.
      */
-    public T GetInstance<T>(Type instanceType) 
+    public T? GetInstance<T>(Type instanceType)
         => GetInstance<T>(instanceType, instanceType);
 
     /**
@@ -112,7 +112,7 @@ public class KnowledgeBaseServiceLocator
         return (T)r;
     }
 
-    private object CreateInstance(Type referenceType, Type instanceType)
+    private object? CreateInstance(Type referenceType, Type instanceType)
     {
         lock (services)
         {
@@ -145,7 +145,7 @@ public class KnowledgeBaseServiceLocator
      * that to construct the new instance - else an attempt is made to construct a new instance using the no-arg
      * constructor.
      */
-    private object NewInstance(Type c)
+    private object? NewInstance(Type c)
     {
         if (c == typeof(string))
         {
@@ -155,7 +155,7 @@ public class KnowledgeBaseServiceLocator
         {
             var constructor = GetKnowledgeBaseArgumentConstructor(c);
             return constructor != null ? constructor.Invoke(new object[] { kb }) 
-                : Assembly.GetAssembly(c).CreateInstance(c.FullName);
+                : Assembly.GetAssembly(c)?.CreateInstance(c?.FullName??"");
         }
         catch (Exception e)
         {
@@ -163,7 +163,7 @@ public class KnowledgeBaseServiceLocator
         }
     }
 
-    private static ConstructorInfo GetKnowledgeBaseArgumentConstructor(Type type)
+    private static ConstructorInfo? GetKnowledgeBaseArgumentConstructor(Type type)
     {
         foreach (var constructor in type.GetConstructors())
         {

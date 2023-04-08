@@ -33,5 +33,5 @@ public interface ArithmeticOperator
      * @param args the arguments to use in the calculation
      * @return the result of the calculation using the specified arguments
      */
-    Numeric Calculate(Term[] args);
+    Numeric Calculate(Term[]? args);
 }

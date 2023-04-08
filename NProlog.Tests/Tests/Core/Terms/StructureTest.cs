@@ -95,7 +95,7 @@ public class StructureTest : TestUtils
         Assert.AreEqual(TermType.LIST, t.Type);
         Assert.IsTrue(t is LinkedTermList);
         var l = ParseSentence("[a | b].");
-        Assert.AreEqual(l.ToString(), t.ToString());
+        Assert.AreEqual(l?.ToString(), t.ToString());
     }
 
     [TestMethod]

@@ -34,7 +34,7 @@ public class QueryStatement
     private static readonly Dictionary<string, Variable> EMPTY_VARIABLES = new();
 
     private readonly PredicateFactory predicateFactory;
-    private readonly Term parsedInput;
+    private readonly Term? parsedInput;
     private readonly Dictionary<string, Variable> variables;
     private bool invoked;
 
@@ -75,10 +75,10 @@ public class QueryStatement
      * @param prologQuery prolog syntax representing a query (do not prefix with a {@code ?-})
      * @throws ProjogException if an error occurs parsing {@code prologQuery}
      */
-    public QueryStatement(PredicateFactory predicateFactory, Term prologQuery)
+    public QueryStatement(PredicateFactory predicateFactory, Term? prologQuery)
     {
         this.predicateFactory = predicateFactory;
-        if (prologQuery.IsImmutable)
+        if ((prologQuery?.IsImmutable).GetValueOrDefault())
         {
             this.parsedInput = prologQuery;
             this.variables = EMPTY_VARIABLES;
@@ -86,7 +86,7 @@ public class QueryStatement
         else
         {
             Dictionary<Variable, Variable> sharedVariables = new();
-            this.parsedInput = prologQuery.Copy(sharedVariables);
+            this.parsedInput = prologQuery?.Copy(sharedVariables);
             this.variables = new(sharedVariables.Count);
             foreach (var variable in sharedVariables.Values)
                 if (!variable.IsAnonymous && this.variables.ContainsKey(variable.Id))
@@ -529,11 +529,11 @@ public class QueryStatement
      * Returns the ID of the single variable contained in the query this statement represents.
      *
      * @return variable ID
-     * @throws ProjogException of there is not exactly one named variable in the query this statement represents
+     * @throws PrologException of there is not exactly one named variable in the query this statement represents
      */
     private string GetSingleVariableId()
     {
-        string id = null;
+        string? id = null;
 
         foreach (var e in variables)
             if (e.Value.Type.IsVariable)

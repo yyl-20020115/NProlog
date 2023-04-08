@@ -33,7 +33,7 @@ namespace Org.NProlog.Api;
 public class QueryPlan
 {
     private readonly PredicateFactory predicateFactory;
-    private readonly Term parsedInput;
+    private readonly Term? parsedInput;
 
     public QueryPlan(KnowledgeBase kb, string prologQuery)
     {
@@ -51,9 +51,9 @@ public class QueryPlan
         {
             throw pe;
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            throw new PrologException($"{e.GetType().Name} caught parsing: {prologQuery}", e);
+            throw new PrologException($"{ex.GetType().Name} caught parsing: {prologQuery}", ex);
         }
     }
 

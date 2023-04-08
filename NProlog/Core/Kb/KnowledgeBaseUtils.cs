@@ -139,7 +139,7 @@ public static class KnowledgeBaseUtils
      * invoking the specified method (as a no argument static method) of the specified class.</li>
      * </ol>
      */
-    public static T Instantiate<T>(KnowledgeBase knowledgeBase, string input)
+    public static T? Instantiate<T>(KnowledgeBase? knowledgeBase, string input)
     {
         var result = Instantiate<T>(input);
 
@@ -151,7 +151,7 @@ public static class KnowledgeBaseUtils
 
     // TODO share with KnowledgeBaseServiceLocator.newInstance pass KnowledgeBase to constructor
 
-    public static Type GetTypeFor(string input,Type? back = null)
+    public static Type? GetTypeFor(string input,Type? back = null)
     {
 
         var assemlby = typeof(KnowledgeBase).Assembly;
@@ -160,7 +160,7 @@ public static class KnowledgeBaseUtils
         if (type == null)
             type = Type.GetType(input);
         if (type == null)
-            type = Assembly.GetEntryAssembly().GetType(input);
+            type = Assembly.GetEntryAssembly()?.GetType(input);
         if (type == null)
             type = Assembly.GetCallingAssembly().GetType(input);
         if (type == null)
@@ -171,7 +171,7 @@ public static class KnowledgeBaseUtils
         }
         return type??back;
     }
-    public static T Instantiate<T>(string input)
+    public static T? Instantiate<T>(string input)
     {
         if (!string.IsNullOrEmpty(input))
         {
@@ -184,26 +184,26 @@ public static class KnowledgeBaseUtils
                     var ms = input[(i + 1)..];
 
                     var type = GetTypeFor(ts, typeof(T));
-                    var md = type.GetMethod(ms);
+                    var md = type?.GetMethod(ms);
                     var obj = md?.Invoke(null, Array.Empty<object>());
-                    return (obj is T r) ? r : default(T);
+                    return (obj is T r) ? r : default;
                 }
                 else
                 {
                     var type = GetTypeFor(input,typeof(T));
                     if (type == null)
-                        return default(T);
+                        return default;
                     else if (type == typeof(string))
                     {
                         var ci = type.GetConstructor(new Type[] { typeof(char[]) });
                         var obj = ci?.Invoke(new object[] { new char[0] });
-                        return (obj is T r) ? r : default(T);
+                        return (obj is T r) ? r : default;
                     }
                     else
                     {
                         var ci = type.GetConstructor(Array.Empty<Type>());
                         var obj = ci?.Invoke(Array.Empty<object>());
-                        return (obj is T r) ? r : default(T);
+                        return (obj is T r) ? r : default;
                     }
 
                 }

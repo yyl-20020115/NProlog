@@ -264,7 +264,7 @@ public class TermParserTest : TestUtils
             ParseTerm(source);
             Assert.Fail("No exception thrown parsing: " + source);
         }
-        catch (ParserException e)
+        catch (ParserException)
         {
             // expected
         }

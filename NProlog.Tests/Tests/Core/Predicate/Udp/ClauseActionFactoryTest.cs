@@ -326,43 +326,43 @@ public class ClauseActionFactoryTest : TestUtils
     [TestMethod]
     public void TestZeroArgConsequentRuleIsRetryableTrue()
     {
-        When(mockPredicateFactory.IsRetryable).ThenReturn(true);
+        When(mockPredicateFactory?.IsRetryable).ThenReturn(true);
 
         var a = Create<ZeroArgConsequentRule>("p :- test.");
         Assert.IsFalse(a.IsRetryable);
 
-        var m = Verify(mockPredicateFactory).IsRetryable;
+        var m = Verify(mockPredicateFactory)?.IsRetryable;
     }
 
     [TestMethod]
     public void TestZeroArgConsequentRuleIsRetryableFalse()
     {
-        When(mockPredicateFactory.IsRetryable).ThenReturn(false);
+        When(mockPredicateFactory?.IsRetryable).ThenReturn(false);
 
         var a = Create<ZeroArgConsequentRule>("p :- test.");
         Assert.IsFalse(a.IsRetryable);
 
-        var m = Verify(mockPredicateFactory).IsRetryable;
+        var m = Verify(mockPredicateFactory)?.IsRetryable;
     }
 
     [TestMethod]
     public void TestZeroArgConsequentRuleIsAlwaysCutOnBacktrackTrue()
     {
-        When(mockPredicateFactory.IsAlwaysCutOnBacktrack).ThenReturn(true);
+        When(mockPredicateFactory?.IsAlwaysCutOnBacktrack).ThenReturn(true);
 
         var a = Create<ZeroArgConsequentRule>("p :- test.");
         Assert.IsFalse(a.IsAlwaysCutOnBacktrack);
-        _ = Verify(mockPredicateFactory).IsAlwaysCutOnBacktrack;
+        _ = Verify(mockPredicateFactory)?.IsAlwaysCutOnBacktrack;
     }
 
     [TestMethod]
     public void TestZeroArgConsequentRuleIsAlwaysCutOnBacktrackFalse()
     {
-        When(mockPredicateFactory.IsAlwaysCutOnBacktrack).ThenReturn(false);
+        When(mockPredicateFactory?.IsAlwaysCutOnBacktrack).ThenReturn(false);
 
         var a = Create<ZeroArgConsequentRule>("p :- test.");
         Assert.IsFalse(a.IsAlwaysCutOnBacktrack);
-        _ = Verify(mockPredicateFactory).IsAlwaysCutOnBacktrack;
+        _ = Verify(mockPredicateFactory)?.IsAlwaysCutOnBacktrack;
     }
 
     [TestMethod]
@@ -372,7 +372,7 @@ public class ClauseActionFactoryTest : TestUtils
         Assert.AreNotSame(mockPredicate1, a.GetPredicate(EMPTY_ARRAY));
         Assert.AreNotSame(mockPredicate2, a.GetPredicate(EMPTY_ARRAY));
 
-        Verify(mockPredicateFactory, Times(2)).GetPredicate(EMPTY_ARRAY);
+        Verify(mockPredicateFactory, Times(2))?.GetPredicate(EMPTY_ARRAY);
     }
 
     // TODO p :- test(X). p(X) :- test(X). p(a) :- test(X).
@@ -382,7 +382,7 @@ public class ClauseActionFactoryTest : TestUtils
     public void TestZeroArgConsequentRuleGetPredicateAntecedentMutable()
     {
         var pf = new MockPredicateFactory();
-        kb.Predicates.AddPredicateFactory(new PredicateKey("test", 5), pf);
+        kb?.Predicates.AddPredicateFactory(new PredicateKey("test", 5), pf);
 
         //ArgumentCaptor<Term[]> captor = ArgumentCaptor.forClass(Term[]);
         var p1 = new MockPredicate();
@@ -410,7 +410,7 @@ public class ClauseActionFactoryTest : TestUtils
         //Assert.AreNotSame(values1[3], values2[3]);
         //Assert.AreNotSame(values1[4], values2[4]);
 
-        Verify(pf, Times(2)).GetPredicate(Any<Term>());
+        Verify(pf, Times(2))?.GetPredicate(Any<Term>());
         VerifyNoMoreInteractions(pf, p1, p2);
     }
 

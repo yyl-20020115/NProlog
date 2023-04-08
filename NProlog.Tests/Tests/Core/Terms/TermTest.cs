@@ -131,7 +131,7 @@ public class TermTest : TestUtils
             // keep track of the Term's current properties
             var originalType = t.Type;
             int originalNumberOfArguments = t.NumberOfArguments;
-            string originalToString = t.ToString();
+            var originalToString = t.ToString();
 
             // perform the Backtrack()
             t.Backtrack();

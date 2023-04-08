@@ -25,8 +25,8 @@ namespace Org.NProlog.Core.Predicate;
 
 public abstract class AbstractPredicateFactory : PredicateFactory, KnowledgeBaseConsumer
 {
-    protected KnowledgeBase knowledgeBase;
-    public KnowledgeBase KnowledgeBase { get => knowledgeBase; set { knowledgeBase = value; this.Init(); } }
+    protected KnowledgeBase? knowledgeBase;
+    public KnowledgeBase? KnowledgeBase { get => knowledgeBase; set { knowledgeBase = value; this.Init(); } }
 
 
     public virtual Predicate GetPredicate(params Term[] args) => args.Length switch
@@ -67,18 +67,18 @@ public abstract class AbstractPredicateFactory : PredicateFactory, KnowledgeBase
     }
 
 
-    public Predicates Predicates => knowledgeBase.Predicates;
+    public Predicates? Predicates => knowledgeBase?.Predicates;
 
-    public ArithmeticOperators ArithmeticOperators => knowledgeBase.ArithmeticOperators;
+    public ArithmeticOperators? ArithmeticOperators => knowledgeBase?.ArithmeticOperators;
 
-    public PrologListeners PrologListeners => knowledgeBase.PrologListeners;
+    public PrologListeners? PrologListeners => knowledgeBase?.PrologListeners;
 
-    public Operands Operands => knowledgeBase.Operands;
+    public Operands? Operands => knowledgeBase?.Operands;
 
-    public TermFormatter TermFormatter => knowledgeBase.TermFormatter;
+    public TermFormatter? TermFormatter => knowledgeBase?.TermFormatter;
 
-    public SpyPoints SpyPoints => knowledgeBase.SpyPoints;
+    public SpyPoints? SpyPoints => knowledgeBase?.SpyPoints;
 
-    public FileHandles FileHandles => knowledgeBase.FileHandles;
+    public FileHandles? FileHandles => knowledgeBase?.FileHandles;
 
 }

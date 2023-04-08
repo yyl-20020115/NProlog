@@ -208,7 +208,7 @@ public class Disjunction : AbstractPredicateFactory, PreprocessablePredicateFact
         }
 
 
-        public virtual Predicate GetPredicate(Term[] args) 
+        public virtual Predicate GetPredicate(Term[]? args) 
             => new DisjunctionPredicate(pf1, pf2, args[0], args[1],this.disjunction);
 
         public bool IsRetryable => true;
@@ -227,19 +227,19 @@ public class Disjunction : AbstractPredicateFactory, PreprocessablePredicateFact
             this.elsePf = elsePf;
         }
 
-        public virtual Predicate GetPredicate(Term[] args)
+        public virtual Predicate GetPredicate(Term[]? args)
         {
-            var ifThenTerm = args[0];
-            var conditionTerm = ifThenTerm.GetArgument(0);
-            var conditionPredicate = condition.GetPredicate(conditionTerm.Args);
+            var ifThenTerm = args?[0];
+            var conditionTerm = ifThenTerm?.GetArgument(0);
+            var conditionPredicate = condition.GetPredicate(conditionTerm?.Args);
             if (conditionPredicate.Evaluate())
             {
-                return thenPf.GetPredicate(ifThenTerm.GetArgument(1).Term.Args);
+                return thenPf.GetPredicate(ifThenTerm?.GetArgument(1)?.Term.Args);
             }
             else
             {
-                conditionTerm.Backtrack();
-                return elsePf.GetPredicate(args[1].Args);
+                conditionTerm?.Backtrack();
+                return elsePf.GetPredicate(args[1]?.Args);
             }
         }
 
@@ -251,7 +251,7 @@ public class Disjunction : AbstractPredicateFactory, PreprocessablePredicateFact
     }
 
     protected override Predicate GetPredicate(Term firstArg, Term secondArg) 
-        => Predicates.GetPredicateFactory(firstArg) is IfThen
+        => Predicates?.GetPredicateFactory(firstArg) is IfThen
           ? CreateIfThenElse(firstArg, secondArg)
           : CreateDisjunction(firstArg, secondArg);
 
@@ -279,14 +279,14 @@ public class Disjunction : AbstractPredicateFactory, PreprocessablePredicateFact
     public class DisjunctionPredicate : Predicate
     {
         private readonly Disjunction disjunction;
-        private readonly PredicateFactory pf1;
-        private readonly PredicateFactory pf2;
+        private readonly PredicateFactory? pf1;
+        private readonly PredicateFactory? pf2;
         private readonly Term inputArg1;
         private readonly Term inputArg2;
-        private Predicate firstPredicate;
-        private Predicate secondPredicate;
+        private Predicate? firstPredicate;
+        private Predicate? secondPredicate;
 
-        public DisjunctionPredicate(PredicateFactory pf1, PredicateFactory pf2, Term inputArg1, Term inputArg2, Disjunction disjunction)
+        public DisjunctionPredicate(PredicateFactory? pf1, PredicateFactory? pf2, Term inputArg1, Term inputArg2, Disjunction disjunction)
         {
             this.pf1 = pf1;
             this.pf2 = pf2;
