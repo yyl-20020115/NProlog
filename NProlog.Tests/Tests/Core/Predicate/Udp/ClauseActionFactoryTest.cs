@@ -23,10 +23,10 @@ namespace Org.NProlog.Core.Predicate.Udp;
 [TestClass]
 public class ClauseActionFactoryTest : TestUtils
 {
-    private KnowledgeBase kb;
-    private PredicateFactory mockPredicateFactory;
-    private Predicate mockPredicate1;
-    private Predicate mockPredicate2;
+    private KnowledgeBase? kb;
+    private PredicateFactory? mockPredicateFactory;
+    private Predicate? mockPredicate1;
+    private Predicate? mockPredicate2;
     [TestInitialize]
     public void Before()
     {
@@ -499,7 +499,7 @@ public class ClauseActionFactoryTest : TestUtils
         Assert.AreEqual(Atom("b"), y.Term);
         Assert.AreEqual(Atom("c"), z.Term);
 
-        Verify(mockPredicateFactory).GetPredicate(EMPTY_ARRAY);
+        Verify(mockPredicateFactory)?.GetPredicate(EMPTY_ARRAY);
     }
 
     [TestMethod]
@@ -513,7 +513,7 @@ public class ClauseActionFactoryTest : TestUtils
         Assert.AreEqual(Atom("b"), x.Term);
         Assert.AreEqual(Atom("c"), y.Term);
 
-        Verify(mockPredicateFactory).GetPredicate(EMPTY_ARRAY);
+        Verify(mockPredicateFactory)?.GetPredicate(EMPTY_ARRAY);
     }
 
     [TestMethod]
@@ -537,7 +537,7 @@ public class ClauseActionFactoryTest : TestUtils
         Assert.AreEqual(Atom("a"), x.Term);
         Assert.AreEqual(Atom("b"), y.Term);
 
-        Verify(mockPredicateFactory).GetPredicate(EMPTY_ARRAY);
+        Verify(mockPredicateFactory)?.GetPredicate(EMPTY_ARRAY);
     }
 
     [TestMethod]
@@ -557,7 +557,7 @@ public class ClauseActionFactoryTest : TestUtils
     [TestMethod]
     public void TestMutableRuleIsRetryableTrue()
     {
-        When(mockPredicateFactory.IsRetryable).ThenReturn(true);
+        When(mockPredicateFactory?.IsRetryable).ThenReturn(true);
 
         var a = Create<MutableRule>("p(a,X,c) :- test.");
         Assert.IsFalse(a.IsRetryable);
@@ -577,12 +577,12 @@ public class ClauseActionFactoryTest : TestUtils
     [TestMethod]
     public void TestMutableRuleIsAlwaysCutOnBacktrackTrue()
     {
-        When(mockPredicateFactory.IsAlwaysCutOnBacktrack).ThenReturn(true);
+        When(mockPredicateFactory?.IsAlwaysCutOnBacktrack).ThenReturn(true);
 
         var a = Create<MutableRule>("p(a,X,c) :- test.");
         Assert.IsFalse(a.IsAlwaysCutOnBacktrack);
 
-        var m = Verify(mockPredicateFactory).IsAlwaysCutOnBacktrack;
+        var m = Verify(mockPredicateFactory)?.IsAlwaysCutOnBacktrack;
     }
 
     [TestMethod]
@@ -619,7 +619,7 @@ public class ClauseActionFactoryTest : TestUtils
         Assert.AreNotSame(v3, v3.Term);
         Assert.AreEqual("Z", ((Variable)v3.Term).Id);
 
-        Verify(mockPredicateFactory).GetPredicate(EMPTY_ARRAY);
+        Verify(mockPredicateFactory)?.GetPredicate(EMPTY_ARRAY);
     }
 
     [TestMethod]
@@ -628,7 +628,7 @@ public class ClauseActionFactoryTest : TestUtils
         var a = Create<MutableRule>("p(a,X,c) :- test.");
         Assert.AreNotSame(mockPredicate1, a.GetPredicate(Array(Atom("a"), Atom("b"), Atom("c"))));
         Assert.AreNotSame(mockPredicate2, a.GetPredicate(Array(Atom("a"), Atom("d"), Atom("c"))));
-        Verify(mockPredicateFactory, Times(2)).GetPredicate(EMPTY_ARRAY);
+        Verify(mockPredicateFactory, Times(2))?.GetPredicate(EMPTY_ARRAY);
     }
 
     [TestMethod]
@@ -653,7 +653,7 @@ public class ClauseActionFactoryTest : TestUtils
         var x = new Variable("X");
         Assert.AreNotSame(mockPredicate1, a.GetPredicate(Array(x, Atom("b"), x)));
         Assert.AreEqual(Atom("a"), x.Term);
-        Verify(mockPredicateFactory).GetPredicate(EMPTY_ARRAY);
+        Verify(mockPredicateFactory)?.GetPredicate(EMPTY_ARRAY);
     }
 
     [TestMethod]
@@ -668,7 +668,7 @@ public class ClauseActionFactoryTest : TestUtils
     {
         var a = Create<MutableRule>("p(X,b,X) :- test.");
         Assert.AreNotSame(mockPredicate1, a.GetPredicate(Array(Atom("a"), Atom("b"), Atom("a"))));
-        Verify(mockPredicateFactory).GetPredicate(EMPTY_ARRAY);
+        Verify(mockPredicateFactory)?.GetPredicate(EMPTY_ARRAY);
     }
 
     [TestMethod]
@@ -681,7 +681,7 @@ public class ClauseActionFactoryTest : TestUtils
         Assert.AreSame(TermType.VARIABLE, variable.Term.Type);
         Assert.AreNotSame(variable, variable.Term);
         Assert.AreEqual("X", ((Variable)variable.Term).Id);
-        Verify(mockPredicateFactory).GetPredicate(EMPTY_ARRAY);
+        Verify(mockPredicateFactory)?.GetPredicate(EMPTY_ARRAY);
     }
 
     [TestMethod]
@@ -691,7 +691,7 @@ public class ClauseActionFactoryTest : TestUtils
         Variable x = new ("X");
         Assert.AreNotSame(mockPredicate1, a.GetPredicate(Array(Atom("a"), Atom("b"), x)));
         Assert.AreEqual(Atom("c"), x.Term);
-        Verify(mockPredicateFactory).GetPredicate(EMPTY_ARRAY);
+        Verify(mockPredicateFactory)?.GetPredicate(EMPTY_ARRAY);
     }
 
     [TestMethod]

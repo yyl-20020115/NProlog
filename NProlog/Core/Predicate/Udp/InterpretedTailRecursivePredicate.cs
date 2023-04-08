@@ -31,7 +31,7 @@ namespace Org.NProlog.Core.Predicate.Udp;
  */
 public class InterpretedTailRecursivePredicate : TailRecursivePredicate
 {
-    // TODO add exception handling ProjogException and CutException
+    // TODO add exception handling PrologException and CutException
     private readonly bool isSpyPointEnabled;
     private readonly SpyPoint spyPoint;
     private readonly int numArgs;

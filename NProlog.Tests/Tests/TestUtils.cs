@@ -18,6 +18,7 @@ using Org.NProlog.Core.Parser;
 using Org.NProlog.Core.Predicate;
 using Org.NProlog.Core.Predicate.Udp;
 using Org.NProlog.Core.Terms;
+using System.Net.Http.Headers;
 
 namespace Org.NProlog;
 
@@ -44,9 +45,9 @@ public class TestUtils : TermFactory
             }
             return tempFile;
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            throw e;
+            throw new SystemException(ex.Message,ex);
         }
     }
 
@@ -73,8 +74,7 @@ public class TestUtils : TermFactory
         }
         catch (Exception ex)
         {
-            //t.printStackTrace();
-            throw ex;// new SystemException(t.Message);
+            throw new SystemException(ex.Message,ex);
         }
     }
 
@@ -152,7 +152,7 @@ public class TestUtils : TermFactory
     public static T[] Any<T>() => System.Array.Empty<T>();
 
     public static int Times(int invocationTimes) => invocationTimes;
-    public static T Verify<T>(T mock, int times = 1) => mock;
+    public static T? Verify<T>(T? mock, int times = 1) => mock;
     public static void VerifyNoInteractions(params object[] os)
     {
     }
@@ -170,7 +170,7 @@ public class TestUtils : TermFactory
             //throw ex;
         }
     }
-    public static Then<T> When<T>(T value) => new();
+    public static Then<T> When<T>(T? value) => new();
 
     public static void AssertArrayEquals<T>(T[] a, T[] b)
     {
@@ -243,7 +243,7 @@ public class TestUtils : TermFactory
     {
         var kb = CreateKnowledgeBase();
         List<ClauseModel> models = new();
-        foreach (string clause in clauses)
+        foreach (var clause in clauses)
         {
             models.Add(CreateClauseModel(clause));
         }

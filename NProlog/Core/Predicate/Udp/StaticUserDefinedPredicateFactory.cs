@@ -35,7 +35,7 @@ public class StaticUserDefinedPredicateFactory : UserDefinedPredicateFactory, Pr
     private readonly KnowledgeBase kb;
     private readonly SpyPoints.SpyPoint spyPoint;
     private readonly List<ClauseModel> implications;
-    private PredicateFactory compiledPredicateFactory;
+    private PredicateFactory? compiledPredicateFactory = null;
     private int setCompiledPredicateFactoryInvocationCtr;
 
     public StaticUserDefinedPredicateFactory(KnowledgeBase kb, PredicateKey predicateKey)

@@ -58,18 +58,21 @@ public class Operands
     {
         var a = GetAssociativity(associativityName);
         var operandsMap = GetOperandsMap(a);
-        lock (this.syncRoot)
+        if (operandsMap != null)
         {
-            if (operandsMap.ContainsKey(operandName))
+            lock (this.syncRoot)
             {
-                if (operandsMap.TryGetValue(operandName, out var o))
-                    // if the operand is already registered throw an exception if the precedence is different else do nothing
-                    if (o.precedence != precedence || o.associativity != a)
-                        throw new PrologException($"Operand: {operandName} with associativity: {o.associativity} and precedence: {o.precedence} already exists");
-            }
-            else
-            {
-                operandsMap.Add(operandName, new(a, precedence));
+                if (operandsMap.ContainsKey(operandName))
+                {
+                    if (operandsMap.TryGetValue(operandName, out var o))
+                        // if the operand is already registered throw an exception if the precedence is different else do nothing
+                        if (o.precedence != precedence || o.associativity != a)
+                            throw new PrologException($"Operand: {operandName} with associativity: {o.associativity} and precedence: {o.precedence} already exists");
+                }
+                else
+                {
+                    operandsMap.Add(operandName, new(a, precedence));
+                }
             }
         }
     }
@@ -78,18 +81,16 @@ public class Operands
     {
         try
         {
-            var a = Associativity.ValueOf(associativityName);
-            if (a == null)
+            return Associativity.ValueOf(associativityName) ?? 
                 throw new ArgumentException(nameof(associativityName));
-            return a;
         }
         catch (ArgumentException e)
         {
-            throw new PrologException($"Cannot add operand with associativity of: {associativityName} as the only values allowed are: {StringUtils.ToString(Associativity.Values.Keys)}");
+            throw new PrologException($"Cannot add operand with associativity of: {associativityName} as the only values allowed are: {StringUtils.ToString(Associativity.Values.Keys)} for {e}");
         }
     }
 
-    private Dictionary<string, Operand> GetOperandsMap(Associativity a) 
+    private Dictionary<string, Operand>? GetOperandsMap(Associativity a) 
         => a==null? null : a.location switch
         {
             Location.INFIX => infixOperands,

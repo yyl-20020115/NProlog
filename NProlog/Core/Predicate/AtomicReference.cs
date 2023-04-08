@@ -20,7 +20,7 @@ public class AtomicReference<T>
 {
     private volatile T value;
 
-    public AtomicReference(T value = default) => this.value = value;
+    public AtomicReference(T value) => this.value = value;
 
     public T Value
     {

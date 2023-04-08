@@ -37,7 +37,7 @@ public class SpyPoints
 {
     private readonly object syncRoot = new();
     private readonly ConcurrentDictionary<PredicateKey, SpyPoint> spyPoints = new(); 
-    private readonly KnowledgeBase kb;
+    private readonly KnowledgeBase? kb = null;
     private readonly PrologListeners prologListeners;
     private readonly TermFormatter termFormatter;
 
@@ -123,11 +123,12 @@ public class SpyPoints
 
         public void LogExit(object source, Term[] args, int clauseNumber)
         {
-            ClauseModel clauseModel = null;
+            ClauseModel? clauseModel = null;
             if (clauseNumber != -1)
             {
-                var userDefinedPredicates = spypoints.kb.Predicates.GetUserDefinedPredicates();
-                if (userDefinedPredicates.TryGetValue(PredicateKey, out var userDefinedPredicate))
+                var userDefinedPredicates = spypoints?.kb?.Predicates.GetUserDefinedPredicates();
+                if (userDefinedPredicates!=null 
+                    && userDefinedPredicates.TryGetValue(PredicateKey, out var userDefinedPredicate))
                     // clauseNumber starts at 1 / getClauseModel starts at 0
                     clauseModel = userDefinedPredicate.GetClauseModel(clauseNumber - 1);
             }
@@ -136,7 +137,7 @@ public class SpyPoints
         }
 
         /** Notifies listeners of that an attempt to evaluate a goal has succeeded. */
-        public void LogExit(object source, Term[] args, ClauseModel clause)
+        public void LogExit(object source, Term[] args, ClauseModel? clause)
         {
             if (IsEnabled)
                 this.spypoints.prologListeners.NotifyExit(new(this.spypoints, key, args, source, clause));

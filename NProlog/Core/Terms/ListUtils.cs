@@ -35,7 +35,7 @@ public static class ListUtils
      *
      * @see #toSortedJavaUtilList(Term)
      */
-    public static List<Term> ToList(Term list)
+    public static List<Term>? ToList(Term list)
     {
         if (list.Type == TermType.LIST)
         {
@@ -80,7 +80,7 @@ public static class ListUtils
      *
      * @see #ListUtils.toJavaUtilList(Term)
      */
-    public static List<Term> ToSortedList(Term unsorted)
+    public static List<Term>? ToSortedList(Term unsorted)
     {
         var elements = ToList(unsorted);
         elements?.Sort(TermComparator.TERM_COMPARATOR);
@@ -101,7 +101,7 @@ public static class ListUtils
     {
         if (list.Type != TermType.LIST && list.Type != TermType.EMPTY_LIST)
         {
-            // TODO have InvalidTermTypeException which : ProjogException
+            // TODO have InvalidTermTypeException which : PrologException
             throw new PrologException($"Expected list or empty list but got: {list.Type} with value: {list}");
         }
         while (list.Type == TermType.LIST)

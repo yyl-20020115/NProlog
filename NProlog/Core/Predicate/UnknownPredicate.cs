@@ -32,8 +32,8 @@ public class UnknownPredicate : PreprocessablePredicateFactory
 {
     private readonly KnowledgeBase kb;
     private readonly PredicateKey key;
-    private PredicateFactory actualPredicateFactory; //  TODO update Javadoc to explain actualPredicateFactory
-
+    private PredicateFactory? actualPredicateFactory;
+    
     public UnknownPredicate(KnowledgeBase kb, PredicateKey key)
     {
         this.kb = kb;
@@ -45,7 +45,8 @@ public class UnknownPredicate : PreprocessablePredicateFactory
     {
         InstantiatePredicateFactory();
 
-        return actualPredicateFactory == null ? PredicateUtils.FALSE : actualPredicateFactory.GetPredicate(args);
+        return actualPredicateFactory == null 
+            ? PredicateUtils.FALSE : actualPredicateFactory.GetPredicate(args);
     }
 
 

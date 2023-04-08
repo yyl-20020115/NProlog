@@ -39,7 +39,7 @@ public class ClauseActionFactory
     /**
      * Returns a new {@link ClauseAction} based on the specified {@link ClauseModel}.
      */
-    public static ClauseAction CreateClauseAction(KnowledgeBase kb, ClauseModel model)
+    public static ClauseAction CreateClauseAction(KnowledgeBase? kb, ClauseModel model)
     {
         var antecedent = model.Antecedent;
         if (antecedent.Type.IsVariable)
@@ -97,9 +97,9 @@ public class ClauseActionFactory
     public class VariableAntecedantClauseAction : ClauseAction
     {
         private readonly ClauseModel model;
-        private readonly KnowledgeBase kb;
+        private readonly KnowledgeBase? kb;
 
-        public VariableAntecedantClauseAction(ClauseModel model, KnowledgeBase kb)
+        public VariableAntecedantClauseAction(ClauseModel model, KnowledgeBase? kb)
         {
             this.model = model;
             this.kb = kb;

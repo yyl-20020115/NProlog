@@ -158,7 +158,7 @@ public class PrologSourceReader
             {
                 reader.Close();
             }
-            catch (Exception e)
+            catch
             {
             }
         }

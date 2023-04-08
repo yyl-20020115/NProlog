@@ -26,11 +26,11 @@ namespace Org.NProlog.Core.Predicate.Udp;
 [TestClass]
 public class InterpretedUserDefinedPredicateTest : TestUtils
 {
-    private SpyPoints spyPoints;
-    private SpyPoint spyPoint;
-    private ClauseAction mockAction1;
-    private ClauseAction mockAction2;
-    private ClauseAction mockAction3;
+    private SpyPoints? spyPoints = null;
+    private SpyPoint? spyPoint = null;
+    private ClauseAction? mockAction1 = null;
+    private ClauseAction? mockAction2 = null;
+    private ClauseAction? mockAction3 = null;
     private Term[] queryArgs = Array(Atom("a"), Atom("b"), Atom("c"));
     private SimpleListener listener = new ();
 

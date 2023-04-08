@@ -19,6 +19,7 @@ using Org.NProlog.Core.Exceptions;
 using Org.NProlog.Core.Kb;
 using Org.NProlog.Core.Parser;
 using Org.NProlog.Core.Predicate;
+using System.Diagnostics;
 using System.Text;
 
 namespace Org.NProlog.Tools;
@@ -36,7 +37,8 @@ public class PrologConsole
     private static readonly PredicateKey QUIT_COMMAND = new ("quit", 0);
     private const string CONTINUE_EVALUATING = ";";
     private const string STOP_EVALUATING = "q";
-    private const string STOP_EVALUATING_COMMAND = "quit.";
+    private const string STOP_EVALUATING_COMMAND_QUIT = "quit.";
+    private const string STOP_EVALUATING_COMMAND_EXIT = "exit.";
 
     private readonly TextReader reader;
     private readonly TextWriter writer;
@@ -63,6 +65,7 @@ public class PrologConsole
     {
         writer.WriteLine("Prolog Console");
         writer.WriteLine("prolog.org");
+        writer.WriteLine("NOTICE: use @ prefix with Unicode Variables which are not started with upper case letters.");
 
         ConsultScripts(startupScriptFilenames);
 
@@ -146,7 +149,8 @@ public class PrologConsole
                     return true;
                 case STOP_EVALUATING:
                     return false;
-                case STOP_EVALUATING_COMMAND:
+                case STOP_EVALUATING_COMMAND_QUIT:
+                case STOP_EVALUATING_COMMAND_EXIT:
                     return false;
                 default:
                     writer.Write("Invalid. Enter ; to continue or q to quit. ");
@@ -174,13 +178,8 @@ public class PrologConsole
             var builder = new StringBuilder();
             builder.Append("Caught: ");
             builder.Append(e.GetType().Name);
-            //StackTraceElement ste = e.StackTrace;
-            //sb.Append(" from class: ");
-            //sb.Append(ste.getClassName());
-            //sb.Append(" method: ");
-            //sb.Append(ste.getMethodName());
-            //sb.Append(" line: ");
-            //sb.Append(ste.getLineNumber());
+            var frame = new StackFrame();
+            builder.Append($" from method: {frame.GetMethod()} in line{frame.GetFileLineNumber()} in {frame.GetFileName()}");
             writer.WriteLine(builder);
             var message = e.Message;
             if (message != null)

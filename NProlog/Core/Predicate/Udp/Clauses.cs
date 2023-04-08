@@ -38,7 +38,7 @@ public class Clauses
         return CreateFromActions(kb, actions, null);
     }
 
-    public static Clauses CreateFromActions(KnowledgeBase kb, List<ClauseAction> actions, Term arg = null)
+    public static Clauses CreateFromActions(KnowledgeBase kb, List<ClauseAction> actions, Term? arg = null)
     {
         if (actions.Count == 0) return EMPTY;
 

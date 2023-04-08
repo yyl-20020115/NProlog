@@ -26,11 +26,11 @@ public class ParserException : PrologException
     private readonly int lineNumber;
     private readonly int columnNumber;
 
-    public ParserException(string message, CharacterParser parser, Exception t = null)
+    public ParserException(string message, CharacterParser parser, Exception? t = null)
         : base($"{message} Line: {parser.Line}", t)
     {
         this.message = message;
-        this.line = parser.Line;
+        this.line = parser.Line??"";
         this.lineNumber = parser.LineNumber;
         this.columnNumber = parser.ColumnNumber;
     }

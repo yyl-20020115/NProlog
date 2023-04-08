@@ -151,7 +151,7 @@ public static class KnowledgeBaseUtils
 
     // TODO share with KnowledgeBaseServiceLocator.newInstance pass KnowledgeBase to constructor
 
-    public static Type GetTypeFor(string input,Type back = null)
+    public static Type GetTypeFor(string input,Type? back = null)
     {
 
         var assemlby = typeof(KnowledgeBase).Assembly;

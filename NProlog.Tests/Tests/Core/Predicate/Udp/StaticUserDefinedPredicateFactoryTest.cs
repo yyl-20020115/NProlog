@@ -305,7 +305,7 @@ public class StaticUserDefinedPredicateFactoryTest : TestUtils
     private static PredicateFactory GetActualPredicateFactory(Term[] clauses)
     {
         var kb = CreateKnowledgeBase(PROLOG_DEFAULT_PROPERTIES);
-        StaticUserDefinedPredicateFactory f = null;
+        StaticUserDefinedPredicateFactory? f = null;
         foreach (var clause in clauses)
         {
             var clauseModel = ClauseModel.CreateClauseModel(clause);

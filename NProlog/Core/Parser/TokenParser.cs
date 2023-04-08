@@ -28,14 +28,13 @@ public class TokenParser
 {
     private readonly CharacterParser parser;
     private readonly Operands operands;
-    private Token lastParsedToken;
+    private Token? lastParsedToken = null;
     private bool rewound = false;
 
     public TokenParser(TextReader reader, Operands operands)
     {
         this.parser = new CharacterParser(reader);
         this.operands = operands;
-        this.lastParsedToken = null;
     }
 
     /** @return {@code true} if there are more tokens to be parsed, else {@code false} */
@@ -403,8 +402,9 @@ public class TokenParser
     private static bool IsValidForAtom(int c)
         => char.IsLetterOrDigit((char)c) || IsUnderscore(c);
 
+    //NOTICE: by Yilin, add '@' prefix to ensure Unicode variables which are not upper case letters.
     private static bool IsVariable(int c)
-    => char.IsUpper((char)c) || IsUnderscore(c);
+    => char.IsUpper((char)c) || IsUnderscore(c) || c is '@';
 
     private static bool IsUnderscore(int c)
         => c == '_';

@@ -137,16 +137,5 @@ public class ClausesTest : TestUtils
         Assert.AreEqual(":-(p(X, Y), ,(a(X), b(Y)))", actions[1].Model.Original.ToString());
     }
 
-    private static Clauses CreateClauses(params string[] clauses)
-    { // TODO move to TestUtils
-        var kb = CreateKnowledgeBase();
-        List<ClauseModel> models = new();
-        foreach (var clause in clauses)
-        {
-            models.Add(CreateClauseModel(clause));
-        }
-        return Clauses.CreateFromModels(kb, models);
-    }
-
     private static void AssertEmpty(int[] array) => Assert.AreEqual(0, array.Length);
 }

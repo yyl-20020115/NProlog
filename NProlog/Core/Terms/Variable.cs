@@ -27,7 +27,7 @@ namespace Org.NProlog.Core.Terms;
 public class Variable : Term
 {
     public const string ANONYMOUS_VARIABLE_ID = "_";
-
+    public const string UNICODE_VARIABLE_PREFIX = "@";
     /**
      * The value by which the variable can be identified
      */
@@ -36,7 +36,7 @@ public class Variable : Term
     /**
      * The {@link Term} this object is currently instantiated with (or {@code null} if it is currently uninstantiated)
      */
-    private Term value;
+    private Term? value = null;
 
     /**
      * Creates an anonymous variable. The ID of the variable will be an underscore.
@@ -53,7 +53,7 @@ public class Variable : Term
      * @throws NullReferenceException if the {@code Variable} is currently uninstantiated
      */
 
-    public string Name => value == null ? throw new NullReferenceException() : Value.Name;
+    public string Name => value == null ? throw new NullReferenceException() : Value?.Name??"";
 
     /**
      * @return value provided in constructor by which this variable can be identified
@@ -147,7 +147,7 @@ public class Variable : Term
 
     public Term Term => value == null ? this : Value.Term;
 
-    private Term Value
+    private Term? Value
     {
         get
         {
@@ -190,5 +190,5 @@ public class Variable : Term
      * {@link Term} this variable is instantiated with.
      */
 
-    public override string ToString() => value == null ? id : Value.ToString();
+    public override string ToString() => value == null ? id : Value?.ToString()??"";
 }

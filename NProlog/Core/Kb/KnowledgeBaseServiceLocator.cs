@@ -154,7 +154,8 @@ public class KnowledgeBaseServiceLocator
         try
         {
             var constructor = GetKnowledgeBaseArgumentConstructor(c);
-            return constructor != null ? constructor.Invoke(new object[] { kb }) : Assembly.GetAssembly(c).CreateInstance(c.FullName);
+            return constructor != null ? constructor.Invoke(new object[] { kb }) 
+                : Assembly.GetAssembly(c).CreateInstance(c.FullName);
         }
         catch (Exception e)
         {

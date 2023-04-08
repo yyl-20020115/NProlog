@@ -22,7 +22,7 @@ public abstract class AbstractArithmeticOperator : PreprocessableArithmeticOpera
 {
     protected KnowledgeBase knowledgeBase;
     protected ArithmeticOperators Operators =>this.knowledgeBase.ArithmeticOperators;
-    public AbstractArithmeticOperator() { }
+    //public AbstractArithmeticOperator() { }
     public KnowledgeBase KnowledgeBase
     {
         get => this.knowledgeBase;

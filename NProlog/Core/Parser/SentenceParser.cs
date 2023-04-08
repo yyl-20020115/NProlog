@@ -101,7 +101,7 @@ public class SentenceParser
      * if the end of the underlying stream being parsed has been reached
      * @th rows ParserException if an error parsing the Prolog syntax occurs
      */
-    public Term ParseSentence()
+    public Term? ParseSentence()
     {
         var t = ParseTerm();
         if (t == null)
@@ -121,7 +121,7 @@ public class SentenceParser
      * @throws ParserException if an error parsing the Prolog syntax occurs
      * @see SentenceParser#parseSentence()
      */
-    public Term ParseTerm()
+    public Term? ParseTerm()
     {
         if (parser.HasNext)
         {

@@ -152,7 +152,7 @@ public class Predicates
         }
     }
 
-    public PredicateFactory GetPreprocessedPredicateFactory(Term term)
+    public PredicateFactory GetPreprocessedPredicateFactory(Term? term)
     {
         var pf = GetPredicateFactory(term);
         return pf is PreprocessablePredicateFactory factory ? factory.Preprocess(term) : pf;
@@ -164,7 +164,7 @@ public class Predicates
      * If this object has no {@code PredicateFactory} associated with the {@code PredicateKey} of the specified
      * {@code Term} then a new instance of {@link UnknownPredicate} is returned.
      */
-    public PredicateFactory GetPredicateFactory(Term term) => GetPredicateFactory(PredicateKey.CreateForTerm(term));
+    public PredicateFactory GetPredicateFactory(Term? term) => GetPredicateFactory(PredicateKey.CreateForTerm(term));
 
     /**
      * Returns the {@code PredicateFactory} associated with the specified {@code PredicateKey}.

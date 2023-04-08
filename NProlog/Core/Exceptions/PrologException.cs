@@ -29,7 +29,7 @@ public class PrologException : Exception
 
     public PrologException(string message) : base(message, null) { }
 
-    public PrologException(string message, Exception exception) : base(message, exception) { }
+    public PrologException(string message, Exception? exception) : base(message, exception) { }
 
     public void AddClause(ClauseModel clause) => stackTrace.Add(clause);
 
