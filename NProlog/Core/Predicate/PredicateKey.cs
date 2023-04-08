@@ -47,12 +47,14 @@ public class PredicateKey : IComparable<PredicateKey>
      * @return a {@code PredicateKey} for the specified term.
      * @throws PrologException if {@code t} is not of type {@link TermType#ATOM} or {@link TermType#STRUCTURE}
      */
-    public static PredicateKey CreateForTerm(Term? t)
+    public static PredicateKey CreateForTerm(Term t)
     {
-        var type = t?.Type;
-        return type != TermType.STRUCTURE && type != TermType.ATOM && type != TermType.LIST
+        var type = t.Type;
+        return type != TermType.STRUCTURE 
+            && type != TermType.ATOM 
+            && type != TermType.LIST
             ? throw new PrologException(GetInvalidTypeExceptionMessage(t))
-            : new PredicateKey(t?.Name??"", (t?.NumberOfArguments).GetValueOrDefault());
+            : new PredicateKey(t.Name, (t.NumberOfArguments));
     }
 
     /**

@@ -143,8 +143,10 @@ public class SpyPointsTest : TestUtils
     [TestMethod]
     public void TestSpyPointAffectedBySetTraceEnabledCallBeforeItWasCreated()
     {
-        var testObject = new SpyPoints(kb);
-        testObject.TraceEnabled = true;
+        var testObject = new SpyPoints(kb)
+        {
+            TraceEnabled = true
+        };
         var sp = testObject.GetSpyPoint(CreateKey("test", 1));
         Assert.IsTrue(sp.IsEnabled);
         testObject.TraceEnabled = false;

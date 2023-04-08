@@ -26,16 +26,15 @@ namespace Org.NProlog.Core.Predicate.Udp;
 [TestClass]
 public class InterpretedUserDefinedPredicateTest : TestUtils
 {
-    private SpyPoints? spyPoints = null;
-    private SpyPoint? spyPoint = null;
-    private ClauseAction? mockAction1 = null;
-    private ClauseAction? mockAction2 = null;
-    private ClauseAction? mockAction3 = null;
-    private Term[] queryArgs = Array(Atom("a"), Atom("b"), Atom("c"));
-    private SimpleListener listener = new ();
+    private readonly SpyPoints spyPoints;
+    private readonly SpyPoint spyPoint;
+    private readonly ClauseAction mockAction1;
+    private readonly ClauseAction mockAction2;
+    private readonly ClauseAction mockAction3;
+    private readonly Term[] queryArgs = Array(Atom("a"), Atom("b"), Atom("c"));
+    private readonly SimpleListener listener = new ();
 
-    [TestInitialize]
-    public void Before()
+    public InterpretedUserDefinedPredicateTest()
     {
         this.mockAction1 = new MockClauseAction();
         this.mockAction2 = new MockClauseAction();
@@ -47,6 +46,19 @@ public class InterpretedUserDefinedPredicateTest : TestUtils
         this.spyPoints = new SpyPoints(observable, TestUtils.CreateTermFormatter());
         this.spyPoint = spyPoints.GetSpyPoint(new PredicateKey("test", 3));
     }
+    //[TestInitialize]
+    //public void Before()
+    //{
+    //    this.mockAction1 = new MockClauseAction();
+    //    this.mockAction2 = new MockClauseAction();
+    //    this.mockAction3 = new MockClauseAction();
+
+    //    this.listener = new SimpleListener();
+    //    var observable = new PrologListeners();
+    //    observable.AddListener(listener);
+    //    this.spyPoints = new SpyPoints(observable, TestUtils.CreateTermFormatter());
+    //    this.spyPoint = spyPoints.GetSpyPoint(new PredicateKey("test", 3));
+    //}
 
     [TestCleanup]
     public void After() => VerifyNoMoreInteractions(mockAction1, mockAction2, mockAction3);
@@ -124,7 +136,11 @@ public class InterpretedUserDefinedPredicateTest : TestUtils
     private void AssertAllFail()
     {
         var testObject = new InterpretedUserDefinedPredicate(
-            ListCheckedEnumerator<ClauseAction>.Of(new List<ClauseAction> { mockAction1, mockAction2, mockAction3 }), spyPoint, queryArgs);
+            ListCheckedEnumerator<ClauseAction>.Of(new List<ClauseAction> { 
+                mockAction1, 
+                mockAction2, 
+                mockAction3 }), 
+            spyPoint, queryArgs);
 
         When(mockAction1.GetPredicate(queryArgs)).ThenReturn(PredicateUtils.FALSE);
         When(mockAction2.GetPredicate(queryArgs)).ThenReturn(PredicateUtils.FALSE);
@@ -347,9 +363,9 @@ public class InterpretedUserDefinedPredicateTest : TestUtils
         }
 
         Verify(mockAction1)?.GetPredicate(queryArgs);
-        var a = Verify(mockAction1)?.IsAlwaysCutOnBacktrack;
+        Confirm(Verify(mockAction1)?.IsAlwaysCutOnBacktrack);
         Verify(mockAction2)?.GetPredicate(queryArgs);
-        var m = Verify(mockAction2)?.Model;
+        Confirm(Verify(mockAction2)?.Model);
         Verify(mockPredicate)?.Evaluate();
         VerifyNoMoreInteractions(mockPredicate);
     }

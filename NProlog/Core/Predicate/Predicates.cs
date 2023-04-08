@@ -52,9 +52,11 @@ public class Predicates
 
     private readonly KnowledgeBase kb;
 
-    public Predicates(KnowledgeBase kb) => this.kb = kb;
+    public Predicates(KnowledgeBase kb) 
+        => this.kb = kb;
 
-    public Predicate? GetPredicate(Term? term) => GetPredicateFactory(term)?.GetPredicate(term.Args);
+    public Predicate GetPredicate(Term term) 
+        => GetPredicateFactory(term).GetPredicate(term.Args);
 
     /**
      * Returns details of all predicates, both user-defined and built-in predicates.
@@ -274,7 +276,7 @@ public class Predicates
             }
             else
             {
-                platformPredicateClassNames.Add(key, predicateFactory?.Name);
+                platformPredicateClassNames.Add(key, predicateFactory.Name);
                 PredicateFactory factory = null;
                 if (!string.IsNullOrEmpty(method))
                 {

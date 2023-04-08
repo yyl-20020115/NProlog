@@ -98,9 +98,9 @@ public class KnowledgeBaseConsumerStaticMethodExample : KnowledgeBaseConsumer
 {
     public static int INSTANCE_CTR;
 
-    public KnowledgeBase? kb;
+    public KnowledgeBase kb = new KnowledgeBase();
 
-    public KnowledgeBase? KnowledgeBase { get => kb; set => kb = value; }
+    public KnowledgeBase KnowledgeBase { get => kb; set => kb = value; }
 
     public static KnowledgeBaseConsumerStaticMethodExample Create()
     {

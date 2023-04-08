@@ -381,7 +381,7 @@ public class QueryStatement
     }
 
     private static PrologException NoSolutionFound() 
-        => new PrologException("No solution found.");
+        => new ("No solution found.");
 
     /**
      * Attempt to execute the query once and return a string representation of the atom the single query variable was

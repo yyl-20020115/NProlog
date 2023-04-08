@@ -119,7 +119,8 @@ public class QueryResult
      * term instantiated to the variable is not an atom
      * @see #getTerm(string)
      */
-    public string GetAtomName(string variableId) => TermUtils.GetAtomName(GetTerm(variableId));
+    public string GetAtomName(string variableId) 
+        => TermUtils.GetAtomName(GetTerm(variableId));
 
     /**
      * Returns the {@code double} value instantiated to the variable with the specified id.
@@ -130,7 +131,8 @@ public class QueryResult
      * term instantiated to the variable is not a number
      * @see #getTerm(string)
      */
-    public double GetDouble(string variableId) => (TermUtils.CastToNumeric(GetTerm(variableId))?.Double).GetValueOrDefault();
+    public double GetDouble(string variableId) 
+        => TermUtils.CastToNumeric(GetTerm(variableId)).Double;
 
     /**
      * Returns the {@code long} value instantiated to the variable with the specified id.
@@ -141,7 +143,8 @@ public class QueryResult
      * term instantiated to the variable is not a number
      * @see #getTerm(string)
      */
-    public long GetLong(string variableId) => (TermUtils.CastToNumeric(GetTerm(variableId))?.Long).GetValueOrDefault();
+    public long GetLong(string variableId) 
+        => TermUtils.CastToNumeric(GetTerm(variableId)).Long;
 
     /**
      * Returns the term instantiated to the variable with the specified id.

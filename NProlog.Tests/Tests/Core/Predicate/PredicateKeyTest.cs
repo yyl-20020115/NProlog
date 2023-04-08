@@ -128,7 +128,7 @@ public class PredicateKeyTest : TestUtils
             var k = PredicateKey.CreateForTerm(t);
             Assert.Fail("Managed to create: " + k + " for: " + t);
         }
-        catch (PrologException e)
+        catch (PrologException )
         {
             // expected
         }
@@ -151,7 +151,7 @@ public class PredicateKeyTest : TestUtils
             var k = PredicateKey.CreateFromNameAndArity(t);
             Assert.Fail("Managed to create: " + k + " for: " + t);
         }
-        catch (PrologException e)
+        catch (PrologException )
         {
             // expected
         }
@@ -190,7 +190,7 @@ public class PredicateKeyTest : TestUtils
             CreateKey("x", -1);
             Assert.Fail();
         }
-        catch (ArgumentException e)
+        catch (ArgumentException )
         {
             // expected
         }
@@ -199,7 +199,7 @@ public class PredicateKeyTest : TestUtils
             CreateKey("x", int.MinValue);
             Assert.Fail();
         }
-        catch (ArgumentException e)
+        catch (ArgumentException )
         {
             // expected
         }

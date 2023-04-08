@@ -138,29 +138,29 @@ public class LinkedTermList : Term
     }
 
 
-    public bool Unify(Term? t1)
+    public bool Unify(Term t1)
     {
         // used to be implemented using recursion but caused stack overflow problems with long lists
-        Term? t2 = this;
+        Term t2 = this;
         do
         {
-            var tType = t1?.Type;
+            var tType = t1.Type;
             if (tType == TermType.LIST)
             {
-                if (!(t2?.GetArgument(0)?.Unify(t1?.GetArgument(0))).GetValueOrDefault()) return false;
-                t1 = t1?.GetArgument(1);
-                t2 = t2?.GetArgument(1);
+                if (!(t2.GetArgument(0).Unify(t1.GetArgument(0)))) return false;
+                t1 = t1.GetArgument(1);
+                t2 = t2.GetArgument(1);
             }
-            else if ((tType?.IsVariable).GetValueOrDefault())
+            else if ((tType.IsVariable))
             {
-                return (t1?.Unify(t2)).GetValueOrDefault();
+                return (t1.Unify(t2));
             }
             else
             {
                 return false;
             }
-        } while (t2?.Type == TermType.LIST);
-        return (t2?.Unify(t1)).GetValueOrDefault();
+        } while (t2.Type == TermType.LIST);
+        return (t2.Unify(t1));
     }
 
 
@@ -236,7 +236,7 @@ public class LinkedTermList : Term
         return builder.ToString();
     }
 
-    Term? Term.Copy(Dictionary<Variable, Variable>? sharedVariables) => this.Copy(sharedVariables);
+    Term Term.Copy(Dictionary<Variable, Variable>? sharedVariables) => this.Copy(sharedVariables);
 
     Term Term.Term => this.Term;
 

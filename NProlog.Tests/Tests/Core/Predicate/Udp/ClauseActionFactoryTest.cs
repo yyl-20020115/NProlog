@@ -331,7 +331,7 @@ public class ClauseActionFactoryTest : TestUtils
         var a = Create<ZeroArgConsequentRule>("p :- test.");
         Assert.IsFalse(a.IsRetryable);
 
-        var m = Verify(mockPredicateFactory)?.IsRetryable;
+        Confirm(Verify(mockPredicateFactory)?.IsRetryable);
     }
 
     [TestMethod]
@@ -342,7 +342,7 @@ public class ClauseActionFactoryTest : TestUtils
         var a = Create<ZeroArgConsequentRule>("p :- test.");
         Assert.IsFalse(a.IsRetryable);
 
-        var m = Verify(mockPredicateFactory)?.IsRetryable;
+        Confirm(Verify(mockPredicateFactory)?.IsRetryable);
     }
 
     [TestMethod]
@@ -582,7 +582,7 @@ public class ClauseActionFactoryTest : TestUtils
         var a = Create<MutableRule>("p(a,X,c) :- test.");
         Assert.IsFalse(a.IsAlwaysCutOnBacktrack);
 
-        var m = Verify(mockPredicateFactory)?.IsAlwaysCutOnBacktrack;
+        Confirm(Verify(mockPredicateFactory)?.IsAlwaysCutOnBacktrack);
     }
 
     [TestMethod]

@@ -20,26 +20,26 @@ namespace Org.NProlog.Core.Math;
 
 public abstract class AbstractArithmeticOperator : PreprocessableArithmeticOperator, KnowledgeBaseConsumer
 {
-    protected KnowledgeBase? knowledgeBase;
-    protected ArithmeticOperators? Operators =>this.knowledgeBase?.ArithmeticOperators;
+    protected KnowledgeBase knowledgeBase = new();
+    protected ArithmeticOperators Operators =>this.knowledgeBase.ArithmeticOperators;
     public AbstractArithmeticOperator() { }
-    public KnowledgeBase? KnowledgeBase
+    public KnowledgeBase KnowledgeBase
     {
         get => this.knowledgeBase;
         set => this.knowledgeBase = value;
     }
 
-    public virtual Numeric Calculate(Term[]? args) => args?.Length switch
+    public virtual Numeric Calculate(Term[] args) => args.Length switch
     {
-        1 => Calculate(this.Operators?.GetNumeric(args[0])),
-        2 => Calculate(this.Operators?.GetNumeric(args[0]), this.Operators?.GetNumeric(args[1])),
-        _ => throw CreateWrongNumberOfArgumentsException((args?.Length).GetValueOrDefault()),
+        1 => Calculate(this.Operators.GetNumeric(args[0])),
+        2 => Calculate(this.Operators.GetNumeric(args[0]), this.Operators.GetNumeric(args[1])),
+        _ => throw CreateWrongNumberOfArgumentsException(args.Length),
     };
 
-    public virtual Numeric Calculate(Numeric? n) 
+    public virtual Numeric Calculate(Numeric n) 
         => throw CreateWrongNumberOfArgumentsException(1);
 
-    public virtual Numeric Calculate(Numeric? n1, Numeric? n2) 
+    public virtual Numeric Calculate(Numeric n1, Numeric n2) 
         => throw CreateWrongNumberOfArgumentsException(2);
 
     private ArgumentException CreateWrongNumberOfArgumentsException(int numberOfArguments) 

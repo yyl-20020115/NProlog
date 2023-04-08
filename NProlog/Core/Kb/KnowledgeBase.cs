@@ -31,6 +31,7 @@ namespace Org.NProlog.Core.Kb;
  */
 public class KnowledgeBase
 {
+    public static readonly KnowledgeBase Default = new ();
     /**
      * Represents the {@code pl_add_predicate/2} predicate hard-coded in every {@code KnowledgeBase}.
      * <p>

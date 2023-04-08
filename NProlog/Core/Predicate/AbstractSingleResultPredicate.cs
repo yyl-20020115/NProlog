@@ -32,10 +32,10 @@ namespace Org.NProlog.Core.Predicate;
  */
 public abstract class AbstractSingleResultPredicate : PredicateFactory, KnowledgeBaseConsumer
 {
-    protected KnowledgeBase? knowledgeBase;
+    protected KnowledgeBase knowledgeBase = new();
     public AbstractSingleResultPredicate() { }
 
-    public KnowledgeBase? KnowledgeBase
+    public KnowledgeBase KnowledgeBase
     {
         get => this.knowledgeBase;
         set
@@ -45,10 +45,10 @@ public abstract class AbstractSingleResultPredicate : PredicateFactory, Knowledg
         }
     }
 
-    public Predicate GetPredicate(Term[]? args) 
+    public Predicate GetPredicate(Term[] args) 
         => PredicateUtils.ToPredicate(Evaluate(args));
 
-    public virtual bool Evaluate(Term[]? args) => args?.Length switch
+    public virtual bool Evaluate(Term[] args) => args?.Length switch
     {
         0 => Evaluate(),
         1 => Evaluate(args[0]),

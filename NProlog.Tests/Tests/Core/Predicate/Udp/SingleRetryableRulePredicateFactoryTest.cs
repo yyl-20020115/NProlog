@@ -26,7 +26,7 @@ public class SingleRetryableRulePredicateFactoryTest : TestUtils
     private ClauseAction? mockAction;
     private SingleRetryableRulePredicateFactory? testObject;
     private Predicate? mockPredicate;
-    private Term[] queryArgs = Array(Atom("a"), Atom("b"), Atom("c"));
+    private readonly Term[] queryArgs = Array(Atom("a"), Atom("b"), Atom("c"));
     private SimplePrologListener? listener;
 
     [TestInitialize]
@@ -65,9 +65,9 @@ public class SingleRetryableRulePredicateFactoryTest : TestUtils
         Assert.IsTrue(result.Evaluate());
         Assert.IsTrue(result.Evaluate());
         Assert.IsTrue(result.Evaluate());
-        Assert.AreEqual("", listener.GetResult());
+        Assert.AreEqual("", listener?.GetResult());
 
-        Verify(mockPredicate, Times(4)).Evaluate();
+        Verify(mockPredicate, Times(4))?.Evaluate();
     }
 
     [TestMethod]
@@ -133,9 +133,9 @@ public class SingleRetryableRulePredicateFactoryTest : TestUtils
         Assert.IsTrue(result.Evaluate());
         Assert.IsTrue(result.Evaluate());
         Assert.AreEqual("CALLtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)",
-            listener.GetResult());
-        var m = Verify(mockAction, Times(3))?.Model;
-        Verify(mockPredicate, Times(4)).Evaluate();
+            listener?.GetResult());
+        Confirm(Verify(mockAction, Times(3))?.Model);
+        Verify(mockPredicate, Times(4))?.Evaluate();
     }
 
     [TestMethod]

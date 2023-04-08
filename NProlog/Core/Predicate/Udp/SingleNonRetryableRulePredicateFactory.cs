@@ -32,7 +32,7 @@ public class SingleNonRetryableRulePredicateFactory : PreprocessablePredicateFac
     }
 
 
-    public Predicate? GetPredicate(Term[]? args)
+    public Predicate GetPredicate(Term[] args)
         => EvaluateClause(clause, spyPoint, args);
 
     public static Predicate EvaluateClause(ClauseAction clause, SpyPoints.SpyPoint spyPoint, Term[] args)

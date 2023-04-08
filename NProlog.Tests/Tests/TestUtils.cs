@@ -101,13 +101,13 @@ public class TestUtils : TermFactory
     public static SentenceParser CreateSentenceParser(string prologSyntax)
     => SentenceParser.GetInstance(prologSyntax, OPERANDS);   
 
-    public static Term? ParseSentence(string prologSyntax)
+    public static Term ParseSentence(string prologSyntax)
     {
         var sp = CreateSentenceParser(prologSyntax);
         return sp.ParseSentence();
     }
 
-    public static Term? ParseTerm(string source)
+    public static Term ParseTerm(string source)
     {
         var sp = CreateSentenceParser(source);
         return sp.ParseTerm();
@@ -159,21 +159,21 @@ public class TestUtils : TermFactory
     public static void VerifyNoMoreInteractions(params object?[] _)
     {
     }
-    public static void Confirm(bool? _)
+    public static void Confirm(object? _)
     {
 
     }
     public class Then<T>
     {
-        public void ThenReturn(params T[] values)
+        public void ThenReturn(params T[] _)
         {
         }
-        public void ThenThrow(Exception ex)
+        public void ThenThrow(Exception _)
         {
             //throw ex;
         }
     }
-    public static Then<T> When<T>(T? value) => new();
+    public static Then<T> When<T>(T? _) => new();
 
     public static void AssertArrayEquals<T>(T[] a, T[] b)
     {
@@ -208,10 +208,10 @@ public class TestUtils : TermFactory
                     }
                     else
                     {
-                        ci = type.GetConstructor(new Type[0]);
+                        ci = type.GetConstructor(System.Array.Empty<Type>());
                         if (ci != null)
                         {
-                            ret = ci.Invoke(new object[0]) as Exception;
+                            ret = ci.Invoke(System.Array.Empty<object>()) as Exception;
                         }
                     }
                 }

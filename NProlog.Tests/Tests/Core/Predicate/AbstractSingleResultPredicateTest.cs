@@ -32,7 +32,8 @@ public class AbstractSingleResultPredicateTest : TestUtils
     {
         public KnowledgeBase kb;
 
-        protected override void Init() => kb = base.KnowledgeBase;
+        protected override void Init() 
+            => kb = base.KnowledgeBase;
     }
 
     /**
@@ -66,7 +67,7 @@ public class AbstractSingleResultPredicateTest : TestUtils
 
     public class ASP0 : AbstractSingleResultPredicate
     {
-        AtomicBoolean ab;
+        readonly AtomicBoolean ab;
         public ASP0(AtomicBoolean ab) => this.ab = ab;
 
         protected override bool Evaluate() => ab.Value;

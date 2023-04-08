@@ -261,7 +261,7 @@ public class TokenParserTest : TestUtils
             tp.Rewind(new Token(value, TokenType.ATOM));
             Assert.Fail();
         }
-        catch (ArgumentException e)
+        catch (ArgumentException)
         {
             // expected
         }

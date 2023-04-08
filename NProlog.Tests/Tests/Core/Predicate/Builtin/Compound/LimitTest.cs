@@ -64,9 +64,9 @@ public class LimitTest : TestUtils
         Assert.IsFalse(p.CouldReevaluationSucceed);
         Assert.IsFalse(p.Evaluate());
 
-        Verify(mockPredicateFactory, Times(2)).GetPredicate(queryArg.Args);
-        Verify(mockPredicate, Times(3)).Evaluate();
-        var a1 = Verify(mockPredicate, Times(4)).CouldReevaluationSucceed;
+        Verify(mockPredicateFactory, Times(2))?.GetPredicate(queryArg.Args);
+        Verify(mockPredicate, Times(3))?.Evaluate();
+        Confirm(Verify(mockPredicate, Times(4))?.CouldReevaluationSucceed);
         VerifyNoMoreInteractions(mockPredicateFactory, mockPredicate);
     }
 
@@ -105,10 +105,10 @@ public class LimitTest : TestUtils
         Assert.IsFalse(p.CouldReevaluationSucceed);
         Assert.IsFalse(p.Evaluate());
 
-        Verify(mockPreprocessablePredicateFactory).Preprocess(queryArg);
-        Verify(mockPredicateFactory, Times(2)).GetPredicate(queryArg.Args);
-        Verify(mockPredicate, Times(3)).Evaluate();
-        var _ = Verify(mockPredicate, Times(4)).CouldReevaluationSucceed;
+        Verify(mockPreprocessablePredicateFactory)?.Preprocess(queryArg);
+        Verify(mockPredicateFactory, Times(2))?.GetPredicate(queryArg.Args);
+        Verify(mockPredicate, Times(3))?.Evaluate();
+        Confirm(Verify(mockPredicate, Times(4))?.CouldReevaluationSucceed);
         VerifyNoMoreInteractions(mockPreprocessablePredicateFactory, mockPredicateFactory, mockPredicate);
     }
 }

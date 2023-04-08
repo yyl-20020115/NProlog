@@ -270,7 +270,7 @@ public class RecordedDatabaseTest
             var m = itr.Current;
             Assert.Fail();
         }
-        catch (NoSuchElementException e)
+        catch (NoSuchElementException )
         {
             // expected
         }

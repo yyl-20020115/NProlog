@@ -17,5 +17,5 @@ namespace Org.NProlog.Core.Kb;
 
 public interface KnowledgeBaseConsumer
 {
-    KnowledgeBase? KnowledgeBase { get; set; }
+    KnowledgeBase KnowledgeBase { get; set; }
 }

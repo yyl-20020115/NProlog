@@ -25,11 +25,11 @@ namespace Org.NProlog.Core.Predicate;
 
 public abstract class AbstractPredicateFactory : PredicateFactory, KnowledgeBaseConsumer
 {
-    protected KnowledgeBase? knowledgeBase;
-    public KnowledgeBase? KnowledgeBase { get => knowledgeBase; set { knowledgeBase = value; this.Init(); } }
+    protected KnowledgeBase knowledgeBase = KnowledgeBase.Default;
+    public KnowledgeBase KnowledgeBase { get => knowledgeBase; set { knowledgeBase = value; this.Init(); } }
 
 
-    public virtual Predicate? GetPredicate(params Term[]? args) => args?.Length switch
+    public virtual Predicate GetPredicate(params Term[] args) => args.Length switch
     {
         0 => GetPredicate(),
         1 => GetPredicate(args[0]),
@@ -39,15 +39,15 @@ public abstract class AbstractPredicateFactory : PredicateFactory, KnowledgeBase
         _ => throw CreateWrongNumberOfArgumentsException(args.Length),
     };
 
-    protected virtual Predicate? GetPredicate() => throw CreateWrongNumberOfArgumentsException(0);
+    protected virtual Predicate GetPredicate() => throw CreateWrongNumberOfArgumentsException(0);
 
-    protected virtual Predicate? GetPredicate(Term arg) => throw CreateWrongNumberOfArgumentsException(1);
+    protected virtual Predicate GetPredicate(Term arg) => throw CreateWrongNumberOfArgumentsException(1);
 
-    protected virtual Predicate? GetPredicate(Term arg1, Term arg2) => throw CreateWrongNumberOfArgumentsException(2);
+    protected virtual Predicate GetPredicate(Term arg1, Term arg2) => throw CreateWrongNumberOfArgumentsException(2);
 
-    protected virtual Predicate? GetPredicate(Term arg1, Term arg2, Term arg3) => throw CreateWrongNumberOfArgumentsException(3);
+    protected virtual Predicate GetPredicate(Term arg1, Term arg2, Term arg3) => throw CreateWrongNumberOfArgumentsException(3);
 
-    protected virtual Predicate? GetPredicate(Term arg1, Term arg2, Term arg3, Term arg4) => throw CreateWrongNumberOfArgumentsException(4);
+    protected virtual Predicate GetPredicate(Term arg1, Term arg2, Term arg3, Term arg4) => throw CreateWrongNumberOfArgumentsException(4);
 
     protected virtual ArgumentException CreateWrongNumberOfArgumentsException(int numberOfArguments)
         => new ("The predicate factory: " + GetType().Name + " does not accept the number of arguments: " + numberOfArguments);
@@ -67,7 +67,7 @@ public abstract class AbstractPredicateFactory : PredicateFactory, KnowledgeBase
     }
 
 
-    public Predicates? Predicates => knowledgeBase?.Predicates;
+    public Predicates Predicates => knowledgeBase.Predicates;
 
     public ArithmeticOperators? ArithmeticOperators => knowledgeBase?.ArithmeticOperators;
 

@@ -158,25 +158,25 @@ public class Structure : Term
     }
 
 
-    public bool Unify(Term? t)
+    public bool Unify(Term t)
     {
-        var tType = t?.Type;
+        var tType = t.Type;
         if (tType == TermType.STRUCTURE)
         {
-            var tArgs = t?.Args;
-            if (args.Length != (tArgs?.Length).GetValueOrDefault())
+            var tArgs = t.Args;
+            if (args.Length != tArgs.Length)
                 return false;
-            if (!functor.Equals(t?.Name))
+            if (!functor.Equals(t.Name))
                 return false;
             for (int i = 0; i < args.Length; i++)
             {
-                if (!args[i].Unify(tArgs?[i])) return false;
+                if (!args[i].Unify(tArgs[i])) return false;
             }
             return true;
         }
         else
         {
-            return (tType?.IsVariable).GetValueOrDefault() && (t?.Unify(this)).GetValueOrDefault();
+            return (tType.IsVariable) && (t.Unify(this));
         }
     }
 
@@ -224,7 +224,7 @@ public class Structure : Term
         return builder.ToString();
     }
 
-    Term? Term.Copy(Dictionary<Variable, Variable>? sharedVariables) => this.Copy(sharedVariables);
+    Term Term.Copy(Dictionary<Variable, Variable>? sharedVariables) => this.Copy(sharedVariables);
 
     Term Term.Term => this.Term;
 

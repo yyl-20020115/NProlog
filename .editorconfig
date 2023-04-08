@@ -62,6 +62,9 @@ csharp_style_var_when_type_is_apparent = false:silent
 csharp_space_around_binary_operators = before_and_after
 csharp_indent_labels = one_less_than_current
 
+# IDE1006: 命名样式
+dotnet_diagnostic.IDE1006.severity = silent
+
 [*.vb]
 #### 命名样式 ####
 

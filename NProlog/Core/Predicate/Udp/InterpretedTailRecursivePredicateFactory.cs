@@ -70,7 +70,7 @@ public class InterpretedTailRecursivePredicateFactory : PredicateFactory
     }
 
 
-    public InterpretedTailRecursivePredicate GetPredicate(Term[] args) => new InterpretedTailRecursivePredicate(spyPoint, args, firstClausePredicateFactories, firstClauseConsequentArgs, firstClauseOriginalTerms,
+    public InterpretedTailRecursivePredicate GetPredicate(Term[] args) => new(spyPoint, args, firstClausePredicateFactories, firstClauseConsequentArgs, firstClauseOriginalTerms,
                     secondClausePredicateFactories, secondClauseConsequentArgs, secondClauseOriginalTerms, IsRetryableWith(args));
 
     private bool IsRetryableWith(Term[] args)
@@ -89,7 +89,7 @@ public class InterpretedTailRecursivePredicateFactory : PredicateFactory
         return kb.SpyPoints.GetSpyPoint(key);
     }
 
-    Predicate? PredicateFactory.GetPredicate(Term[]? args) => this.GetPredicate(args);
+    Predicate PredicateFactory.GetPredicate(Term[] args) => this.GetPredicate(args);
 
     public bool IsRetryable => true; // TODO
 }

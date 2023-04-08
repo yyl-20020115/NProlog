@@ -112,7 +112,7 @@ public class ArithmeticOperators
      * @return the result of evaluating the specified arithmetic expression
      * @throws PrologException if the specified term does not represent an arithmetic expression
      */
-    public Numeric? GetNumeric(Term? t) => t?.Type switch
+    public Numeric GetNumeric(Term t) => t.Type switch
     {
         var tt when tt == TermType.FRACTION => TermUtils.CastToNumeric(t),
         var tt when tt == TermType.INTEGER => TermUtils.CastToNumeric(t),
@@ -121,13 +121,14 @@ public class ArithmeticOperators
         _ => throw new PrologException($"Cannot get Numeric for term: {t} of type: {t?.Type}"),
     };
 
-    private Numeric? Calculate(Term? term, Term[]? args)
-        => GetArithmeticOperator(PredicateKey.CreateForTerm(term))?.Calculate(args);
+    private Numeric Calculate(Term term, Term[] args)
+        => GetArithmeticOperator(PredicateKey.CreateForTerm(term)).Calculate(args);
 
     /**
      * @return null if not found
      */
-    public ArithmeticOperator? GetPreprocessedArithmeticOperator(Term? argument) => (argument?.Type?.IsNumeric).GetValueOrDefault()
+    public ArithmeticOperator? GetPreprocessedArithmeticOperator(Term argument)
+        => argument.Type.IsNumeric
             ? argument?.Term as Numeric
             : argument?.Type == TermType.ATOM || argument?.Type == TermType.STRUCTURE
                 ? GetPreprocessedArithmeticOperator(PredicateKey.CreateForTerm(argument), argument)
@@ -149,13 +150,14 @@ public class ArithmeticOperators
     /**
      * @throws PrologException if not found
      */
-    public ArithmeticOperator? GetArithmeticOperator(PredicateKey key) => operatorInstances.TryGetValue(key, out var e)
+    public ArithmeticOperator GetArithmeticOperator(PredicateKey key) 
+        => operatorInstances.TryGetValue(key, out var e)
             ? e
             : operatorClassNames.ContainsKey(key)
                 ? InstantiateArithmeticOperator(key)
                 : throw new PrologException($"Cannot find arithmetic operator: {key}");
 
-    private ArithmeticOperator? InstantiateArithmeticOperator(PredicateKey key)
+    private ArithmeticOperator InstantiateArithmeticOperator(PredicateKey key)
     {
         lock (this.syncRoot)
         {

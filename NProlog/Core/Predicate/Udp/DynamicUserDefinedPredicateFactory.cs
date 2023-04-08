@@ -60,7 +60,7 @@ public class DynamicUserDefinedPredicateFactory : UserDefinedPredicateFactory
     }
 
 
-    public Predicate? GetPredicate(Term[]? args)
+    public Predicate GetPredicate(Term[] args)
     {
         if (hasPrimaryKey)
         {

@@ -123,8 +123,8 @@ public class BagOf : AbstractPredicateFactory, PreprocessablePredicateFactory
         public PreprocessedBagOf(PredicateFactory factory)
             => this.factory = factory;
 
-        public virtual Predicate GetPredicate(Term[]? args) 
-            => new BagOfPredicate(factory, args![0], args![1], args![2]);
+        public virtual Predicate GetPredicate(Term[] args) 
+            => new BagOfPredicate(factory, args[0], args[1], args[2]);
 
         public virtual bool IsRetryable => true;
     }

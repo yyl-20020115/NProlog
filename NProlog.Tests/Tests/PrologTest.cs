@@ -47,7 +47,7 @@ public class PrologTest
 
     public class PL : PrologListener
     {
-        List<string> events;
+        readonly List<string> events;
         public PL(List<string> events) => this.events = events;
         public void OnInfo(string message) => Add(message);
 
@@ -85,7 +85,7 @@ public class PrologTest
         }
 
         List<string> events = new();
-        var listener = new PL(events);
+        //var listener = new PL(events);
 
         // assert tests pass
         //assertSuccess(source, new PrologTestRunnerConfig()
@@ -102,7 +102,7 @@ public class PrologTest
         Assert.AreEqual("Reading prolog source in: target" + Environment.NewLine + "predicateTooLargeToCompileToJava.pl from file system", events[(1)]);
     }
 
-    private static void AssertSuccess(string scriptsDir)
+    private static void AssertSuccess(string _)
     {
         //    assertSuccess(scriptsDir, new PrologTestRunnerConfig()
         //    {

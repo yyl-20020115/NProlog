@@ -41,7 +41,7 @@ public class UnknownPredicate : PreprocessablePredicateFactory
     }
 
 
-    public Predicate? GetPredicate(Term[]? args)
+    public Predicate GetPredicate(Term[] args)
     {
         InstantiatePredicateFactory();
 

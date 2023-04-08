@@ -98,7 +98,8 @@ public class PrologTest : TestUtils
         prolog.AddArithmeticOperator(key, op);
 
         // confirm that queries can use testAddPredicateFactory/1
-        var result = prolog.CreateStatement("X is testArithmeticOperator(3).").ExecuteQuery();
+        //var result =
+        prolog.CreateStatement("X is testArithmeticOperator(3).").ExecuteQuery();
         //TODO:
         //PrologTest(result.Next());
         //PrologTest(10, TermUtils.CastToNumeric(result.GetTerm("X")).PrologTest()); // 3 + 7 = 10
@@ -154,7 +155,7 @@ public class PrologTest : TestUtils
         AssertStackTraceOfIOExceptionWhileEvaluatingQueries(PROLOG_DEFAULT_PROPERTIES);
     }
 
-    private void AssertStackTraceOfIOExceptionWhileEvaluatingQueries(PrologProperties prologProperties)
+    private static void AssertStackTraceOfIOExceptionWhileEvaluatingQueries(PrologProperties prologProperties)
     {
         var p = new Prolog(prologProperties);
         var inputSource = new StringBuilder();

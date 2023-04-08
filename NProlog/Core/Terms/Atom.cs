@@ -23,12 +23,13 @@ namespace Org.NProlog.Core.Terms;
  */
 public class Atom : Term
 {
-    private readonly string? value;
+    private readonly string value;
 
     /**
      * @param value the value this {@code Atom} represents
      */
-    public Atom(string? value) => this.value = value;
+    public Atom(string value) 
+        => this.value = value;
 
     /**
      * Returns the value this {@code Atom} represents.
@@ -36,7 +37,7 @@ public class Atom : Term
      * @return the value this {@code Atom} represents
      */
 
-    public string Name => value??"";
+    public string Name => value;
 
 
     public Term[] Args => TermUtils.EMPTY_ARRAY;
@@ -48,7 +49,8 @@ public class Atom : Term
      * @throws IndexOutOfRangeException as this implementation of {@link Term} has no arguments
      */
 
-    public Term GetArgument(int index) => throw new IndexOutOfRangeException(nameof(index)+":"+index);
+    public Term GetArgument(int index) 
+        => throw new IndexOutOfRangeException(nameof(index)+":"+index);
 
     /**
      * Returns {@link TermType#ATOM}.
@@ -62,7 +64,7 @@ public class Atom : Term
     public bool IsImmutable => true;
 
 
-    public Atom? Copy(Dictionary<Variable, Variable>? sharedVariables) => this;
+    public Atom Copy(Dictionary<Variable, Variable>? _) => this;
 
 
     public Atom Term => this;
@@ -84,7 +86,7 @@ public class Atom : Term
     public override bool Equals(object? o) => o == this || (o is Atom atom && value.Equals(atom.value));
 
 
-    public override int GetHashCode() => (value?.GetHashCode()).GetValueOrDefault();
+    public override int GetHashCode() => (value.GetHashCode());
 
     /**
      * @return {@link #Name}
@@ -92,7 +94,7 @@ public class Atom : Term
 
     public override string ToString() => Name;
 
-    Term? Term.Copy(Dictionary<Variable, Variable>? sharedVariables) => this.Copy(sharedVariables);
+    Term Term.Copy(Dictionary<Variable, Variable>? sharedVariables) => this.Copy(sharedVariables);
 
     Term Term.Term => this.Term;
 

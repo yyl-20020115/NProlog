@@ -208,7 +208,7 @@ public class Disjunction : AbstractPredicateFactory, PreprocessablePredicateFact
         }
 
 
-        public virtual Predicate GetPredicate(Term[]? args) 
+        public virtual Predicate GetPredicate(Term[] args) 
             => new DisjunctionPredicate(pf1, pf2, args[0], args[1],this.disjunction);
 
         public bool IsRetryable => true;
@@ -227,19 +227,19 @@ public class Disjunction : AbstractPredicateFactory, PreprocessablePredicateFact
             this.elsePf = elsePf;
         }
 
-        public virtual Predicate GetPredicate(Term[]? args)
+        public virtual Predicate GetPredicate(Term[] args)
         {
-            var ifThenTerm = args?[0];
-            var conditionTerm = ifThenTerm?.GetArgument(0);
-            var conditionPredicate = condition.GetPredicate(conditionTerm?.Args);
+            var ifThenTerm = args[0];
+            var conditionTerm = ifThenTerm.GetArgument(0);
+            var conditionPredicate = condition.GetPredicate(conditionTerm.Args);
             if (conditionPredicate.Evaluate())
             {
-                return thenPf.GetPredicate(ifThenTerm?.GetArgument(1)?.Term.Args);
+                return thenPf.GetPredicate(ifThenTerm.GetArgument(1).Term.Args);
             }
             else
             {
-                conditionTerm?.Backtrack();
-                return elsePf.GetPredicate(args[1]?.Args);
+                conditionTerm.Backtrack();
+                return elsePf.GetPredicate(args[1].Args);
             }
         }
 

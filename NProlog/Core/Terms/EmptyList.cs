@@ -47,7 +47,7 @@ public class EmptyList : Term
     }
 
 
-    public Term? Copy(Dictionary<Variable, Variable>? sharedVariables) => EMPTY_LIST;
+    public Term Copy(Dictionary<Variable, Variable>? sharedVariables) => EMPTY_LIST;
 
 
     public EmptyList Term => EMPTY_LIST;
@@ -87,10 +87,11 @@ public class EmptyList : Term
 
     public Term Bound => this;
 
-    public bool Unify(Term? t)
+    public bool Unify(Term t)
     {
-        var tType = t?.Type;
-        return tType == TermType.EMPTY_LIST || ((tType?.IsVariable).GetValueOrDefault() && (t?.Unify(this)).GetValueOrDefault());
+        var tType = t.Type;
+        return tType == TermType.EMPTY_LIST 
+            || (tType.IsVariable && t.Unify(this));
     }
 
     /**

@@ -25,7 +25,7 @@ public class SingleNonRetryableRulePredicateFactoryTest : TestUtils
     private ClauseAction? mockAction;
     private SingleNonRetryableRulePredicateFactory? testObject;
     private Predicate? mockPredicate;
-    private Term[] queryArgs = Array(Atom("a"), Atom("b"), Atom("c"));
+    private readonly Term[] queryArgs = Array(Atom("a"), Atom("b"), Atom("c"));
     private SimplePrologListener? listener;
 
     [TestInitialize]

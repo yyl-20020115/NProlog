@@ -117,9 +117,9 @@ public class IfThen : AbstractPredicateFactory, PreprocessablePredicateFactory
             this.action = action;
         }
 
-        public virtual Predicate? GetPredicate(Term[]? args)
+        public virtual Predicate GetPredicate(Term[] args)
         {
-            var conditionPredicate = condition.GetPredicate(args![0].Args);
+            var conditionPredicate = condition.GetPredicate(args[0].Args);
             // TODO should we need to call getTerm before calling getPredicate, or should getPredicate contain that logic?
             return conditionPredicate.Evaluate() 
                 ? action.GetPredicate(args[1].Term.Args) 

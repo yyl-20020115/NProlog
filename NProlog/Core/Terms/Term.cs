@@ -79,7 +79,7 @@ public interface Term
      * value = version used in copy)
      * @return a copy of this term
      */
-    Term? Copy(Dictionary<Variable, Variable>? sharedVariables);
+    Term Copy(Dictionary<Variable, Variable>? sharedVariables);
 
     /**
      * Returns the term this object is bound to.
@@ -118,7 +118,7 @@ public interface Term
      * @return {@code true} if the attempt to unify this term to the given term was successful
      * @see #Backtrack()
      */
-    bool Unify(Term? t);
+    bool Unify(Term t);
 
     /**
      * Reverts this term back to its original state prior to any unifications.

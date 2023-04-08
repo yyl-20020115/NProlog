@@ -72,18 +72,19 @@ public class DecimalFraction : Numeric
     public bool IsImmutable => true;
 
 
-    public DecimalFraction Copy(Dictionary<Variable, Variable> sharedVariables) => this;
+    public DecimalFraction Copy(Dictionary<Variable, Variable>? _) => this;
 
 
     public DecimalFraction Term => this;
 
 
-    public bool Unify(Term? t)
+    public bool Unify(Term t)
     {
-        var tType = t?.Type;
+        var tType = t.Type;
         return tType == TermType.FRACTION
-            ? value == ((t as DecimalFraction)?.Term)?.value
-            : (tType?.IsVariable).GetValueOrDefault() && (t?.Unify(this)).GetValueOrDefault();
+            ? value == ((t as DecimalFraction).Term).value
+            : (tType.IsVariable) && (t.Unify(this))
+            ;
     }
 
 
@@ -105,7 +106,7 @@ public class DecimalFraction : Numeric
     public double Double => value;
 
 
-    public DecimalFraction Calculate(Term[]? _) => this;
+    public DecimalFraction Calculate(Term[] _) => this;
 
 
     public override bool Equals(object? o) 
@@ -120,11 +121,13 @@ public class DecimalFraction : Numeric
 
     public override string ToString() => this.value.PatchDoubleString();
 
-    Term? Term.Copy(Dictionary<Variable, Variable>? sharedVariables) => this.Copy(sharedVariables);
+    Term Term.Copy(Dictionary<Variable, Variable>? sharedVariables) 
+        => this.Copy(sharedVariables);
 
     Term Term.Term => this.Term;
 
     public Term Bound => this;
 
-    Numeric ArithmeticOperator.Calculate(Term[]? args) => this.Calculate(args);
+    Numeric ArithmeticOperator.Calculate(Term[] args)
+        => this.Calculate(args);
 }

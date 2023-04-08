@@ -87,7 +87,7 @@ public class Variable : Term
      */
 
     public Term GetArgument(int index) => value is null 
-        ? throw new NullReferenceException() : Value?.GetArgument(index);
+        ? throw new NullReferenceException() : Value.GetArgument(index);
 
 
     public bool Unify(Term? t)
@@ -126,7 +126,7 @@ public class Variable : Term
     public bool IsImmutable => false;
 
 
-    public Term? Copy(Dictionary<Variable, Variable>? sharedVariables)
+    public Term Copy(Dictionary<Variable, Variable>? sharedVariables)
     {
         if (value == null)
         {

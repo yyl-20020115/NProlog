@@ -157,7 +157,7 @@ public class KnowledgeBaseTest : TestUtils
             userDefinedPredicates.Add(null, null);
             Microsoft.VisualStudio.TestTools.UnitTesting.Assert.Fail();
         }
-        catch (ArgumentNullException e)
+        catch (ArgumentNullException)
         {
             // expected
         }

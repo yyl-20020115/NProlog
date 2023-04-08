@@ -94,11 +94,11 @@ public class BootstrapTest : TestUtils
         //AssertSealed(o);
     }
 
-    private void AssertSealed(object o)
-    {
-        var c = o.GetType();
-        Assert.IsTrue(c.IsSealed, "Not readonly: " + c);
-    }
+    //private static void AssertSealed(object o)
+    //{
+    //    var c = o.GetType();
+    //    Assert.IsTrue(c.IsSealed, "Not readonly: " + c);
+    //}
 
     private static Type[] GetMethodParameters(PredicateKey key)
     {
