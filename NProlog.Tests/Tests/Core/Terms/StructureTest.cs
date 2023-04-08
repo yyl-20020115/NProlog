@@ -173,7 +173,7 @@ public class StructureTest : TestUtils
                 if (i == j)
                 {
                     // check they all Compare to a Copy of themselves
-                    AssertStrictEqualityAndUnify(predicates[i], predicates[i].Copy(null), true);
+                    AssertStrictEqualityAndUnify(predicates[i], predicates[i].Copy(new()), true);
                 }
                 else
                 {
@@ -210,7 +210,7 @@ public class StructureTest : TestUtils
     public void TestCopyWithoutVariablesOrNestedArguments()
     {
         var p = Structure("test", Atom(), IntegerNumber(), DecimalFraction());
-        var Copy = p.Copy(null);
+        var Copy = p.Copy(new());
         Assert.AreSame(p, Copy);
     }
 
@@ -266,11 +266,11 @@ public class StructureTest : TestUtils
 
         X.Unify(Atom("a"));
 
-        var copy2 = original.Copy(null);
+        var copy2 = original.Copy(new());
         Assert.AreNotSame(original, copy2);
         AssertStrictEquality(original, copy2, true);
         Assert.AreEqual(original.ToString(), copy2.ToString());
-        Assert.AreSame(copy2, copy2.Copy(null));
+        Assert.AreSame(copy2, copy2.Copy(new()));
         Assert.AreSame(copy2, copy2.Term);
 
         X.Backtrack();
@@ -289,7 +289,7 @@ public class StructureTest : TestUtils
         var p1 = Structure("p", Atom(), Structure("p", Atom(), v, IntegerNumber()), List(IntegerNumber(), DecimalFraction()));
         Assert.IsFalse(p1.IsImmutable);
         v.Unify(a);
-        var p2 = p1.Copy(null);
+        var p2 = p1.Copy(new());
         Assert.IsFalse(p1.IsImmutable);
         Assert.IsTrue(p2.IsImmutable);
         Assert.AreSame(v, p1.GetArgument(1).GetArgument(1));

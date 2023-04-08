@@ -199,7 +199,7 @@ public class FileHandlesTest : TestUtils
         return fn;
     }
 
-    private void Write(FileHandles fh, string filename, string contents)
+    private static void Write(FileHandles fh, string filename, string contents)
     {
         var handle = OpenOutput(fh, filename);
         fh.SetOutput(handle);
@@ -212,7 +212,7 @@ public class FileHandlesTest : TestUtils
         //Assert.IsTrue(ps.checkError());
     }
 
-    private string Read(FileHandles fh, string filename)
+    private static string Read(FileHandles fh, string filename)
     {
         var handle = OpenInput(fh, filename);
         fh.SetInput(handle);
@@ -230,7 +230,7 @@ public class FileHandlesTest : TestUtils
             reader.Read();
             Assert.Fail("could read from closed input stream");
         }
-        catch (Exception e)
+        catch (Exception)
         {
             Assert.IsTrue(true);
             // expected now stream has been closed

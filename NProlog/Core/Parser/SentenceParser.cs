@@ -181,7 +181,7 @@ public class SentenceParser
     private Token GetToken(Token currentToken, int currentLevel, int maxLevel, bool isFirst)
     {
         var nextToken = PopValue();
-        var next = nextToken.Name;
+        var next = nextToken.Name??"";
         if (operands.Postfix(next) && operands.GetPostfixPriority(next) <= currentLevel)
         {
             var postfixToken = AddPostfixOperand(next, currentToken);
@@ -257,7 +257,7 @@ public class SentenceParser
     private Token GetPossiblePrefixArgument(int currentLevel)
     {
         var token = PopValue();
-        var value = token.Name;
+        var value = token.Name ?? "";
         if (operands.Prefix(value) && parser.IsFollowedByTerm())
         {
             if (value.Equals(MINUS_SIGN) && IsFollowedByNumber())
@@ -312,27 +312,27 @@ public class SentenceParser
         int level = operands.GetPostfixPriority(postfixOperand);
         if (original.NumberOfArguments == 2)
         {
-            bool higherLevelInfixOperand = operands.Infix(original.Name) && GetInfixLevel(original) > level;
+            bool higherLevelInfixOperand = operands.Infix(original.Name??"") && GetInfixLevel(original) > level;
             if (higherLevelInfixOperand)
             {
                 var name = original.Name;
                 var firstArg = original.GetArgument(0);
                 var newSecondArg = AddPostfixOperand(postfixOperand, original.GetArgument(1));
-                return CreateStructure(name, new Token[] { firstArg, newSecondArg });
+                return CreateStructure(name ?? "", new Token[] { firstArg, newSecondArg });
             }
         }
         else if (original.NumberOfArguments == 1)
         {
-            if (operands.Prefix(original.Name))
+            if (operands.Prefix(original.Name ?? ""))
             {
                 if (GetPrefixLevel(original) > level)
                 {
                     var name = original.Name;
                     var newFirstArg = AddPostfixOperand(postfixOperand, original.GetArgument(0));
-                    return CreateStructure(name, new Token[] { newFirstArg });
+                    return CreateStructure(name??"", new Token[] { newFirstArg });
                 }
             }
-            else if (operands.Postfix(original.Name))
+            else if (operands.Postfix(original.Name ?? ""))
             {
                 int levelToCompareTo = GetPostfixLevel(original);
                 // "x" in "xf" means that the argument can <i>only</i> contain operators of a lower priority.
@@ -371,18 +371,18 @@ public class SentenceParser
         switch (token.Type)
         {
             case TokenType.ATOM:
-                return new Atom(token.Name);
+                return new Atom(token.Name ?? "");
             case TokenType.INTEGER:
                 return IntegerNumberCache.ValueOf(long.TryParse(token.Name,out var v)?v:0);
             case TokenType.FLOAT:
                 return new DecimalFraction(double.TryParse(token.Name,out var d)?d:0);
             case TokenType.VARIABLE:
-                return GetVariable(token.Name);
+                return GetVariable(token.Name ?? "");
             case TokenType.STRUCTURE:
                 var args = new Term[token.NumberOfArguments];
                 for (int i = 0; i < args.Length; i++)
                     args[i] = ToTerm(token.GetArgument(i));
-                return Structure.CreateStructure(token.Name, args);
+                return Structure.CreateStructure(token.Name ?? "", args);
             case TokenType.EMPTY_LIST:
                 return EmptyList.EMPTY_LIST;
             default:
@@ -515,9 +515,9 @@ public class SentenceParser
         return token;
     }
 
-    private Token? PopValue() => parser.Next();
+    private Token PopValue() => parser.Next();
 
-    private Token? PeekValue()
+    private Token PeekValue()
     {
         var token = PopValue();
         parser.Rewind(token);
@@ -540,13 +540,13 @@ public class SentenceParser
         => parsedInfixTokens.Contains(t);
 
     private int GetPrefixLevel(Token t)
-        => operands.GetPrefixPriority(t.Name);
+        => operands.GetPrefixPriority(t.Name ?? "");
 
     private int GetInfixLevel(Token t)
-        => operands.GetInfixPriority(t.Name);
+        => operands.GetInfixPriority(t.Name ?? "");
 
     private int GetPostfixLevel(Token t)
-        => operands.GetPostfixPriority(t.Name);
+        => operands.GetPostfixPriority(t.Name ?? "");
 
     private static Token[] ToArray(List<Token> al)
         => al.ToArray();

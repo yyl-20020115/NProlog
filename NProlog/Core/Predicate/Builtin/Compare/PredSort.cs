@@ -99,6 +99,7 @@ public class PredSort : AbstractSingleResultPredicate, PreprocessablePredicateFa
 
         public int Compare(Term? o1, Term? o2)
         {
+            if (o1 == null || o2 == null) return 0;
             var result = new Variable("PredSortResult");
             var p = PartialApplicationUtils.GetPredicate(pf, predicateName, result, o1, o2);
             if (p.Evaluate())
@@ -139,8 +140,8 @@ public class PredSort : AbstractSingleResultPredicate, PreprocessablePredicateFa
             this.predicateName = predicateName;
         }
 
-        public Predicate GetPredicate(Term[]? args) => PredicateUtils.ToPredicate(
-            EvaluatePredSort(pf, predicateName, args?[1], args?[2]));
+        public Predicate GetPredicate(Term[] args) => PredicateUtils.ToPredicate(
+            EvaluatePredSort(pf, predicateName, args[1], args[2]));
 
         public bool IsRetryable => false;
     }

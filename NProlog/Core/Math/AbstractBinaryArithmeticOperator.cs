@@ -24,11 +24,11 @@ namespace Org.NProlog.Core.Math;
 public abstract class AbstractBinaryArithmeticOperator : AbstractArithmeticOperator
 {
 
-    public override Numeric Calculate(Numeric? n1, Numeric? n2) => ContainsFraction(n1, n2)
+    public override Numeric Calculate(Numeric n1, Numeric n2) => ContainsFraction(n1, n2)
             ? new DecimalFraction(CalculateDouble(n1.Double, n2.Double))
             : IntegerNumberCache.ValueOf(CalculateLong(n1.Long, n2.Long));
 
-    private static bool ContainsFraction(Numeric? n1, Numeric? n2) 
+    private static bool ContainsFraction(Numeric n1, Numeric n2) 
         => n1?.Type == TermType.FRACTION || n2?.Type == TermType.FRACTION;
 
     /** Returns the result of evaluating an arithmetic expression using the two arguments */

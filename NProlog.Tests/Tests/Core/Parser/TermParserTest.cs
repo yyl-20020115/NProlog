@@ -123,7 +123,7 @@ public class TermParserTest : TestUtils
         TestPredicate(">(a,b,c)");
     }
 
-    private void TestPredicate(string syntax)
+    private static void TestPredicate(string syntax)
     {
         var t = ParseTerm(syntax);
         Assert.IsNotNull(t);

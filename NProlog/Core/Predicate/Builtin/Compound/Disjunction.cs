@@ -279,14 +279,14 @@ public class Disjunction : AbstractPredicateFactory, PreprocessablePredicateFact
     public class DisjunctionPredicate : Predicate
     {
         private readonly Disjunction disjunction;
-        private readonly PredicateFactory? pf1;
-        private readonly PredicateFactory? pf2;
+        private readonly PredicateFactory pf1;
+        private readonly PredicateFactory pf2;
         private readonly Term inputArg1;
         private readonly Term inputArg2;
-        private Predicate? firstPredicate;
-        private Predicate? secondPredicate;
+        private Predicate firstPredicate;
+        private Predicate secondPredicate;
 
-        public DisjunctionPredicate(PredicateFactory? pf1, PredicateFactory? pf2, Term inputArg1, Term inputArg2, Disjunction disjunction)
+        public DisjunctionPredicate(PredicateFactory pf1, PredicateFactory pf2, Term inputArg1, Term inputArg2, Disjunction disjunction)
         {
             this.pf1 = pf1;
             this.pf2 = pf2;

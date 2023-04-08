@@ -130,7 +130,7 @@ public class Structure : Term
         }
     }
 
-    public Structure Copy(Dictionary<Variable, Variable>? sharedVariables)
+    public Structure Copy(Dictionary<Variable, Variable> sharedVariables)
     {
         if (immutable)
         {
@@ -224,7 +224,7 @@ public class Structure : Term
         return builder.ToString();
     }
 
-    Term Term.Copy(Dictionary<Variable, Variable>? sharedVariables) => this.Copy(sharedVariables);
+    Term Term.Copy(Dictionary<Variable, Variable> sharedVariables) => this.Copy(sharedVariables);
 
     Term Term.Term => this.Term;
 

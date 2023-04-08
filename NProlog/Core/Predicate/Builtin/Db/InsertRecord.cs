@@ -72,9 +72,10 @@ public class InsertRecord : AbstractSingleResultPredicate
     public static InsertRecord RecordZ() => new (true);
 
     private readonly bool insertLast;
-    private RecordedDatabase? database;
+    private RecordedDatabase database= RecordedDatabase.Default;
 
-    private InsertRecord(bool insertLast) => this.insertLast = insertLast;
+    private InsertRecord(bool insertLast) 
+        => this.insertLast = insertLast;
 
     protected override void Init() 
         => this.database = KnowledgeBaseServiceLocator.GetServiceLocator(KnowledgeBase)
@@ -88,7 +89,7 @@ public class InsertRecord : AbstractSingleResultPredicate
     {
         if (!reference.Type.IsVariable) return false;
         var k = PredicateKey.CreateForTerm(key);
-        var result = database?.Add(k, value, insertLast);
+        var result = database.Add(k, value, insertLast);
         return reference.Unify(result);
     }
 }

@@ -94,7 +94,7 @@ public class UnknownPredicateTest : TestUtils
         var result = original.Preprocess(Terms.Structure.CreateStructure(FUNCTOR, new Term[] { new Atom("a") }));
 
         Assert.AreEqual(mockPreprocessablePredicateFactory, result);
-        Verify(mockPreprocessablePredicateFactory).Preprocess(arg);
+        Verify(mockPreprocessablePredicateFactory)?.Preprocess(arg);
         VerifyNoMoreInteractions(mockPreprocessablePredicateFactory, mockPredicateFactory);
     }
 }

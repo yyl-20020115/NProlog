@@ -45,7 +45,7 @@ public class IsList : AbstractSingleResultPredicate
     protected static bool IsDeepList(Term arg)
     {
         var tail = arg;
-        while ((tail = tail.GetArgument(1))?.Type == TermType.LIST) ;
+        while ((tail = tail.GetArgument(1)).Type == TermType.LIST) ;
         return tail.Type == TermType.EMPTY_LIST;
     }
 }

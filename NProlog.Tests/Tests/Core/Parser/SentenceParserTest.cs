@@ -215,7 +215,7 @@ public class SentenceParserTest : TestUtils
             sp.ParseSentence();
             Assert.Fail();
         }
-        catch (ParserException pe)
+        catch (ParserException)
         {
             // expected
         }
@@ -245,7 +245,7 @@ public class SentenceParserTest : TestUtils
             sp.ParseSentence();
             Assert.Fail();
         }
-        catch (ParserException e)
+        catch (ParserException)
         {
             // expected
         }
@@ -350,7 +350,7 @@ public class SentenceParserTest : TestUtils
             var term = ParseSentence(input);
             Assert.Fail("parsing: " + input + " produced: " + term + " when expected an exception");
         }
-        catch (ParserException pe)
+        catch (ParserException)
         {
             // expected
         }

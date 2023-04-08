@@ -106,7 +106,7 @@ public class SpyPoints
         public bool IsEnabled => this.Set || this.spypoints.TraceEnabled;
 
         /** Notifies listeners of a first attempt to evaluate a goal. */
-        public void LogCall(object source, Term[]? args)
+        public void LogCall(object source, Term[] args)
         {
             if (IsEnabled)
                 this.spypoints.prologListeners.NotifyCall(new(this.spypoints, key, args, source));
@@ -123,7 +123,7 @@ public class SpyPoints
 
         public void LogExit(object source, Term[] args, int clauseNumber)
         {
-            ClauseModel? clauseModel = null;
+            ClauseModel clauseModel = ClauseModel.Default;
             if (clauseNumber != -1)
             {
                 var userDefinedPredicates = spypoints?.kb?.Predicates.GetUserDefinedPredicates();
@@ -137,7 +137,7 @@ public class SpyPoints
         }
 
         /** Notifies listeners of that an attempt to evaluate a goal has succeeded. */
-        public void LogExit(object source, Term[] args, ClauseModel? clause)
+        public void LogExit(object source, Term[] args, ClauseModel clause)
         {
             if (IsEnabled)
                 this.spypoints.prologListeners.NotifyExit(new(this.spypoints, key, args, source, clause));
@@ -176,13 +176,13 @@ public class SpyPoints
 
     public class SpyPointExitEvent : SpyPointEvent
     {
-        protected readonly ClauseModel? clauseModel;
+        protected readonly ClauseModel clauseModel;
 
-        public SpyPointExitEvent(SpyPoints spypoints, PredicateKey key, Term[] args, object source, ClauseModel? clauseModel)
+        public SpyPointExitEvent(SpyPoints spypoints, PredicateKey key, Term[] args, object source, ClauseModel clauseModel)
           : base(spypoints, key, args, source) => this.clauseModel = clauseModel;
 
         public string GetFormattedClause()
-            => this.spypoints.termFormatter.FormatTerm(clauseModel?.Original);
+            => this.spypoints.termFormatter.FormatTerm(clauseModel.Original);
 
         public ClauseModel? ClauseModel => clauseModel;
     }

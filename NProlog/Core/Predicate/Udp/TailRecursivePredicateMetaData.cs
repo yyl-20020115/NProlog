@@ -66,8 +66,10 @@ public class TailRecursivePredicateMetaData
      * @param clauses the clauses that the user defined predicate consists of
      * @return a new {@code TailRecursivePredicateMetaData} or {@code null} if the predicate is not tail recursive
      */
-    public static TailRecursivePredicateMetaData? Create(KnowledgeBase kb, List<ClauseModel> clauses)
-        => IsTailRecursive(kb, clauses) ? new TailRecursivePredicateMetaData(clauses) : null;
+    public static TailRecursivePredicateMetaData Create(KnowledgeBase kb, List<ClauseModel> clauses)
+        => IsTailRecursive(kb, clauses) 
+        ? new TailRecursivePredicateMetaData(clauses) 
+        : null;
 
     private static bool IsTailRecursive(KnowledgeBase kb, List<ClauseModel> terms)
     {

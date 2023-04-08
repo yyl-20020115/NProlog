@@ -23,13 +23,13 @@ namespace Org.NProlog.Core.Predicate.Udp;
 [TestClass]
 public class NeverSucceedsPredicateFactoryTest : TestUtils
 {
-    private SpyPoints spyPoints;
-    private NeverSucceedsPredicateFactory testObject;
-    private Term[] queryArgs = Array(Atom("a"), Atom("b"), Atom("c"));
-    private SimplePrologListener listener;
+    private readonly SpyPoints spyPoints;
+    private readonly NeverSucceedsPredicateFactory testObject;
+    private readonly Term[] queryArgs = Array(Atom("a"), Atom("b"), Atom("c"));
+    private readonly SimplePrologListener listener;
 
-    [TestInitialize]
-    public void Before()
+//    [TestInitialize]
+    public NeverSucceedsPredicateFactoryTest()
     {
         this.listener = new SimplePrologListener();
         var observable = new PrologListeners();

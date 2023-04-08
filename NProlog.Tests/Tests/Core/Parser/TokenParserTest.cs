@@ -241,7 +241,7 @@ public class TokenParserTest : TestUtils
 
         // check that the value specified in call to rewind has to be the last value parsed
         AssertRewindException(tp, "b");
-        AssertRewindException(tp, null);
+        AssertRewindException(tp, "");
         AssertRewindException(tp, "z");
 
         tp.Rewind(c);

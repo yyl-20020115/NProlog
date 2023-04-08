@@ -89,7 +89,7 @@ public class BootstrapTest : TestUtils
             Assert.Fail("Type " + className.Name + " not found");
         }
 
-        var o = type.Assembly.CreateInstance(type.FullName);
+        var o = type.Assembly.CreateInstance(type?.FullName??"");
         Assert.IsTrue(o is ArithmeticOperator);
         //AssertSealed(o);
     }
@@ -122,7 +122,7 @@ public class BootstrapTest : TestUtils
             {
                 var m = c.GetMethod("Evaluate");
 
-                Assert.AreSame(typeof(bool), m.ReturnType);
+                Assert.AreSame(typeof(bool), m?.ReturnType);
                 success = true;
             }
             catch (Exception)

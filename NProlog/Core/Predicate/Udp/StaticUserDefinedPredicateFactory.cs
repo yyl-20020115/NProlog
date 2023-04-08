@@ -280,8 +280,9 @@ public class StaticUserDefinedPredicateFactory : UserDefinedPredicateFactory, Pr
 
         public bool CanMoveNext => this.iterator.CanMoveNext;
 
-        public void Dispose()
+        void IDisposable.Dispose()
         {
+            GC.SuppressFinalize(this);
             this.iterator.Dispose();
         }
 
@@ -340,7 +341,7 @@ public class StaticUserDefinedPredicateFactory : UserDefinedPredicateFactory, Pr
                 var result = OptimisePredicateFactory(staticUserDefinedPredicateFactory.kb, actions, arg);
                 if (result.Count < actions.Length)
                 {
-                    var clauses = Clauses.CreateFromActions(staticUserDefinedPredicateFactory.kb, result, arg);
+                    var clauses = Clauses.CreateFromActions(result, arg);
                     return staticUserDefinedPredicateFactory.CreateInterpretedPredicateFactoryFromClauses(clauses);
                 }
                 else
@@ -384,7 +385,7 @@ public class StaticUserDefinedPredicateFactory : UserDefinedPredicateFactory, Pr
             var result = OptimisePredicateFactory(staticUserDefinedPredicateFactory.kb, data, arg);
             return result.Count < actions.Length
                 ? staticUserDefinedPredicateFactory.CreateInterpretedPredicateFactoryFromClauses(
-                     Clauses.CreateFromActions(staticUserDefinedPredicateFactory.kb, result, arg)
+                     Clauses.CreateFromActions(result, arg)
                     )
                 : this;
         }
@@ -417,7 +418,7 @@ public class StaticUserDefinedPredicateFactory : UserDefinedPredicateFactory, Pr
             var result = OptimisePredicateFactory(staticUserDefinedPredicateFactory.kb, data, arg);
             return result.Count < index.ClauseCount
                 ? staticUserDefinedPredicateFactory.CreateInterpretedPredicateFactoryFromClauses(
-                    Clauses.CreateFromActions(staticUserDefinedPredicateFactory.kb, result, arg))
+                    Clauses.CreateFromActions(result, arg))
                 : this;
         }
     }
@@ -450,7 +451,7 @@ public class StaticUserDefinedPredicateFactory : UserDefinedPredicateFactory, Pr
             var result = OptimisePredicateFactory(staticUserDefinedPredicateFactory.kb, data, arg);
             return result.Count < data.Length
                 ? staticUserDefinedPredicateFactory.CreateInterpretedPredicateFactoryFromClauses(
-                     Clauses.CreateFromActions(staticUserDefinedPredicateFactory.kb, result, arg))
+                     Clauses.CreateFromActions(result, arg))
                 : this;
         }
     }
@@ -488,8 +489,9 @@ public class StaticUserDefinedPredicateFactory : UserDefinedPredicateFactory, Pr
 
         object IEnumerator.Current => this.Current;
 
-        public void Dispose()
+        void IDisposable.Dispose()
         {
+            GC.SuppressFinalize(this);
             if (!this.disposed)
             {
                 this.disposed = true;

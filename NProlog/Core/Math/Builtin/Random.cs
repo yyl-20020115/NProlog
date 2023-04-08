@@ -38,7 +38,7 @@ test_max_random(X) :- X is random(9223372036854775807), X>=0, X<9223372036854775
 public class Random : AbstractArithmeticOperator
 {
 
-    public override Numeric Calculate(Numeric? n) 
+    public override Numeric Calculate(Numeric n) 
         => IntegerNumberCache.ValueOf((long)(System.Random.Shared.NextDouble() * n.Long));
 
     /** Random is not pure. Multiple calls with the same argument do not produce identical results. */

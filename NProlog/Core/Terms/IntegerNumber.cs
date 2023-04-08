@@ -118,5 +118,5 @@ public class IntegerNumber : Numeric
 
     public Term Bound => this;
 
-    Numeric ArithmeticOperator.Calculate(Term[]? args) => this.Calculate(args);
+    Numeric ArithmeticOperator.Calculate(Term[] args) => this.Calculate(args);
 }

@@ -149,10 +149,10 @@ public class ArithmeticOperatorsTest : TestUtils
         var c = CreateOperators();
         c.AddArithmeticOperator(dummyOperatorKey, mockPreprocessableOperator);
 
-        ArithmeticOperator preprocessed = c.GetPreprocessedArithmeticOperator(expression);
+        ArithmeticOperator? preprocessed = c.GetPreprocessedArithmeticOperator(expression);
 
         Assert.AreSame(mockPreprocessableOperator, preprocessed);
-        Verify(mockPreprocessableOperator).Preprocess(expression);
+        Verify(mockPreprocessableOperator)?.Preprocess(expression);
         VerifyNoMoreInteractions(mockPreprocessableOperator, mockPreprocessedOperator);
     }
 
@@ -258,13 +258,13 @@ public class ArithmeticOperatorsTest : TestUtils
 
     }
 
-    private ArithmeticOperators CreateOperators() => new ArithmeticOperators(kb);
+    private ArithmeticOperators CreateOperators() => new (kb);
 
 }
 /** ArithmeticOperator used to test that new arithmetic operators can be added to the factory. */
 public class DummyArithmeticOperatorDefaultConstructor : ArithmeticOperator, KnowledgeBaseConsumer
 {
-    KnowledgeBase kb;
+    KnowledgeBase kb = new();
 
     public KnowledgeBase KnowledgeBase { get=>kb; set=>kb=value; }
     public DummyArithmeticOperatorDefaultConstructor()
@@ -294,7 +294,7 @@ public class DummyArithmeticOperatorDefaultConstructor : ArithmeticOperator, Kno
 /** ArithmeticOperator used to test that new arithmetic operators can be created using a static method. */
 public class DummyArithmeticOperatorPublicConstructor : ArithmeticOperator, KnowledgeBaseConsumer
 {
-    KnowledgeBase kb;
+    KnowledgeBase kb =new();
 
     public KnowledgeBase KnowledgeBase { get => this.kb; set => this.kb = value; }
 

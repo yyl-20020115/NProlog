@@ -73,7 +73,7 @@ public class QueryPlanTest : TestUtils
         prolog.AddPredicateFactory(new PredicateKey("test", 0), mockPreprocessablePredicateFactory);
 
         When(mockPreprocessablePredicateFactory?.Preprocess(new Atom("test"))).ThenReturn(mockPredicateFactory);
-        When(mockPredicateFactory?.GetPredicate(new Term[0])).ThenReturn(PredicateUtils.TRUE);
+        When(mockPredicateFactory?.GetPredicate(System.Array.Empty<Term>())).ThenReturn(PredicateUtils.TRUE);
 
         var plan = prolog.CreatePlan("test.");
         Verify(mockPreprocessablePredicateFactory)?.Preprocess(new Atom("test"));
@@ -81,7 +81,7 @@ public class QueryPlanTest : TestUtils
         plan.ExecuteOnce();
         plan.ExecuteOnce();
         plan.ExecuteOnce();
-        Verify(mockPredicateFactory, Times(3))?.GetPredicate(new Term[0]);
+        Verify(mockPredicateFactory, Times(3))?.GetPredicate(System.Array.Empty<Term>());
 
         VerifyNoMoreInteractions(mockPreprocessablePredicateFactory, mockPredicateFactory);
     }
@@ -118,14 +118,14 @@ public class QueryPlanTest : TestUtils
     public void TestExecuteOnce()
     {
         var mockPredicateFactory = new MockPredicateFactory();
-        When(mockPredicateFactory?.GetPredicate(System.Array.Empty<Term>())).ThenReturn(PredicateUtils.TRUE);
+        When(mockPredicateFactory.GetPredicate(System.Array.Empty<Term>())).ThenReturn(PredicateUtils.TRUE);
         var prolog = new Prolog();
         prolog.AddPredicateFactory(new PredicateKey("mock", 0), mockPredicateFactory);
 
         var plan = prolog.CreatePlan("repeat, mock.");
 
         plan.ExecuteOnce();
-        Verify(mockPredicateFactory)?.GetPredicate(new Term[0]);
+        Verify(mockPredicateFactory)?.GetPredicate(System.Array.Empty<Term>());
         VerifyNoMoreInteractions(mockPredicateFactory);
     }
 

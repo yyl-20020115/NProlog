@@ -139,7 +139,7 @@ public static class KnowledgeBaseUtils
      * invoking the specified method (as a no argument static method) of the specified class.</li>
      * </ol>
      */
-    public static T? Instantiate<T>(KnowledgeBase? knowledgeBase, string input)
+    public static T Instantiate<T>(KnowledgeBase knowledgeBase, string input)
     {
         var result = Instantiate<T>(input);
 
@@ -155,23 +155,18 @@ public static class KnowledgeBaseUtils
     {
 
         var assemlby = typeof(KnowledgeBase).Assembly;
-        var type = assemlby.GetType(input);
-
-        if (type == null)
-            type = Type.GetType(input);
-        if (type == null)
-            type = Assembly.GetEntryAssembly()?.GetType(input);
-        if (type == null)
-            type = Assembly.GetCallingAssembly().GetType(input);
-        if (type == null)
-            type = Assembly.GetExecutingAssembly().GetType(input);
-        if(type == null && back != null)
+        var type = (((assemlby.GetType(input) 
+            ?? Type.GetType(input)) 
+            ?? (Assembly.GetEntryAssembly()?.GetType(input))) 
+            ?? Assembly.GetCallingAssembly().GetType(input)) 
+            ?? Assembly.GetExecutingAssembly().GetType(input);
+        if (type == null && back != null)
         {
             type = back.Assembly.GetType(input);
         }
         return type??back;
     }
-    public static T? Instantiate<T>(string input)
+    public static T Instantiate<T>(string input)
     {
         if (!string.IsNullOrEmpty(input))
         {
@@ -186,7 +181,7 @@ public static class KnowledgeBaseUtils
                     var type = GetTypeFor(ts, typeof(T));
                     var md = type?.GetMethod(ms);
                     var obj = md?.Invoke(null, Array.Empty<object>());
-                    return (obj is T r) ? r : default;
+                    return (T)obj;
                 }
                 else
                 {
@@ -196,14 +191,14 @@ public static class KnowledgeBaseUtils
                     else if (type == typeof(string))
                     {
                         var ci = type.GetConstructor(new Type[] { typeof(char[]) });
-                        var obj = ci?.Invoke(new object[] { new char[0] });
-                        return (obj is T r) ? r : default;
+                        var obj = ci?.Invoke(new object[] { Array.Empty<char>() });
+                        return (T)obj;
                     }
                     else
                     {
                         var ci = type.GetConstructor(Array.Empty<Type>());
                         var obj = ci?.Invoke(Array.Empty<object>());
-                        return (obj is T r) ? r : default;
+                        return (T)obj;
                     }
 
                 }

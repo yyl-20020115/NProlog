@@ -111,7 +111,7 @@ public class InterpretedTailRecursivePredicate : TailRecursivePredicate
                 return false;
         }
 
-        var finalTermArgs = secondClauseOriginalTerms[secondClauseOriginalTerms.Length - 1].Args;
+        var finalTermArgs = secondClauseOriginalTerms[^1].Args;
         for (int i = 0; i < numArgs; i++)
             currentQueryArgs[i] = finalTermArgs[i].Copy(sharedVariables);
 

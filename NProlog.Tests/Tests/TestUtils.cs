@@ -116,7 +116,7 @@ public class TestUtils : TermFactory
     public static ClauseModel CreateClauseModel(string prologSentenceSytax)
     => ClauseModel.CreateClauseModel(ParseSentence(prologSentenceSytax));
 
-    public static string Write(Term? t) => CreateTermFormatter().FormatTerm(t);
+    public static string Write(Term t) => CreateTermFormatter().FormatTerm(t);
 
     public static TermFormatter CreateTermFormatter() => new (OPERANDS);
 

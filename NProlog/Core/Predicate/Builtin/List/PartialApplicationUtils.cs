@@ -66,7 +66,7 @@ public static class PartialApplicationUtils
     }
 
     // TODO have overloaded version that avoids varargs
-    public static Term[] CreateArguments(Term? partiallyAppliedFunction, params Term[]? extraArguments)
+    public static Term[] CreateArguments(Term partiallyAppliedFunction, params Term[] extraArguments)
     {
         int originalNumArgs = partiallyAppliedFunction.NumberOfArguments;
         var result = new Term[originalNumArgs + extraArguments.Length];
@@ -98,7 +98,7 @@ public static class PartialApplicationUtils
         }
     }
 
-    public static Predicate GetPredicate(PredicateFactory factory, Term? action, params Term[]? args) 
+    public static Predicate GetPredicate(PredicateFactory factory, Term action, params Term[] args) 
         => action?.NumberOfArguments == 0 
         ? factory.GetPredicate(args) 
         : factory.GetPredicate(CreateArguments(action, args));

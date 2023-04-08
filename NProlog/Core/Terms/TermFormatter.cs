@@ -56,27 +56,27 @@ public class TermFormatter
      * @param t the {@code Term} to represent as a string
      * @return a string representation of the specified {@code Term}
      */
-    public string FormatTerm(Term? t)
+    public string FormatTerm(Term t)
     {
         var builder = new StringBuilder();
         Write(t, builder);
         return builder.ToString();
     }
 
-    private StringBuilder Write(Term? t, StringBuilder sb) => t?.Type switch
+    private StringBuilder Write(Term t, StringBuilder sb) => t.Type switch
     {
         var tt when tt == TermType.STRUCTURE => this.WritePredicate(t, sb),
         var tt when tt == TermType.LIST => WriteList(t, sb),
         var tt when tt == TermType.EMPTY_LIST => sb.Append("[]"),
         var tt when tt == TermType.VARIABLE => sb.Append((t as Variable)?.Id),
-        _ => sb.Append(t?.ToString())
+        _ => sb.Append(t.ToString())
     };
 
-    private StringBuilder WriteList(Term? p, StringBuilder builder)
+    private StringBuilder WriteList(Term p, StringBuilder builder)
     {
         builder.Append('[');
-        var head = p?.GetArgument(0);
-        var tail = p?.GetArgument(1);
+        var head = p.GetArgument(0);
+        var tail = p.GetArgument(1);
         Write(head, builder);
         Term list;
         while ((list = GetList(tail)) != null)
@@ -95,7 +95,8 @@ public class TermFormatter
         return builder;
     }
 
-    private static Term? GetList(Term? term) => term?.Type == TermType.LIST ? term : null;
+    private static Term GetList(Term term) 
+        => term.Type == TermType.LIST ? term : null;
 
     private StringBuilder WritePredicate(Term @operator, StringBuilder builder)
     {

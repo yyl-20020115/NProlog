@@ -65,6 +65,7 @@ public class TermComparator : IComparer<Term>
 
     public int Compare(Term? t1, Term? t2)
     {
+        if (t1 == null || t2 == null) return 0;
         var v1 = t1.Term;
         var v2 = t2.Term;
 

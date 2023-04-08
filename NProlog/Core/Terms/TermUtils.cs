@@ -152,9 +152,9 @@ public class TermUtils
     public static long ToLong(ArithmeticOperators operators, Term t)
     {
         var n = operators.GetNumeric(t);
-        return n?.Type == TermType.INTEGER 
+        return n.Type == TermType.INTEGER 
             ? n.Long 
-            : throw new PrologException($"Expected integer but got: {n?.Type} with value: {n}");
+            : throw new PrologException($"Expected integer but got: {n.Type} with value: {n}");
     }
 
     /**

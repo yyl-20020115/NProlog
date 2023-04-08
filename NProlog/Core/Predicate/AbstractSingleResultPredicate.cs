@@ -48,7 +48,7 @@ public abstract class AbstractSingleResultPredicate : PredicateFactory, Knowledg
     public Predicate GetPredicate(Term[] args) 
         => PredicateUtils.ToPredicate(Evaluate(args));
 
-    public virtual bool Evaluate(Term[] args) => args?.Length switch
+    public virtual bool Evaluate(Term[] args) => args.Length switch
     {
         0 => Evaluate(),
         1 => Evaluate(args[0]),
@@ -88,19 +88,19 @@ public abstract class AbstractSingleResultPredicate : PredicateFactory, Knowledg
     }
 
 
-    protected Predicates? Predicates => knowledgeBase?.Predicates;
+    protected Predicates Predicates => knowledgeBase.Predicates;
 
-    protected ArithmeticOperators? ArithmeticOperators => knowledgeBase?.ArithmeticOperators;
+    protected ArithmeticOperators ArithmeticOperators => knowledgeBase.ArithmeticOperators;
 
-    protected PrologListeners? PrologListeners => knowledgeBase?.PrologListeners;
+    protected PrologListeners PrologListeners => knowledgeBase.PrologListeners;
 
-    protected Operands? Operands => knowledgeBase?.Operands;
+    protected Operands Operands => knowledgeBase.Operands;
 
-    protected TermFormatter? TermFormatter => knowledgeBase?.TermFormatter;
+    protected TermFormatter TermFormatter => knowledgeBase.TermFormatter;
 
-    protected SpyPoints? SpyPoints => knowledgeBase?.SpyPoints;
+    protected SpyPoints SpyPoints => knowledgeBase.SpyPoints;
 
-    protected FileHandles? FileHandles => knowledgeBase?.FileHandles;
+    protected FileHandles FileHandles => knowledgeBase.FileHandles;
 
     // TODO add more convenience methods like getOutputStream() and formatTerm(Term)
 }

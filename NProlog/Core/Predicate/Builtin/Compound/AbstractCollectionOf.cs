@@ -19,14 +19,14 @@ namespace Org.NProlog.Core.Predicate.Builtin.Compound;
 
 public abstract class AbstractCollectionOf : Predicate
 {
-    private readonly PredicateFactory? factory;
+    private readonly PredicateFactory factory;
     private readonly Term template;
     private readonly Term goal;
     private readonly Term bag;
     private List<Variable> variablesNotInTemplate = new();
     private IEnumerator<KeyValuePair<Key, List<Term>>>? enumerator;
 
-    protected AbstractCollectionOf(PredicateFactory? factory, Term template, Term goal, Term bag)
+    protected AbstractCollectionOf(PredicateFactory factory, Term template, Term goal, Term bag)
     {
         this.factory = factory;
         this.template = template;
@@ -36,10 +36,7 @@ public abstract class AbstractCollectionOf : Predicate
 
     public virtual bool Evaluate()
     {
-        if (enumerator == null)
-        {
-            Init(template, goal);
-        }
+        enumerator ??= Init(template, goal);
 
         if (enumerator.MoveNext())
         {
@@ -58,7 +55,7 @@ public abstract class AbstractCollectionOf : Predicate
         return false;
     }
 
-    private void Init(Term template, Term goal)
+    private IEnumerator<KeyValuePair<Key, List<Term>>> Init(Term template, Term goal)
     {
         variablesNotInTemplate = GetVariablesNotInTemplate(template, goal);
 
@@ -77,7 +74,7 @@ public abstract class AbstractCollectionOf : Predicate
         }
 
         goal.Backtrack();
-        enumerator = m.GetEnumerator();
+        return enumerator = m.GetEnumerator();
     }
 
     protected abstract void Add(List<Term> l, Term t);

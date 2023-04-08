@@ -66,7 +66,7 @@ public class PredicatesTest : TestUtils
         }
         catch (PrologException e)
         {
-            Assert.AreEqual("Cannot replace already defined built-in predicate: test/2", e.InnerException.Message);
+            Assert.AreEqual("Cannot replace already defined built-in predicate: test/2", e?.InnerException?.Message);
         }
     }
 
@@ -86,7 +86,7 @@ public class PredicatesTest : TestUtils
         }
         catch (PrologException e)
         {
-            Assert.AreEqual("Cannot replace already defined built-in predicate: test/2", e.InnerException.Message);
+            Assert.AreEqual("Cannot replace already defined built-in predicate: test/2", e?.InnerException?.Message);
         }
     }
 
@@ -147,7 +147,7 @@ public class PredicatesTest : TestUtils
         catch (PrologException e)
         {
             var expected = "Cannot Append to already defined user defined predicate as it is not dynamic. You can set the predicate to dynamic by adding the following line to start of the file that the predicate is defined in:\n?- dynamic(test/2).";
-            Assert.AreEqual(expected, e.InnerException.Message);
+            Assert.AreEqual(expected, e?.InnerException?.Message);
         }
     }
 
@@ -167,7 +167,7 @@ public class PredicatesTest : TestUtils
         }
         catch (PrologException e)
         {
-            Assert.AreEqual("Predicate has already been defined and is not dynamic: test/2", e.InnerException.Message);
+            Assert.AreEqual("Predicate has already been defined and is not dynamic: test/2", e?.InnerException?.Message);
         }
     }
 

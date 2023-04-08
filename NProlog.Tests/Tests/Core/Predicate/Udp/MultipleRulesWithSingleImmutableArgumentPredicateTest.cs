@@ -23,8 +23,8 @@ public class MultipleRulesWithSingleImmutableArgumentPredicateTest : TestUtils
 {
     private const string FUNCTOR = "test";
 
-    private KnowledgeBase kb;
-    private PredicateFactory testObject;
+    private KnowledgeBase kb = new();
+    private PredicateFactory testObject = new MockPredicateFactory();
 
     [TestInitialize]
     public void Init()

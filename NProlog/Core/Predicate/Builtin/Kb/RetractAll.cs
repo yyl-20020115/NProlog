@@ -79,7 +79,7 @@ non_dynamic_predicate(1,2,3).
  * </p>
  */
 public class RetractAll : AbstractSingleResultPredicate {
-   private Inspect? retractPredicateFactory;
+   private Inspect retractPredicateFactory;
 
    
    protected override void Init() {

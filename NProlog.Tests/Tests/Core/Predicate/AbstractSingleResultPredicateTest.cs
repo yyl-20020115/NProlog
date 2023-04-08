@@ -30,7 +30,7 @@ public class AbstractSingleResultPredicateTest : TestUtils
 
     public class TestPredicate : AbstractSingleResultPredicate
     {
-        public KnowledgeBase kb;
+        public KnowledgeBase kb =new();
 
         protected override void Init() 
             => kb = base.KnowledgeBase;

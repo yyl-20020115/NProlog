@@ -51,6 +51,6 @@ namespace Org.NProlog.Core.Math.Builtin;
  */
 public class Min : AbstractArithmeticOperator
 {
-    public override Numeric Calculate(Numeric? n1, Numeric? n2)
+    public override Numeric Calculate(Numeric n1, Numeric n2)
         => n1.Double < n2.Double ? n1 : n2;
 }

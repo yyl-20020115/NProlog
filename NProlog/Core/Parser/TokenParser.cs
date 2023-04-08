@@ -28,13 +28,14 @@ public class TokenParser
 {
     private readonly CharacterParser parser;
     private readonly Operands operands;
-    private Token? lastParsedToken = null;
+    private Token lastParsedToken;
     private bool rewound = false;
 
     public TokenParser(TextReader reader, Operands operands)
     {
         this.parser = new CharacterParser(reader);
         this.operands = operands;
+        this.lastParsedToken = Token.Default;
     }
 
     /** @return {@code true} if there are more tokens to be parsed, else {@code false} */
@@ -61,7 +62,7 @@ public class TokenParser
      * @throws ParserException if there are no more tokens to parse (i.e. parser has reached the end of the underlying
      * input stream)
      */
-    public Token? Next()
+    public Token Next()
     {
         if (rewound)
             this.rewound = false;
@@ -103,7 +104,7 @@ public class TokenParser
     public void Rewind(Token? value)
     {
         if (this.lastParsedToken != value)
-            throw new ArgumentException();
+            throw new ArgumentException("invalid argument",nameof(value));
         this.rewound = true;
     }
 
@@ -342,7 +343,7 @@ public class TokenParser
         int idx = Length;
         while (--idx > 0)
         {
-            string substring = sb.ToString().Substring(0, idx);
+            var substring = sb.ToString()[..idx];
             if (IsValidParseableElement(substring))
             {
                 parser.Rewind(Length - idx);
@@ -352,11 +353,11 @@ public class TokenParser
 
         for (int i = 1; i < Length; i++)
         {
-            var substring = sb.ToString().Substring(i);
+            var substring = sb.ToString()[i..];
             if (IsValidParseableElement(substring) ||Delimiters.IsDelimiter(sb[i]))
             {
                 parser.Rewind(Length - i);
-                return CreateToken(sb.ToString().Substring(0, i), TokenType.SYMBOL);
+                return CreateToken(sb.ToString()[..i], TokenType.SYMBOL);
             }
         }
 

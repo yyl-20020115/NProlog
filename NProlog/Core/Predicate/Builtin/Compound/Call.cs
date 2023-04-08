@@ -121,7 +121,7 @@ public class Call : PredicateFactory, KnowledgeBaseConsumer
 {
     public KnowledgeBase KnowledgeBase { get; set; } = KnowledgeBase.Default;
 
-    public virtual Predicate GetPredicate(params Term[]? args)
+    public virtual Predicate GetPredicate(params Term[] args)
     {
         var goal = args[0];
         if (args.Length == 1)

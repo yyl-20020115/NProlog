@@ -25,6 +25,8 @@ namespace Org.NProlog.Core.Predicate.Builtin.Db;
  */
 public class RecordedDatabase
 {
+    public static readonly RecordedDatabase Default = new ();
+
     private readonly AtomicLong refCount = new ();
     private readonly SortedDictionary<long, Link> references = new();
     private readonly List<PredicateKey> keys = new();
@@ -48,8 +50,10 @@ public class RecordedDatabase
         => new DatabaseIterator(this);
 
     public ICheckedEnumerator<Record> GetChain(PredicateKey key)
-        => !chains.TryGetValue(key, out var chain) 
-        ? new ChainIterator(null) : (ICheckedEnumerator<Record>)new ChainIterator(chain);
+        => chains.TryGetValue(key, out var chain) 
+        ? (ICheckedEnumerator<Record>)new ChainIterator(chain) 
+        : new ChainIterator(new Chain(key))
+        ;
 
     /**
      * @param reference the reference of the term to Remove
@@ -177,7 +181,8 @@ public class RecordedDatabase
                 else 
                 {
                     UpdateChainIterator(increase);
-                    if (increase <= 0) return chainIterator.CanMoveNext;
+                    if (increase <= 0) 
+                        return chainIterator.CanMoveNext;
                 }
             }
             return true;
@@ -219,10 +224,11 @@ public class RecordedDatabase
 
         public void Dispose()
         {
+            GC.SuppressFinalize(this);
             if (!this.disposed)
             {
                 this.disposed = true;
-                chainIterator.Dispose();
+                ((IDisposable)chainIterator).Dispose();
             }
         }
 
@@ -262,8 +268,9 @@ public class RecordedDatabase
         }
 
 
-        public void Dispose()
+        void IDisposable.Dispose()
         {
+            GC.SuppressFinalize(this);
             if (!this.disposed)
             {
                 this.disposed = true;

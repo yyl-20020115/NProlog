@@ -89,8 +89,8 @@ public class LinkedTermList : Term
         => Traverse(t=>t.Term);// Traverse(Term.Term);
 
 
-    public LinkedTermList Copy(Dictionary<Variable, Variable>? sharedVariables) =>
-        Traverse(t => t?.Copy(sharedVariables));
+    public LinkedTermList Copy(Dictionary<Variable, Variable> sharedVariables) =>
+        Traverse(t => t.Copy(sharedVariables));
 
     /**
      * Used by {@link #getTerm()} and {@link #copy(Dictionary)} to traverse a list without using recursion.
@@ -236,7 +236,7 @@ public class LinkedTermList : Term
         return builder.ToString();
     }
 
-    Term Term.Copy(Dictionary<Variable, Variable>? sharedVariables) => this.Copy(sharedVariables);
+    Term Term.Copy(Dictionary<Variable, Variable> sharedVariables) => this.Copy(sharedVariables);
 
     Term Term.Term => this.Term;
 

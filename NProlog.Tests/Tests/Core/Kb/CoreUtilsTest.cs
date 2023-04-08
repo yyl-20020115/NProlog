@@ -47,7 +47,7 @@ public class CoreUtilsTest
     [TestMethod]
     public void TestInstantiateIllegalAccess()
     {
-        KnowledgeBaseUtils.Instantiate<object>(null, "Calendar");
+        KnowledgeBaseUtils.Instantiate<object>(new(), "Calendar");
     }
 
     [TestMethod]
@@ -76,12 +76,13 @@ public class CoreUtilsTest
 }
 public class KnowledgeBaseConsumerNoArgConstructorExample : KnowledgeBaseConsumer
 {
-    public static int INSTANCE_CTR;
+    private static int m_INSTANCE_CTR;
 
-    public KnowledgeBase? kb;
+    public KnowledgeBase kb =new();
 
     public KnowledgeBaseConsumerNoArgConstructorExample() => INSTANCE_CTR++;
 
+    public static int INSTANCE_CTR { get => m_INSTANCE_CTR; set => m_INSTANCE_CTR = value; }
     public KnowledgeBase KnowledgeBase { get => kb; set => kb = value; }
 
     public void SetKnowledgeBase(KnowledgeBase knowledgeBase)
@@ -96,11 +97,12 @@ public class KnowledgeBaseConsumerNoArgConstructorExample : KnowledgeBaseConsume
 
 public class KnowledgeBaseConsumerStaticMethodExample : KnowledgeBaseConsumer
 {
-    public static int INSTANCE_CTR;
+    private static int m_INSTANCE_CTR;
 
-    public KnowledgeBase kb = new KnowledgeBase();
+    public KnowledgeBase kb = new ();
 
     public KnowledgeBase KnowledgeBase { get => kb; set => kb = value; }
+    public static int INSTANCE_CTR { get => m_INSTANCE_CTR; set => m_INSTANCE_CTR = value; }
 
     public static KnowledgeBaseConsumerStaticMethodExample Create()
     {

@@ -40,7 +40,7 @@ public class DynamicUserDefinedPredicateFactory : UserDefinedPredicateFactory
     private readonly KnowledgeBase kb;
     private readonly SpyPoints.SpyPoint spyPoint;
     private readonly ClauseActionMetaData[] ends = new ClauseActionMetaData[2];
-    private ConcurrentDictionary<Term, ClauseActionMetaData> index;
+    private readonly ConcurrentDictionary<Term, ClauseActionMetaData> index =new();
     private bool hasPrimaryKey;
 
     public DynamicUserDefinedPredicateFactory(KnowledgeBase kb, PredicateKey predicateKey)
@@ -199,8 +199,9 @@ public class DynamicUserDefinedPredicateFactory : UserDefinedPredicateFactory
 
         object IEnumerator.Current => this.Current;
 
-        public void Dispose()
+        void IDisposable.Dispose()
         {
+            GC.SuppressFinalize(this);
             if (!this.disposed)
             {
                 this.disposed = true;
@@ -278,8 +279,9 @@ public class DynamicUserDefinedPredicateFactory : UserDefinedPredicateFactory
             }
         }
 
-        public void Dispose()
+        void IDisposable.Dispose()
         {
+            GC.SuppressFinalize(this);
             if (!this.disposed)
                 this.disposed = true;
         }

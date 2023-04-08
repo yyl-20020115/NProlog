@@ -21,19 +21,20 @@ namespace Org.NProlog.Core.Predicate.Udp;
 [TestClass]
 public class SingleNonRetryableRulePredicateFactoryTest : TestUtils
 {
-    private SpyPoints? spyPoints;
-    private ClauseAction? mockAction;
-    private SingleNonRetryableRulePredicateFactory? testObject;
-    private Predicate? mockPredicate;
+    private readonly SpyPoints spyPoints;
+    private readonly ClauseAction mockAction;
+    private readonly SingleNonRetryableRulePredicateFactory testObject;
+    private readonly Predicate mockPredicate;
     private readonly Term[] queryArgs = Array(Atom("a"), Atom("b"), Atom("c"));
-    private SimplePrologListener? listener;
+    private readonly SimplePrologListener listener;
 
-    [TestInitialize]
-    public void Before()
+    //[TestInitialize]
+    //public void Before()
+    public SingleNonRetryableRulePredicateFactoryTest()
     {
         this.mockPredicate = new MockPredicate();
         this.mockAction = new MockClauseAction();
-        When(mockAction?.GetPredicate(queryArgs)).ThenReturn(mockPredicate);
+        When(mockAction.GetPredicate(queryArgs)).ThenReturn(mockPredicate);
 
         this.listener = new SimplePrologListener();
         var observable = new PrologListeners();
@@ -83,7 +84,7 @@ public class SingleNonRetryableRulePredicateFactoryTest : TestUtils
         spyPoints.TraceEnabled = (false);
         When(mockPredicate?.Evaluate()).ThenThrow(CutException.CUT_EXCEPTION);
 
-        Predicate result = testObject?.GetPredicate(queryArgs);
+        Predicate result = testObject.GetPredicate(queryArgs);
 
         Assert.AreEqual(PredicateUtils.TRUE, result);
         Assert.AreEqual("", listener.GetResult());
@@ -108,7 +109,7 @@ public class SingleNonRetryableRulePredicateFactoryTest : TestUtils
         }
 
         Assert.AreEqual("", listener.GetResult());
-        _ = Verify(mockAction).Model;
+        Confirm(Verify(mockAction)?.Model);
     }
 
     [TestMethod]
@@ -121,7 +122,7 @@ public class SingleNonRetryableRulePredicateFactoryTest : TestUtils
 
         Assert.AreSame(PredicateUtils.TRUE, result);
         Assert.AreEqual("CALLtest(a, b, c)EXITtest(a, b, c)", listener.GetResult());
-        _ = Verify(mockAction).Model;
+        Confirm(Verify(mockAction)?.Model);
     }
 
     [TestMethod]
@@ -167,6 +168,6 @@ public class SingleNonRetryableRulePredicateFactoryTest : TestUtils
         }
 
         //Assert.AreEqual("CALLtest(a, b, c)", listener.GetResult());
-        _ = Verify(mockAction).Model;
+        Confirm(Verify(mockAction)?.Model);
     }
 }

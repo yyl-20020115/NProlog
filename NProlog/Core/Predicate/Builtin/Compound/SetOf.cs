@@ -93,11 +93,11 @@ p(d,2).
 public class SetOf : AbstractPredicateFactory, PreprocessablePredicateFactory
 {
     protected override Predicate GetPredicate(Term template, Term goal, Term bag) 
-        => new SetOfPredicate(Predicates?.GetPredicateFactory(goal), template, goal, bag);
+        => new SetOfPredicate(Predicates.GetPredicateFactory(goal), template, goal, bag);
 
     public class SetOfPredicate : AbstractCollectionOf
     {
-        public SetOfPredicate(PredicateFactory? pf, Term template, Term goal, Term bag)
+        public SetOfPredicate(PredicateFactory pf, Term template, Term goal, Term bag)
           : base(pf, template, goal, bag) { }
 
         /** "setof" excludes duplicates and orders elements using {@link TermComparator}. */
@@ -140,8 +140,8 @@ public class SetOf : AbstractPredicateFactory, PreprocessablePredicateFactory
         public PreprocessedSetOf(PredicateFactory factory) 
             => this.factory = factory;
 
-        public virtual Predicate? GetPredicate(Term[]? args)
-            => new SetOfPredicate(factory, args![0], args![1], args![2]);
+        public virtual Predicate GetPredicate(Term[] args)
+            => new SetOfPredicate(factory, args[0], args[1], args[2]);
 
         public virtual bool IsRetryable => true;
     }

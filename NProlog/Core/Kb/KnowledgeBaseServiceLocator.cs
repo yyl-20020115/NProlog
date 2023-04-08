@@ -36,12 +36,12 @@ public class KnowledgeBaseServiceLocator
      * new {@code KnowledgeBaseServiceLocator} will be created.
      * </p>
      */
-    public static KnowledgeBaseServiceLocator GetServiceLocator(KnowledgeBase? kb)
-        => (kb!=null && CACHE.TryGetValue(kb, out var serviceLocator))
+    public static KnowledgeBaseServiceLocator GetServiceLocator(KnowledgeBase kb)
+        => CACHE.TryGetValue(kb, out var serviceLocator)
         ? serviceLocator 
         : CreateServiceLocator(kb);
 
-    private static KnowledgeBaseServiceLocator CreateServiceLocator(KnowledgeBase? kb)
+    private static KnowledgeBaseServiceLocator CreateServiceLocator(KnowledgeBase kb)
     {
         lock (CACHE)
         {
@@ -51,11 +51,11 @@ public class KnowledgeBaseServiceLocator
         }
     }
 
-    private readonly KnowledgeBase? kb;
-    private readonly Dictionary<Type, object?> services = new();
+    private readonly KnowledgeBase kb;
+    private readonly Dictionary<Type, object> services = new();
 
     /** @see #getServiceLocator */
-    private KnowledgeBaseServiceLocator(KnowledgeBase? kb) 
+    private KnowledgeBaseServiceLocator(KnowledgeBase kb) 
         => this.kb = Objects.RequireNonNull(kb);
 
     /**
@@ -86,7 +86,7 @@ public class KnowledgeBaseServiceLocator
      * @throws SystemException if an attempt to instantiate a new instance of the {@code instanceType} fails. e.g. If it
      * does not have a public constructor that accepts either no arguments or a single {@code KnowledgeBase} argument.
      */
-    public T? GetInstance<T>(Type instanceType)
+    public T GetInstance<T>(Type instanceType)
         => GetInstance<T>(instanceType, instanceType);
 
     /**
@@ -120,7 +120,8 @@ public class KnowledgeBaseServiceLocator
             {
                 AssertAssignableFrom(referenceType, instanceType);
                 r = NewInstance(instanceType);
-                services.Add(referenceType, r);
+                if (r != null)
+                    services.Add(referenceType, r);
             }
             return r;
         }

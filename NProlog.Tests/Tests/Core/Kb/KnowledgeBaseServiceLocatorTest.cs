@@ -171,7 +171,7 @@ public class KnowledgeBaseServiceLocatorTest : TestUtils
         var l = KnowledgeBaseServiceLocator.GetServiceLocator(kb);
         var s = l.GetInstance<DummyService>(typeof(DummyService));
         Assert.AreSame(s, l.GetInstance<DummyService>(typeof(DummyService)));
-        Assert.AreSame(kb, s.kb);
+        Assert.AreSame(kb, s?.kb);
     }
 
     private KnowledgeBaseServiceLocator CreateKnowledgeBaseServiceLocator()

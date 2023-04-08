@@ -115,7 +115,7 @@ public class Variable : Term
      * {@link Term} this variable is instantiated with.
      */
 
-    public TermType Type => value == null ? TermType.VARIABLE : Value?.Type;
+    public TermType Type => value == null ? TermType.VARIABLE : Value.Type;
 
     /**
      * Always returns {@code false} even if instantiated with an immutable {@link Term}.

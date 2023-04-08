@@ -49,7 +49,7 @@ public class OperandsTest
             operands.AddOperand("test", "xfx", 101);
             Assert.Fail();
         }
-        catch (PrologException e)
+        catch (PrologException)
         {
             // expected
         }
@@ -59,7 +59,7 @@ public class OperandsTest
             operands.AddOperand("test", "xfy", 100);
             Assert.Fail();
         }
-        catch (PrologException e)
+        catch (PrologException)
         {
             // expected
         }
@@ -113,7 +113,7 @@ public class OperandsTest
             Assert.AreEqual(t.priority, o.GetPrefixPriority(t.name));
             Assert.IsTrue(t.Prefix);
         }
-        catch (NullReferenceException e)
+        catch (NullReferenceException)
         {
             Assert.IsFalse(t.Prefix);
         }
@@ -122,7 +122,7 @@ public class OperandsTest
             Assert.AreEqual(t.priority, o.GetInfixPriority(t.name));
             Assert.IsTrue(t.Infix);
         }
-        catch (NullReferenceException e)
+        catch (NullReferenceException)
         {
             Assert.IsFalse(t.Infix);
         }
@@ -131,7 +131,7 @@ public class OperandsTest
             Assert.AreEqual(t.priority, o.GetPostfixPriority(t.name));
             Assert.IsTrue(t.Postfix);
         }
-        catch (NullReferenceException e)
+        catch (NullReferenceException)
         {
             Assert.IsFalse(t.Postfix);
         }

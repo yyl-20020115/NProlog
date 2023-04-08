@@ -381,7 +381,7 @@ public class KnowledgeBaseTest : TestUtils
         {
             // expected as specified class name is invalid
             Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("Could not create new PredicateFactory using: an invalid class name", e.Message);
-            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreSame(typeof(Exception), e.InnerException.GetType());
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreSame(typeof(Exception), e?.InnerException?.GetType());
         }
     }
 
@@ -401,7 +401,7 @@ public class KnowledgeBaseTest : TestUtils
         {
             // expected as int has no public constructor (and is also not a PredicateFactory)
             Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("Could not create new PredicateFactory using: " + className, e.Message);
-            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreSame(typeof(Exception), e.InnerException.GetType());
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreSame(typeof(Exception), e?.InnerException?.GetType());
         }
     }
 
@@ -427,7 +427,7 @@ public class KnowledgeBaseTest : TestUtils
 
         Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreNotSame(mockPredicateFactory, predicates.GetPreprocessedPredicateFactory(term));
 
-        Verify(mockPreprocessablePredicateFactory).Preprocess(term);
+        Verify(mockPreprocessablePredicateFactory)?.Preprocess(term);
         VerifyNoMoreInteractions(mockPreprocessablePredicateFactory, mockPredicateFactory);
     }
 

@@ -79,7 +79,7 @@ public interface Term
      * value = version used in copy)
      * @return a copy of this term
      */
-    Term Copy(Dictionary<Variable, Variable>? sharedVariables);
+    Term Copy(Dictionary<Variable, Variable> sharedVariables);
 
     /**
      * Returns the term this object is bound to.

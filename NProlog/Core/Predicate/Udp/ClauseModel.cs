@@ -31,13 +31,15 @@ namespace Org.NProlog.Core.Predicate.Udp;
  */
 public class ClauseModel
 {
+    public static readonly ClauseModel Default = CreateClauseModel(new Atom(""));
+
     private static readonly Term TRUE = new Atom("true");
 
     private readonly Term original;
     private readonly Term consequent;
     private readonly Term antecedent;
 
-    public static ClauseModel CreateClauseModel(Term? original)
+    public static ClauseModel CreateClauseModel(Term original)
     {
         var type = original?.Type;
         if (type != TermType.STRUCTURE && type != TermType.ATOM)

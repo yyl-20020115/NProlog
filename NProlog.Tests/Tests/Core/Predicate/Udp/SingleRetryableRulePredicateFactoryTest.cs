@@ -22,19 +22,19 @@ namespace Org.NProlog.Core.Predicate.Udp;
 [TestClass]
 public class SingleRetryableRulePredicateFactoryTest : TestUtils
 {
-    private SpyPoints? spyPoints;
-    private ClauseAction? mockAction;
-    private SingleRetryableRulePredicateFactory? testObject;
-    private Predicate? mockPredicate;
+    private readonly SpyPoints spyPoints;
+    private readonly ClauseAction mockAction;
+    private readonly SingleRetryableRulePredicateFactory testObject;
+    private readonly Predicate mockPredicate;
     private readonly Term[] queryArgs = Array(Atom("a"), Atom("b"), Atom("c"));
-    private SimplePrologListener? listener;
+    private readonly SimplePrologListener listener;
 
-    [TestInitialize]
-    public void Before()
+//    [TestInitialize]
+    public SingleRetryableRulePredicateFactoryTest()
     {
         this.mockPredicate = new MockPredicate();// (Predicate)Mock(typeof(Predicate));
         this.mockAction = new MockClauseAction();// (ClauseAction)Mock(typeof(ClauseAction));
-        When(mockAction?.GetPredicate(queryArgs)).ThenReturn(mockPredicate);
+        When(mockAction.GetPredicate(queryArgs)).ThenReturn(mockPredicate);
 
         this.listener = new SimplePrologListener();
         var observable = new PrologListeners();
@@ -117,7 +117,7 @@ public class SingleRetryableRulePredicateFactoryTest : TestUtils
 
         Assert.AreEqual("", listener.GetResult());
         Verify(mockPredicate)?.Evaluate();
-        _ = Verify(mockAction).Model;
+        Confirm(Verify(mockAction)?.Model);
     }
 
     [TestMethod]
@@ -185,7 +185,7 @@ public class SingleRetryableRulePredicateFactoryTest : TestUtils
 
         //Assert.AreEqual("CALLtest(a, b, c)", listener.GetResult());
         Verify(mockPredicate)?.Evaluate();
-        _ = Verify(mockAction).Model;
+        Confirm(Verify(mockAction)?.Model);
     }
 
     [TestMethod]
@@ -206,6 +206,6 @@ public class SingleRetryableRulePredicateFactoryTest : TestUtils
         Assert.IsTrue(result.CouldReevaluationSucceed);
 
         Verify(mockPredicate)?.Evaluate();
-        _ = Verify(mockPredicate, Times(2)).CouldReevaluationSucceed;
+        Confirm(Verify(mockPredicate, Times(2))?.CouldReevaluationSucceed);
     }
 }

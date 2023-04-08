@@ -21,7 +21,8 @@ namespace Org.NProlog.Core.Math;
 public abstract class AbstractArithmeticOperator : PreprocessableArithmeticOperator, KnowledgeBaseConsumer
 {
     protected KnowledgeBase knowledgeBase = new();
-    protected ArithmeticOperators Operators =>this.knowledgeBase.ArithmeticOperators;
+    protected ArithmeticOperators Operators 
+        =>this.knowledgeBase.ArithmeticOperators;
     public AbstractArithmeticOperator() { }
     public KnowledgeBase KnowledgeBase
     {
@@ -95,8 +96,8 @@ public abstract class AbstractArithmeticOperator : PreprocessableArithmeticOpera
             this.op = op;
         }
 
-        public virtual Numeric Calculate(Term[]? args) 
-            => op.Calculate(o.Calculate(args?[0].Args));
+        public virtual Numeric Calculate(Term[] args) 
+            => op.Calculate(o.Calculate(args[0].Args));
 
     }
 
@@ -113,8 +114,8 @@ public abstract class AbstractArithmeticOperator : PreprocessableArithmeticOpera
             this.o2 = o2;
         }
 
-        public virtual Numeric Calculate(Term[]? args) => op.Calculate(
-                o1 == null ? op.Operators?.GetNumeric(args?[0]) : o1.Calculate(args?[0].Args),
-                o2 == null ? op.Operators?.GetNumeric(args?[1]) : o2.Calculate(args?[1].Args));
+        public virtual Numeric Calculate(Term[] args) => op.Calculate(
+                o1 == null ? op.Operators.GetNumeric(args[0]) : o1.Calculate(args[0].Args),
+                o2 == null ? op.Operators.GetNumeric(args[1]) : o2.Calculate(args[1].Args));
     }
 }

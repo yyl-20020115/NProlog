@@ -35,10 +35,10 @@ public class Clauses
         {
             actions.Add(ClauseActionFactory.CreateClauseAction(kb, model));
         }
-        return CreateFromActions(kb, actions, null);
+        return CreateFromActions(actions, null);
     }
 
-    public static Clauses CreateFromActions(KnowledgeBase kb, List<ClauseAction> actions, Term? arg = null)
+    public static Clauses CreateFromActions(List<ClauseAction> actions, Term arg)
     {
         if (actions.Count == 0) return EMPTY;
 

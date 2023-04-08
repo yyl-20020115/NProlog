@@ -67,15 +67,13 @@ public class KeySort : AbstractSingleResultPredicate
     public class TermComparer : Comparer<Term>
     {
         public override int Compare(Term? x, Term? y)
-            => TermComparator.TERM_COMPARATOR.Compare(x.GetArgument(0), y.GetArgument(0));
+            => (x==null ||y == null)?0: TermComparator.TERM_COMPARATOR.Compare(x.GetArgument(0), y.GetArgument(0));
     }
     private static readonly TermComparer KEY_VALUE_PAIR_COMPARATOR = new();
 
     protected override bool Evaluate(Term original, Term result)
     {
-        var elements = ListUtils.ToList(original);
-        if (elements == null)
-            throw new PrologException("Expected first argument to be a fully instantied list but got: " + original);
+        var elements = ListUtils.ToList(original) ?? throw new PrologException("Expected first argument to be a fully instantied list but got: " + original);
         AssertKeyValuePairs(elements);
         elements.Sort(KEY_VALUE_PAIR_COMPARATOR);
         return result.Unify(ListFactory.CreateList(elements));

@@ -70,9 +70,9 @@ public class Atom : Term
     public Atom Term => this;
 
 
-    public bool Unify(Term? t)
+    public bool Unify(Term t)
     {
-        var tType = t?.Type;
+        var tType = t.Type;
         return tType == TermType.ATOM ? value.Equals(t?.Name) : tType.IsVariable && t.Unify(this);
     }
 

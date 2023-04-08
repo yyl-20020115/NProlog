@@ -15,9 +15,7 @@
  */
 using Org.NProlog.Core.Event;
 using Org.NProlog.Core.Exceptions;
-using Org.NProlog.Core.Kb;
 using Org.NProlog.Core.Terms;
-using System.Collections;
 using System.Text;
 using static Org.NProlog.Core.Event.SpyPoints;
 
@@ -81,9 +79,9 @@ public class InterpretedUserDefinedPredicateTest : TestUtils
         AssertAllSucceedOnce();
 
         Assert.AreEqual("CALLtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)", listener.Result);
-        _ = Verify(mockAction1).Model;
-        _ = Verify(mockAction2).Model;
-        _ = Verify(mockAction3).Model;
+        Confirm(Verify(mockAction1)?.Model);
+        Confirm(Verify(mockAction2)?.Model);
+        Confirm(Verify(mockAction3)?.Model);
     }
     private void AssertAllSucceedOnce()
     {
@@ -105,12 +103,12 @@ public class InterpretedUserDefinedPredicateTest : TestUtils
         Assert.IsFalse(testObject.CouldReevaluationSucceed);
         Assert.IsTrue(testObject.Evaluate());
 
-        Verify(mockAction1).GetPredicate(queryArgs);
-        _ = Verify(mockAction1).IsAlwaysCutOnBacktrack;
-        Verify(mockAction2).GetPredicate(queryArgs);
-        _ = Verify(mockAction2).IsAlwaysCutOnBacktrack;
-        Verify(mockAction3).GetPredicate(queryArgs);
-        _ = Verify(mockAction3).IsAlwaysCutOnBacktrack;
+        Verify(mockAction1)?.GetPredicate(queryArgs);
+        Confirm(Verify(mockAction1)?.IsAlwaysCutOnBacktrack);
+        Verify(mockAction2)?.GetPredicate(queryArgs);
+        Confirm(Verify(mockAction2)?.IsAlwaysCutOnBacktrack);
+        Verify(mockAction3)?.GetPredicate(queryArgs);
+        Confirm(Verify(mockAction3)?.IsAlwaysCutOnBacktrack);
     }
 
     [TestMethod]
@@ -150,9 +148,9 @@ public class InterpretedUserDefinedPredicateTest : TestUtils
 
         Assert.IsTrue(testObject.Evaluate());
 
-        Verify(mockAction1).GetPredicate(queryArgs);
-        Verify(mockAction2).GetPredicate(queryArgs);
-        Verify(mockAction3).GetPredicate(queryArgs);
+        Verify(mockAction1)?.GetPredicate(queryArgs);
+        Verify(mockAction2)?.GetPredicate(queryArgs);
+        Verify(mockAction3)?.GetPredicate(queryArgs);
     }
 
     [TestMethod]
@@ -175,9 +173,9 @@ public class InterpretedUserDefinedPredicateTest : TestUtils
         Assert.AreEqual(
                     "CALLtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)",
                     listener.Result);
-        _ = Verify(mockAction1).Model;
-        _ = Verify(mockAction2, Times(5)).Model;
-        _ = Verify(mockAction3).Model;
+        Confirm(Verify(mockAction1)?.Model);
+        Confirm(Verify(mockAction2, Times(5))?.Model);
+        Confirm(Verify(mockAction3)?.Model);
     }
 
     private void AssertSecondRuleRepeatableContinueUntilFails()
@@ -210,14 +208,14 @@ public class InterpretedUserDefinedPredicateTest : TestUtils
         Assert.IsFalse(testObject.CouldReevaluationSucceed);
         Assert.IsTrue(testObject.Evaluate());
 
-        Verify(mockAction1).GetPredicate(queryArgs);
-        _ = Verify(mockAction1).IsAlwaysCutOnBacktrack;
-        Verify(mockAction2).GetPredicate(queryArgs);
-        _ = Verify(mockAction2, Times(5)).IsAlwaysCutOnBacktrack;
-        Verify(mockAction3).GetPredicate(queryArgs);
-        _ = Verify(mockAction3).IsAlwaysCutOnBacktrack;
-        Verify(mockPredicate, Times(6)).Evaluate();
-        _ = Verify(mockPredicate, Times(5)).CouldReevaluationSucceed;
+        Verify(mockAction1)?.GetPredicate(queryArgs);
+        Confirm(Verify(mockAction1)?.IsAlwaysCutOnBacktrack);
+        Verify(mockAction2)?.GetPredicate(queryArgs);
+        Confirm(Verify(mockAction2, Times(5))?.IsAlwaysCutOnBacktrack);
+        Verify(mockAction3)?.GetPredicate(queryArgs);
+        Confirm(Verify(mockAction3)?.IsAlwaysCutOnBacktrack);
+        Verify(mockPredicate, Times(6))?.Evaluate();
+        Confirm(Verify(mockPredicate, Times(5))?.CouldReevaluationSucceed);
         VerifyNoMoreInteractions(mockPredicate);
     }
 
@@ -241,9 +239,9 @@ public class InterpretedUserDefinedPredicateTest : TestUtils
         Assert.AreEqual(
                     "CALLtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)",
                     listener.Result);
-        _ = Verify(mockAction1).Model;
-        _ = Verify(mockAction2, Times(5)).Model;
-        _ = Verify(mockAction3).Model;
+        Confirm(Verify(mockAction1)?.Model);
+        Confirm(Verify(mockAction2, Times(5))?.Model);
+        Confirm(Verify(mockAction3)?.Model);
     }
 
     private void AssertSecondRuleRepeatableContinueUntilReevaluationCannotSucceed()
@@ -303,10 +301,10 @@ public class InterpretedUserDefinedPredicateTest : TestUtils
         Assert.IsFalse(testObject.CouldReevaluationSucceed);
         Assert.IsTrue(testObject.Evaluate());
 
-        Verify(mockAction1).GetPredicate(queryArgs);
-        _ = Verify(mockAction1).IsAlwaysCutOnBacktrack;
-        Verify(mockAction2).GetPredicate(queryArgs);
-        Verify(mockPredicate).Evaluate();
+        Verify(mockAction1)?.GetPredicate(queryArgs);
+        Confirm(Verify(mockAction1)?.IsAlwaysCutOnBacktrack);
+        Verify(mockAction2)?.GetPredicate(queryArgs);
+        Verify(mockPredicate)?.Evaluate();
         VerifyNoMoreInteractions(mockPredicate);
     }
 
@@ -328,8 +326,8 @@ public class InterpretedUserDefinedPredicateTest : TestUtils
         AssertSecondRuntimeException();
 
         Assert.AreEqual("CALLtest(a, b, c)EXITtest(a, b, c)REDOtest(a, b, c)EXITtest(a, b, c)", listener.Result);
-        _ = Verify(mockAction1).Model;
-        _ = Verify(mockAction2).Model;
+        Confirm(Verify(mockAction1)?.Model);
+        Confirm(Verify(mockAction2)?.Model);
     }
 
     private void AssertSecondRuntimeException()

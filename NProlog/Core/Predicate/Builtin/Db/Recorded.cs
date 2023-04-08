@@ -33,10 +33,10 @@ namespace Org.NProlog.Core.Predicate.Builtin.Db;
 public class Recorded : AbstractPredicateFactory
 {
 
-    protected override Predicate? GetPredicate(Term key, Term value) 
+    protected override Predicate GetPredicate(Term key, Term value) 
         => GetPredicate(key, value, new Variable());
 
-    protected override Predicate? GetPredicate(Term key, Term value, Term reference)
+    protected override Predicate GetPredicate(Term key, Term value, Term reference)
     {
         var database = KnowledgeBaseServiceLocator.GetServiceLocator(KnowledgeBase).
               GetInstance<RecordedDatabase>(typeof(RecordedDatabase));

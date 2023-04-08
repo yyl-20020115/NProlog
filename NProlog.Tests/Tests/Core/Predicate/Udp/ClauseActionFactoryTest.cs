@@ -23,18 +23,18 @@ namespace Org.NProlog.Core.Predicate.Udp;
 [TestClass]
 public class ClauseActionFactoryTest : TestUtils
 {
-    private KnowledgeBase? kb;
-    private PredicateFactory? mockPredicateFactory;
-    private Predicate? mockPredicate1;
-    private Predicate? mockPredicate2;
-    [TestInitialize]
-    public void Before()
+    private readonly KnowledgeBase kb =new();
+    private readonly PredicateFactory mockPredicateFactory;
+    private readonly Predicate mockPredicate1;
+    private readonly Predicate mockPredicate2;
+    //[TestInitialize]
+    public ClauseActionFactoryTest()
     {
         mockPredicate1 = new MockPredicate();
         mockPredicate2 = new MockPredicate();
 
         mockPredicateFactory = new MockPredicateFactory();
-        When(mockPredicateFactory?.GetPredicate(EMPTY_ARRAY)).ThenReturn(mockPredicate1, mockPredicate2);
+        When(mockPredicateFactory.GetPredicate(EMPTY_ARRAY)).ThenReturn(mockPredicate1, mockPredicate2);
 
         kb = KnowledgeBaseUtils.CreateKnowledgeBase();
         KnowledgeBaseUtils.Bootstrap(kb);
@@ -284,7 +284,7 @@ public class ClauseActionFactoryTest : TestUtils
         Assert.AreNotSame(mockPredicate1, a.GetPredicate(queryArgs));
         Assert.AreNotSame(mockPredicate2, a.GetPredicate(queryArgs));
 
-        Verify(mockPredicateFactory, Times(2)).GetPredicate(EMPTY_ARRAY);
+        Verify(mockPredicateFactory, Times(2))?.GetPredicate(EMPTY_ARRAY);
     }
 
     [TestMethod]
@@ -304,8 +304,8 @@ public class ClauseActionFactoryTest : TestUtils
         Assert.AreNotSame(p1, a.GetPredicate(Array(Atom("test1"))));
         Assert.AreNotSame(p2, a.GetPredicate(Array(Atom("test2"))));
 
-        Verify(pf1, Times(1)).GetPredicate(EMPTY_ARRAY);
-        Verify(pf2, Times(1)).GetPredicate(EMPTY_ARRAY);
+        Verify(pf1, Times(1))?.GetPredicate(EMPTY_ARRAY);
+        Verify(pf2, Times(1))?.GetPredicate(EMPTY_ARRAY);
         VerifyNoMoreInteractions(pf1, pf2, p1, p2);
     }
 

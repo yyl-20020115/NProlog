@@ -24,9 +24,9 @@ public class ListCheckedEnumerator<T> : ICheckedEnumerator<T>
     object IEnumerator.Current => this.Current;
 
 
-    public void Dispose()
+    void IDisposable.Dispose()
     {
-        //
+        GC.SuppressFinalize(this);
     }
 
     public bool MoveNext()
@@ -65,9 +65,9 @@ public class ArrayCheckedEnumerator<T> : ICheckedEnumerator<T>
     object IEnumerator.Current => this.Current;
 
 
-    public void Dispose()
+    void IDisposable.Dispose()
     {
-        //
+        GC.SuppressFinalize(this);
     }
 
     public bool MoveNext()

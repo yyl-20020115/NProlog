@@ -18,6 +18,7 @@ namespace Org.NProlog.Core.Parser;
 /** @see TokenParser#next() */
 public class Token
 {
+    public static readonly Token Default = new ("", TokenType.ATOM);
     private static readonly Token[] EMPTY_ARGS = Array.Empty<Token>();
 
     private readonly string? value;

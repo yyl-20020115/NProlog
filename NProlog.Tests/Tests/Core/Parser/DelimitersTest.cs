@@ -94,10 +94,10 @@ public class DelimitersTest
         AssertDelimiter(true, '[', ']', '(', ')', '|', ',', '.');
         AssertDelimiter(false, '!', '?', '{', '}', ':', ';', '-', 'a', 'A', '1');
         Assert.IsFalse(Delimiters.IsDelimiter("..="));
-        Assert.IsFalse(Delimiters.IsDelimiter(null));
+        Assert.IsFalse(Delimiters.IsDelimiter(""));
     }
 
-    private void AssertDelimiter(bool expectedResult, params char[] chars)
+    private static void AssertDelimiter(bool expectedResult, params char[] chars)
     {
         foreach (var c in chars)
         {

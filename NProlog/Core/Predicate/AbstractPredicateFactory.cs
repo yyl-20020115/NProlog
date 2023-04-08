@@ -69,16 +69,16 @@ public abstract class AbstractPredicateFactory : PredicateFactory, KnowledgeBase
 
     public Predicates Predicates => knowledgeBase.Predicates;
 
-    public ArithmeticOperators? ArithmeticOperators => knowledgeBase?.ArithmeticOperators;
+    public ArithmeticOperators ArithmeticOperators => knowledgeBase.ArithmeticOperators;
 
-    public PrologListeners? PrologListeners => knowledgeBase?.PrologListeners;
+    public PrologListeners PrologListeners => knowledgeBase.PrologListeners;
 
-    public Operands? Operands => knowledgeBase?.Operands;
+    public Operands Operands => knowledgeBase.Operands;
 
-    public TermFormatter? TermFormatter => knowledgeBase?.TermFormatter;
+    public TermFormatter TermFormatter => knowledgeBase.TermFormatter;
 
-    public SpyPoints? SpyPoints => knowledgeBase?.SpyPoints;
+    public SpyPoints SpyPoints => knowledgeBase.SpyPoints;
 
-    public FileHandles? FileHandles => knowledgeBase?.FileHandles;
+    public FileHandles FileHandles => knowledgeBase.FileHandles;
 
 }

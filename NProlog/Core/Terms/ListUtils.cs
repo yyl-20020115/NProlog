@@ -98,14 +98,14 @@ public static class ListUtils
      *
      * @throws PrologException if {@code list} is not of type {@code TermType#LIST} or {@code TermType#EMPTY_LIST}
      */
-    public static bool IsMember(Term? element, Term? list)
+    public static bool IsMember(Term element, Term list)
     {
-        if (list?.Type != TermType.LIST && list?.Type != TermType.EMPTY_LIST)
+        if (list.Type != TermType.LIST && list.Type != TermType.EMPTY_LIST)
         {
             // TODO have InvalidTermTypeException which : PrologException
             throw new PrologException($"Expected list or empty list but got: {list.Type} with value: {list}");
         }
-        while (list?.Type == TermType.LIST)
+        while (list.Type == TermType.LIST)
         {
             if (element.Unify(list.GetArgument(0)))
             {

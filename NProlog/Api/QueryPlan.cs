@@ -33,7 +33,7 @@ namespace Org.NProlog.Api;
 public class QueryPlan
 {
     private readonly PredicateFactory predicateFactory;
-    private readonly Term? parsedInput;
+    private readonly Term parsedInput;
 
     public QueryPlan(KnowledgeBase kb, string prologQuery)
     {

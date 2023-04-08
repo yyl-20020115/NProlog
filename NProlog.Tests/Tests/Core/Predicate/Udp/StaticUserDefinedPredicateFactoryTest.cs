@@ -316,7 +316,7 @@ public class StaticUserDefinedPredicateFactoryTest : TestUtils
             }
             f.AddLast(clauseModel);
         }
-        return f.GetActualPredicateFactory();
+        return f?.GetActualPredicateFactory();
     }
 
     private static Term[] ToTerms(params string[] clausesSyntax)

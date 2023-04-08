@@ -24,7 +24,7 @@ namespace Org.NProlog.Core.Math;
 public abstract class AbstractUnaryArithmeticOperator : AbstractArithmeticOperator
 {
 
-    public override Numeric Calculate(Numeric? n) => n?.Type == TermType.FRACTION
+    public override Numeric Calculate(Numeric n) => n.Type == TermType.FRACTION
             ? new DecimalFraction(CalculateDouble(n.Double))
             : IntegerNumberCache.ValueOf(CalculateLong(n.Long));
 

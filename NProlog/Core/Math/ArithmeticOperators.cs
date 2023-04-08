@@ -35,7 +35,7 @@ public class ArithmeticOperators
     private readonly KnowledgeBase kb;
     private readonly object syncRoot = new();
     private readonly Dictionary<PredicateKey, string> operatorClassNames = new();
-    private readonly Dictionary<PredicateKey, ArithmeticOperator?> operatorInstances = new();
+    private readonly Dictionary<PredicateKey, ArithmeticOperator> operatorInstances = new();
 
     public ArithmeticOperators(KnowledgeBase kb) => this.kb = kb;
 
@@ -78,7 +78,10 @@ public class ArithmeticOperators
                 {
                     consumer.KnowledgeBase = this.kb;
                 }
-                operatorInstances.Add(key, operatorInstance);
+                if (operatorInstance != null)
+                {
+                    operatorInstances.Add(key, operatorInstance);
+                }
             }
         }
     }
@@ -116,9 +119,9 @@ public class ArithmeticOperators
     {
         var tt when tt == TermType.FRACTION => TermUtils.CastToNumeric(t),
         var tt when tt == TermType.INTEGER => TermUtils.CastToNumeric(t),
-        var tt when tt == TermType.STRUCTURE => Calculate(t, t?.Args),
+        var tt when tt == TermType.STRUCTURE => Calculate(t, t.Args),
         var tt when tt == TermType.ATOM => Calculate(t, TermUtils.EMPTY_ARRAY),
-        _ => throw new PrologException($"Cannot get Numeric for term: {t} of type: {t?.Type}"),
+        _ => throw new PrologException($"Cannot get Numeric for term: {t} of type: {t.Type}"),
     };
 
     private Numeric Calculate(Term term, Term[] args)
@@ -127,14 +130,14 @@ public class ArithmeticOperators
     /**
      * @return null if not found
      */
-    public ArithmeticOperator? GetPreprocessedArithmeticOperator(Term argument)
+    public ArithmeticOperator GetPreprocessedArithmeticOperator(Term argument)
         => argument.Type.IsNumeric
             ? argument?.Term as Numeric
             : argument?.Type == TermType.ATOM || argument?.Type == TermType.STRUCTURE
                 ? GetPreprocessedArithmeticOperator(PredicateKey.CreateForTerm(argument), argument)
                 : null;
 
-    private ArithmeticOperator? GetPreprocessedArithmeticOperator(PredicateKey key, Term argument)
+    private ArithmeticOperator GetPreprocessedArithmeticOperator(PredicateKey key, Term argument)
     {
         if (operatorInstances.ContainsKey(key) || operatorClassNames.ContainsKey(key))
         {
@@ -169,7 +172,7 @@ public class ArithmeticOperators
         }
     }
 
-    private ArithmeticOperator? InstantiateArithmeticOperator(string className)
+    private ArithmeticOperator InstantiateArithmeticOperator(string className)
     {
         try
         {

@@ -34,7 +34,7 @@ public class Indexes
     private static readonly int MAX_INDEXABLE_ARGS = 9;
 
     private readonly ClauseAction[] masterData;
-    private readonly object _lock = new object();
+    private readonly object _lock = new();
     private readonly SoftReference<Index>[] indexes;
     private readonly int[] indexableArgs;
     private readonly int numIndexableArgs;
@@ -47,7 +47,7 @@ public class Indexes
         this.numIndexableArgs = System.Math.Min(indexableArgs.Length, MAX_INDEXABLE_ARGS);
         if (numIndexableArgs == 0)
         {
-            throw new ArgumentException(nameof(clauses));
+            throw new ArgumentException("invalid argument",nameof(clauses));
         }
         int size = 0;
         for (int i = 0, b = 1; i < numIndexableArgs; i++, b *= 2)
@@ -119,11 +119,11 @@ public class Indexes
     public static int BitCount(int i)
     {
         // HD, Figure 5-2
-        i = i - ((i >> 1) & 0x55555555);
+        i -= ((i >> 1) & 0x55555555);
         i = (i & 0x33333333) + ((i >> 2) & 0x33333333);
         i = (i + (i >> 4)) & 0x0f0f0f0f;
-        i = i + (i >> 8);
-        i = i + (i >> 16);
+        i += (i >> 8);
+        i += (i >> 16);
         return i & 0x3f;
     }
     private int[] CreatePositionsFromBitmask(int bitmask)
@@ -156,7 +156,7 @@ public class Indexes
         return map;
     }
 
-    private Dictionary<object, ClauseAction[]> ConvertListsToArrays(Dictionary<object, List<ClauseAction>> map)
+    private static Dictionary<object, ClauseAction[]> ConvertListsToArrays(Dictionary<object, List<ClauseAction>> map)
     {
         Dictionary<object, ClauseAction[]> result = new(map.Count);
         foreach (var e in map)

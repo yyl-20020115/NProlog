@@ -38,7 +38,7 @@ public class SingleSolutionVariableQueryTest : AbstractQueryTest
     {
         var result = FindFirstAsOptionalTerm().InvokeStatement();
         Assert.IsTrue(result.Value?.Type.IsVariable);
-        Assert.AreEqual("X", ((Variable)result.Value).Id);
+        Assert.AreEqual("X", (result.Value as Variable).Id);
     }
 
 

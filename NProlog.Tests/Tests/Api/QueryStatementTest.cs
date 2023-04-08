@@ -212,13 +212,13 @@ public class QueryStatementTest : TestUtils
     public void TestExecuteOnce()
     {
         var mockPredicateFactory = new MockPredicateFactory();
-        When(mockPredicateFactory?.GetPredicate(new Term[0])).ThenReturn(PredicateUtils.TRUE);
+        When(mockPredicateFactory.GetPredicate(System.Array.Empty<Term>())).ThenReturn(PredicateUtils.TRUE);
         kb.Predicates.AddPredicateFactory(new PredicateKey("mock", 0), mockPredicateFactory);
 
         var s = new QueryStatement(kb, "repeat, mock.");
         s.ExecuteOnce();
 
-        Verify(mockPredicateFactory)?.GetPredicate(new Term[0]);
+        Verify(mockPredicateFactory)?.GetPredicate(System.Array.Empty<Term>());
         VerifyNoMoreInteractions(mockPredicateFactory);
     }
 

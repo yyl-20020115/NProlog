@@ -44,7 +44,7 @@ public static class ListFactory
      * @param terms contents of the list
      * @return a new {@link List} with the specified terms and a empty list as the readonly tail element
      */
-    public static Term CreateList(ICollection<Term?> terms) => CreateList(terms.ToArray());
+    public static Term CreateList(ICollection<Term> terms) => CreateList(terms.ToArray());
 
     /**
      * Returns a new {@link List} with the specified terms and a empty list as the readonly tail element.
@@ -55,7 +55,8 @@ public static class ListFactory
      * @param terms contents of the list
      * @return a new {@link List} with the specified terms and a empty list as the readonly tail element
      */
-    public static Term CreateList(Term?[] terms) => CreateList(terms, EmptyList.EMPTY_LIST);
+    public static Term CreateList(Term[] terms) 
+        => CreateList(terms, EmptyList.EMPTY_LIST);
 
     /**
      * Returns a new {@link List} with the specified terms and the second parameter as the tail element.
@@ -66,7 +67,7 @@ public static class ListFactory
      * @param terms contents of the list
      * @return a new {@link List} with the specified terms and the second parameter as the tail element
      */
-    public static Term CreateList(Term[]? terms, Term? tail)
+    public static Term CreateList(Term[] terms, Term tail)
     {
         int numberOfElements = terms.Length;
         if (numberOfElements == 0)

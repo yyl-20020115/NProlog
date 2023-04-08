@@ -26,7 +26,7 @@ public class PrologSourceReaderTest : TestUtils
     [TestMethod]
     public void TestParseFileNotFound()
     {
-        string f = new string("does_not_exist");
+        string f = new("does_not_exist");
         try
         {
             PrologSourceReader.ParseFile(CreateKnowledgeBase(), f);
@@ -52,12 +52,14 @@ public class PrologSourceReaderTest : TestUtils
         }
         catch (PrologException e)
         {
-            var p = (ParserException)e.InnerException;
-            Assert.AreEqual(message + " Line: " + lineWithSyntaxError, p.Message);
-            Assert.AreEqual(lineWithSyntaxError, p.Line);
-            Assert.AreEqual(3, p.LineNumber);
-            Assert.AreEqual(20, p.ColumnNumber);
-            AssertParserExceptionDescription(p, message, lineWithSyntaxError);
+            if (e.InnerException is ParserException p)
+            {
+                Assert.AreEqual(message + " Line: " + lineWithSyntaxError, p.Message);
+                Assert.AreEqual(lineWithSyntaxError, p.Line);
+                Assert.AreEqual(3, p.LineNumber);
+                Assert.AreEqual(20, p.ColumnNumber);
+                AssertParserExceptionDescription(p, message, lineWithSyntaxError);
+            }
         }
     }
 

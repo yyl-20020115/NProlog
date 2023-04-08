@@ -147,8 +147,8 @@ public abstract class AbstractQueryTest : TestUtils
         public readonly Func<T> statementMethod;
         public readonly Func<T> planMethod;
         public readonly int id;
-        public Prolog? prolog = null;
-        public string? query = null;
+        public Prolog prolog;
+        public string query;
 
         public StatementMethod(Func<T> statementMethod, Func<T> planMethod)
         {

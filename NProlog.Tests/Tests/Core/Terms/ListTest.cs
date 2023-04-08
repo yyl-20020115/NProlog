@@ -152,7 +152,7 @@ public class ListTest : TestUtils
     public void TestCopyNoVariableElements()
     {
         var testList = new LinkedTermList(new Atom("a"), new Atom("b"));
-        Assert.AreSame(testList, testList.Copy(null));
+        Assert.AreSame(testList, testList.Copy(new()));
     }
 
     [TestMethod]
@@ -180,11 +180,11 @@ public class ListTest : TestUtils
         Assert.IsTrue(X.Unify(a));
         Assert.IsTrue(Y.Unify(b));
 
-        var copy2 = original.Copy(null);
+        var copy2 = original.Copy(new());
         Assert.AreNotSame(original, copy2);
         AssertStrictEquality(original, copy2, true);
         Assert.AreEqual(original.ToString(), copy2.ToString());
-        Assert.AreSame(copy2, copy2.Copy(null));
+        Assert.AreSame(copy2, copy2.Copy(new()));
         Assert.AreSame(copy2, copy2.Term);
 
         X.Backtrack();
@@ -525,7 +525,7 @@ public class ListTest : TestUtils
         var l1 = List(Atom(), Structure("p", Atom(), v, IntegerNumber()), List(IntegerNumber(), DecimalFraction()));
         Assert.IsFalse(l1.IsImmutable);
         v.Unify(a);
-        var l2 = l1.Copy(null);
+        var l2 = l1.Copy(new());
         Assert.IsFalse(l1.IsImmutable);
         Assert.IsTrue(l2.IsImmutable, l2.ToString());
         Assert.AreSame(v, l1.GetArgument(1).GetArgument(0)?.GetArgument(1));

@@ -71,8 +71,8 @@ public class IsTest : TestUtils
 
         Dictionary<Variable, Variable> sharedVariables = new();
         var Copy = isTerm.Copy(sharedVariables);
-        Variable f = null;
-        Variable c = null;
+        Variable f = new();
+        Variable c = new();
         foreach (Variable v in sharedVariables.Values)
         {
             if ("F".Equals(v.Id))
@@ -115,9 +115,9 @@ public class IsTest : TestUtils
 
         Dictionary<Variable, Variable> sharedVariables = new();
         var Copy = isTerm.Copy(sharedVariables);
-        Variable x = null;
-        Variable y = null;
-        foreach (Variable v in sharedVariables.Values)
+        Variable x = new();
+        Variable y = new();
+        foreach (var v in sharedVariables.Values)
         {
             if ("X".Equals(v.Id))
             {
@@ -146,8 +146,8 @@ public class IsTest : TestUtils
 
         Dictionary<Variable, Variable> sharedVariables = new();
         var Copy = isTerm.Copy(sharedVariables);
-        Variable f = null;
-        Variable c = null;
+        Variable f = new();
+        Variable c = new();
         foreach (Variable v in sharedVariables.Values)
         {
             if ("F".Equals(v.Id))
