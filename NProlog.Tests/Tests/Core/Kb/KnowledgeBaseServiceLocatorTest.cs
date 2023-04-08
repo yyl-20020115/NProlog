@@ -111,7 +111,7 @@ public class KnowledgeBaseServiceLocatorTest : TestUtils
         }
     }
 
-    public void TestGetInstanceInstanceDoesNotImplementReference()
+    public static void TestGetInstanceInstanceDoesNotImplementReference()
     {
         try
         {
@@ -174,7 +174,7 @@ public class KnowledgeBaseServiceLocatorTest : TestUtils
         Assert.AreSame(kb, s?.kb);
     }
 
-    private KnowledgeBaseServiceLocator CreateKnowledgeBaseServiceLocator()
+    private static KnowledgeBaseServiceLocator CreateKnowledgeBaseServiceLocator()
         => KnowledgeBaseServiceLocator.GetServiceLocator(CreateKnowledgeBase());
 
     public class DummyService

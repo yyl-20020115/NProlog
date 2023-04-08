@@ -323,7 +323,7 @@ nine_arg_predicate(V1,V2,V3,V4,V5,V6,V7,V8,V9) :-
 public class MapList : PredicateFactory, PreprocessablePredicateFactory, KnowledgeBaseConsumer
 {
     private Predicates predicates;
-    private KnowledgeBase knowledgeBase =new();
+    private KnowledgeBase knowledgeBase = KnowledgeBase.Default;
     public MapList() 
         => this.predicates = (this.knowledgeBase = new()).Predicates;
     public KnowledgeBase KnowledgeBase

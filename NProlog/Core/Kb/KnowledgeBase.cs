@@ -31,7 +31,7 @@ namespace Org.NProlog.Core.Kb;
  */
 public class KnowledgeBase
 {
-    public static readonly KnowledgeBase Default = new ();
+    public static readonly KnowledgeBase Default = new ("default");
     /**
      * Represents the {@code pl_add_predicate/2} predicate hard-coded in every {@code KnowledgeBase}.
      * <p>
@@ -68,7 +68,17 @@ public class KnowledgeBase
         this.spyPoints = new(this);
         this.fileHandles = new FileHandles();
     }
-
+    protected KnowledgeBase(string name)
+    {
+        this.prologProperties = new PrologDefaultProperties();
+        this.predicates = new(this);
+        this.arithmeticOperators = new(this);
+        this.prologListeners = new ();
+        this.operands = new ();
+        this.termFormatter = new(operands);
+        this.spyPoints = new(this);
+        this.fileHandles = new ();
+    }
     public PrologProperties PrologProperties => prologProperties;
 
     public Predicates Predicates => predicates;

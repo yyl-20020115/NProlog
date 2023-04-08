@@ -55,8 +55,11 @@ public class Predicates
     public Predicates(KnowledgeBase kb) 
         => this.kb = kb;
 
-    public Predicate GetPredicate(Term term) 
-        => GetPredicateFactory(term).GetPredicate(term.Args);
+    public Predicate GetPredicate(Term term)
+    {
+        var factory = GetPredicateFactory(term);
+        return factory?.GetPredicate(term.Args);
+    }
 
     /**
      * Returns details of all predicates, both user-defined and built-in predicates.
