@@ -78,21 +78,23 @@ non_dynamic_predicate(1,2,3).
  * instantiated that the predicate of the clause can be determined.
  * </p>
  */
-public class RetractAll : AbstractSingleResultPredicate {
-   private Inspect retractPredicateFactory;
+public class RetractAll : AbstractSingleResultPredicate
+{
+    private Inspect retractPredicateFactory = Inspect.Default;
 
-   
-   protected override void Init() {
-      retractPredicateFactory = Inspect.Retract();
-      retractPredicateFactory.KnowledgeBase = KnowledgeBase;
-   }
+    protected override void Init()
+    {
+        retractPredicateFactory = Inspect.Retract();
+        retractPredicateFactory.KnowledgeBase = KnowledgeBase;
+    }
 
-   
-   protected override bool Evaluate(Term t) {
-      var p = retractPredicateFactory.GetPredicate(t);
-      while (p.Evaluate()) {
-         t.Backtrack();
-      }
-      return true;
-   }
+    protected override bool Evaluate(Term t)
+    {
+        var p = retractPredicateFactory.GetPredicate(t);
+        while (p.Evaluate())
+        {
+            t.Backtrack();
+        }
+        return true;
+    }
 }

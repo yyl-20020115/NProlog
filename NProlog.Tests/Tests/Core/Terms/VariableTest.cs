@@ -354,7 +354,7 @@ public class VariableTest : TestUtils
 
         Assert.AreSame(t, v1.Term);
         Assert.AreSame(t, v1.Bound);
-        Assert.AreSame(t, v1.Copy(null));
+        Assert.AreSame(t, v1.Copy(new()));
         Assert.AreEqual(t.ToString(), v1.ToString());
         Assert.AreSame(t.Name, v1.Name);
         Assert.AreSame(t.Type, v1.Type);

@@ -90,9 +90,9 @@ public class Variable : Term
         ? throw new NullReferenceException() : Value.GetArgument(index);
 
 
-    public bool Unify(Term? t)
+    public bool Unify(Term t)
     {
-        t = t?.Bound;
+        t = t.Bound;
         if (t == this || t == value)
         {
             return true;
@@ -104,7 +104,7 @@ public class Variable : Term
         }
         else
         {
-            return (Value?.Unify(t?.Term)).GetValueOrDefault();
+            return Value.Unify(t.Term);
         }
     }
 
@@ -126,7 +126,7 @@ public class Variable : Term
     public bool IsImmutable => false;
 
 
-    public Term Copy(Dictionary<Variable, Variable>? sharedVariables)
+    public Term Copy(Dictionary<Variable, Variable> sharedVariables)
     {
         if (value == null)
         {
@@ -137,7 +137,7 @@ public class Variable : Term
                 return result.Term;
             }
         }
-        return Value?.Copy(sharedVariables);
+        return Value.Copy(sharedVariables);
     }
 
 

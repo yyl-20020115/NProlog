@@ -123,11 +123,16 @@ non_dynamic_predicate(1,2,3).
  */
 public class Inspect : AbstractPredicateFactory
 {
+    public static readonly Inspect Default = new ();
     /**
      * {@code true} if matching rules should be removed (retracted) from the knowledge base as part of calls to
      * {@link #evaluate(Term, Term)} or {@code false} if the knowledge base should remain unaltered.
      */
     private readonly bool doRemoveMatches;
+    public Inspect()
+    {
+        this.doRemoveMatches = false;
+    }
 
     public static Inspect InspectClause() => new (false);
 
@@ -199,7 +204,7 @@ public class Inspect : AbstractPredicateFactory
                 //TODO:fixme
                 //implications.Remove();
             }
-            catch (InvalidOperationException e)
+            catch (InvalidOperationException)
             {
                 throw new PrologException("Cannot retract clause from user defined predicate as it is not dynamic: " + PredicateKey.CreateForTerm(clauseHead));
             }

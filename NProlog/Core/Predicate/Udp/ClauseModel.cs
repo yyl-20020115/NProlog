@@ -41,7 +41,7 @@ public class ClauseModel
 
     public static ClauseModel CreateClauseModel(Term original)
     {
-        var type = original?.Type;
+        var type = original.Type;
         if (type != TermType.STRUCTURE && type != TermType.ATOM)
             throw new PrologException("Expected an atom or a predicate but got a " + type + " with value: " + original);
 

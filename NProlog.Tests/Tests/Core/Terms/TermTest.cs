@@ -198,7 +198,7 @@ public class TermTest : TestUtils
         }
     }
 
-    private void AssertVariableIsUnifiedToTerm(Variable v, Term t)
+    private static void AssertVariableIsUnifiedToTerm(Variable v, Term t)
     {
         AssertStrictEquality(t, v, true);
         Assert.IsFalse(v.Equals(t));
@@ -206,7 +206,7 @@ public class TermTest : TestUtils
         Assert.AreEqual(t.ToString(), v.ToString());
         Assert.AreSame(t.Type, v.Type);
         Assert.AreSame(t, v.Term);
-        Assert.AreSame(t, v.Copy(null));
+        Assert.AreSame(t, v.Copy(new()));
         AssertUnify(t, v, true);
     }
 

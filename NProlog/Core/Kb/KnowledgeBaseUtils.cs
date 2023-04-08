@@ -17,7 +17,6 @@ using Org.NProlog.Core.Parser;
 using Org.NProlog.Core.Predicate;
 using Org.NProlog.Core.Terms;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 
 namespace Org.NProlog.Core.Kb;
 

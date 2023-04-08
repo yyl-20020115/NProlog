@@ -180,7 +180,9 @@ public class Predicates
     public PredicateFactory GetPredicateFactory(PredicateKey key)
     {
         var predicateFactory = GetExistingPredicateFactory(key);
-        return predicateFactory ?? (platformPredicateClassNames.ContainsKey(key) ? InstantiatePredicateFactory(key) : UnknownPredicate(key));
+        return predicateFactory ?? (platformPredicateClassNames.ContainsKey(key) 
+            ? InstantiatePredicateFactory(key) 
+            : UnknownPredicate(key));
     }
 
     private PredicateFactory GetExistingPredicateFactory(PredicateKey key) 
@@ -286,7 +288,7 @@ public class Predicates
                 }
                 else
                 {
-                    factory = predicateFactory.Assembly.CreateInstance(predicateFactory.FullName) as PredicateFactory;
+                    factory = predicateFactory.Assembly.CreateInstance(predicateFactory.FullName??"") as PredicateFactory;
                 }
                 if (factory is KnowledgeBaseConsumer consumer)
                 {

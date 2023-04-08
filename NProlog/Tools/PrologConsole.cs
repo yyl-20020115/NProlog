@@ -64,8 +64,8 @@ public class PrologConsole
     public void Run(List<string> startupScriptFilenames)
     {
         writer.WriteLine("Prolog Console");
-        writer.WriteLine("prolog.org");
-        writer.WriteLine("NOTICE: use @ prefix with Unicode Variables which are not started with upper case letters.");
+        writer.WriteLine("Prolog.org");
+        writer.WriteLine("NOTICE: use \"@\" prefix with Unicode Variables which are not started with upper case letters.");
 
         ConsultScripts(startupScriptFilenames);
 

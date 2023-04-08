@@ -241,7 +241,7 @@ public class StaticUserDefinedPredicateFactory : UserDefinedPredicateFactory, Pr
 
 
     public ClauseModel GetClauseModel(int index)
-        => index >= implications.Count ? null : implications[(index)].Copy();
+        => index < implications.Count ? implications[index].Copy() : null;
 
 
     public bool IsRetryable

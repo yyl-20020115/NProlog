@@ -68,7 +68,7 @@ public class KnowledgeBase
         this.spyPoints = new(this);
         this.fileHandles = new FileHandles();
     }
-    protected KnowledgeBase(string name)
+    protected KnowledgeBase(string _)
     {
         this.prologProperties = new PrologDefaultProperties();
         this.predicates = new(this);

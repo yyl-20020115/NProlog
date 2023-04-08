@@ -99,7 +99,7 @@ public static class PartialApplicationUtils
     }
 
     public static Predicate GetPredicate(PredicateFactory factory, Term action, params Term[] args) 
-        => action?.NumberOfArguments == 0 
+        => action.NumberOfArguments == 0 
         ? factory.GetPredicate(args) 
         : factory.GetPredicate(CreateArguments(action, args));
 

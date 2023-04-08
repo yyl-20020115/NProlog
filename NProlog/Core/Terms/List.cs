@@ -98,7 +98,7 @@ public class LinkedTermList : Term
      * @param f the operation to apply to each mutable element of the list
      * @return the resulting list produced as a result of applying {@link f} to each of the mutable elements
      */
-    private LinkedTermList Traverse(Func<Term?,Term> f)
+    private LinkedTermList Traverse(Func<Term,Term> f)
     {
         if (immutable) return this;
 

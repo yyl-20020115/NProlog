@@ -21,7 +21,8 @@ public class ListCheckedEnumerator<T> : ICheckedEnumerator<T>
         this.pos >= list.Count ? throw new IndexOutOfRangeException(nameof(pos)) :
         this.list[this.pos];
 
-    object IEnumerator.Current => this.Current;
+    object IEnumerator.Current
+        => this.Current;
 
 
     void IDisposable.Dispose()
@@ -62,7 +63,8 @@ public class ArrayCheckedEnumerator<T> : ICheckedEnumerator<T>
         this.pos >= array.Length ? throw new IndexOutOfRangeException(nameof(pos)) :
         this.array[this.pos];
 
-    object IEnumerator.Current => this.Current;
+    object IEnumerator.Current 
+        => this.Current;
 
 
     void IDisposable.Dispose()

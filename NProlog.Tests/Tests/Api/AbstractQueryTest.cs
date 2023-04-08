@@ -159,10 +159,7 @@ public abstract class AbstractQueryTest : TestUtils
         }
 
 
-        public T InvokeStatement()
-        {
-            return statementMethod.Invoke();
-        }
+        public T InvokeStatement() => statementMethod.Invoke();
 
         public void AreEqual(T expected)
         {
