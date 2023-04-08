@@ -78,7 +78,7 @@ public class Predicates
      * If this object does not already have a {@code UserDefinedPredicateFactory} for the specified {@code PredicateKey}
      * then it will create it.
      *
-     * @throws ProjogException if the specified {@code PredicateKey} represents an existing "plugin" predicate
+     * @throws PrologException if the specified {@code PredicateKey} represents an existing "plugin" predicate
      */
     public UserDefinedPredicateFactory CreateOrReturnUserDefinedPredicate(PredicateKey key)
     {
@@ -108,7 +108,7 @@ public class Predicates
      * <p>
      * Any existing {@code UserDefinedPredicateFactory} with the same {@code PredicateKey} will be replaced.
      *
-     * @throws ProjogException if the {@code PredicateKey} of the specified {@code UserDefinedPredicateFactory}
+     * @throws PrologException if the {@code PredicateKey} of the specified {@code UserDefinedPredicateFactory}
      * represents an existing "plugin" predicate
      */
     public void AddUserDefinedPredicate(UserDefinedPredicateFactory userDefinedPredicate)
@@ -214,13 +214,13 @@ public class Predicates
      * Associates a {@link PredicateFactory} with this {@code KnowledgeBase}.
      * <p>
      * This method provides a mechanism for "plugging in" or "injecting" implementations of {@link PredicateFactory} at
-     * runtime. This mechanism provides an easy way to configure and extend the functionality of Projog - including
+     * runtime. This mechanism provides an easy way to configure and extend the functionality of Prolog - including
      * adding functionality not possible to define in pure Prolog syntax.
      * </p>
      *
      * @param key The name and arity to associate the {@link PredicateFactory} with.
      * @param predicateFactoryClassName The name of a class that : {@link PredicateFactory}.
-     * @throws ProjogException if there is already a {@link PredicateFactory} associated with the {@code PredicateKey}
+     * @throws PrologException if there is already a {@link PredicateFactory} associated with the {@code PredicateKey}
      */
     public void AddPredicateFactory(PredicateKey key, string predicateFactoryClassName)
     {
@@ -241,13 +241,13 @@ public class Predicates
      * Associates a {@link PredicateFactory} with this {@code KnowledgeBase}.
      * <p>
      * This method provides a mechanism for "plugging in" or "injecting" implementations of {@link PredicateFactory} at
-     * runtime. This mechanism provides an easy way to configure and extend the functionality of Projog - including
+     * runtime. This mechanism provides an easy way to configure and extend the functionality of Prolog - including
      * adding functionality not possible to define in pure Prolog syntax.
      * </p>
      *
      * @param key The name and arity to associate the {@link PredicateFactory} with.
      * @param predicateFactory The {@link PredicateFactory} to be added.
-     * @throws ProjogException if there is already a {@link PredicateFactory} associated with the {@code PredicateKey}
+     * @throws PrologException if there is already a {@link PredicateFactory} associated with the {@code PredicateKey}
      */
     public void AddPredicateFactory(PredicateKey key, PredicateFactory predicateFactory)
     {

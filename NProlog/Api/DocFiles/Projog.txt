@@ -1,7 +1,7 @@
-@startuml Projog.png
+@startuml Prolog.png
 hide members
 
-class Projog {
+class Prolog {
 +consultFile(File)
 +consultReader(TextReader)
 +consultResource(string)
@@ -13,11 +13,11 @@ class Projog {
 +createStatement(string)
 +executeQuery(string)
 +executeOnce(string)
-+addListener(ProjogListener)
++addListener(PrologListener)
 +formatTerm(Term)
 +getKnowledgeBase()
-+WriteProjogStackTrace(Exception)
-+WriteProjogStackTrace(Exception, TextWriter)
++WritePrologStackTrace(Exception)
++WritePrologStackTrace(Exception, TextWriter)
 +getStackTrace(Exception)
 }
 
@@ -78,14 +78,14 @@ class QueryResult {
 +getVariableIds()
 }
 
-Projog o-right- KnowledgeBase
-Projog .left.> ProjogSourceReader
-Projog .down.> QueryPlan
-Projog .down.> QueryStatement
+Prolog o-right- KnowledgeBase
+Prolog .left.> PrologSourceReader
+Prolog .down.> QueryPlan
+Prolog .down.> QueryStatement
 QueryPlan ..> QueryStatement
 QueryStatement .down.> QueryResult
 
-show Projog method
+show Prolog method
 show QueryPlan method
 show QueryStatement method
 show QueryResult method

@@ -26,7 +26,7 @@ namespace Org.NProlog.Core.Parser;
 /**
  * Populates a {@link KnowledgeBase} with clauses parsed from Prolog syntax.
  * <p>
- * <img src="doc-files/ProjogSourceReader.png">
+ * <img src="doc-files/PrologSourceReader.png">
  * </p>
  */
 public class PrologSourceReader
@@ -39,7 +39,7 @@ public class PrologSourceReader
      *
      * @param kb the KnowledgeBase to add the clauses to
      * @param prologSourceFile source of the prolog syntax defining clauses to add to the KnowledgeBase
-     * @throws org.projog.core.ProjogException if there is any problem parsing the syntax or adding the new clauses to the KnowledgeBase
+     * @throws org.prolog.core.PrologException if there is any problem parsing the syntax or adding the new clauses to the KnowledgeBase
      */
     public static void ParseFile(KnowledgeBase kb, string prologSourceFile)
     {
@@ -64,7 +64,7 @@ public class PrologSourceReader
      *
      * @param kb the KnowledgeBase to add the clauses to
      * @param prologSourceResourceName source of the prolog syntax defining clauses to add to the KnowledgeBase
-     * @throws org.projog.core.ProjogException if there is any problem parsing the syntax or adding the new clauses to the KnowledgeBase
+     * @throws org.prolog.core.PrologException if there is any problem parsing the syntax or adding the new clauses to the KnowledgeBase
      */
     public static void ParseResource(KnowledgeBase kb, string prologSourceResourceName)
     {
@@ -89,7 +89,7 @@ public class PrologSourceReader
      *
      * @param kb the KnowledgeBase to add the clauses to
      * @param reader source of the prolog syntax defining clauses to add to the KnowledgeBase
-     * @throws org.projog.core.ProjogException if there is any problem parsing the syntax or adding the new clauses to the KnowledgeBase
+     * @throws org.prolog.core.PrologException if there is any problem parsing the syntax or adding the new clauses to the KnowledgeBase
      */
     public static void ParseReader(KnowledgeBase kb, TextReader reader)
     {

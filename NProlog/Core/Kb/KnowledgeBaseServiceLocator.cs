@@ -36,12 +36,12 @@ public class KnowledgeBaseServiceLocator
      * new {@code KnowledgeBaseServiceLocator} will be created.
      * </p>
      */
-    public static KnowledgeBaseServiceLocator GetServiceLocator(KnowledgeBase kb)
-        => (!CACHE.TryGetValue(kb, out var serviceLocator)) 
+    public static KnowledgeBaseServiceLocator GetServiceLocator(KnowledgeBase? kb)
+        => !CACHE.TryGetValue(kb, out var serviceLocator)
         ? CreateServiceLocator(kb) 
         : serviceLocator;
 
-    private static KnowledgeBaseServiceLocator CreateServiceLocator(KnowledgeBase kb)
+    private static KnowledgeBaseServiceLocator CreateServiceLocator(KnowledgeBase? kb)
     {
         lock (CACHE)
         {
@@ -51,11 +51,11 @@ public class KnowledgeBaseServiceLocator
         }
     }
 
-    private readonly KnowledgeBase kb;
+    private readonly KnowledgeBase? kb;
     private readonly Dictionary<Type, object?> services = new();
 
     /** @see #getServiceLocator */
-    private KnowledgeBaseServiceLocator(KnowledgeBase kb) 
+    private KnowledgeBaseServiceLocator(KnowledgeBase? kb) 
         => this.kb = Objects.RequireNonNull(kb);
 
     /**

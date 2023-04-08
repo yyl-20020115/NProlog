@@ -26,8 +26,8 @@ namespace Org.NProlog.Core.Predicate;
  * Defines {@link Term}s by their name (functor) and number of arguments (arity). This "metadata" or "descriptor
  * information" allows rules whose heads (consequences) share the same structure to be grouped together.
  * <p>
- * As {@link org.projog.core.term.Atom} and {@link org.projog.core.term.Structure} are the only subclasses of
- * {@link org.projog.core.term.Term} that can be the head (consequent) of a rule they are the only subclasses of
+ * As {@link org.prolog.core.term.Atom} and {@link org.prolog.core.term.Structure} are the only subclasses of
+ * {@link org.prolog.core.term.Term} that can be the head (consequent) of a rule they are the only subclasses of
  * {@link Term} that {@code PredicateKey} is intended to describe.
  * <p>
  * PredicateKeys are constant; their values cannot be changed after they are created.
@@ -45,7 +45,7 @@ public class PredicateKey : IComparable<PredicateKey>
      * @param t a term the returned {@code PredicateKey} should represent (needs to have a {@link Term#getType()} value
      * of {@link TermType#ATOM} or {@link TermType#STRUCTURE})
      * @return a {@code PredicateKey} for the specified term.
-     * @throws ProjogException if {@code t} is not of type {@link TermType#ATOM} or {@link TermType#STRUCTURE}
+     * @throws PrologException if {@code t} is not of type {@link TermType#ATOM} or {@link TermType#STRUCTURE}
      */
     public static PredicateKey CreateForTerm(Term? t)
     {

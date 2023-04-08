@@ -22,7 +22,7 @@ namespace Org.NProlog.Core.Parser;
  * Provides details of current line and column number being parsed.
  * </p>
  * 
- * @see SentenceParser#GetInstance(java.io.TextReader, org.projog.core.Operands)
+ * @see SentenceParser#GetInstance(java.io.TextReader, org.prolog.core.Operands)
  */
 public class CharacterParser
 {

@@ -99,19 +99,19 @@ public class Univ : AbstractSingleResultPredicate
 
     private static Term ToPredicate(Term t)
     {
-        if (t.GetArgument(0).Type != TermType.ATOM)
+        if (t?.GetArgument(0)?.Type != TermType.ATOM)
             throw new PrologException($"First argument is not an atom in list: {t}");
 
-        var predicateName = t.GetArgument(0).Name;
+        var predicateName = t.GetArgument(0)?.Name;
 
-        List<Term> predicateArgs = new();
-        var arg = t.GetArgument(1);
-        while (arg.Type == TermType.LIST)
+        List<Term?> predicateArgs = new();
+        var arg = t?.GetArgument(1);
+        while (arg?.Type == TermType.LIST)
         {
             predicateArgs.Add(arg.GetArgument(0));
             arg = arg.GetArgument(1);
         }
-        if (arg.Type != TermType.EMPTY_LIST)
+        if (arg?.Type != TermType.EMPTY_LIST)
             predicateArgs.Add(arg);
 
         return predicateArgs.Count == 0 

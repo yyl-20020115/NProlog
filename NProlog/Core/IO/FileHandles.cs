@@ -22,7 +22,7 @@ namespace Org.NProlog.Core.IO;
 /**
  * Collection of input and output streams.
  * <p>
- * Each {@link org.projog.core.kb.KnowledgeBase} has a single unique {@code FileHandles} instance.
+ * Each {@link org.prolog.core.kb.KnowledgeBase} has a single unique {@code FileHandles} instance.
  *
  * @see KnowledgeBase#getFileHandles()
  */
@@ -126,7 +126,7 @@ public class FileHandles
     /**
      * Sets the current input stream to the input stream represented by the specified {@code Term}.
      *
-     * @throws ProjogException if the specified {@link Term} does not represent an {@link Atom}
+     * @throws PrologException if the specified {@link Term} does not represent an {@link Atom}
      */
     public void SetInput(Term handle)
     {
@@ -146,7 +146,7 @@ public class FileHandles
     /**
      * Sets the current output stream to the output stream represented by the specified {@code Term}.
      *
-     * @throws ProjogException if the specified {@link Term} does not represent an {@link Atom}
+     * @throws PrologException if the specified {@link Term} does not represent an {@link Atom}
      */
     public void SetOutput(Term handle)
     {
@@ -168,7 +168,7 @@ public class FileHandles
      *
      * @param fileName the system-dependent filename
      * @return a reference to the newly created stream (as required by {@link #setInput(Term)} and {@link #close(Term)})
-     * @throws ProjogException if this object's collection of input streams already includes the specified file
+     * @throws PrologException if this object's collection of input streams already includes the specified file
      * @ if the file cannot be opened for reading
      */
     public Atom OpenInput(string fileName)
@@ -191,7 +191,7 @@ public class FileHandles
      *
      * @param fileName the system-dependent filename
      * @return a reference to the newly created stream (as required by {@link #setOutput(Term)} and {@link #close(Term)})
-     * @throws ProjogException if this object's collection of output streams already includes the specified file
+     * @throws PrologException if this object's collection of output streams already includes the specified file
      * @ if the file cannot be opened
      */
     public Atom OpenOutput(string fileName)
@@ -212,7 +212,7 @@ public class FileHandles
     /**
      * Closes the stream represented by the specified {@code Term}.
      *
-     * @throws ProjogException if the specified {@link Term} does not represent an {@link Atom}
+     * @throws PrologException if the specified {@link Term} does not represent an {@link Atom}
      * @ if an I/O error occurs
      */
     public void Close(Term handle)

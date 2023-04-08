@@ -27,7 +27,7 @@ namespace Org.NProlog.Core.Terms;
 public static class ListUtils
 {
     /**
-     * Returns a new {@code java.util.List} containing the contents of the specified {@code org.projog.core.term.List}.
+     * Returns a new {@code java.util.List} containing the contents of the specified {@code org.prolog.core.term.List}.
      * <p>
      * Will return {@code null} if {@code list} is neither of type {@link TermType#LIST} or {@link TermType#EMPTY_LIST},
      * or if {@code list} represents a partial list (i.e. a list that does not have an empty list as its tail).
@@ -68,7 +68,7 @@ public static class ListUtils
 
     /**
      * Returns a new {@code java.util.List} containing the sorted contents of the specified
-     * {@code org.projog.core.term.List}.
+     * {@code org.prolog.core.term.List}.
      * <p>
      * The elements in the returned list will be ordered using the standard ordering of terms, as implemented by
      * {@link TermComparator}.
@@ -95,7 +95,7 @@ public static class ListUtils
      * with {@code element} then {@code false} is returned.
      * </p>
      *
-     * @throws ProjogException if {@code list} is not of type {@code TermType#LIST} or {@code TermType#EMPTY_LIST}
+     * @throws PrologException if {@code list} is not of type {@code TermType#LIST} or {@code TermType#EMPTY_LIST}
      */
     public static bool IsMember(Term? element, Term? list)
     {

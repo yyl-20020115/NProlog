@@ -1,4 +1,4 @@
-@startuml ProjogConsole.png
+@startuml PrologConsole.png
 hide members
 
 'namespace "java.io" #DDDDDD {

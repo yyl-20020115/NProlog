@@ -24,10 +24,10 @@ namespace Org.NProlog.Core.Math;
  * Maintains a collection of {@link ArithmeticOperator} instances.
  * <p>
  * This class provides a mechanism for "plugging in" or "injecting" implementations of {@link ArithmeticOperator} at
- * runtime. This mechanism provides an easy way to configure and extend the arithmetic operations supported by Projog.
+ * runtime. This mechanism provides an easy way to configure and extend the arithmetic operations supported by Prolog.
  * </p>
  * <p>
- * Each {@link org.projog.core.kb.KnowledgeBase} has a single unique {@code ArithmeticOperators} instance.
+ * Each {@link org.prolog.core.kb.KnowledgeBase} has a single unique {@code ArithmeticOperators} instance.
  * </p>
  */
 public class ArithmeticOperators
@@ -44,7 +44,7 @@ public class ArithmeticOperators
      *
      * @param key The name and arity to associate the {@link ArithmeticOperator} with.
      * @param operator The instance of {@code ArithmeticOperator} to be associated with {@code key}.
-     * @throws ProjogException if there is already a {@link ArithmeticOperator} associated with the {@code PredicateKey}
+     * @throws PrologException if there is already a {@link ArithmeticOperator} associated with the {@code PredicateKey}
      */
     public void AddArithmeticOperator(PredicateKey key, ArithmeticOperator _operator)
     {
@@ -87,7 +87,7 @@ public class ArithmeticOperators
      *
      * @param key The name and arity to associate the {@link ArithmeticOperator} with.
      * @param operatorClassName The class name of the {@link ArithmeticOperator} to be associated with {@code key}.
-     * @throws ProjogException if there is already a {@link ArithmeticOperator} associated with the {@code PredicateKey}
+     * @throws PrologException if there is already a {@link ArithmeticOperator} associated with the {@code PredicateKey}
      */
     public void AddArithmeticOperator(PredicateKey key, string operatorClassName)
     {
@@ -110,7 +110,7 @@ public class ArithmeticOperators
      * @param t a {@code Term} that can be evaluated as an arithmetic expression (e.g. a {@code Structure} of the form
      * {@code +(1,2)} or a {@code Numeric})
      * @return the result of evaluating the specified arithmetic expression
-     * @throws ProjogException if the specified term does not represent an arithmetic expression
+     * @throws PrologException if the specified term does not represent an arithmetic expression
      */
     public Numeric? GetNumeric(Term? t) => t?.Type switch
     {
@@ -147,7 +147,7 @@ public class ArithmeticOperators
     }
 
     /**
-     * @throws ProjogException if not found
+     * @throws PrologException if not found
      */
     public ArithmeticOperator? GetArithmeticOperator(PredicateKey key) => operatorInstances.TryGetValue(key, out var e)
             ? e

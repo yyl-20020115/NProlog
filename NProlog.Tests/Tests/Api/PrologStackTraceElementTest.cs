@@ -21,7 +21,7 @@ namespace Org.NProlog.Api;
  * Simply tests get methods of {@link PrologStackTraceElement} (as that is the only functionality the class provides).
  * <p>
  * For a more thorough test, including how it is used by {@link Prolog#getStackTrace(Exception)}, see
- * {@link ProjogTest#testIOExceptionWhileEvaluatingQueries()}.
+ * {@link PrologTest#testIOExceptionWhileEvaluatingQueries()}.
  */
 [TestClass]
 public class PrologStackTraceElementTest

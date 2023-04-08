@@ -23,15 +23,15 @@ public static class PartialApplicationUtils
 {
     private const string KEY_VALUE_PAIR_FUNCTOR = "-";
 
-    public static bool IsAtomOrStructure(Term arg)
+    public static bool IsAtomOrStructure(Term? arg)
     {
-        var type = arg.Type;
+        var type = arg?.Type;
         return type == TermType.STRUCTURE || type == TermType.ATOM;
     }
 
-    public static bool IsList(Term arg)
+    public static bool IsList(Term? arg)
     {
-        var type = arg.Type;
+        var type = arg?.Type;
         return type == TermType.EMPTY_LIST || type == TermType.LIST;
     }
 

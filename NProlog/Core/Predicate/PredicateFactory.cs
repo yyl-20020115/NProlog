@@ -26,14 +26,14 @@ namespace Org.NProlog.Core.Predicate;
  * <li><i>User defined predicates</i> are defined by a mixture of rules and facts constructed from Prolog syntax
  * consulted at runtime.</li>
  * <li><i>Built-in predicates</i> are written in Java. Built-in predicates can provide facilities that would not be
- * possible using pure Prolog syntax. The two predicates that are always available in Projog are
+ * possible using pure Prolog syntax. The two predicates that are always available in Prolog are
  * {@code pl_add_predicate/2} and {@code pl_add_arithmetic_operator/2}. The {@code pl_add_predicate/2} predicate allows
- * other predicates to be "plugged-in" to Projog.</li>
+ * other predicates to be "plugged-in" to Prolog.</li>
  * </ul>
  * <p>
  * <b>Note:</b> Rather than directly implementing {@code PredicateFactory} it is recommended to extend either
- * {@link org.projog.core.predicate.AbstractSingleResultPredicate} or
- * {@link org.projog.core.predicate.AbstractPredicateFactory}.
+ * {@link org.prolog.core.predicate.AbstractSingleResultPredicate} or
+ * {@link org.prolog.core.predicate.AbstractPredicateFactory}.
  * </p>
  *
  * @see Predicates#addPredicateFactory(PredicateKey, string)

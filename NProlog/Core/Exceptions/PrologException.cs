@@ -18,9 +18,9 @@ using Org.NProlog.Core.Predicate.Udp;
 namespace Org.NProlog.Core.Exceptions;
 
 /**
- * An exception that provides information on an error within the Projog environment.
+ * An exception that provides information on an error within the Prolog environment.
  * <p>
- * Maintains a collection of all {@link org.projog.core.predicate.udp.InterpretedUserDefinedPredicate} instances that
+ * Maintains a collection of all {@link org.prolog.core.predicate.udp.InterpretedUserDefinedPredicate} instances that
  * form the exception's stack trace.
  */
 public class PrologException : Exception

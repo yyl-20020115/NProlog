@@ -48,7 +48,7 @@ public class NumericTermComparator
      * @param t2 the second term to be compared
      * @return a negative integer, zero, or a positive integer as the first term is less than, equal to, or greater than
      * the second
-     * @throws ProjogException if either argument does not represent an arithmetic expression
+     * @throws PrologException if either argument does not represent an arithmetic expression
      * @see #compare(Numeric, Numeric)
      * @see ArithmeticOperators#getNumeric(Term)
      */

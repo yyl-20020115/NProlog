@@ -26,8 +26,8 @@ namespace Org.NProlog.Api;
  * <p>
  * single use, not multi-threaded
  *
- * @see Projog#createStatement(string)
- * @see Projog#createPlan(string)
+ * @see Prolog#createStatement(string)
+ * @see Prolog#createPlan(string)
  */
 public class QueryStatement
 {
@@ -43,7 +43,7 @@ public class QueryStatement
      *
      * @param kb the {@link KnowledgeBase} to query against
      * @param prologQuery prolog syntax representing a query (do not prefix with a {@code ?-})
-     * @throws ProjogException if an error occurs parsing {@code prologQuery}
+     * @throws PrologException if an error occurs parsing {@code prologQuery}
      */
     public QueryStatement(KnowledgeBase kb, string prologQuery)
     {
@@ -73,7 +73,7 @@ public class QueryStatement
      *
      * @param PredicateFactory the {@link PredicateFactory} that will be used to execute the query
      * @param prologQuery prolog syntax representing a query (do not prefix with a {@code ?-})
-     * @throws ProjogException if an error occurs parsing {@code prologQuery}
+     * @throws PrologException if an error occurs parsing {@code prologQuery}
      */
     public QueryStatement(PredicateFactory predicateFactory, Term? prologQuery)
     {
@@ -101,7 +101,7 @@ public class QueryStatement
      *
      * @param variableId the id of the variable
      * @param term the term to unify to the variable
-     * @throws ProjogException if no variable with the specified id exists in the query this object represents, or the
+     * @throws PrologException if no variable with the specified id exists in the query this object represents, or the
      * given term cannot be unified with the variable
      * @see #setAtomName(string, string)
      * @see #setDouble(string, double)
@@ -132,7 +132,7 @@ public class QueryStatement
      *
      * @param variableId the id of the variable
      * @param atomName the value to use as the name of the {@code Atom} that the variable will be unified with
-     * @throws ProjogException if no variable with the specified id exists in the query this object represents, or the
+     * @throws PrologException if no variable with the specified id exists in the query this object represents, or the
      * given term cannot be unified with the variable
      * @see #setTerm(string, Term)
      */
@@ -144,7 +144,7 @@ public class QueryStatement
      *
      * @param variableId the id of the variable
      * @param value the value to use as the name of the {@code DecimalFraction} that the variable will be unified with
-     * @throws ProjogException if no variable with the specified id exists in the query this object represents, or the
+     * @throws PrologException if no variable with the specified id exists in the query this object represents, or the
      * given term cannot be unified with the variable
      * @see #setTerm(string, Term)
      */
@@ -156,7 +156,7 @@ public class QueryStatement
      *
      * @param variableId the id of the variable
      * @param value the value to use as the name of the {@code IntegerNumber} that the variable will be unified with
-     * @throws ProjogException if no variable with the specified id exists in the query this object represents, or the
+     * @throws PrologException if no variable with the specified id exists in the query this object represents, or the
      * given term cannot be unified with the variable
      * @see #setTerm(string, Term)
      */
@@ -169,7 +169,7 @@ public class QueryStatement
      *
      * @param variableId the id of the variable
      * @param atomNames the values to use as atom elements in the list that the variable will be unified with
-     * @throws ProjogException if no variable with the specified id exists in the query this object represents, or the
+     * @throws PrologException if no variable with the specified id exists in the query this object represents, or the
      * given term cannot be unified with the variable
      * @see #setTerm(string, Term)
      */
@@ -187,7 +187,7 @@ public class QueryStatement
      *
      * @param variableId the id of the variable
      * @param atomNames the values to use as atom elements in the list that the variable will be unified with
-     * @throws ProjogException if no variable with the specified id exists in the query this object represents, or the
+     * @throws PrologException if no variable with the specified id exists in the query this object represents, or the
      * given term cannot be unified with the variable
      * @see #setTerm(string, Term)
      */
@@ -204,7 +204,7 @@ public class QueryStatement
      *
      * @param variableId the id of the variable
      * @param doubles the values to use as elements in the list that the variable will be unified with
-     * @throws ProjogException if no variable with the specified id exists in the query this object represents, or the
+     * @throws PrologException if no variable with the specified id exists in the query this object represents, or the
      * given term cannot be unified with the variable
      * @see #setTerm(string, Term)
      */
@@ -221,7 +221,7 @@ public class QueryStatement
      *
      * @param variableId the id of the variable
      * @param doubles the values to use as elements in the list that the variable will be unified with
-     * @throws ProjogException if no variable with the specified id exists in the query this object represents, or the
+     * @throws PrologException if no variable with the specified id exists in the query this object represents, or the
      * given term cannot be unified with the variable
      * @see #setTerm(string, Term)
      */
@@ -238,7 +238,7 @@ public class QueryStatement
      *
      * @param variableId the id of the variable
      * @param longs the values to use as elements in the list that the variable will be unified with
-     * @throws ProjogException if no variable with the specified id exists in the query this object represents, or the
+     * @throws PrologException if no variable with the specified id exists in the query this object represents, or the
      * given term cannot be unified with the variable
      * @see #setTerm(string, Term)
      */
@@ -255,7 +255,7 @@ public class QueryStatement
      *
      * @param variableId the id of the variable
      * @param longs the values to use as elements in the list that the variable will be unified with
-     * @throws ProjogException if no variable with the specified id exists in the query this object represents, or the
+     * @throws PrologException if no variable with the specified id exists in the query this object represents, or the
      * given term cannot be unified with the variable
      * @see #setTerm(string, Term)
      */
@@ -272,7 +272,7 @@ public class QueryStatement
      *
      * @param variableId the id of the variable
      * @param terms the values to use as elements in the list that the variable will be unified with
-     * @throws ProjogException if no variable with the specified id exists in the query this object represents, or the
+     * @throws PrologException if no variable with the specified id exists in the query this object represents, or the
      * given term cannot be unified with the variable
      * @see #setTerm(string, Term)
      */
@@ -284,7 +284,7 @@ public class QueryStatement
      *
      * @param variableId the id of the variable
      * @param terms the values to use as elements in the list that the variable will be unified with
-     * @throws ProjogException if no variable with the specified id exists in the query this object represents, or the
+     * @throws PrologException if no variable with the specified id exists in the query this object represents, or the
      * given term cannot be unified with the variable
      * @see #setTerm(string, Term)
      */
@@ -313,7 +313,7 @@ public class QueryStatement
      * <p>
      * The query will only be evaluated once, even if further solutions could of been found on backtracking.
      *
-     * @throws ProjogException if no solution can be found
+     * @throws PrologException if no solution can be found
      * @see #executeQuery()
      */
     public void ExecuteOnce()
@@ -326,8 +326,8 @@ public class QueryStatement
      * Execute the query once and return a string representation of the atom the single query variable was unified with.
      *
      * @return the name of the atom the query variable has been unified with as a result of executing the query
-     * @throws ProjogException if the query could not be evaluated successfully
-     * @throws ProjogException of there is not exactly one named variable in the query this statement represents
+     * @throws PrologException if the query could not be evaluated successfully
+     * @throws PrologException of there is not exactly one named variable in the query this statement represents
      */
     public string FindFirstAsAtomName()
     {
@@ -341,8 +341,8 @@ public class QueryStatement
      * unified with.
      *
      * @return the value the query variable has been unified with as a result of executing the query
-     * @throws ProjogException if the query could not be evaluated successfully
-     * @throws ProjogException of there is not exactly one named variable in the query this statement represents
+     * @throws PrologException if the query could not be evaluated successfully
+     * @throws PrologException of there is not exactly one named variable in the query this statement represents
      */
     public double FindFirstAsDouble()
     {
@@ -356,8 +356,8 @@ public class QueryStatement
      * with.
      *
      * @return the value query variable has been unified with as a result of executing the query
-     * @throws ProjogException if the query could not be evaluated successfully
-     * @throws ProjogException of there is not exactly one named variable in the query this statement represents
+     * @throws PrologException if the query could not be evaluated successfully
+     * @throws PrologException of there is not exactly one named variable in the query this statement represents
      */
     public long FindFirstAsLong()
     {
@@ -370,8 +370,8 @@ public class QueryStatement
      * Execute the query once and return the {@code Term} the single query variable was unified with.
      *
      * @return the value query variable has been unified with as a result of executing the query
-     * @throws ProjogException if the query could not be evaluated successfully
-     * @throws ProjogException of there is not exactly one named variable in the query this statement represents
+     * @throws PrologException if the query could not be evaluated successfully
+     * @throws PrologException of there is not exactly one named variable in the query this statement represents
      */
     public Term FindFirstAsTerm()
     {
@@ -389,8 +389,8 @@ public class QueryStatement
      *
      * @return the name of the atom the query variable has been unified with, or an empty optional if the query was not
      * successfully evaluated
-     * @throws ProjogException if the query could not be evaluated successfully
-     * @throws ProjogException of there is not exactly one named variable in the query this statement represents
+     * @throws PrologException if the query could not be evaluated successfully
+     * @throws PrologException of there is not exactly one named variable in the query this statement represents
      */
     public Optional<string> FindFirstAsOptionalAtomName()
     {
@@ -407,8 +407,8 @@ public class QueryStatement
      *
      * @return the value the query variable has been unified with, or an empty optional if the query was not successfully
      * evaluated
-     * @throws ProjogException if the query could not be evaluated successfully
-     * @throws ProjogException of there is not exactly one named variable in the query this statement represents
+     * @throws PrologException if the query could not be evaluated successfully
+     * @throws PrologException of there is not exactly one named variable in the query this statement represents
      */
     public Optional<double> FindFirstAsOptionalDouble()
     {
@@ -423,8 +423,8 @@ public class QueryStatement
      *
      * @return the value the query variable has been unified with, or an empty optional if the query was not successfully
      * evaluated
-     * @throws ProjogException if the query could not be evaluated successfully
-     * @throws ProjogException of there is not exactly one named variable in the query this statement represents
+     * @throws PrologException if the query could not be evaluated successfully
+     * @throws PrologException of there is not exactly one named variable in the query this statement represents
      */
     public Optional<long> FindFirstAsOptionalLong()
     {
@@ -439,8 +439,8 @@ public class QueryStatement
      *
      * @return the value the query variable has been unified with, or an empty optional if the query was not successfully
      * evaluated
-     * @throws ProjogException if the query could not be evaluated successfully
-     * @throws ProjogException of there is not exactly one named variable in the query this statement represents
+     * @throws PrologException if the query could not be evaluated successfully
+     * @throws PrologException of there is not exactly one named variable in the query this statement represents
      */
     public Optional<Term> FindFirstAsOptionalTerm()
     {
@@ -455,8 +455,8 @@ public class QueryStatement
      *
      * @return list of atom names the query variable was been unified with as a result of executing the query until no
      * more solutions were found
-     * @throws ProjogException if the query could not be evaluated successfully
-     * @throws ProjogException of there is not exactly one named variable in the query this statement represents
+     * @throws PrologException if the query could not be evaluated successfully
+     * @throws PrologException of there is not exactly one named variable in the query this statement represents
      */
     public List<string> FindAllAsAtomName()
     {
@@ -474,8 +474,8 @@ public class QueryStatement
      *
      * @return list of values the query variable was been unified with as a result of executing the query until no more
      * solutions were found
-     * @throws ProjogException if the query could not be evaluated successfully
-     * @throws ProjogException of there is not exactly one named variable in the query this statement represents
+     * @throws PrologException if the query could not be evaluated successfully
+     * @throws PrologException of there is not exactly one named variable in the query this statement represents
      */
     public List<double> FindAllAsDouble()
     {
@@ -493,8 +493,8 @@ public class QueryStatement
      *
      * @return list of values the query variable was been unified with as a result of executing the query until no more
      * solutions were found
-     * @throws ProjogException if the query could not be evaluated successfully
-     * @throws ProjogException of there is not exactly one named variable in the query this statement represents
+     * @throws PrologException if the query could not be evaluated successfully
+     * @throws PrologException of there is not exactly one named variable in the query this statement represents
      */
     public List<long> FindAllAsLong()
     {
@@ -512,8 +512,8 @@ public class QueryStatement
      *
      * @return list of values the query variable was been unified with as a result of executing the query until no more
      * solutions were found
-     * @throws ProjogException if the query could not be evaluated successfully
-     * @throws ProjogException of there is not exactly one named variable in the query this statement represents
+     * @throws PrologException if the query could not be evaluated successfully
+     * @throws PrologException of there is not exactly one named variable in the query this statement represents
      */
     public List<Term> FindAllAsTerm()
     {

@@ -65,7 +65,7 @@ public class QueryResult
      * @return {@code true} if the query was (re)evaluated successfully or {@code false} if there are no more results.
      * Once {@code false} has been returned by {@code next()} the {@code next()} method should no longer be called on
      * that object.
-     * @throws ProjogException if an error occurs while evaluating the query
+     * @throws PrologException if an error occurs while evaluating the query
      */
     public bool Next()
     {
@@ -106,7 +106,7 @@ public class QueryResult
      * Returns {@code true} if it is known that all possible solutions have been found, else {@code false}.
      *
      * @return {@code true} if it is known that all possible solutions have been found, else {@code false}.
-     * @see org.projog.core.predicate.Predicate#couldReevaluationSucceed()
+     * @see org.prolog.core.predicate.Predicate#couldReevaluationSucceed()
      */
     public bool IsExhausted => hasFailed || (hasBeenEvaluated && !predicate.CouldReevaluationSucceed);
 
@@ -115,7 +115,7 @@ public class QueryResult
      *
      * @param variableId the id of the variable from which to return the instantiated term
      * @return the name of the atom instantiated to the variable with the specified id
-     * @throws ProjogException if no variable with the specified id exists in the query this object represents, or if the
+     * @throws PrologException if no variable with the specified id exists in the query this object represents, or if the
      * term instantiated to the variable is not an atom
      * @see #getTerm(string)
      */
@@ -126,7 +126,7 @@ public class QueryResult
      *
      * @param variableId the id of the variable from which to return the instantiated term
      * @return the name of the atom instantiated to the variable with the specified id
-     * @throws ProjogException if no variable with the specified id exists in the query this object represents, or if the
+     * @throws PrologException if no variable with the specified id exists in the query this object represents, or if the
      * term instantiated to the variable is not a number
      * @see #getTerm(string)
      */
@@ -137,7 +137,7 @@ public class QueryResult
      *
      * @param variableId the id of the variable from which to return the instantiated term
      * @return the value instantiated to the variable with the specified id
-     * @throws ProjogException if no variable with the specified id exists in the query this object represents, or if the
+     * @throws PrologException if no variable with the specified id exists in the query this object represents, or if the
      * term instantiated to the variable is not a number
      * @see #getTerm(string)
      */
@@ -149,9 +149,9 @@ public class QueryResult
      * {@link #next()} must be called before this method.
      *
      * @param variableId the id of the variable from which to return the instantiated term
-     * @return the term instantiated to the variable with the specified id (or the {@link org.projog.core.term.Variable}
+     * @return the term instantiated to the variable with the specified id (or the {@link org.prolog.core.term.Variable}
      * of representing the variable if it is uninstantiated)
-     * @throws ProjogException if no variable with the specified id exists in the query this object represents
+     * @throws PrologException if no variable with the specified id exists in the query this object represents
      * @see #getAtomName(string)
      * @see #getDouble(string)
      * @see #getLong(string)

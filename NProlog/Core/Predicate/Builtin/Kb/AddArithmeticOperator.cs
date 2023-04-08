@@ -21,7 +21,7 @@ namespace Org.NProlog.Core.Predicate.Builtin.Kb;
 %?- X is sum(1, 1)
 %ERROR Cannot find arithmetic operator: sum/2
 
-%TRUE pl_add_arithmetic_operator(sum/2, 'org.projog.core.math.builtin.Add')
+%TRUE pl_add_arithmetic_operator(sum/2, 'org.prolog.core.math.builtin.Add')
 
 %?- X is sum(1, 1)
 % X=2
@@ -30,7 +30,7 @@ namespace Org.NProlog.Core.Predicate.Builtin.Kb;
  * <code>pl_add_arithmetic_operator(X,Y)</code> - defines a Java class as an arithmetic operator.
  * <p>
  * <code>X</code> represents the name and arity of the predicate. <code>Y</code> represents the full class name of an
- * implementation of <code>org.projog.core.ArithmeticOperator</code>.
+ * implementation of <code>org.prolog.core.ArithmeticOperator</code>.
  */
 public class AddArithmeticOperator : AbstractSingleResultPredicate
 {

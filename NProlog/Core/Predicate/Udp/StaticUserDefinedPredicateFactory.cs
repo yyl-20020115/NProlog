@@ -51,7 +51,7 @@ public class StaticUserDefinedPredicateFactory : UserDefinedPredicateFactory, Pr
      * <p>
      * It is not possible to add a clause to the beginning of a <i>static</i> user defined predicate.
      *
-     * @throws ProjogException
+     * @throws PrologException
      */
 
     public void AddFirst(ClauseModel clauseModel)

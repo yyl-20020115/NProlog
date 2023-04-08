@@ -53,7 +53,7 @@ public class KnowledgeBase
         : this(new PrologDefaultProperties()) { }
     /**
      * @see KnowledgeBaseUtils#createKnowledgeBase()
-     * @see KnowledgeBaseUtils#createKnowledgeBase(ProjogProperties)
+     * @see KnowledgeBaseUtils#createKnowledgeBase(PrologProperties)
      */
     public KnowledgeBase(PrologProperties prologProperties)
     {

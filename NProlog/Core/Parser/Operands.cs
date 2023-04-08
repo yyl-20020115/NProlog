@@ -33,7 +33,7 @@ namespace Org.NProlog.Core.Parser;
  * A common use of operators is in the definition of arithmetic operations. By declaring {@code is} and {@code -} as
  * infix operators we can write valid prolog syntax like {@code X is 1 + 2.} instead of {@code is(X, +(1, 2)).}
  * <p>
- * Each {@link org.projog.core.kb.KnowledgeBase} has a single unique {@code Operands} instance.
+ * Each {@link org.prolog.core.kb.KnowledgeBase} has a single unique {@code Operands} instance.
  *
  * @see KnowledgeBase#getOperands()
  */

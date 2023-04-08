@@ -2,36 +2,36 @@
 hide members
 
 class KnowledgeBase {
-+getProjogProperties()
++getPrologProperties()
 +getPredicates()
 +getArithmeticOperators()
-+getProjogListeners()
++getPrologListeners()
 +getOperands()
 +getTermFormatter()
 +getSpyPoints()
 +getFileHandles()
 }
 
-interface ProjogProperties
+interface PrologProperties
 interface ArithmeticOperator
 interface PredicateFactory
-interface ProjogListener
+interface PrologListener
 
-KnowledgeBase o-left- ProjogProperties
+KnowledgeBase o-left- PrologProperties
 KnowledgeBase o-left- Predicates
 KnowledgeBase o-up- ArithmeticOperators
-KnowledgeBase o-right- ProjogListeners
+KnowledgeBase o-right- PrologListeners
 KnowledgeBase o-up- FileHandles
 KnowledgeBase o-down- TermFormatter
 KnowledgeBase o-right- SpyPoints
 KnowledgeBase o-down- Operands
-ProjogProperties <|-- ProjogDefaultProperties
+PrologProperties <|-- PrologDefaultProperties
 ArithmeticOperators o-left- ArithmeticOperator
 Predicates o-down- PredicateFactory
-ProjogListeners o-up- ProjogListener
+PrologListeners o-up- PrologListener
 SpyPoints o-down- SpyPoint
 TermFormatter o-right- Operands
-SpyPoints o-- ProjogListeners
+SpyPoints o-- PrologListeners
 
 show KnowledgeBase method
 

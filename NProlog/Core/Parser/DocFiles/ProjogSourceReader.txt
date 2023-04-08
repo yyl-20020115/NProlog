@@ -1,4 +1,4 @@
-@startuml ProjogSourceReader.png
+@startuml PrologSourceReader.png
 hide members
 
 namespace "java.io" #DDDDDD {
@@ -14,7 +14,7 @@ TokenType : FLOAT
 TokenType : SYMBOL
 TokenType : VARIABLE
 
-class ProjogSourceReader {
+class PrologSourceReader {
 +parseFile(KnowledgeBase, File)
 +parseResource(KnowledgeBase, string)
 +parseReader(KnowledgeBase, TextReader)
@@ -51,7 +51,7 @@ class ParserException {
 +getDescription(TextWriter)
 }
 
-ProjogSourceReader ..> SentenceParser
+PrologSourceReader ..> SentenceParser
 SentenceParser..> TokenParser
 TokenParser .left.> Token
 Token o-left- TokenType
@@ -61,7 +61,7 @@ ParserException o-- CharacterParser
 TokenParser o-right- CharacterParser
 CharacterParser o-right- BufferedReader
 
-show ProjogSourceReader method
+show PrologSourceReader method
 show SentenceParser method
 show TokenParser method
 show CharacterParser method

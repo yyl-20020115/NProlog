@@ -27,7 +27,7 @@ namespace Org.NProlog.Core.Predicate.Udp;
  * A "dynamic" user defined predicate is one that can have clauses added and removed <i>after</i> it has been first
  * defined. This is normally done using the {@code asserta/1}, {@code assertz/1} and {@code retract/1} predicates.
  *
- * @see org.projog.core.predicate.udp.InterpretedUserDefinedPredicate
+ * @see org.prolog.core.predicate.udp.InterpretedUserDefinedPredicate
  */
 public class DynamicUserDefinedPredicateFactory : UserDefinedPredicateFactory
 {

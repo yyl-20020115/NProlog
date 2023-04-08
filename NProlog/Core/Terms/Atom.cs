@@ -23,12 +23,12 @@ namespace Org.NProlog.Core.Terms;
  */
 public class Atom : Term
 {
-    private readonly string value;
+    private readonly string? value;
 
     /**
      * @param value the value this {@code Atom} represents
      */
-    public Atom(string value) => this.value = value;
+    public Atom(string? value) => this.value = value;
 
     /**
      * Returns the value this {@code Atom} represents.
@@ -36,7 +36,7 @@ public class Atom : Term
      * @return the value this {@code Atom} represents
      */
 
-    public string Name => value;
+    public string Name => value??"";
 
 
     public Term[] Args => TermUtils.EMPTY_ARRAY;
@@ -68,9 +68,9 @@ public class Atom : Term
     public Atom Term => this;
 
 
-    public bool Unify(Term t)
+    public bool Unify(Term? t)
     {
-        var tType = t.Type;
+        var tType = t?.Type;
         return tType == TermType.ATOM ? value.Equals(t.Name) : tType.IsVariable && t.Unify(this);
     }
 
@@ -84,7 +84,7 @@ public class Atom : Term
     public override bool Equals(object? o) => o == this || (o is Atom atom && value.Equals(atom.value));
 
 
-    public override int GetHashCode() => value.GetHashCode();
+    public override int GetHashCode() => (value?.GetHashCode()).GetValueOrDefault();
 
     /**
      * @return {@link #Name}

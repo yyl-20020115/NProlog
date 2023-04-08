@@ -19,7 +19,7 @@ using Org.NProlog.Core.Terms;
 namespace Org.NProlog.Api;
 
 /**
- * An element in a stack trace, as returned by {@link Projog#getStackTrace(Exception)}.
+ * An element in a stack trace, as returned by {@link Prolog#getStackTrace(Exception)}.
  * <p>
  * Each element represents a single stack frame. All stack frames represent the evaluation of a clause in a user defined
  * function. The frame at the top of the stack represents the execution point at which the stack trace was generated.

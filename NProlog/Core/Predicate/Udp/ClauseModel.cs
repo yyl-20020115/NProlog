@@ -27,7 +27,7 @@ namespace Org.NProlog.Core.Predicate.Udp;
  * A clause consists of a head and a body. Where a clause is not explicitly specified it defaults to having a body of
  * {@code true}.
  * <p>
- * Called {@code ClauseModel} to differentiate it from {@link org.projog.core.predicate.udp.ClauseAction}.
+ * Called {@code ClauseModel} to differentiate it from {@link org.prolog.core.predicate.udp.ClauseAction}.
  */
 public class ClauseModel
 {

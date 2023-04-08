@@ -186,7 +186,7 @@ public class SpyPointsTest : TestUtils
     public void TestSpyPointUpdatesObserver()
     {
         // Add a listener to the KnowledgeBase's PrologListeners
-        // so we can keep track of ProjogEvent objects created by the SpyPoint
+        // so we can keep track of PrologEvent objects created by the SpyPoint
         var listener = new SimplePrologListener();
         kb.PrologListeners.AddListener(listener);
 

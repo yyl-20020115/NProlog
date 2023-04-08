@@ -27,9 +27,9 @@ namespace Org.NProlog.Tools;
 /**
  * Command line interface to Prolog.
  * <p>
- * Provides a mechanism for users to interact with Projog via a read-evaluate-Write loop (REPL).
+ * Provides a mechanism for users to interact with Prolog via a read-evaluate-Write loop (REPL).
  * </p>
- * <img src="doc-files/ProjogConsole.png">
+ * <img src="doc-files/PrologConsole.png">
  */
 public class PrologConsole
 {

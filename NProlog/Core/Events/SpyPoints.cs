@@ -28,7 +28,7 @@ namespace Org.NProlog.Core.Event;
  * {@link SpyPointEvent} is generated every time the predicate is executed, fails or succeeds.
  * </p>
  * <p>
- * Each {@link org.projog.core.kb.KnowledgeBase} has a single unique {@code SpyPoints} instance.
+ * Each {@link org.prolog.core.kb.KnowledgeBase} has a single unique {@code SpyPoints} instance.
  * </p>
  *
  * @see KnowledgeBase#getSpyPoints()

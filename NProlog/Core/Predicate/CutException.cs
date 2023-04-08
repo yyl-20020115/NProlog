@@ -18,8 +18,8 @@ namespace Org.NProlog.Core.Predicate;
 /**
  * Exception thrown when the evaluation of a rule backtracks to a cut.
  *
- * @see org.projog.core.predicate.builtin.Flow.Cut
- * @see org.projog.core.predicate.udp.InterpretedUserDefinedPredicate
+ * @see org.prolog.core.predicate.builtin.Flow.Cut
+ * @see org.prolog.core.predicate.udp.InterpretedUserDefinedPredicate
  */
 public class CutException : SystemException
 {
@@ -29,7 +29,7 @@ public class CutException : SystemException
      * <p>
      * Reuse a single instance to avoid the stack trace generation overhead of creating a new exception each time. The
      * {@code CutException} is specifically used for control flow in
-     * {@link org.projog.core.predicate.udp.InterpretedUserDefinedPredicate#evaluate()} and its stack trace is not
+     * {@link org.prolog.core.predicate.udp.InterpretedUserDefinedPredicate#evaluate()} and its stack trace is not
      * required.
      */
     public static readonly CutException CUT_EXCEPTION = new ();

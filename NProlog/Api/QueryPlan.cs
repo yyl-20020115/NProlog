@@ -91,7 +91,7 @@ public class QueryPlan
      * <p>
      * The query will only be evaluated once, even if further solutions could of been found on backtracking.
      *
-     * @throws ProjogException if no solution can be found
+     * @throws PrologException if no solution can be found
      * @see #createStatement()
      * @see #executeQuery()
      */

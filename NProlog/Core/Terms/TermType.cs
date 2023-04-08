@@ -16,7 +16,7 @@
 namespace Org.NProlog.Core.Terms;
 
 /**
- * Defines the type of terms supported by Projog.
+ * Defines the type of terms supported by Prolog.
  *
  * @see Term#getType()
  */

@@ -46,27 +46,27 @@ public static class KnowledgeBaseUtils
      */
 
     /**
-     * Constructs a new {@code KnowledgeBase} object using {@link ProjogDefaultProperties}
+     * Constructs a new {@code KnowledgeBase} object using {@link PrologDefaultProperties}
      */
     public static KnowledgeBase CreateKnowledgeBase() 
         => CreateKnowledgeBase(new PrologDefaultProperties());
 
     /**
-     * Constructs a new {@code KnowledgeBase} object using the specified {@link ProjogProperties}
+     * Constructs a new {@code KnowledgeBase} object using the specified {@link PrologProperties}
      */
     public static KnowledgeBase CreateKnowledgeBase(PrologProperties prologProperties)
         => new(prologProperties);
 
     /**
-     * Consults the {@link ProjogProperties#getBootstrapScript()} for the {@code KnowledgeBase}.
+     * Consults the {@link PrologProperties#getBootstrapScript()} for the {@code KnowledgeBase}.
      * <p>
      * This is a way to configure a new {@code KnowledgeBase} (i.e. plugging in {@link ArithmeticOperator} and
      * {@link PredicateFactory} instances).
      * <p>
-     * When using {@link ProjogDefaultProperties} the resource parsed will be {@code projog-bootstrap.pl} (contained in
-     * {@code projog-core.jar}).
+     * When using {@link PrologDefaultProperties} the resource parsed will be {@code prolog-bootstrap.pl} (contained in
+     * {@code prolog-core.jar}).
      *
-     * @see ProjogSourceReader#parseResource(KnowledgeBase, string)
+     * @see PrologSourceReader#parseResource(KnowledgeBase, string)
      */
     public static void Bootstrap(KnowledgeBase kb)
         => PrologSourceReader.ParseResource(kb, kb.PrologProperties.BootstrapScript);

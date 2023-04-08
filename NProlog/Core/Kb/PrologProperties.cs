@@ -19,9 +19,9 @@ namespace Org.NProlog.Core.Kb;
 /**
  * Collection of configuration properties.
  * <p>
- * Each {@link org.projog.core.kb.KnowledgeBase} has a single {@code ProjogProperties} instance.
+ * Each {@link org.prolog.core.kb.KnowledgeBase} has a single {@code PrologProperties} instance.
  *
- * @see KnowledgeBase#getProjogProperties()
+ * @see KnowledgeBase#getPrologProperties()
  */
 public interface PrologProperties
 {

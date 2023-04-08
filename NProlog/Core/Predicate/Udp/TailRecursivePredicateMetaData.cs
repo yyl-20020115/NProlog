@@ -21,7 +21,7 @@ namespace Org.NProlog.Core.Predicate.Udp;
 /**
  * Defines the characteristics of a tail recursive user defined predicate.
  * <p>
- * Projog uses the following rules to determine if a user defined predicate is "tail recursive" (and therefore suitable
+ * Prolog uses the following rules to determine if a user defined predicate is "tail recursive" (and therefore suitable
  * for <i>tail recursion optimisation</i> using a {@link TailRecursivePredicate}):
  * </p>
  * <ul>

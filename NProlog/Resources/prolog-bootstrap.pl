@@ -1,12 +1,12 @@
 % prolog-bootstrap.pl
-% This file Contains Prolog syntax that is interpreted when a projog console is started.
-% This file Contains code that configures the projog environment with
+% This file Contains Prolog syntax that is interpreted when a prolog console is started.
+% This file Contains code that configures the prolog environment with
 % "core" built-in predicates (e.g. "true", "consult", etc.) and numerical operations (e.g. "+", "-", etc.).
 % It also defines operators in order to provide a more convenient syntax for writing terms.
-% This file is included in the projog-core.jar that Contains the projog class files.
-% This file can be overridden by providing another file named "projog-bootstrap.pl" 
-% in the root directory where the console is launched, or in the classpath before the projog-core.jar.
-% See http://projog.org/javadoc/org/projog/core/KnowledgeBaseUtils.html#bootstrap(Org.NProlog.Core.KnowledgeBase)
+% This file is included in the prolog-core.jar that Contains the prolog class files.
+% This file can be overridden by providing another file named "prolog-bootstrap.pl" 
+% in the root directory where the console is launched, or in the classpath before the prolog-core.jar.
+% See http://prolog.org/javadoc/org/prolog/core/KnowledgeBaseUtils.html#bootstrap(Org.NProlog.Core.KnowledgeBase)
 
 '?-'( pl_add_predicate('/'(op, 3), 'Org.NProlog.Core.Predicate.Builtin.IO.Op') ).
 '?-'( op(1200, fx, '?-') ).

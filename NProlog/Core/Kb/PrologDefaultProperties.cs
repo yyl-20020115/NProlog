@@ -16,19 +16,19 @@
 namespace Org.NProlog.Core.Kb;
 
 /**
- * Implementation of {@link ProjogProperties} with hard-coded values.
+ * Implementation of {@link PrologProperties} with hard-coded values.
  * <p>
- * This class exists as a convenience for creating custom implementations of {@link ProjogProperties}. Custom
+ * This class exists as a convenience for creating custom implementations of {@link PrologProperties}. Custom
  * implementations can extend this class and just override the method(s) they require to be different, rather than
- * implementing {@link ProjogProperties} directly.
+ * implementing {@link PrologProperties} directly.
  * </p>
  * if this project is upgraded from Java 7 then this class can be removed and its functionality implemented as
- * default methods of the ProjogProperties interface.
+ * default methods of the PrologProperties interface.
  */
 public class PrologDefaultProperties : PrologProperties
 {
     /**
-     * The file to consult when a new {@link Projog} instance is created.
+     * The file to consult when a new {@link Prolog} instance is created.
      * <p>
      * Used to initialise the knowledge base.
      *

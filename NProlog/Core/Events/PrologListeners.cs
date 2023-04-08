@@ -18,11 +18,11 @@ using static Org.NProlog.Core.Event.SpyPoints;
 namespace Org.NProlog.Core.Event;
 
 /**
- * Controls the registering and notification of listeners of a {@link org.projog.core.kb.KnowledgeBase}.
+ * Controls the registering and notification of listeners of a {@link org.prolog.core.kb.KnowledgeBase}.
  * <p>
- * Each {@link org.projog.core.kb.KnowledgeBase} has a single unique {@code ProjogListeners} instance.
+ * Each {@link org.prolog.core.kb.KnowledgeBase} has a single unique {@code PrologListeners} instance.
  *
- * @see KnowledgeBase#getProjogListeners()
+ * @see KnowledgeBase#getPrologListeners()
  */
 public class PrologListeners
 {

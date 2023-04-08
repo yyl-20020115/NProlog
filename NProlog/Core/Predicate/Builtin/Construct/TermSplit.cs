@@ -268,9 +268,9 @@ public class TermSplit : AbstractSingleResultPredicate
         return tt != TermType.LIST && tt != TermType.EMPTY_LIST;
     }
 
-    private void AppendListElementsToString(StringBuilder sb, Term t)
+    private void AppendListElementsToString(StringBuilder sb, Term? t)
     {
-        var type = t.Type;
+        var type = t?.Type;
         if (type == TermType.LIST)
         {
             AppendListElementsToString(sb, t.GetArgument(0));
@@ -278,7 +278,7 @@ public class TermSplit : AbstractSingleResultPredicate
         }
         else if (type == TermType.ATOM)
         {
-            var name = t.Name;
+            var name = t?.Name;
             sb.Append(StringToChar(name));
         }
         else if (type.IsNumeric)

@@ -41,7 +41,7 @@
   <ItemGroup>
     <Compile Remove="core\PackageInfo.cs" />
     <Compile Remove="Core\Parser\ArraysHelpers.cs" />
-    <Compile Remove="core\ProjogException.cs" />
+    <Compile Remove="core\PrologException.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -19,14 +19,14 @@ namespace Org.NProlog.Core.Predicate.Builtin.Compound;
 
 public abstract class AbstractCollectionOf : Predicate
 {
-    private readonly PredicateFactory factory;
+    private readonly PredicateFactory? factory;
     private readonly Term template;
     private readonly Term goal;
     private readonly Term bag;
     private List<Variable> variablesNotInTemplate = new();
     private IEnumerator<KeyValuePair<Key, List<Term>>>? enumerator;
 
-    protected AbstractCollectionOf(PredicateFactory factory, Term template, Term goal, Term bag)
+    protected AbstractCollectionOf(PredicateFactory? factory, Term template, Term goal, Term bag)
     {
         this.factory = factory;
         this.template = template;

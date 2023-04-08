@@ -113,7 +113,7 @@ test(V1,V2,V3,V4,V5,V6,V7,V8,V9) :-
  * goal during backtracking.
  * </p>
  * <p>
- * Projog also supports overloaded versions of <code>call</code> for which subsequent arguments are appended to the
+ * Prolog also supports overloaded versions of <code>call</code> for which subsequent arguments are appended to the
  * argument list of the goal represented by the first argument.
  * </p>
  */

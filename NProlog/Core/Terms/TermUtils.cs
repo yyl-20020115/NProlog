@@ -117,7 +117,7 @@ public class TermUtils
      *
      * @param t the term representing a {@link Numeric}
      * @return the {@link Numeric} represented by the specified {@link Term}
-     * @throws ProjogException if the specified {@link Term} does not represent a {@link Numeric}
+     * @throws PrologException if the specified {@link Term} does not represent a {@link Numeric}
      */
     public static Numeric? CastToNumeric(Term? t) 
         => (t?.Type?.IsNumeric).GetValueOrDefault()
@@ -129,7 +129,7 @@ public class TermUtils
      *
      * @param t the term representing a {@link Numeric}
      * @return the {@code int} value represented by {@code t}
-     * @throws ProjogException if the specified {@link Term} cannot be represented as an {@code int}.
+     * @throws PrologException if the specified {@link Term} cannot be represented as an {@code int}.
      */
     public static int ToInt(Term t)
     {
@@ -147,7 +147,7 @@ public class TermUtils
      *
      * @param t the term representing a long value
      * @return the {@code long} value represented by {@code t}
-     * @throws ProjogException if the specified {@link Term} does not represent a term of type {@link TermType#INTEGER}
+     * @throws PrologException if the specified {@link Term} does not represent a term of type {@link TermType#INTEGER}
      */
     public static long ToLong(ArithmeticOperators operators, Term t)
     {
@@ -162,7 +162,7 @@ public class TermUtils
      *
      * @param t the term representing an {@link Atom}
      * @return the name of {@link Atom} represented by the specified {@link Term}
-     * @throws ProjogException if the specified {@link Term} does not represent an {@link Atom}
+     * @throws PrologException if the specified {@link Term} does not represent an {@link Atom}
      */
     public static string GetAtomName(Term t) 
         => t.Type != TermType.ATOM ? throw new PrologException($"Expected an atom but got: {t.Type} with value: {t}") : t.Name;

@@ -19,7 +19,7 @@ using Org.NProlog.Core.Terms;
 namespace Org.NProlog.Core.Predicate.Builtin.Kb;
 
 /* TEST
-%TRUE pl_add_predicate(xyz/1, 'org.projog.core.predicate.builtin.compound.Call')
+%TRUE pl_add_predicate(xyz/1, 'org.prolog.core.predicate.builtin.compound.Call')
 
 %TRUE xyz(true)
 %?- xyz(repeat(3))
@@ -32,10 +32,10 @@ namespace Org.NProlog.Core.Predicate.Builtin.Kb;
  * <code>pl_add_predicate(X,Y)</code> - defines a Java class as a built-in predicate.
  * <p>
  * <code>X</code> represents the name and arity of the predicate. <code>Y</code> represents the full class name of an
- * implementation of <code>org.projog.core.PredicateFactory</code>.
+ * implementation of <code>org.prolog.core.PredicateFactory</code>.
  * </p>
  * <p>
- * This predicate provides an easy way to configure and extend the functionality of Projog - including adding
+ * This predicate provides an easy way to configure and extend the functionality of Prolog - including adding
  * functionality not possible to define in pure Prolog syntax.
  * </p>
  */
