@@ -260,14 +260,14 @@ public class InterpretedUserDefinedPredicateTest : TestUtils
         Assert.IsFalse(testObject.CouldReevaluationSucceed);
         Assert.IsTrue(testObject.Evaluate());
 
-        Verify(mockAction1).GetPredicate(queryArgs);
-        var a1 = Verify(mockAction1).IsAlwaysCutOnBacktrack;
-        Verify(mockAction2).GetPredicate(queryArgs);
-        var a2 = Verify(mockAction2, Times(5)).IsAlwaysCutOnBacktrack;
-        Verify(mockAction3).GetPredicate(queryArgs);
-        var a3 = Verify(mockAction3).IsAlwaysCutOnBacktrack;
-        Verify(mockPredicate, Times(5)).Evaluate();
-        var a4 = Verify(mockPredicate, Times(5)).CouldReevaluationSucceed;
+        Verify(mockAction1)?.GetPredicate(queryArgs);
+        Confirm(Verify(mockAction1)?.IsAlwaysCutOnBacktrack);
+        Verify(mockAction2)?.GetPredicate(queryArgs);
+        Confirm(Verify(mockAction2, Times(5))?.IsAlwaysCutOnBacktrack);
+        Verify(mockAction3)?.GetPredicate(queryArgs);
+        Confirm(Verify(mockAction3)?.IsAlwaysCutOnBacktrack);
+        Verify(mockPredicate, Times(5))?.Evaluate();
+        Confirm(Verify(mockPredicate, Times(5))?.CouldReevaluationSucceed);
         VerifyNoMoreInteractions(mockPredicate);
     }
 

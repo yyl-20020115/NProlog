@@ -72,7 +72,7 @@ y(X) :- X = o(T,R), q(T), q(R).
 public class FindAll : AbstractSingleResultPredicate, PreprocessablePredicateFactory
 {
     protected override bool Evaluate(Term template, Term goal, Term output) 
-        => EvaluateFindAll(Predicates.GetPredicateFactory(goal), template, goal, output);
+        => EvaluateFindAll(Predicates?.GetPredicateFactory(goal), template, goal, output);
 
     private static bool EvaluateFindAll(PredicateFactory pf, Term template, Term goal, Term output)
     {
@@ -85,7 +85,7 @@ public class FindAll : AbstractSingleResultPredicate, PreprocessablePredicateFac
 
     private static Term CreateListOfAllSolutions(Term template, Predicate predicate)
     {
-        List<Term> solutions = new();
+        List<Term?> solutions = new();
         do
         {
             solutions.Add(template.Copy(new Dictionary<Variable, Variable>()));
@@ -102,17 +102,17 @@ public class FindAll : AbstractSingleResultPredicate, PreprocessablePredicateFac
     {
         var goal = term.GetArgument(1);
         return PartialApplicationUtils.IsAtomOrStructure(goal)
-            ? new PreprocessedFindAll(Predicates.GetPreprocessedPredicateFactory(goal))
+            ? new PreprocessedFindAll(Predicates?.GetPreprocessedPredicateFactory(goal))
             : this;
     }
 
     private class PreprocessedFindAll : PredicateFactory
     {
-        private readonly PredicateFactory factory;
+        private readonly PredicateFactory? factory;
 
-        public PreprocessedFindAll(PredicateFactory factory) => this.factory = factory;
+        public PreprocessedFindAll(PredicateFactory? factory) => this.factory = factory;
 
-        public virtual Predicate GetPredicate(Term[] args)
+        public virtual Predicate GetPredicate(Term[]? args)
             => PredicateUtils.ToPredicate(EvaluateFindAll(factory, args[0], args[1], args[2]));
 
         public bool IsRetryable => false;

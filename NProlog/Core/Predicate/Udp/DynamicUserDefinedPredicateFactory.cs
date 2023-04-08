@@ -60,11 +60,11 @@ public class DynamicUserDefinedPredicateFactory : UserDefinedPredicateFactory
     }
 
 
-    public Predicate GetPredicate(Term[] args)
+    public Predicate? GetPredicate(Term[]? args)
     {
         if (hasPrimaryKey)
         {
-            var firstArg = args[0];
+            var firstArg = args![0];
             if (firstArg.IsImmutable)
             {
                 return !index.TryGetValue(firstArg,out var match)

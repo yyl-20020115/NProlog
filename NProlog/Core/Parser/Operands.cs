@@ -168,7 +168,7 @@ public class Operands
     /**
      * Returns {@code true} if {@code op} represents a postfix operator, else {@code false}.
      */
-    public bool Postfix(string? op) 
+    public bool Postfix(string op) 
         => postfixOperands.ContainsKey(op);
 
     /**

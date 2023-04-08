@@ -356,9 +356,9 @@ public class MapList : PredicateFactory, PreprocessablePredicateFactory, Knowled
 
     public bool IsRetryable => true;
 
-    public Predicate GetPredicate(Term[] input)
+    public Predicate? GetPredicate(Term[]? input)
     {
-        var partiallyAppliedFunction = input[0];
+        var partiallyAppliedFunction = input![0];
         return !PartialApplicationUtils.IsAtomOrStructure(partiallyAppliedFunction)
             ? PredicateUtils.FALSE
             : GetMapListPredicate(

@@ -26,7 +26,7 @@ public class NeverSucceedsPredicateFactory : PredicateFactory
     public NeverSucceedsPredicateFactory(SpyPoint spyPoint) => this.spyPoint = spyPoint;
 
 
-    public Predicate GetPredicate(Term[] args)
+    public Predicate? GetPredicate(Term[]? args)
         => PredicateUtils.CreateFailurePredicate(spyPoint, args);
 
 

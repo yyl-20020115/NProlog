@@ -139,8 +139,8 @@ public class PredSort : AbstractSingleResultPredicate, PreprocessablePredicateFa
             this.predicateName = predicateName;
         }
 
-        public Predicate GetPredicate(Term[] args) => PredicateUtils.ToPredicate(
-            EvaluatePredSort(pf, predicateName, args[1], args[2]));
+        public Predicate GetPredicate(Term[]? args) => PredicateUtils.ToPredicate(
+            EvaluatePredSort(pf, predicateName, args?[1], args?[2]));
 
         public bool IsRetryable => false;
     }

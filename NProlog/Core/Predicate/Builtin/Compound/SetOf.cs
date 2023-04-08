@@ -140,8 +140,8 @@ public class SetOf : AbstractPredicateFactory, PreprocessablePredicateFactory
         public PreprocessedSetOf(PredicateFactory factory) 
             => this.factory = factory;
 
-        public virtual Predicate GetPredicate(Term[] args)
-            => new SetOfPredicate(factory, args[0], args[1], args[2]);
+        public virtual Predicate? GetPredicate(Term[]? args)
+            => new SetOfPredicate(factory, args![0], args![1], args![2]);
 
         public virtual bool IsRetryable => true;
     }

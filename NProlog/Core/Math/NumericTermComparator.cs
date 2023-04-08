@@ -67,8 +67,8 @@ public class NumericTermComparator
      * the second
      * @see #compare(Term, Term, ArithmeticOperators)
      */
-    public static int Compare(Numeric n1, Numeric n2) 
-        => n1.Type == TermType.INTEGER && n2.Type == TermType.INTEGER
+    public static int Compare(Numeric? n1, Numeric? n2) 
+        => n1?.Type == TermType.INTEGER && n2?.Type == TermType.INTEGER
         ? Compare(n1.Long, n2.Long) 
         : Compare(n1.Double, n2.Double);
 

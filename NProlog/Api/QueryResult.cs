@@ -37,9 +37,9 @@ public class QueryResult
      * @param variables collection of variables contained in the query (keyed by variable id)
      * @see QueryStatement#executeQuery()
      */
-    public QueryResult(PredicateFactory predicateFactory, Term? query, Dictionary<string, Variable> variables)
+    public QueryResult(PredicateFactory predicateFactory, Term query, Dictionary<string, Variable> variables)
     {
-        var numArgs = (query?.NumberOfArguments).GetValueOrDefault();
+        var numArgs = query.NumberOfArguments;
         if (numArgs == 0)
         {
             this.predicate = predicateFactory.GetPredicate(TermUtils.EMPTY_ARRAY);
@@ -48,7 +48,7 @@ public class QueryResult
         {
             var args = new Term[numArgs];
             for (int i = 0; i < args.Length; i++)
-                args[i] = query?.GetArgument(i)?.Term;
+                args[i] = query.GetArgument(i).Term;
             this.predicate = predicateFactory.GetPredicate(args);
         }
 
@@ -130,7 +130,7 @@ public class QueryResult
      * term instantiated to the variable is not a number
      * @see #getTerm(string)
      */
-    public double GetDouble(string variableId) => TermUtils.CastToNumeric(GetTerm(variableId)).Double;
+    public double GetDouble(string variableId) => (TermUtils.CastToNumeric(GetTerm(variableId))?.Double).GetValueOrDefault();
 
     /**
      * Returns the {@code long} value instantiated to the variable with the specified id.
@@ -141,7 +141,7 @@ public class QueryResult
      * term instantiated to the variable is not a number
      * @see #getTerm(string)
      */
-    public long GetLong(string variableId) => TermUtils.CastToNumeric(GetTerm(variableId)).Long;
+    public long GetLong(string variableId) => (TermUtils.CastToNumeric(GetTerm(variableId))?.Long).GetValueOrDefault();
 
     /**
      * Returns the term instantiated to the variable with the specified id.

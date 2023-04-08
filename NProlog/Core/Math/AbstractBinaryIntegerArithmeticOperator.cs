@@ -23,12 +23,12 @@ namespace Org.NProlog.Core.Math;
  */
 public abstract class AbstractBinaryIntegerArithmeticOperator : AbstractArithmeticOperator
 {
-    public override Numeric Calculate(Numeric n1, Numeric n2) 
+    public override Numeric Calculate(Numeric? n1, Numeric? n2) 
         => IntegerNumberCache.ValueOf(CalculateLong(ToLong(n1), ToLong(n2)));
 
-    public static long ToLong(Numeric n) 
-        => n.Type == TermType.INTEGER ? n.Long 
-        : throw new PrologException($"Expected integer but got: {n.Type} with value: {n}");
+    public static long ToLong(Numeric? n) 
+        => n?.Type == TermType.INTEGER ? n.Long 
+        : throw new PrologException($"Expected integer but got: {n?.Type} with value: {n}");
 
     /** Returns the result of evaluating an arithmetic expression using the two arguments */
     protected abstract long CalculateLong(long n1, long n2);

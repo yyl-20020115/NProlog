@@ -64,7 +64,7 @@ public class AddUserDefinedArithmeticOperator : AbstractSingleResultPredicate
         }
 
 
-        public Numeric Calculate(Term[] args)
+        public Numeric Calculate(Term[]? args)
         {
             var result = new Variable("result");
             var argsPlusResult = CreateArgumentsIncludingResult(args, result);
@@ -74,11 +74,11 @@ public class AddUserDefinedArithmeticOperator : AbstractSingleResultPredicate
                 : throw new PrologException("Could not evaluate: " + key + " with arguments: " + Arrays.ToString(args));
         }
 
-        private Term[] CreateArgumentsIncludingResult(Term[] args, Variable result)
+        private Term[] CreateArgumentsIncludingResult(Term[]? args, Variable result)
         {
             var argsPlusResult = new Term[numArgs + 1];
             for (int i = 0; i < numArgs; i++)
-                argsPlusResult[i] = args[i].Term;
+                argsPlusResult[i] = args?[i].Term;
             argsPlusResult[numArgs] = result;
             return argsPlusResult;
         }

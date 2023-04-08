@@ -89,7 +89,7 @@ public class InterpretedTailRecursivePredicateFactory : PredicateFactory
         return kb.SpyPoints.GetSpyPoint(key);
     }
 
-    Predicate PredicateFactory.GetPredicate(Term[] args) => this.GetPredicate(args);
+    Predicate? PredicateFactory.GetPredicate(Term[]? args) => this.GetPredicate(args);
 
     public bool IsRetryable => true; // TODO
 }

@@ -26,7 +26,7 @@ namespace Org.NProlog.Core.Math.Builtin;
  */
 public class Divide : AbstractArithmeticOperator
 {
-    public override Numeric Calculate(Numeric n1, Numeric n2)
+    public override Numeric Calculate(Numeric? n1, Numeric? n2)
     {
         if (ContainsFraction(n1, n2))
             return DivideFractions(n1, n2);
@@ -43,8 +43,8 @@ public class Divide : AbstractArithmeticOperator
         }
     }
 
-    private static bool ContainsFraction(Numeric n1, Numeric n2)
-        => n1.Type == TermType.FRACTION || n2.Type == TermType.FRACTION;
+    private static bool ContainsFraction(Numeric? n1, Numeric? n2)
+        => n1?.Type == TermType.FRACTION || n2?.Type == TermType.FRACTION;
 
     private static DecimalFraction DivideFractions(Numeric n1, Numeric n2)
         => new (n1.Double / n2.Double);

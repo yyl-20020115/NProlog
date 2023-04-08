@@ -32,7 +32,7 @@ public static class PredicateUtils
             ? new SingleRetryableRulePredicateFactory.RetryableRulePredicate(clause, spyPoint, args)
           : SingleNonRetryableRulePredicateFactory.EvaluateClause(clause, spyPoint, args);
 
-    public static Predicate CreateFailurePredicate(SpyPoint spyPoint, Term[] args)
+    public static Predicate CreateFailurePredicate(SpyPoint spyPoint, Term[]? args)
     {
         if (spyPoint.IsEnabled)
         {

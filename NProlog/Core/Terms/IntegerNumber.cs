@@ -68,14 +68,14 @@ public class IntegerNumber : Numeric
     public IntegerNumber Term => this;
 
 
-    public IntegerNumber Copy(Dictionary<Variable, Variable> _) => this;
+    public IntegerNumber? Copy(Dictionary<Variable, Variable>? _) => this;
 
 
-    public bool Unify(Term t)
+    public bool Unify(Term? t)
     {
-        var tType = t.Type;
+        var tType = t?.Type;
         return tType == TermType.INTEGER
-            ? value == ((Numeric)t.Term).Long
+            ? value == ((t?.Term as Numeric)?.Long).GetValueOrDefault()
             : (tType.IsVariable || tType == TermType.CLP_VARIABLE) && t.Unify(this);
     }
 
@@ -112,11 +112,11 @@ public class IntegerNumber : Numeric
 
     public override string ToString() => value.ToString();
 
-    Term Term.Copy(Dictionary<Variable, Variable> sharedVariables) => this.Copy(sharedVariables);
+    Term? Term.Copy(Dictionary<Variable, Variable>? sharedVariables) => this.Copy(sharedVariables);
 
     Term Term.Term => this.Term;
 
     public Term Bound => this;
 
-    Numeric ArithmeticOperator.Calculate(Term[] args) => this.Calculate(args);
+    Numeric ArithmeticOperator.Calculate(Term[]? args) => this.Calculate(args);
 }

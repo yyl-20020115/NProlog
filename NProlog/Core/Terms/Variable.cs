@@ -86,13 +86,13 @@ public class Variable : Term
      * @throws NullReferenceException if the {@code Variable} is currently uninstantiated
      */
 
-    public Term? GetArgument(int index) => value == null 
+    public Term GetArgument(int index) => value is null 
         ? throw new NullReferenceException() : Value?.GetArgument(index);
 
 
     public bool Unify(Term? t)
     {
-        t = t.Bound;
+        t = t?.Bound;
         if (t == this || t == value)
         {
             return true;
@@ -104,7 +104,7 @@ public class Variable : Term
         }
         else
         {
-            return (Value?.Unify(t.Term)).GetValueOrDefault();
+            return (Value?.Unify(t?.Term)).GetValueOrDefault();
         }
     }
 

@@ -59,7 +59,7 @@ public interface Term
      * @throws IndexOutOfRangeException if the index is _out of range
      * ({@code index < 0 || index >= getNumberOfArguments()})
      */
-    Term? GetArgument(int index);
+    Term GetArgument(int index);
 
     /**
      * Returns the {@link TermType} represented by this term.

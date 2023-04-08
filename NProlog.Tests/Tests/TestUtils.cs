@@ -152,14 +152,17 @@ public class TestUtils : TermFactory
     public static T[] Any<T>() => System.Array.Empty<T>();
 
     public static int Times(int invocationTimes) => invocationTimes;
-    public static T? Verify<T>(T? mock, int times = 1) => mock;
-    public static void VerifyNoInteractions(params object?[] os)
+    public static T? Verify<T>(T? mock, int _ = 1) => mock;
+    public static void VerifyNoInteractions(params object?[] _)
     {
     }
-    public static void VerifyNoMoreInteractions(params object?[] os)
+    public static void VerifyNoMoreInteractions(params object?[] _)
     {
     }
+    public static void Confirm(bool? _)
+    {
 
+    }
     public class Then<T>
     {
         public void ThenReturn(params T[] values)

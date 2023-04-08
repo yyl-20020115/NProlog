@@ -157,7 +157,8 @@ public class Limit : AbstractPredicateFactory, PreprocessablePredicateFactory
 
         public OptimisedLimit(PredicateFactory pf) => this.factory = Objects.RequireNonNull(pf);
 
-        public virtual Predicate GetPredicate(Term[] args) => GetLimitPredicate(factory, args[0], args[1]);
+        public virtual Predicate? GetPredicate(Term[]? args) 
+            => GetLimitPredicate(factory, args![0], args[1]);
 
         public bool IsRetryable => true;
     }

@@ -88,12 +88,12 @@ public class NumericTermComparatorTest : TestUtils
     [TestMethod]
     public void TestOverloadedCompareMethod()
     {
-        Compare("1+1", "5-3", kb, 0);
-        Compare("1.5", "3/2.0", kb, 0);
-        Compare("7*5", "4*9", kb, -1); //35v36
-        Compare("72", "8*9", kb, 0);
-        Compare("72", "60+13", kb, -1);
-        Compare("72", "74-3", kb, 1);
+        Compare("1+1", "5-3", 0);
+        Compare("1.5", "3/2.0", 0);
+        Compare("7*5", "4*9", -1); //35v36
+        Compare("72", "8*9", 0);
+        Compare("72", "60+13", -1);
+        Compare("72", "74-3", 1);
     }
 
     /**
@@ -169,7 +169,7 @@ public class NumericTermComparatorTest : TestUtils
         Assert.AreEqual(d2.CompareTo(d1), NumericTermComparator.Compare(t2, t1));
     }
 
-    private void Compare(string s1, string s2, KnowledgeBase kb, int expected)
+    private void Compare(string s1, string s2,  int expected)
     {
         var t1 = ParseSentence(s1 + ".");
         var t2 = ParseSentence(s2 + ".");

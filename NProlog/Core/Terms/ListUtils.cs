@@ -35,7 +35,7 @@ public static class ListUtils
      *
      * @see #toSortedJavaUtilList(Term)
      */
-    public static List<Term>? ToList(Term list)
+    public static List<Term> ToList(Term list)
     {
         if (list.Type == TermType.LIST)
         {
@@ -52,8 +52,9 @@ public static class ListUtils
             }
             else
             {
+                //NOTICE: by Yilin
                 // partial list
-                return null;
+                return new();
             }
         }
         else if (list.Type == TermType.EMPTY_LIST)
@@ -80,10 +81,10 @@ public static class ListUtils
      *
      * @see #ListUtils.toJavaUtilList(Term)
      */
-    public static List<Term>? ToSortedList(Term unsorted)
+    public static List<Term> ToSortedList(Term unsorted)
     {
         var elements = ToList(unsorted);
-        elements?.Sort(TermComparator.TERM_COMPARATOR);
+        elements.Sort(TermComparator.TERM_COMPARATOR);
         return elements;
     }
 

@@ -204,7 +204,7 @@ public class StaticUserDefinedPredicateFactory : UserDefinedPredicateFactory, Pr
     }
 
 
-    public Predicate GetPredicate(Term[] args)
+    public Predicate? GetPredicate(Term[]? args)
     {
         if (args.Length != predicateKey.NumArgs)
            throw new PrologException("User defined predicate: " + predicateKey + " is being called with the wrong number of arguments: " + args.Length + " " + Arrays.ToString(args));
@@ -320,7 +320,7 @@ public class StaticUserDefinedPredicateFactory : UserDefinedPredicateFactory, Pr
         }
 
 
-        public Predicate GetPredicate(Term[] args) 
+        public Predicate? GetPredicate(Term[]? args) 
             => args[argIdx].IsImmutable
                 ? !map.TryGetValue(args[argIdx], out var action)
                     ? PredicateUtils.CreateFailurePredicate(staticUserDefinedPredicateFactory.spyPoint, args)
@@ -368,7 +368,7 @@ public class StaticUserDefinedPredicateFactory : UserDefinedPredicateFactory, Pr
         }
 
 
-        public Predicate GetPredicate(Term[] args)
+        public Predicate? GetPredicate(Term[]? args)
         {
             var data = args[argIdx].IsImmutable ? index.GetMatches(args) : actions;
             return staticUserDefinedPredicateFactory.CreatePredicate(args, data);
@@ -404,7 +404,7 @@ public class StaticUserDefinedPredicateFactory : UserDefinedPredicateFactory, Pr
         }
 
 
-        public Predicate GetPredicate(Term[] args) 
+        public Predicate? GetPredicate(Term[]? args) 
             => staticUserDefinedPredicateFactory.CreatePredicate(args, index.Index(args));
 
 
@@ -436,7 +436,7 @@ public class StaticUserDefinedPredicateFactory : UserDefinedPredicateFactory, Pr
         }
 
 
-        public Predicate GetPredicate(Term[] args) =>
+        public Predicate? GetPredicate(Term[]? args) =>
             // TODO or do: return createPredicate(args, data);
             new InterpretedUserDefinedPredicate(
                 new ActionIterator(data), staticUserDefinedPredicateFactory.spyPoint, args);

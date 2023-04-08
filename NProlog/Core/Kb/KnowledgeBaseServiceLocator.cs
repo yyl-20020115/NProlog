@@ -37,9 +37,9 @@ public class KnowledgeBaseServiceLocator
      * </p>
      */
     public static KnowledgeBaseServiceLocator GetServiceLocator(KnowledgeBase? kb)
-        => !CACHE.TryGetValue(kb, out var serviceLocator)
-        ? CreateServiceLocator(kb) 
-        : serviceLocator;
+        => (kb!=null && CACHE.TryGetValue(kb, out var serviceLocator))
+        ? serviceLocator 
+        : CreateServiceLocator(kb);
 
     private static KnowledgeBaseServiceLocator CreateServiceLocator(KnowledgeBase? kb)
     {
@@ -154,7 +154,7 @@ public class KnowledgeBaseServiceLocator
         try
         {
             var constructor = GetKnowledgeBaseArgumentConstructor(c);
-            return constructor != null ? constructor.Invoke(new object[] { kb }) 
+            return constructor != null ? constructor.Invoke(new object?[] { kb }) 
                 : Assembly.GetAssembly(c)?.CreateInstance(c?.FullName??"");
         }
         catch (Exception e)

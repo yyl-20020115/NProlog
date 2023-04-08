@@ -29,17 +29,17 @@ public abstract class AbstractArithmeticOperator : PreprocessableArithmeticOpera
         set => this.knowledgeBase = value;
     }
 
-    public virtual Numeric Calculate(Term[] args) => args.Length switch
+    public virtual Numeric Calculate(Term[]? args) => args?.Length switch
     {
         1 => Calculate(this.Operators?.GetNumeric(args[0])),
         2 => Calculate(this.Operators?.GetNumeric(args[0]), this.Operators?.GetNumeric(args[1])),
-        _ => throw CreateWrongNumberOfArgumentsException(args.Length),
+        _ => throw CreateWrongNumberOfArgumentsException((args?.Length).GetValueOrDefault()),
     };
 
-    public virtual Numeric Calculate(Numeric n) 
+    public virtual Numeric Calculate(Numeric? n) 
         => throw CreateWrongNumberOfArgumentsException(1);
 
-    public virtual Numeric Calculate(Numeric n1, Numeric n2) 
+    public virtual Numeric Calculate(Numeric? n1, Numeric? n2) 
         => throw CreateWrongNumberOfArgumentsException(2);
 
     private ArgumentException CreateWrongNumberOfArgumentsException(int numberOfArguments) 
@@ -95,7 +95,8 @@ public abstract class AbstractArithmeticOperator : PreprocessableArithmeticOpera
             this.op = op;
         }
 
-        public virtual Numeric Calculate(Term[] args) => op.Calculate(o.Calculate(args[0].Args));
+        public virtual Numeric Calculate(Term[]? args) 
+            => op.Calculate(o.Calculate(args?[0].Args));
 
     }
 
@@ -112,8 +113,8 @@ public abstract class AbstractArithmeticOperator : PreprocessableArithmeticOpera
             this.o2 = o2;
         }
 
-        public virtual Numeric Calculate(Term[] args) => op.Calculate(
-                o1 == null ? op.Operators.GetNumeric(args[0]) : o1.Calculate(args[0].Args),
-                o2 == null ? op.Operators.GetNumeric(args[1]) : o2.Calculate(args[1].Args));
+        public virtual Numeric Calculate(Term[]? args) => op.Calculate(
+                o1 == null ? op.Operators?.GetNumeric(args?[0]) : o1.Calculate(args?[0].Args),
+                o2 == null ? op.Operators?.GetNumeric(args?[1]) : o2.Calculate(args?[1].Args));
     }
 }

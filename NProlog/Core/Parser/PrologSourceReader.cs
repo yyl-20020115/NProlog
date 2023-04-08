@@ -186,7 +186,7 @@ public class PrologSourceReader
      */
     private void ProcessQuestion(Term t)
     {
-        var e = kb.Predicates.GetPredicate(t?.GetArgument(0));
+        var e = kb.Predicates.GetPredicate(t.GetArgument(0));
         if (e != null)
         {
             while (e.Evaluate() && e.CouldReevaluationSucceed)

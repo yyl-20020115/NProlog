@@ -127,15 +127,15 @@ public class DefiniteClauseGrammerConvertor
             : Structure.CreateStructure(KnowledgeBaseUtils.IMPLICATION_PREDICATE_NAME, new Term[] { newConsequent, newAntecedent });
     }
 
-    private static Term AppendToEndOfList(Term list, Term newTail)
+    private static Term AppendToEndOfList(Term? list, Term? newTail)
     {
-        List<Term> terms = new();
-        while (list.Type == TermType.LIST)
+        List<Term?> terms = new();
+        while (list?.Type == TermType.LIST)
         {
             terms.Add(list.GetArgument(0));
             list = list.GetArgument(1);
         }
-        return ListFactory.CreateList(terms.ToArray(), newTail);
+        return ListFactory.CreateList(terms?.ToArray(), newTail);
     }
 
     private static Term CreateNewPredicate(Term original, Term previous, Term next)

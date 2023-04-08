@@ -41,12 +41,13 @@ public class UnknownPredicate : PreprocessablePredicateFactory
     }
 
 
-    public Predicate GetPredicate(Term[] args)
+    public Predicate? GetPredicate(Term[]? args)
     {
         InstantiatePredicateFactory();
 
         return actualPredicateFactory == null 
-            ? PredicateUtils.FALSE : actualPredicateFactory.GetPredicate(args);
+            ? PredicateUtils.FALSE 
+            : actualPredicateFactory.GetPredicate(args);
     }
 
 

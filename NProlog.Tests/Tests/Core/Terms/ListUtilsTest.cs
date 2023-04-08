@@ -166,7 +166,7 @@ public class ListUtilsTest : TestUtils
     public void TestToJavaUtilListEmptyList()
     {
         var list = ListUtils.ToList(EmptyList.EMPTY_LIST);
-        Assert.IsTrue((list?.Count).GetValueOrDefault() == 0);
+        Assert.IsTrue(list.Count == 0);
     }
 
     [TestMethod]
@@ -203,7 +203,7 @@ public class ListUtilsTest : TestUtils
     public void TestToSortedJavaUtilListEmptyList()
     {
         var list = ListUtils.ToSortedList(EmptyList.EMPTY_LIST);
-        Assert.IsTrue((list?.Count).GetValueOrDefault() == 0);
+        Assert.IsTrue(list.Count == 0);
     }
 
     [TestMethod]

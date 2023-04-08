@@ -106,7 +106,7 @@ public class SpyPoints
         public bool IsEnabled => this.Set || this.spypoints.TraceEnabled;
 
         /** Notifies listeners of a first attempt to evaluate a goal. */
-        public void LogCall(object source, Term[] args)
+        public void LogCall(object source, Term[]? args)
         {
             if (IsEnabled)
                 this.spypoints.prologListeners.NotifyCall(new(this.spypoints, key, args, source));

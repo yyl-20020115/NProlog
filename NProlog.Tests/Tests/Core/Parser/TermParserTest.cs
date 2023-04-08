@@ -226,14 +226,14 @@ public class TermParserTest : TestUtils
         var t = ParseTerm("p(1,a,0.5)=p(a,0.5,1).");
 
         // the integer number 1 will be reused due to th use of IntegerNumberCache
-        Assert.AreEqual(t.GetArgument(0).GetArgument(0), t.GetArgument(1).GetArgument(2));
-        Assert.AreSame(t.GetArgument(0).GetArgument(0), t.GetArgument(1).GetArgument(2));
+        Assert.AreEqual(t.GetArgument(0)?.GetArgument(0), t.GetArgument(1)?.GetArgument(2));
+        Assert.AreSame(t.GetArgument(0)?.GetArgument(0), t.GetArgument(1)?.GetArgument(2));
 
-        Assert.AreEqual(t.GetArgument(0).GetArgument(1), t.GetArgument(1).GetArgument(0));
-        Assert.AreNotSame(t.GetArgument(0).GetArgument(1), t.GetArgument(1).GetArgument(0));
+        Assert.AreEqual(t.GetArgument(0)?.GetArgument(1), t.GetArgument(1)?.GetArgument(0));
+        Assert.AreNotSame(t.GetArgument(0)?.GetArgument(1), t.GetArgument(1)?.GetArgument(0));
 
-        Assert.AreEqual(t.GetArgument(0).GetArgument(2), t.GetArgument(1).GetArgument(1));
-        Assert.AreNotSame(t.GetArgument(0).GetArgument(2), t.GetArgument(1).GetArgument(1));
+        Assert.AreEqual(t.GetArgument(0)?.GetArgument(2), t.GetArgument(1)?.GetArgument(1));
+        Assert.AreNotSame(t.GetArgument(0)?.GetArgument(2), t.GetArgument(1)?.GetArgument(1));
     }
 
     private static void AssertNonVariableTerm(Term expected, string input)

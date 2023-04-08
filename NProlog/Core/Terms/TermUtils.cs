@@ -119,9 +119,9 @@ public class TermUtils
      * @return the {@link Numeric} represented by the specified {@link Term}
      * @throws PrologException if the specified {@link Term} does not represent a {@link Numeric}
      */
-    public static Numeric? CastToNumeric(Term? t) 
-        => (t?.Type?.IsNumeric).GetValueOrDefault()
-        ? t?.Term as Numeric
+    public static Numeric CastToNumeric(Term t) 
+        => t.Type.IsNumeric
+        ? t.Term as Numeric
         : throw new PrologException($"Expected Numeric but got: {t.Type} with value: {t}");
 
     /**

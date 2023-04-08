@@ -99,7 +99,7 @@ namespace Org.NProlog.Core.Math.Builtin;
  */
 public class Round : AbstractArithmeticOperator
 {
-    public override Numeric Calculate(Numeric n)
-        => n.Type == TermType.INTEGER 
+    public override Numeric Calculate(Numeric? n)
+        => n?.Type == TermType.INTEGER 
             ? n : IntegerNumberCache.ValueOf((long)System.Math.Round(n.Double));
 }

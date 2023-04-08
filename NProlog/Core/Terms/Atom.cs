@@ -62,7 +62,7 @@ public class Atom : Term
     public bool IsImmutable => true;
 
 
-    public Atom Copy(Dictionary<Variable, Variable> sharedVariables) => this;
+    public Atom? Copy(Dictionary<Variable, Variable>? sharedVariables) => this;
 
 
     public Atom Term => this;
@@ -71,7 +71,7 @@ public class Atom : Term
     public bool Unify(Term? t)
     {
         var tType = t?.Type;
-        return tType == TermType.ATOM ? value.Equals(t.Name) : tType.IsVariable && t.Unify(this);
+        return tType == TermType.ATOM ? value.Equals(t?.Name) : tType.IsVariable && t.Unify(this);
     }
 
 
@@ -92,7 +92,7 @@ public class Atom : Term
 
     public override string ToString() => Name;
 
-    Term Term.Copy(Dictionary<Variable, Variable> sharedVariables) => this.Copy(sharedVariables);
+    Term? Term.Copy(Dictionary<Variable, Variable>? sharedVariables) => this.Copy(sharedVariables);
 
     Term Term.Term => this.Term;
 
