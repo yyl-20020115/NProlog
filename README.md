@@ -9,7 +9,7 @@ Most of tests are passed, you may use it safely.
 
 # [New Features]
 
-Now support Chinese/Unicode Atoms/Variables.
+Now we support Chinese/Unicode chars in Atoms/Variables.
 
 Prolog uses lower case letters to compose Atoms, and upper case letters for Variables.
 
