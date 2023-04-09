@@ -19,14 +19,22 @@ Languages such as Chinese has no meaning of lower/upper cases which makes no way
 So we added a prefix "@" in front of a variables to indicate it.
 
 So that we can write:
+
 -: assert(like(a,b)).
+
 -: assert(like(a,c)).
+
 likes(a,@哪一个).
 
+
 also,
+
 -: assert(喜欢(小明,小红)).
+
 -: assert(喜欢(小明,小黄)).
+
 -: 喜欢(小明,@谁).
+
 
 Pls try it out.
 -----------------
