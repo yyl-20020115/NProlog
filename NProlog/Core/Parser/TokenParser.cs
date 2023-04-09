@@ -73,7 +73,7 @@ public class TokenParser
 
     private Token ParseToken()
     {
-        SkipWhitespaceAndComments();
+        this.SkipWhitespaceAndComments();
         int c = parser.GetNext();
         char d = (char)c;
         if (IsEndOfStream(c)) //OK
@@ -88,7 +88,7 @@ public class TokenParser
             return ParseText(c, TokenType.VARIABLE);
         else if(!char.IsLetterOrDigit(d) && !char.IsWhiteSpace(d))
             return ParseSymbol(c); //OTHER SYMBOLS
-        else //CONST
+        else //CONST(lower letter)
             return ParseText(c, TokenType.ATOM);
     }
 
