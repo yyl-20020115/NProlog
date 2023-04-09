@@ -13,11 +13,11 @@ Now we support Chinese/Unicode chars in Atoms/Variables.
 
 Prolog uses lower case letters to compose Atoms, and upper case letters for Variables.
 
-Languages such as Chinese has no meaning of lower/upper cases which makes no way to distinguish Atom/Variables.
+Languages such as Chinese have no meaning of lower/upper cases which makes no way to distinguish Atoms and Variables.
 
-So we added a prefix "@" in front of a variables to indicate it.
+So we added a prefix "@" in front of a variable to indicate it.
 
-So that we can write:
+So that we can code:
 
 -: assert(like(a,b)).
 
@@ -34,7 +34,7 @@ also,
 -: 喜欢(小明,@谁).
 
 
-Pls try it out.
+Please try it out.
 
 -----------------
 
