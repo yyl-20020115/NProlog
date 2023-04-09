@@ -1,4 +1,4 @@
-# NProlog
+# [NProlog]
 C# implementation of Prolog ported from Java implementaion Projog
 
 Clp is not included.
@@ -7,7 +7,7 @@ Mockito tests are disabled.
 
 Most of tests are passed, you may use it safely.
 
-# New Features
+# [New Features]
 
 Now support Chinese/Unicode Atoms/Variables.
 
