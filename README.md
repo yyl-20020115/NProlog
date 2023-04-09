@@ -7,7 +7,9 @@ Mockito tests are disabled.
 
 Most of tests are passed, you may use it safely.
 
-New Features:
+# New Features:
+
+
 Support Chinese/Unicode Atoms/Variables.
 
 Prolog uses lower case letters to compose Atoms, and upper case letters for Variables.
