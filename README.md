@@ -7,8 +7,7 @@ Mockito tests are disabled.
 
 Most of tests are passed, you may use it safely.
 
-# New Features:
-
+# New Features
 
 Now support Chinese/Unicode Atoms/Variables.
 
