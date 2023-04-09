@@ -179,8 +179,8 @@ public static class KnowledgeBaseUtils
 
                     var type = GetTypeFor(ts, typeof(T));
                     var md = type?.GetMethod(ms);
-                    var obj = md?.Invoke(null, Array.Empty<object>());
-                    return (T)obj;
+                    var o = md?.Invoke(null, Array.Empty<object>());
+                    return (T)o;
                 }
                 else
                 {

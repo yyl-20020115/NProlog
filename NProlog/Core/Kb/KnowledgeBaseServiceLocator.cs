@@ -86,9 +86,11 @@ public class KnowledgeBaseServiceLocator
      * @throws SystemException if an attempt to instantiate a new instance of the {@code instanceType} fails. e.g. If it
      * does not have a public constructor that accepts either no arguments or a single {@code KnowledgeBase} argument.
      */
-    public T GetInstance<T>(Type instanceType)
-        => GetInstance<T>(instanceType, instanceType);
+    public T GetInstanceForClass<T>(Type instanceType) where T:class
+        => GetInstanceForClass<T>(instanceType, instanceType);
 
+    public T GetInstanceForStruct<T>(Type instanceType) where T : struct
+        => GetInstanceForStruct<T>(instanceType, instanceType);
     /**
      * Returns the {@code object} associated the specified {@code referenceType}.
      * <p>
@@ -105,22 +107,27 @@ public class KnowledgeBaseServiceLocator
      * superinterface of, {@code instanceType}.
      */
 
-    public T GetInstance<T>(Type referenceType, Type instanceType)
+    public T GetInstanceForClass<T>(Type referenceType, Type instanceType) where T: class
     {
         if (!services.TryGetValue(referenceType,out var r))
             r = CreateInstance(referenceType, instanceType);
         return (T)r;
     }
+    public T GetInstanceForStruct<T>(Type referenceType, Type instanceType) where T : struct
+    {
+        if (!services.TryGetValue(referenceType, out var r))
+            r = CreateInstance(referenceType, instanceType);
+        return (T)r;
+    }
 
-    private object? CreateInstance(Type referenceType, Type instanceType)
+    private object CreateInstance(Type referenceType, Type instanceType)
     {
         lock (services)
         {
             if (!services.TryGetValue(referenceType,out var r))
             {
                 AssertAssignableFrom(referenceType, instanceType);
-                r = NewInstance(instanceType);
-                if (r != null)
+                if ((r = NewInstance(instanceType)) is not null)
                     services.Add(referenceType, r);
             }
             return r;
@@ -146,7 +153,7 @@ public class KnowledgeBaseServiceLocator
      * that to construct the new instance - else an attempt is made to construct a new instance using the no-arg
      * constructor.
      */
-    private object? NewInstance(Type c)
+    private object NewInstance(Type c)
     {
         if (c == typeof(string))
         {
@@ -156,7 +163,7 @@ public class KnowledgeBaseServiceLocator
         {
             var constructor = GetKnowledgeBaseArgumentConstructor(c);
             return constructor != null ? constructor.Invoke(new object?[] { kb }) 
-                : Assembly.GetAssembly(c)?.CreateInstance(c?.FullName??"");
+                : Assembly.GetAssembly(c)?.CreateInstance(c?.FullName??"")??new object();
         }
         catch (Exception e)
         {

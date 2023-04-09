@@ -82,7 +82,7 @@ public class DecimalFraction : Numeric
     {
         var tType = t.Type;
         return tType == TermType.FRACTION
-            ? value == ((t as DecimalFraction).Term).value
+            ? value == (((DecimalFraction)t).Term).value
             : (tType.IsVariable) && (t.Unify(this))
             ;
     }

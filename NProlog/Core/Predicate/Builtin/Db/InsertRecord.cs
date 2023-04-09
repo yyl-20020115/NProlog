@@ -79,7 +79,7 @@ public class InsertRecord : AbstractSingleResultPredicate
 
     protected override void Init() 
         => this.database = KnowledgeBaseServiceLocator.GetServiceLocator(KnowledgeBase)
-              .GetInstance<RecordedDatabase>(typeof(RecordedDatabase));
+              .GetInstanceForClass<RecordedDatabase>(typeof(RecordedDatabase));
 
 
     protected override bool Evaluate(Term key, Term value) 

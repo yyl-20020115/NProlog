@@ -75,20 +75,21 @@ public class TokenParser
     {
         SkipWhitespaceAndComments();
         int c = parser.GetNext();
-        if (IsEndOfStream(c))
+        char d = (char)c;
+        if (IsEndOfStream(c)) //OK
             throw NewParserException("Unexpected end of stream");
-        else if (IsVariable(c))
-            return ParseText(c, TokenType.VARIABLE);
-        else if (char.IsLower((char)c))
-            return ParseText(c, TokenType.ATOM);
-        else if (IsQuote(c))
+        else if (IsQuote(c)) //QUOTED
             return ParseQuotedText();
-        else if (IsZero(c))
+        else if (IsZero(c)) //0
             return ParseLeadingZero(c);
-        else if (char.IsDigit((char)c))
+        else if (char.IsDigit(d)) //NUMBER
             return ParseNumber(c);
-        else
-            return ParseSymbol(c);
+        else if (IsVariable(c)) //VARIABLE: UpperCased or @-Prefixed
+            return ParseText(c, TokenType.VARIABLE);
+        else if(!char.IsLetterOrDigit(d) && !char.IsWhiteSpace(d))
+            return ParseSymbol(c); //OTHER SYMBOLS
+        else //CONST
+            return ParseText(c, TokenType.ATOM);
     }
 
     /**
@@ -326,12 +327,14 @@ public class TokenParser
     private Token ParseSymbol(int c)
     {
         var sb = new StringBuilder();
+        char d;
         do
         {
             sb.Append((char)c);
             c = parser.GetNext();
-        } while (!char.IsLetter((char)c) && !char.IsDigit((char)c) 
-        && !char.IsWhiteSpace((char)c) && !IsEndOfStream(c));
+            d = (char)c;
+        } while (!char.IsLetter(d) && !char.IsDigit(d) 
+        && !char.IsWhiteSpace(d) && !IsEndOfStream(c));
         parser.Rewind();
 
         if (IsValidParseableElement(sb.ToString()))

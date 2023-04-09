@@ -49,7 +49,7 @@ public class Erase : AbstractSingleResultPredicate
     private RecordedDatabase? database;
 
     protected override void Init()
-        => this.database = KnowledgeBaseServiceLocator.GetServiceLocator(KnowledgeBase).GetInstance
+        => this.database = KnowledgeBaseServiceLocator.GetServiceLocator(KnowledgeBase).GetInstanceForClass
               <RecordedDatabase>(typeof(RecordedDatabase));
 
     protected override bool Evaluate(Term arg)

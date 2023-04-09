@@ -39,7 +39,7 @@ public class Recorded : AbstractPredicateFactory
     protected override Predicate GetPredicate(Term key, Term value, Term reference)
     {
         var database = KnowledgeBaseServiceLocator.GetServiceLocator(KnowledgeBase).
-              GetInstance<RecordedDatabase>(typeof(RecordedDatabase));
+              GetInstanceForClass<RecordedDatabase>(typeof(RecordedDatabase));
         if(database == null) return null;
         var itr = GetIterator(key, database);
         return new RecordedPredicate(key, value, reference, itr);

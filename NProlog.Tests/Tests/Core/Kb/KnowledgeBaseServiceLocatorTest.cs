@@ -40,11 +40,11 @@ public class KnowledgeBaseServiceLocatorTest : TestUtils
     public void TestGetInstanceOneArgument()
     {
         var l = CreateKnowledgeBaseServiceLocator();
-        var o = l.GetInstance<object>(typeof(Object));
-        Assert.AreSame(o, l.GetInstance<object>(typeof(Object)));
+        var o = l.GetInstanceForClass<object>(typeof(Object));
+        Assert.AreSame(o, l.GetInstanceForClass<object>(typeof(Object)));
 
-        var sb = l.GetInstance<StringBuilder>(typeof(StringBuilder));
-        Assert.AreSame(sb, l.GetInstance<StringBuilder>(typeof(StringBuilder)));
+        var sb = l.GetInstanceForClass<StringBuilder>(typeof(StringBuilder));
+        Assert.AreSame(sb, l.GetInstanceForClass<StringBuilder>(typeof(StringBuilder)));
         Assert.AreNotSame(sb, o);
         //Assert.AreNotSame(sb, l.GetInstance<StringBuilder>(typeof(StringBuilder)));
     }
@@ -54,19 +54,19 @@ public class KnowledgeBaseServiceLocatorTest : TestUtils
     {
         var l = CreateKnowledgeBaseServiceLocator();
 
-        var o = l.GetInstance<StringBuilder>(typeof(Object), typeof(StringBuilder));
-        Assert.AreSame(o, l.GetInstance<StringBuilder>(typeof(Object), typeof(StringBuilder)));
-        Assert.AreSame(o, l.GetInstance<StringBuilder>(typeof(Object), typeof(StringBuilder)));
-        Assert.AreSame(o, l.GetInstance<StringBuilder>(typeof(Object)));
+        var o = l.GetInstanceForClass<StringBuilder>(typeof(Object), typeof(StringBuilder));
+        Assert.AreSame(o, l.GetInstanceForClass<StringBuilder>(typeof(Object), typeof(StringBuilder)));
+        Assert.AreSame(o, l.GetInstanceForClass<StringBuilder>(typeof(Object), typeof(StringBuilder)));
+        Assert.AreSame(o, l.GetInstanceForClass<StringBuilder>(typeof(Object)));
 
-        var c = l.GetInstance<StringBuilder>(typeof(StringBuilder), typeof(StringBuilder));
-        Assert.AreSame(c, l.GetInstance<StringBuilder>(typeof(StringBuilder), typeof(StringBuilder)));
-        Assert.AreSame(c, l.GetInstance<StringBuilder>(typeof(StringBuilder), typeof(StringBuilder)));
-        Assert.AreNotSame(c, l.GetInstance<string>(typeof(string)));
+        var c = l.GetInstanceForClass<StringBuilder>(typeof(StringBuilder), typeof(StringBuilder));
+        Assert.AreSame(c, l.GetInstanceForClass<StringBuilder>(typeof(StringBuilder), typeof(StringBuilder)));
+        Assert.AreSame(c, l.GetInstanceForClass<StringBuilder>(typeof(StringBuilder), typeof(StringBuilder)));
+        Assert.AreNotSame(c, l.GetInstanceForClass<string>(typeof(string)));
 
         Assert.AreNotSame(o, c);
-        Assert.AreNotSame(o, l.GetInstance<StringBuilder>(typeof(StringBuilder)));
-        Assert.AreSame(c, l.GetInstance<StringBuilder>(typeof(StringBuilder)));
+        Assert.AreNotSame(o, l.GetInstanceForClass<StringBuilder>(typeof(StringBuilder)));
+        Assert.AreSame(c, l.GetInstanceForClass<StringBuilder>(typeof(StringBuilder)));
     }
 
     [TestMethod]
@@ -74,7 +74,7 @@ public class KnowledgeBaseServiceLocatorTest : TestUtils
     {
         try
         {
-            CreateKnowledgeBaseServiceLocator().GetInstance<ISerializable>(typeof(ISerializable));
+            CreateKnowledgeBaseServiceLocator().GetInstanceForClass<ISerializable>(typeof(ISerializable));
             Assert.Fail();
         }
         catch (SystemException e)
@@ -88,7 +88,7 @@ public class KnowledgeBaseServiceLocatorTest : TestUtils
     {
         try
         {
-            CreateKnowledgeBaseServiceLocator().GetInstance<int>(typeof(int));
+            CreateKnowledgeBaseServiceLocator().GetInstanceForStruct<int>(typeof(int));
             //Assert.Fail();
         }
         catch (SystemException e)
@@ -102,7 +102,7 @@ public class KnowledgeBaseServiceLocatorTest : TestUtils
     {
         try
         {
-            CreateKnowledgeBaseServiceLocator().GetInstance<StringBuilder>(typeof(StringBuilder), typeof(StringBuilder));
+            CreateKnowledgeBaseServiceLocator().GetInstanceForClass<StringBuilder>(typeof(StringBuilder), typeof(StringBuilder));
             //Assert.Fail();
         }
         catch (ArgumentException e)
@@ -115,7 +115,7 @@ public class KnowledgeBaseServiceLocatorTest : TestUtils
     {
         try
         {
-            CreateKnowledgeBaseServiceLocator().GetInstance<StringBuilder>(typeof(IDictionary<string, string>), typeof(StringBuilder));
+            CreateKnowledgeBaseServiceLocator().GetInstanceForClass<StringBuilder>(typeof(IDictionary<string, string>), typeof(StringBuilder));
             Assert.Fail();
         }
         catch (ArgumentException e)
@@ -130,7 +130,7 @@ public class KnowledgeBaseServiceLocatorTest : TestUtils
         var l = CreateKnowledgeBaseServiceLocator();
         var s = "hello";
         l.AddInstance(typeof(string), s);
-        Assert.AreSame(s, l.GetInstance<string>(typeof(string)));
+        Assert.AreSame(s, l.GetInstanceForClass<string>(typeof(string)));
     }
 
     [TestMethod]
@@ -169,8 +169,8 @@ public class KnowledgeBaseServiceLocatorTest : TestUtils
     {
         var kb = CreateKnowledgeBase();
         var l = KnowledgeBaseServiceLocator.GetServiceLocator(kb);
-        var s = l.GetInstance<DummyService>(typeof(DummyService));
-        Assert.AreSame(s, l.GetInstance<DummyService>(typeof(DummyService)));
+        var s = l.GetInstanceForClass<DummyService>(typeof(DummyService));
+        Assert.AreSame(s, l.GetInstanceForClass<DummyService>(typeof(DummyService)));
         Assert.AreSame(kb, s?.kb);
     }
 

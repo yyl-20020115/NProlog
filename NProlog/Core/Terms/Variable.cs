@@ -36,7 +36,7 @@ public class Variable : Term
     /**
      * The {@link Term} this object is currently instantiated with (or {@code null} if it is currently uninstantiated)
      */
-    private Term? value = null;
+    private Term value = null;
 
     /**
      * Creates an anonymous variable. The ID of the variable will be an underscore.
@@ -133,11 +133,11 @@ public class Variable : Term
             if (sharedVariables != null)
             {
                 if (!sharedVariables.TryGetValue(this, out var result))
-                    sharedVariables.Add(this, result = new Variable(id));
+                    sharedVariables.Add(this, result = new (id));
                 return result.Term;
             }
         }
-        return Value.Copy(sharedVariables);
+        return Value.Copy(sharedVariables ?? new());
     }
 
 
@@ -150,7 +150,7 @@ public class Variable : Term
 
     public Term Term => value == null ? this : Value.Term;
 
-    private Term? Value
+    private Term Value
     {
         get
         {

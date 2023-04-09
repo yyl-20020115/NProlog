@@ -156,7 +156,7 @@ public class TermParserTest : TestUtils
         TestList("[a,b,c|[]]]", new Term[] { a, b, c }, null);
     }
 
-    private static void TestList(string input, Term[] expectedArgs, Term expectedTail)
+    private static void TestList(string input, Term[] expectedArgs, Term? expectedTail)
     {
         var expected = expectedTail == null ? ListFactory.CreateList(expectedArgs) : ListFactory.CreateList(expectedArgs, expectedTail);
         var actual = ParseTerm(input);
