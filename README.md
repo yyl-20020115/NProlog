@@ -10,7 +10,7 @@ Most of tests are passed, you may use it safely.
 # New Features:
 
 
-Support Chinese/Unicode Atoms/Variables.
+Now support Chinese/Unicode Atoms/Variables.
 
 Prolog uses lower case letters to compose Atoms, and upper case letters for Variables.
 
@@ -24,8 +24,7 @@ So that we can write:
 
 -: assert(like(a,c)).
 
-likes(a,@哪一个).
-
+-: likes(a,@哪一个).
 
 also,
 
@@ -37,6 +36,7 @@ also,
 
 
 Pls try it out.
+
 -----------------
 
 
