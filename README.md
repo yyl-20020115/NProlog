@@ -1,4 +1,4 @@
-# NProlog
+# [NProlog]
 C# implementation of Prolog ported from Java implementaion Projog
 
 Clp is not included.
@@ -6,6 +6,37 @@ Clp is not included.
 Mockito tests are disabled.
 
 Most of tests are passed, you may use it safely.
+
+# [New Features]
+
+Now we support Chinese/Unicode chars in Atoms/Variables.
+
+Prolog uses lower case letters to compose Atoms, and upper case letters for Variables.
+
+Languages such as Chinese have no meaning of lower/upper cases which makes no way to distinguish Atoms and Variables.
+
+So we added a prefix "@" in front of a variable to indicate it.
+
+So that we can code:
+
+-: assert(like(a,b)).
+
+-: assert(like(a,c)).
+
+-: likes(a,@哪一个).
+
+also,
+
+-: assert(喜欢(小明,小红)).
+
+-: assert(喜欢(小明,小黄)).
+
+-: 喜欢(小明,@谁).
+
+
+Please try it out.
+
+-----------------
 
 
 # [projog](http://projog.org "Prolog interpreter for Java")
